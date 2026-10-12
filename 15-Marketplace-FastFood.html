@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FAFAF7">
+  <meta name="author" content="Erian C.A.">
+  <title>Kraze · Marketplace</title>
+
+  <!-- ============================================================
+       KRAZE · Marketplace FastFood
+       © 2026 Erian C.A. — Todos los derechos reservados
+       Archivo: 15-Marketplace-FastFood.html
+       ============================================================ -->
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      min-height: 100vh;
+      background-color: #FAFAF7;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1A1F2E;
+    }
+
+    body {
+      padding: 16px 16px 200px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* --- Topbar --- */
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: transparent;
+      color: #1A1F2E;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .back-btn:active { background-color: rgba(0,0,0,0.05); }
+
+    .topbar-logo {
+      height: 32px;
+      display: flex;
+      align-items: center;
+    }
+    .topbar-logo svg { height: 100%; width: auto; }
+
+    /* --- Título --- */
+    .page-title {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      color: #1A1F2E;
+      margin-bottom: 6px;
+    }
+
+    .page-sub {
+      font-size: 14px;
+      color: #8A8F80;
+      margin-bottom: 20px;
+    }
+
+    /* --- Buscador --- */
+    .search-box {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 14px 16px 14px 44px;
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 14px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #1A1F2E;
+      outline: none;
+      min-height: 52px;
+    }
+
+    .search-box input:focus {
+      border-color: #A4D65E;
+      box-shadow: 0 0 0 3px rgba(164, 214, 94, 0.18);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #8A8F80;
+      pointer-events: none;
+    }
+
+    /* --- Chips de categorías --- */
+    .cats {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 20px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .cats::-webkit-scrollbar { display: none; }
+
+    .cat-chip {
+      flex-shrink: 0;
+      padding: 8px 16px;
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1A1F2E;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background-color 0.15s, border-color 0.15s;
+    }
+    .cat-chip.activo {
+      background-color: #A4D65E;
+      border-color: #A4D65E;
+    }
+
+    /* --- Lista de tiendas --- */
+    .tiendas-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .tienda-card {
+      display: flex;
+      gap: 14px;
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 16px;
+      padding: 14px;
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .tienda-card:active {
+      transform: scale(0.99);
+      border-color: #A4D65E;
+    }
+
+    .tienda-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 14px;
+      background-color: #F5F5F0;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      overflow: hidden;
+    }
+
+    .tienda-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .tienda-nombre {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1A1F2E;
+      margin-bottom: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .tienda-categoria {
+      font-size: 13px;
+      color: #8A8F80;
+      margin-bottom: 8px;
+      text-transform: capitalize;
+    }
+
+    .tienda-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      color: #4A4A4A;
+    }
+
+    .tienda-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tienda-meta-item.star {
+      color: #D97706;
+      font-weight: 700;
+    }
+
+    /* --- Estados: cargando / vacío / error --- */
+    .estado {
+      text-align: center;
+      padding: 60px 20px;
+      color: #8A8F80;
+    }
+
+    .estado-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .estado-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1A1F2E;
+      margin-bottom: 6px;
+    }
+
+    .estado-text {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid #E5E5DE;
+      border-top-color: #A4D65E;
+      border-radius: 50%;
+      animation: girar 0.8s linear infinite;
+      margin: 0 auto 12px;
+    }
+
+    @keyframes girar {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       Topbar
+       ============================================================ -->
+  <div class="topbar">
+    <a href="04-Home-Pasajero.html" class="back-btn" aria-label="Volver">&#8592;</a>
+    <div class="topbar-logo">
+      <svg viewBox="0 0 360 96" xmlns="http://www.w3.org/2000/svg" aria-label="Kraze">
+        <g transform="translate(0, 4)">
+          <path d="M 36 0 C 16 0 0 16 0 36 C 0 52 10 64 24 76 L 36 88 L 48 76 C 62 64 72 52 72 36 C 72 16 56 0 36 0 Z" fill="#A4D65E"/>
+          <path d="M 36 22 C 36 22 30 15 23 15 C 16 15 11 20 11 27 C 11 33 15 38 21 44 L 36 60 L 51 44 C 57 38 61 33 61 27 C 61 20 56 15 49 15 C 42 15 36 22 36 22 Z" fill="#1A1F2E"/>
+        </g>
+        <text x="94" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="62" font-weight="900" letter-spacing="-2.5" fill="#1A1F2E">Kraze</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       Título
+       ============================================================ -->
+  <h1 class="page-title">Marketplace</h1>
+  <p class="page-sub">Comida, mercado y más cerca de ti</p>
+
+  <!-- ============================================================
+       Buscador
+       ============================================================ -->
+  <div class="search-box">
+    <span class="search-icon">&#128269;</span>
+    <input
+      type="text"
+      id="buscar"
+      placeholder="Buscar tiendas..."
+      autocomplete="off"
+    >
+  </div>
+
+  <!-- ============================================================
+       Chips de categorías
+       ============================================================ -->
+  <div class="cats" id="cats">
+    <button class="cat-chip activo" data-cat="">Todas</button>
+    <button class="cat-chip" data-cat="fastfood">Comida rápida</button>
+    <button class="cat-chip" data-cat="restaurant">Restaurantes</button>
+    <button class="cat-chip" data-cat="mercado">Mercado</button>
+    <button class="cat-chip" data-cat="farmacia">Farmacia</button>
+    <button class="cat-chip" data-cat="licoreria">Licorería</button>
+    <button class="cat-chip" data-cat="postres">Postres</button>
+  </div>
+
+  <!-- ============================================================
+       Lista de tiendas (se llena desde JS)
+       ============================================================ -->
+  <div class="tiendas-grid" id="tiendas">
+    <div class="estado">
+      <div class="spinner"></div>
+      <div class="estado-text">Cargando tiendas...</div>
+    </div>
+  </div>
+  <!-- ============================================================
+       Scripts base
+       ============================================================ -->
+  <script src="js/nav.js"></script>
+  <script src="js/kraze-db.js"></script>
+  <script src="js/kraze-ia.js"></script>
+
+  <!-- ============================================================
+       Lógica del Marketplace
+       © 2026 Erian C.A. — Todos los derechos reservados
+       ============================================================ -->
+  <script>
+  (function () {
+    'use strict';
+
+    var grid     = document.getElementById('tiendas');
+    var buscar   = document.getElementById('buscar');
+    var cats     = document.querySelectorAll('.cat-chip');
+
+    var categoriaActual = '';
+    var tiendasCargadas = [];
+
+    /* ============================================================
+       RENDERIZAR
+       ============================================================ */
+
+    function mostrarCargando() {
+      grid.innerHTML =
+        '<div class="estado">' +
+          '<div class="spinner"></div>' +
+          '<div class="estado-text">Cargando tiendas...</div>' +
+        '</div>';
+    }
+
+    function mostrarVacio() {
+      grid.innerHTML =
+        '<div class="estado">' +
+          '<div class="estado-icon">&#127869;</div>' +
+          '<div class="estado-title">Sin tiendas todavia</div>' +
+          '<div class="estado-text">Pronto habra tiendas disponibles cerca de ti</div>' +
+        '</div>';
+    }
+
+    function mostrarError(msg) {
+      grid.innerHTML =
+        '<div class="estado">' +
+          '<div class="estado-icon">&#9888;</div>' +
+          '<div class="estado-title">Error al cargar</div>' +
+          '<div class="estado-text">' + msg + '</div>' +
+        '</div>';
+    }
+
+    function escaparHTML(txt) {
+      if (!txt) return '';
+      return String(txt)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function renderTiendas(lista) {
+      if (!lista || lista.length === 0) {
+        mostrarVacio();
+        return;
+      }
+
+      var html = '';
+      for (var i = 0; i < lista.length; i++) {
+        var t = lista[i];
+
+        var logo = '';
+        if (t.logo_url) {
+          logo = '<img src="' + escaparHTML(t.logo_url) + '" alt="" style="width:100%;height:100%;object-fit:cover;">';
+        } else {
+          logo = '&#127828;';
+        }
+
+        var rating = t.rating ? parseFloat(t.rating).toFixed(1) : '—';
+        var pedidos = t.total_orders || 0;
+
+        html +=
+          '<a class="tienda-card" href="16-Pedido-Comida.html?id=' + escaparHTML(t.id) + '">' +
+            '<div class="tienda-logo">' + logo + '</div>' +
+            '<div class="tienda-info">' +
+              '<div class="tienda-nombre">' + escaparHTML(t.name) + '</div>' +
+              '<div class="tienda-categoria">' + escaparHTML(t.category || 'Tienda') + '</div>' +
+              '<div class="tienda-meta">' +
+                '<span class="tienda-meta-item star">&#9733; ' + rating + '</span>' +
+                '<span class="tienda-meta-item">&#128230; ' + pedidos + ' pedidos</span>' +
+              '</div>' +
+            '</div>' +
+          '</a>';
+      }
+
+      grid.innerHTML = html;
+    }
+
+    /* ============================================================
+       CARGAR DESDE SUPABASE
+       ============================================================ */
+
+    function cargarTiendas() {
+      mostrarCargando();
+
+      if (!window.Kraze || !Kraze.db || !Kraze.db.marketplace) {
+        mostrarError('Base de datos no disponible');
+        return;
+      }
+
+      var promesa;
+      if (categoriaActual) {
+        promesa = Kraze.db.marketplace.tiendas.porCategoria(categoriaActual, 50);
+      } else {
+        promesa = Kraze.db.marketplace.tiendas.activas(50);
+      }
+
+      promesa
+        .then(function (lista) {
+          tiendasCargadas = lista || [];
+          renderTiendas(tiendasCargadas);
+        })
+        .catch(function (e) {
+          console.error('[Marketplace] Error:', e);
+          mostrarError(e.message);
+        });
+    }
+
+    /* ============================================================
+       FILTRO POR CATEGORÍA
+       ============================================================ */
+
+    for (var i = 0; i < cats.length; i++) {
+      cats[i].addEventListener('click', function () {
+        for (var j = 0; j < cats.length; j++) {
+          cats[j].classList.remove('activo');
+        }
+        this.classList.add('activo');
+        categoriaActual = this.getAttribute('data-cat');
+        cargarTiendas();
+      });
+    }
+
+    /* ============================================================
+       BUSCADOR (filtra en memoria)
+       ============================================================ */
+
+    if (buscar) {
+      buscar.addEventListener('input', function () {
+        var term = this.value.trim().toLowerCase();
+        if (!term) {
+          renderTiendas(tiendasCargadas);
+          return;
+        }
+
+        var filtradas = tiendasCargadas.filter(function (t) {
+          var nombre = (t.name || '').toLowerCase();
+          var cat = (t.category || '').toLowerCase();
+          var desc = (t.description || '').toLowerCase();
+          return nombre.indexOf(term) !== -1 ||
+                 cat.indexOf(term) !== -1 ||
+                 desc.indexOf(term) !== -1;
+        });
+
+        renderTiendas(filtradas);
+      });
+    }
+
+    /* ============================================================
+       INIT
+       ============================================================ */
+
+    cargarTiendas();
+
+    console.log('Kraze Marketplace listo');
+
+  })();
+  </script>
+
+</body>
+</html>

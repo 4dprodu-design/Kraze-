@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#FAFAF7">
+<title>Inicio transportista · Kraze</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #FAFAF7;
+  color: #1A1F2E;
+  overflow-x: hidden;
+}
+body { padding-bottom: 110px; }
+
+/* HEADER */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 8px;
+  background: #FAFAF7;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-pin {
+  width: 32px;
+  height: 32px;
+}
+.header-word {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  color: #1A1F2E;
+}
+.header-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #F0F0EB;
+  color: #B0B4BF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 15px;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 2px 8px rgba(26,31,46,0.08);
+  cursor: pointer;
+}
+.header-avatar.filled {
+  background: #A4D65E;
+  color: #1A1F2E;
+  border-color: #A4D65E;
+}
+
+/* SALUDO */
+.greeting {
+  padding: 8px 20px 18px;
+}
+.greeting-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1A1F2E;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+.greeting-sub {
+  font-size: 14px;
+  color: #8A8F9C;
+  margin-top: 4px;
+}
+
+/* ONLINE SWITCH GRANDE */
+.online-box {
+  margin: 0 20px 16px;
+  background: #FFFFFF;
+  border: 1px solid #F0F0EB;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.online-box.on {
+  border-color: #22C55E;
+}
+.online-box:active { transform: scale(0.99); }
+
+.online-icon-box {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: #F0F0EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #B0B4BF;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.online-icon-box svg {
+  width: 26px;
+  height: 26px;
+}
+.online-box.on .online-icon-box {
+  background: #22C55E;
+  color: #FFFFFF;
+}
+
+.online-info {
+  flex: 1;
+  min-width: 0;
+}
+.online-estado {
+  font-size: 17px;
+  font-weight: 800;
+  color: #1A1F2E;
+  letter-spacing: -0.3px;
+  margin-bottom: 3px;
+}
+.online-help {
+  font-size: 12px;
+  color: #8A8F9C;
+  line-height: 1.4;
+  font-weight: 500;
+}
+.online-toggle {
+  width: 50px;
+  height: 30px;
+  border-radius: 20px;
+  background: #E5E5E0;
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.online-toggle::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: left 0.2s;
+}
+.online-box.on .online-toggle {
+  background: #22C55E;
+}
+.online-box.on .online-toggle::after {
+  left: 23px;
+}
+
+/* GANANCIAS */
+.earnings {
+  margin: 0 20px 20px;
+  background: linear-gradient(135deg, #1A1F2E 0%, #2A3142 100%);
+  border-radius: 20px;
+  padding: 22px;
+  color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+}
+.earnings::before {
+  content: '';
+  position: absolute;
+  right: -50px; top: -50px;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: rgba(164,214,94,0.15);
+}
+.earnings-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #A4D65E;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 1;
+}
+.earnings-amount {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
+.earnings-amount small {
+  font-size: 14px;
+  font-weight: 600;
+  color: #A4D65E;
+  margin-left: 6px;
+}
+.earnings-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  position: relative;
+  z-index: 1;
+}
+.earnings-stat {
+  text-align: center;
+}
+.earnings-stat-val {
+  font-size: 18px;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.3px;
+}
+.earnings-stat-val small {
+  font-size: 11px;
+  color: #A4D65E;
+  font-weight: 600;
+  margin-left: 3px;
+}
+.earnings-stat-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #B0B4BF;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ACCIONES PRINCIPALES */
+.actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 0 20px 20px;
+}
+.action-card {
+  background: #FFFFFF;
+  border: 1px solid #F0F0EB;
+  border-radius: 18px;
+  padding: 18px 16px;
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.action-card:active {
+  transform: scale(0.97);
+  border-color: #A4D65E;
+}
+.action-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(164,214,94,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1A1F2E;
+  margin-bottom: 12px;
+}
+.action-icon svg {
+  width: 22px;
+  height: 22px;
+}
+.action-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1A1F2E;
+  letter-spacing: -0.3px;
+  margin-bottom: 3px;
+}
+.action-sub {
+  font-size: 11px;
+  color: #8A8F9C;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* SECCIÓN */
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 12px;
+}
+.section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1A1F2E;
+  letter-spacing: -0.3px;
+}
+.section-link {
+  font-size: 13px;
+  font-weight: 700;
+  color: #8A8F9C;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+  padding: 4px;
+}
+
+/* VACÍO */
+.empty-box {
+  margin: 0 20px 20px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  border: 1px solid #F0F0EB;
+  padding: 32px 20px;
+  text-align: center;
+}
+.empty-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 12px;
+  color: #D1D5DB;
+}
+.empty-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A1F2E;
+  margin-bottom: 4px;
+}
+.empty-sub {
+  font-size: 12px;
+  color: #8A8F9C;
+  line-height: 1.5;
+  max-width: 260px;
+  margin: 0 auto;
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border-top: 1px solid #F0F0EB;
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0 calc(8px + env(safe-area-inset-bottom, 0));
+  z-index: 100;
+  box-shadow: 0 -2px 12px rgba(26,31,46,0.04);
+}
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 4px;
+  text-decoration: none;
+  color: #8A8F9C;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+}
+.nav-item.active { color: #1A1F2E; }
+.nav-item svg { width: 22px; height: 22px; }
+.nav-item span { font-size: 10px; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <svg class="header-pin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#A4D65E"/>
+      <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#1A1F2E"/>
+    </svg>
+    <div class="header-word">Kraze</div>
+  </div>
+  <div class="header-avatar" id="headerAvatar" onclick="location.href='10-Perfil-Transportista.html'">?</div>
+</header>
+
+<section class="greeting">
+  <h1 class="greeting-title" id="greetingTitle">Epale</h1>
+  <p class="greeting-sub" id="greetingSub">¿Listo para trabajar hoy?</p>
+</section>
+
+<div class="online-box" id="onlineBox" onclick="toggleOnline()">
+  <div class="online-icon-box">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M13 2L3 14h9l-1 8 10-12h-9z"/>
+    </svg>
+  </div>
+  <div class="online-info">
+    <div class="online-estado" id="onlineEstado">Estás offline</div>
+    <div class="online-help" id="onlineHelp">Ponte en línea para recibir viajes</div>
+  </div>
+  <div class="online-toggle"></div>
+</div>
+
+<div class="earnings">
+  <div class="earnings-label">Ganancia de hoy</div>
+  <div class="earnings-amount" id="earningsAmount">$0.00<small>USD</small></div>
+  <div class="earnings-row">
+    <div class="earnings-stat">
+      <div class="earnings-stat-val" id="earnViajes">0</div>
+      <div class="earnings-stat-label">Viajes</div>
+    </div>
+    <div class="earnings-stat">
+      <div class="earnings-stat-val" id="earnHoras">0<small>h</small></div>
+      <div class="earnings-stat-label">En línea</div>
+    </div>
+  </div>
+</div>
+
+<div class="actions-grid">
+  <a href="09-Panel-Transportista.html" class="action-card">
+    <div class="action-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="3" width="7" height="7" rx="1"/>
+        <rect x="3" y="14" width="7" height="7" rx="1"/>
+        <rect x="14" y="14" width="7" height="7" rx="1"/>
+      </svg>
+    </div>
+    <div class="action-title">Panel</div>
+    <div class="action-sub">Solicitudes activas</div>
+  </a>
+
+  <a href="11-Mis-Viajes.html" class="action-card">
+    <div class="action-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/>
+      </svg>
+    </div>
+    <div class="action-title">Historial</div>
+    <div class="action-sub">Viajes completados</div>
+  </a>
+
+  <a href="13-Billetera.html" class="action-card">
+    <div class="action-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2v-5"/>
+        <circle cx="17" cy="12" r="1.5"/>
+      </svg>
+    </div>
+    <div class="action-title">Billetera</div>
+    <div class="action-sub">Retiros y saldo</div>
+  </a>
+
+  <a href="10-Perfil-Transportista.html" class="action-card">
+    <div class="action-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+      </svg>
+    </div>
+    <div class="action-title">Mi perfil</div>
+    <div class="action-sub">Datos y documentos</div>
+  </a>
+</div>
+
+<div class="section-head">
+  <div class="section-title">Solicitudes recientes</div>
+  <a href="09-Panel-Transportista.html" class="section-link">Ver todas</a>
+</div>
+
+<div id="solicitudesBox">
+  <div class="empty-box">
+    <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 17h14M5 17a2 2 0 11-4 0 2 2 0 014 0zm18 0a2 2 0 11-4 0 2 2 0 014 0z"/>
+      <path d="M3 17V7a2 2 0 012-2h9l3 5h4a2 2 0 012 2v5"/>
+    </svg>
+    <div class="empty-title">Sin solicitudes</div>
+    <div class="empty-sub" id="emptySub">Ponte en línea para empezar a recibir viajes.</div>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="04-Home-Transportista.html" class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 12l9-9 9 9"/>
+      <path d="M5 10v10a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V10"/>
+    </svg>
+    <span>Inicio</span>
+  </a>
+  <a href="09-Panel-Transportista.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1"/>
+      <rect x="14" y="3" width="7" height="7" rx="1"/>
+      <rect x="3" y="14" width="7" height="7" rx="1"/>
+      <rect x="14" y="14" width="7" height="7" rx="1"/>
+    </svg>
+    <span>Panel</span>
+  </a>
+  <a href="11-Mis-Viajes.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/>
+    </svg>
+    <span>Historial</span>
+  </a>
+  <a href="13-Billetera.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2v-5"/>
+      <circle cx="17" cy="12" r="1.5"/>
+    </svg>
+    <span>Billetera</span>
+  </a>
+  <a href="10-Perfil-Transportista.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+    </svg>
+    <span>Perfil</span>
+  </a>
+</nav><!-- BOTÓN ERI -->
+<button
+  onclick="document.getElementById('eriOverlay').style.display='flex';"
+  style="position:fixed;bottom:100px;right:20px;width:60px;height:60px;border-radius:50%;background:#FFFFFF;border:2px solid #A4D65E;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(164,214,94,0.5);z-index:99999;padding:0;"
+  type="button"
+  aria-label="Eri">
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;pointer-events:none;">
+    <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#A4D65E"/>
+    <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#1A1F2E"/>
+  </svg>
+</button>
+
+<!-- PANEL ERI -->
+<div id="eriOverlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100dvh;background:#FAFAF7;z-index:999999;flex-direction:column;overflow:hidden;">
+
+  <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:#FFFFFF;border-bottom:1px solid #F0F0EB;padding-top:calc(14px + env(safe-area-inset-top, 0));flex-shrink:0;">
+    <div style="width:38px;height:38px;border-radius:50%;background:#A4D65E;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <svg viewBox="0 0 64 64" fill="none" style="width:22px;height:22px;">
+        <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#1A1F2E"/>
+        <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#A4D65E"/>
+      </svg>
+    </div>
+    <div style="flex:1;">
+      <div style="font-size:16px;font-weight:800;color:#1A1F2E;">Eri</div>
+      <div style="font-size:11px;color:#22C55E;font-weight:600;">En línea</div>
+    </div>
+    <button onclick="document.getElementById('eriOverlay').style.display='none';" type="button" style="width:40px;height:40px;border:none;background:transparent;cursor:pointer;color:#8A8F9C;display:flex;align-items:center;justify-content:center;border-radius:50%;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;pointer-events:none;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <div id="eriChat" style="flex:1 1 auto;overflow-y:auto;padding:18px 16px 12px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch;min-height:0;">
+    <div style="max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;background:#FFFFFF;color:#1A1F2E;border:1px solid #F0F0EB;border-bottom-left-radius:6px;align-self:flex-start;">
+      ¡Epale jefe! Soy Eri. Ponte en línea para empezar a recibir viajes.
+    </div>
+  </div>
+
+  <div style="background:#FFFFFF;border-top:1px solid #F0F0EB;padding:10px 12px calc(10px + env(safe-area-inset-bottom, 0));display:flex;gap:8px;align-items:flex-end;flex-shrink:0;min-height:64px;">
+    <textarea id="eriInput" placeholder="Escríbele a Eri..." rows="1" style="flex:1;border:2px solid #F0F0EB;border-radius:22px;padding:11px 16px;font-size:15px;font-family:inherit;color:#1A1F2E;outline:none;resize:none;max-height:100px;line-height:1.4;background:#FFFFFF;min-height:44px;"></textarea>
+    <button id="eriMic" type="button" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#F4F4F0;color:#1A1F2E;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;pointer-events:none;">
+        <rect x="9" y="2" width="6" height="12" rx="3"/>
+        <path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3"/>
+      </svg>
+    </button>
+    <button id="eriSend" type="button" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#1A1F2E;color:#FFFFFF;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;pointer-events:none;"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   HOME TRANSPORTISTA · LÓGICA
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  var online = false;
+  try { online = localStorage.getItem('kraze_transportista_online') === '1'; } catch (e) {}
+  aplicarOnline();
+
+  window.toggleOnline = function () {
+    online = !online;
+    try { localStorage.setItem('kraze_transportista_online', online ? '1' : '0'); } catch (e) {}
+    aplicarOnline();
+  };
+
+  function aplicarOnline() {
+    var box = document.getElementById('onlineBox');
+    var estado = document.getElementById('onlineEstado');
+    var help = document.getElementById('onlineHelp');
+    var emptySub = document.getElementById('emptySub');
+
+    if (online) {
+      box.classList.add('on');
+      estado.textContent = 'Estás en línea';
+      help.textContent = 'Recibiendo solicitudes cerca de ti';
+      if (emptySub) emptySub.textContent = 'Buscando viajes cerca de ti...';
+    } else {
+      box.classList.remove('on');
+      estado.textContent = 'Estás offline';
+      help.textContent = 'Ponte en línea para recibir viajes';
+      if (emptySub) emptySub.textContent = 'Ponte en línea para empezar a recibir viajes.';
+    }
+  }
+
+  /* ─── Saludo según hora ─── */
+  var h = new Date().getHours();
+  var saludo = 'Epale';
+  if (h >= 5 && h < 12) saludo = 'Buenos días';
+  else if (h >= 12 && h < 19) saludo = 'Buenas tardes';
+  else saludo = 'Buenas noches';
+  document.getElementById('greetingTitle').textContent = saludo;
+
+  /* ─── Cargar perfil real ─── */
+  var perfil = null;
+  try {
+    var raw = localStorage.getItem('kraze_transportista') || localStorage.getItem('kraze_user');
+    if (raw) perfil = JSON.parse(raw);
+  } catch (e) {}
+
+  if (perfil) {
+    if (perfil.nombre) {
+      var inicial = perfil.nombre.trim().charAt(0).toUpperCase();
+      var av = document.getElementById('headerAvatar');
+      av.textContent = inicial;
+      av.classList.add('filled');
+    }
+    if (typeof perfil.gananciaHoy === 'number') {
+      document.getElementById('earningsAmount').innerHTML =
+        '$' + perfil.gananciaHoy.toFixed(2) + '<small>USD</small>';
+    }
+    if (typeof perfil.viajesHoy === 'number') {
+      document.getElementById('earnViajes').textContent = perfil.viajesHoy;
+    }
+    if (typeof perfil.horasOnline === 'number') {
+      document.getElementById('earnHoras').innerHTML =
+        perfil.horasOnline + '<small>h</small>';
+    }
+  }
+
+  /* ─── Solicitudes recientes ─── */
+  var solicitudes = [];
+  try {
+    var s = localStorage.getItem('kraze_solicitudes');
+    if (s) solicitudes = JSON.parse(s) || [];
+  } catch (e) {}
+
+  if (solicitudes.length > 0) {
+    var box = document.getElementById('solicitudesBox');
+    var html = '<div class="empty-box" style="padding:20px;text-align:left;">';
+    html += '<div style="font-size:14px;font-weight:700;color:#1A1F2E;margin-bottom:6px;">' + solicitudes.length + ' solicitud' + (solicitudes.length === 1 ? '' : 'es') + ' pendiente' + (solicitudes.length === 1 ? '' : 's') + '</div>';
+    html += '<div style="font-size:12px;color:#8A8F9C;line-height:1.5;">Ve al panel para verlas y aceptarlas.</div>';
+    html += '<button onclick="location.href=\'09-Panel-Transportista.html\'" style="margin-top:14px;padding:12px 20px;background:#1A1F2E;color:#FFFFFF;border:none;border-radius:12px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;">Abrir panel</button>';
+    html += '</div>';
+    box.innerHTML = html;
+  }
+
+  console.log('[Home Transportista] listo. Online:', online);
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   ERI · LÓGICA (con voz)
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  var API = 'https://moto-llave-backend.vercel.app/api/claude';
+  var chat = document.getElementById('eriChat');
+  var input = document.getElementById('eriInput');
+  var sendBtn = document.getElementById('eriSend');
+  var micBtn = document.getElementById('eriMic');
+  var escribiendo = false;
+  var grabando = false;
+  var rec = null;
+
+  function agregarMsg(tipo, texto) {
+    var m = document.createElement('div');
+    m.style.cssText = 'max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;word-wrap:break-word;';
+    if (tipo === 'user') {
+      m.style.background = '#1A1F2E';
+      m.style.color = '#FFFFFF';
+      m.style.borderBottomRightRadius = '6px';
+      m.style.alignSelf = 'flex-end';
+    } else {
+      m.style.background = '#FFFFFF';
+      m.style.color = '#1A1F2E';
+      m.style.border = '1px solid #F0F0EB';
+      m.style.borderBottomLeftRadius = '6px';
+      m.style.alignSelf = 'flex-start';
+    }
+    m.textContent = texto;
+    chat.appendChild(m);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function enviar() {
+    var texto = input.value.trim();
+    if (!texto || escribiendo) return;
+    agregarMsg('user', texto);
+    input.value = '';
+    escribiendo = true;
+    sendBtn.disabled = true;
+
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ texto: texto })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var resp = d && (d.respuesta || d.mensaje);
+      if (resp) { agregarMsg('eri', resp); hablar(resp); }
+      else { agregarMsg('eri', 'Ups, no entendí.'); }
+    })
+    .catch(function () { agregarMsg('eri', 'Ups, error de conexión.'); })
+    .then(function () { escribiendo = false; sendBtn.disabled = false; });
+  }
+
+  sendBtn.onclick = enviar;
+
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviar(); }
+  });
+
+  function iniciarVoz() {
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { alert('Tu navegador no soporta reconocimiento de voz.'); return; }
+    if (grabando) { try { rec.stop(); } catch (e) {} return; }
+
+    rec = new SR();
+    rec.lang = 'es-VE';
+    rec.continuous = false;
+    rec.interimResults = true;
+
+    rec.onstart = function () {
+      grabando = true;
+      micBtn.style.background = '#E5484D';
+      micBtn.style.color = '#FFFFFF';
+    };
+    rec.onresult = function (e) {
+      var t = '';
+      for (var i = e.resultIndex; i < e.results.length; i++) { t += e.results[i][0].transcript; }
+      input.value = t;
+    };
+    rec.onerror = function () {
+      grabando = false;
+      micBtn.style.background = '#F4F4F0';
+      micBtn.style.color = '#1A1F2E';
+    };
+    rec.onend = function () {
+      grabando = false;
+      micBtn.style.background = '#F4F4F0';
+      micBtn.style.color = '#1A1F2E';
+      if (input.value.trim()) setTimeout(enviar, 300);
+    };
+
+    try { rec.start(); } catch (e) {}
+  }
+
+  micBtn.onclick = iniciarVoz;
+
+  function hablar(texto) {
+    if (!window.speechSynthesis) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(texto);
+      u.lang = 'es-VE';
+      u.rate = 1.0;
+      u.pitch = 1.0;
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+
+  console.log('[Eri] listo con voz');
+})();
+</script>
+</body>
+</html>

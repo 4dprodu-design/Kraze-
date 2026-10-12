@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="author" content="Erian C.A.">
+  <meta name="description" content="Kraze — Transporte total. Moto, taxi, buseta, camión, carga.">
+  <title>Kraze</title>
+
+  <!-- ============================================================
+       KRAZE · Estilos Base
+       © 2026 Erian C.A. — Todos los derechos reservados
+       Archivo: index.html
+       ============================================================ -->
+  <link rel="stylesheet" href="css/kraze.css">
+
+  <style>
+    /* --- Estilos exclusivos del arranque --- */
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .boot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      animation: boot-in 0.5s ease;
+    }
+
+    @keyframes boot-in {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .boot-logo {
+      font-size: 72px;
+      line-height: 1;
+      animation: boot-pulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes boot-pulse {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.08); }
+    }
+
+    .boot-name {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .boot-tag {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .boot-loading {
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       Contenido del arranque (se ve < 800ms mientras redirige)
+       ============================================================ -->
+  <div class="boot">
+    <div class="boot-logo">🛵</div>
+    <h1 class="boot-name">Kraze</h1>
+    <p class="boot-tag">Transporte total · Erian C.A.</p>
+    <div class="boot-loading">
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SECCIÓN: Scripts base
+       Se cargan ANTES del script de arranque
+       ============================================================ -->
+  <script src="js/theme.js"></script>
+  <script src="js/nav.js"></script>
+
+  <!-- ============================================================
+       SECCIÓN: Lógica de arranque
+       Limpia estado residual y redirige al Splash.
+       NO carga kraze-ia.js (es solo un redirector, no necesita IA)
+       ============================================================ -->
+  <script>
+  /* ============================================================
+     KRAZE · Arranque Limpio
+     © 2026 Erian C.A. — Todos los derechos reservados
+     ============================================================ */
+  (function () {
+    'use strict';
+
+    /* --- Paso 1: limpiar estado residual --- */
+    try {
+      Kraze.nav.arranqueLimpio();
+    } catch (e) {
+      console.warn('[index] No se pudo limpiar estado:', e.message);
+    }
+
+    /* --- Paso 2: pequeña espera visual (para que se vea el logo) --- */
+    const ESPERA_MS = 700;
+
+    setTimeout(function () {
+      /* --- Paso 3: redirigir al Splash --- */
+      try {
+        Kraze.nav.irA('01-Splash.html', { replace: true });
+      } catch (e) {
+        window.location.replace('01-Splash.html');
+      }
+    }, ESPERA_MS);
+
+    /* --- Paso 4: log de arranque --- */
+    console.log(
+      '%c🛵 Kraze arrancando...',
+      'color:#D4FF00;background:#111;padding:2px 8px;border-radius:4px;font-weight:bold'
+    );
+  })();
+  </script>
+
+</body>
+</html>

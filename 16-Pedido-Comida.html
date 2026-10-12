@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FAFAF7">
+  <meta name="author" content="Erian C.A.">
+  <title>Kraze · Pedido</title>
+
+  <!-- ============================================================
+       KRAZE · Pedido de Comida
+       © 2026 Erian C.A. — Todos los derechos reservados
+       Archivo: 16-Pedido-Comida.html
+       ============================================================ -->
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      min-height: 100vh;
+      background-color: #FAFAF7;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1A1F2E;
+    }
+
+    body {
+      padding: 16px 16px 240px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: transparent;
+      color: #1A1F2E;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .back-btn:active { background-color: rgba(0,0,0,0.05); }
+
+    .topbar-title {
+      flex: 1;
+      font-size: 16px;
+      font-weight: 700;
+      color: #1A1F2E;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* --- Header tienda --- */
+    .tienda-header {
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .tienda-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 14px;
+      background-color: #F5F5F0;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      overflow: hidden;
+    }
+
+    .tienda-datos { flex: 1; min-width: 0; }
+
+    .tienda-nombre {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1A1F2E;
+      margin-bottom: 3px;
+      letter-spacing: -0.3px;
+    }
+
+    .tienda-cat {
+      font-size: 12px;
+      color: #8A8F80;
+      margin-bottom: 6px;
+      text-transform: capitalize;
+    }
+
+    .tienda-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      color: #4A4A4A;
+    }
+
+    .tienda-meta-item.star {
+      color: #D97706;
+      font-weight: 700;
+    }
+
+    /* --- Menú --- */
+    .seccion-titulo {
+      font-size: 17px;
+      font-weight: 800;
+      color: #1A1F2E;
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+    }
+
+    .menu-grupo { margin-bottom: 22px; }
+
+    .menu-nombre {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1A1F2E;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #E5E5DE;
+      text-transform: capitalize;
+    }
+
+    /* --- Plato --- */
+    .plato {
+      display: flex;
+      gap: 12px;
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+
+    .plato-foto {
+      width: 68px;
+      height: 68px;
+      border-radius: 12px;
+      background-color: #F5F5F0;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      overflow: hidden;
+    }
+
+    .plato-info { flex: 1; min-width: 0; }
+
+    .plato-nombre {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1A1F2E;
+      margin-bottom: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .plato-desc {
+      font-size: 12px;
+      color: #8A8F80;
+      margin-bottom: 5px;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .plato-precio {
+      font-size: 15px;
+      font-weight: 800;
+      color: #1A1F2E;
+    }
+
+    .plato-btn-add {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #A4D65E;
+      color: #1A1F2E;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .plato-btn-add:active { transform: scale(0.92); }
+
+    /* --- Carrito flotante --- */
+    .carrito {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      background-color: #1A1F2E;
+      color: #FFFFFF;
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      cursor: pointer;
+      z-index: 9997;
+    }
+    .carrito.show { display: flex; }
+
+    .carrito-info { display: flex; align-items: center; gap: 10px; }
+
+    .carrito-count {
+      background-color: #A4D65E;
+      color: #1A1F2E;
+      font-weight: 800;
+      font-size: 14px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carrito-total { font-size: 16px; font-weight: 800; }
+
+    /* --- Modal --- */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 99999;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .modal.show { display: flex; }
+
+    .modal-box {
+      background-color: #FFFFFF;
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      width: 100%;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      padding: 20px;
+      border-bottom: 1px solid #E5E5DE;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title { font-size: 18px; font-weight: 800; color: #1A1F2E; }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: #8A8F80;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+
+    .modal-body { flex: 1; overflow-y: auto; padding: 20px; }
+
+    .carrito-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #F0F0EB;
+    }
+
+    .carrito-item-info { flex: 1; min-width: 0; }
+
+    .carrito-item-nombre {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1A1F2E;
+      margin-bottom: 2px;
+    }
+
+    .carrito-item-precio { font-size: 13px; color: #8A8F80; }
+
+    .carrito-item-controles {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .carrito-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: #F5F5F0;
+      color: #1A1F2E;
+      border: none;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    .carrito-btn:active { background-color: #E5E5DE; }
+
+    .carrito-cantidad {
+      font-size: 14px;
+      font-weight: 800;
+      color: #1A1F2E;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .modal-footer {
+      padding: 20px;
+      border-top: 1px solid #E5E5DE;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .modal-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+      font-weight: 800;
+      color: #1A1F2E;
+      margin-bottom: 6px;
+    }
+
+    .btn-pedir {
+      background-color: #A4D65E;
+      color: #1A1F2E;
+      border: none;
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      min-height: 54px;
+    }
+    .btn-pedir:active { transform: scale(0.98); }
+    .btn-pedir:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* --- Estados --- */
+    .estado {
+      text-align: center;
+      padding: 60px 20px;
+      color: #8A8F80;
+    }
+
+    .estado-icon { font-size: 48px; margin-bottom: 12px; }
+
+    .estado-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1A1F2E;
+      margin-bottom: 6px;
+    }
+
+    .estado-text { font-size: 13px; color: #8A8F80; margin-top: 6px; }
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid #E5E5DE;
+      border-top-color: #A4D65E;
+      border-radius: 50%;
+      animation: girar 0.8s linear infinite;
+      margin: 0 auto 12px;
+    }
+
+    @keyframes girar { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <a href="15-Marketplace-FastFood.html" class="back-btn" aria-label="Volver">&#8592;</a>
+    <div class="topbar-title" id="topbar-titulo">Cargando...</div>
+  </div>
+
+  <div id="contenido">
+    <div class="estado">
+      <div class="spinner"></div>
+      <div class="estado-title">Cargando tienda...</div>
+    </div>
+  </div>
+
+  <div class="carrito" id="carrito">
+    <div class="carrito-info">
+      <div class="carrito-count" id="carrito-count">0</div>
+      <div class="carrito-total" id="carrito-total">$0.00</div>
+    </div>
+    <div style="font-weight:700;font-size:14px;">Ver pedido &#8594;</div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <div class="modal-header">
+  <!-- ============================================================
+       Scripts base
+       ============================================================ -->
+  <script src="js/nav.js"></script>
+  <script src="js/kraze-db.js"></script>
+  <script src="js/kraze-pagos.js"></script>
+  <script src="js/kraze-ia.js"></script>
+
+  <!-- ============================================================
+       Lógica del Pedido
+       © 2026 Erian C.A. — Todos los derechos reservados
+       ============================================================ -->
+  <script>
+  (function () {
+    'use strict';
+
+    var contenido    = document.getElementById('contenido');
+    var topbarTit    = document.getElementById('topbar-titulo');
+    var carritoEl    = document.getElementById('carrito');
+    var carritoCnt   = document.getElementById('carrito-count');
+    var carritoTotal = document.getElementById('carrito-total');
+    var modal        = document.getElementById('modal');
+    var modalBody    = document.getElementById('modal-body');
+    var modalTotal   = document.getElementById('modal-total');
+    var btnPedir     = document.getElementById('btn-pedir');
+
+    var tiendaId = null;
+    var tienda   = null;
+    var menus    = [];
+    var platos   = [];
+    var carrito  = {};
+
+    /* ============================================================
+       UTILIDADES
+       ============================================================ */
+    function escaparHTML(txt) {
+      if (!txt) return '';
+      return String(txt)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function formatoPrecio(n) {
+      var num = parseFloat(n) || 0;
+      return '$' + num.toFixed(2);
+    }
+
+    function leerTiendaIdDeURL() {
+      var params = new URLSearchParams(window.location.search);
+      return params.get('id');
+    }
+
+    /* ============================================================
+       ESTADOS
+       ============================================================ */
+    function mostrarCargando() {
+      contenido.innerHTML =
+        '<div class="estado">' +
+          '<div class="spinner"></div>' +
+          '<div class="estado-title">Cargando tienda...</div>' +
+        '</div>';
+    }
+
+    function mostrarError(msg) {
+      contenido.innerHTML =
+        '<div class="estado">' +
+          '<div class="estado-icon">&#9888;</div>' +
+          '<div class="estado-title">Error</div>' +
+          '<div class="estado-text">' + escaparHTML(msg) + '</div>' +
+        '</div>';
+    }
+
+    function mostrarSinTienda() {
+      contenido.innerHTML =
+        '<div class="estado">' +
+          '<div class="estado-icon">&#127828;</div>' +
+          '<div class="estado-title">Tienda no encontrada</div>' +
+          '<div class="estado-text">Vuelve al marketplace y elige una tienda</div>' +
+        '</div>';
+    }
+
+    /* ============================================================
+       RENDERIZAR
+       ============================================================ */
+    function renderTienda() {
+      if (!tienda) return;
+
+      topbarTit.textContent = tienda.name || 'Tienda';
+
+      var logo = tienda.logo_url
+        ? '<img src="' + escaparHTML(tienda.logo_url) + '" alt="" style="width:100%;height:100%;object-fit:cover;">'
+        : '&#127828;';
+
+      var rating = tienda.rating ? parseFloat(tienda.rating).toFixed(1) : '—';
+      var pedidos = tienda.total_orders || 0;
+
+      var header =
+        '<div class="tienda-header">' +
+          '<div class="tienda-logo">' + logo + '</div>' +
+          '<div class="tienda-datos">' +
+            '<div class="tienda-nombre">' + escaparHTML(tienda.name) + '</div>' +
+            '<div class="tienda-cat">' + escaparHTML(tienda.category || 'Tienda') + '</div>' +
+            '<div class="tienda-meta">' +
+              '<span class="tienda-meta-item star">&#9733; ' + rating + '</span>' +
+              '<span class="tienda-meta-item">&#128230; ' + pedidos + ' pedidos</span>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+
+      if (platos.length === 0) {
+        contenido.innerHTML = header +
+          '<div class="estado">' +
+            '<div class="estado-icon">&#127869;</div>' +
+            '<div class="estado-title">Sin platos disponibles</div>' +
+            '<div class="estado-text">Esta tienda aún no ha subido su menú</div>' +
+          '</div>';
+        return;
+      }
+
+      var html = header;
+
+      if (menus.length > 0) {
+        for (var m = 0; m < menus.length; m++) {
+          var menu = menus[m];
+          var platosDelMenu = platos.filter(function (p) {
+            return p.menu_id === menu.id;
+          });
+
+          if (platosDelMenu.length === 0) continue;
+
+          html += '<div class="menu-grupo">';
+          html += '<div class="menu-nombre">' + escaparHTML(menu.name) + '</div>';
+          html += renderPlatos(platosDelMenu);
+          html += '</div>';
+        }
+
+        // Platos sin menú asignado
+        var sinMenu = platos.filter(function (p) { return !p.menu_id; });
+        if (sinMenu.length > 0) {
+          html += '<div class="menu-grupo">';
+          html += '<div class="menu-nombre">Otros</div>';
+          html += renderPlatos(sinMenu);
+          html += '</div>';
+        }
+      } else {
+        html += '<div class="seccion-titulo">Menú</div>';
+        html += renderPlatos(platos);
+      }
+
+      contenido.innerHTML = html;
+
+      var botones = contenido.querySelectorAll('.plato-btn-add');
+      for (var b = 0; b < botones.length; b++) {
+        botones[b].addEventListener('click', function (e) {
+          e.stopPropagation();
+          agregarAlCarrito(this.getAttribute('data-plato-id'));
+        });
+      }
+    }
+
+    function renderPlatos(lista) {
+      var html = '';
+      for (var i = 0; i < lista.length; i++) {
+        var p = lista[i];
+
+        var foto = p.photo_url
+          ? '<img src="' + escaparHTML(p.photo_url) + '" alt="" style="width:100%;height:100%;object-fit:cover;">'
+          : '&#127828;';
+
+        html +=
+          '<div class="plato">' +
+            '<div class="plato-foto">' + foto + '</div>' +
+            '<div class="plato-info">' +
+              '<div class="plato-nombre">' + escaparHTML(p.name) + '</div>' +
+              (p.description ? '<div class="plato-desc">' + escaparHTML(p.description) + '</div>' : '') +
+              '<div class="plato-precio">' + formatoPrecio(p.price) + '</div>' +
+            '</div>' +
+            '<button class="plato-btn-add" data-plato-id="' + escaparHTML(p.id) + '">+</button>' +
+          '</div>';
+      }
+      return html;
+    }
+
+    /* ============================================================
+       CARRITO
+       ============================================================ */
+    function agregarAlCarrito(platoId) {
+      var plato = platos.filter(function (p) { return p.id === platoId; })[0];
+      if (!plato) return;
+
+      if (carrito[platoId]) {
+        carrito[platoId].cantidad += 1;
+      } else {
+        carrito[platoId] = { plato: plato, cantidad: 1 };
+      }
+      actualizarCarrito();
+    }
+
+    function actualizarCarrito() {
+      var count = 0;
+      var total = 0;
+
+      for (var id in carrito) {
+        if (carrito.hasOwnProperty(id)) {
+          count += carrito[id].cantidad;
+          total += carrito[id].cantidad * parseFloat(carrito[id].plato.price || 0);
+        }
+      }
+
+      if (count === 0) {
+        carritoEl.classList.remove('show');
+      } else {
+        carritoEl.classList.add('show');
+        carritoCnt.textContent = count;
+        carritoTotal.textContent = formatoPrecio(total);
+      }
+    }
+
+    /* ============================================================
+       MODAL
+       ============================================================ */
+    function abrirModal() {
+      var html = '';
+      var total = 0;
+
+      for (var id in carrito) {
+        if (carrito.hasOwnProperty(id)) {
+          var item = carrito[id];
+          var sub = item.cantidad * parseFloat(item.plato.price || 0);
+          total += sub;
+
+          html +=
+            '<div class="carrito-item">' +
+              '<div class="carrito-item-info">' +
+                '<div class="carrito-item-nombre">' + escaparHTML(item.plato.name) + '</div>' +
+                '<div class="carrito-item-precio">' + formatoPrecio(sub) + '</div>' +
+              '</div>' +
+              '<div class="carrito-item-controles">' +
+                '<button class="carrito-btn" data-accion="menos" data-id="' + escaparHTML(id) + '">&#8722;</button>' +
+                '<span class="carrito-cantidad">' + item.cantidad + '</span>' +
+                '<button class="carrito-btn" data-accion="mas" data-id="' + escaparHTML(id) + '">+</button>' +
+              '</div>' +
+            '</div>';
+        }
+      }
+
+      modalBody.innerHTML = html || '<div class="estado"><div class="estado-title">Carrito vacío</div></div>';
+      modalTotal.textContent = formatoPrecio(total);
+      modal.classList.add('show');
+
+      var botones = modalBody.querySelectorAll('.carrito-btn');
+      for (var i = 0; i < botones.length; i++) {
+        botones[i].addEventListener('click', function () {
+          var id = this.getAttribute('data-id');
+          var accion = this.getAttribute('data-accion');
+          if (accion === 'mas') {
+            carrito[id].cantidad += 1;
+          } else {
+            carrito[id].cantidad -= 1;
+            if (carrito[id].cantidad <= 0) {
+              delete carrito[id];
+            }
+          }
+          actualizarCarrito();
+          abrirModal();
+        });
+      }
+    }
+
+    function cerrarModal() {
+      modal.classList.remove('show');
+    }
+
+    /* ============================================================
+       HACER PEDIDO — con kraze-pagos
+       ============================================================ */
+    function hacerPedido() {
+      var count = 0;
+      for (var id in carrito) {
+        if (carrito.hasOwnProperty(id)) count++;
+      }
+
+      if (count === 0) {
+        alert('Tu carrito esta vacio');
+        return;
+      }
+
+      // Preparar items
+      var items = [];
+      var total = 0;
+      for (var pid in carrito) {
+        if (carrito.hasOwnProperty(pid)) {
+          var item = carrito[pid];
+          items.push({
+            plato_id: pid,
+            nombre: item.plato.name,
+            precio: parseFloat(item.plato.price || 0),
+            cantidad: item.cantidad
+          });
+          total += item.cantidad * parseFloat(item.plato.price || 0);
+        }
+      }
+
+      var pedido = {
+        store_id: tiendaId,
+        store_name: tienda ? tienda.name : '',
+        items: items,
+        subtotal: total,
+        total: total,
+        estado: 'pendiente',
+        tipo: 'delivery',
+        creada: new Date().toISOString()
+      };
+
+      // Guardar local
+      try {
+        var anteriores = JSON.parse(localStorage.getItem('kraze_pedidos') || '[]');
+        pedido.id = 'local_' + Date.now();
+        anteriores.push(pedido);
+        localStorage.setItem('kraze_pedidos', JSON.stringify(anteriores));
+      } catch (e) {
+        console.warn('No se pudo guardar pedido:', e);
+      }
+
+      // Iniciar proceso de pago con Kraze Pagos
+      if (window.Kraze && Kraze.pagos) {
+        Kraze.pagos.iniciar({
+          concepto: 'Pedido en ' + (tienda ? tienda.name : 'tienda'),
+          monto: total,
+          moneda: 'USD',
+          pedido: pedido
+        })
+        .then(function (resultado) {
+          if (resultado.estado === 'pendiente') {
+            alert(
+              'Pedido registrado!\n\n' +
+              'Total: ' + formatoPrecio(total) + '\n\n' +
+              'Metodo de pago: ' + resultado.metodo + '\n\n' +
+              'En breve te contactaremos para confirmar el pago.'
+            );
+          } else if (resultado.estado === 'pagado') {
+            alert('Pago confirmado! Tu pedido esta en camino.');
+          } else {
+            alert('Pedido registrado. Esperando confirmacion de pago.');
+          }
+
+          carrito = {};
+          actualizarCarrito();
+          cerrarModal();
+
+          setTimeout(function () {
+            window.location.href = '15-Marketplace-FastFood.html';
+          }, 500);
+        })
+        .catch(function (err) {
+          console.error('[Pedido] Error de pago:', err);
+          alert('Pedido guardado pero hubo un problema con el pago: ' + err.message);
+          cerrarModal();
+        });
+      } else {
+        // Fallback sin módulo de pagos
+        alert('Pedido registrado!\n\nTotal: ' + formatoPrecio(total));
+        carrito = {};
+        actualizarCarrito();
+        cerrarModal();
+      }
+    }
+
+    /* ============================================================
+       CARGAR
+       ============================================================ */
+    function cargarDatos() {
+      tiendaId = leerTiendaIdDeURL();
+
+      if (!tiendaId) {
+        mostrarSinTienda();
+        return;
+      }
+
+      if (!window.Kraze || !Kraze.db || !Kraze.db.marketplace) {
+        mostrarError('Base de datos no disponible');
+        return;
+      }
+
+      mostrarCargando();
+
+      Promise.all([
+        Kraze.db.marketplace.tiendas.porId(tiendaId),
+        Kraze.db.marketplace.menus.porTienda(tiendaId),
+        Kraze.db.marketplace.platos.porTienda(tiendaId)
+      ])
+      .then(function (resultados) {
+        tienda = resultados[0];
+        menus  = resultados[1] || [];
+        platos = resultados[2] || [];
+
+        if (!tienda) {
+          mostrarSinTienda();
+          return;
+        }
+
+        renderTienda();
+      })
+      .catch(function (e) {
+        console.error('[Pedido] Error:', e);
+        mostrarError(e.message);
+      });
+    }
+
+    /* ============================================================
+       EVENTOS
+       ============================================================ */
+    carritoEl.addEventListener('click', abrirModal);
+    document.getElementById('modal-close').addEventListener('click', cerrarModal);
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) cerrarModal();
+    });
+    btnPedir.addEventListener('click', hacerPedido);
+
+    /* ============================================================
+       INIT
+       ============================================================ */
+    cargarDatos();
+
+    console.log('Kraze Pedido listo');
+
+  })();
+  </script>
+
+</body>
+      </html>

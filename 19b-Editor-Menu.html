@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FAFAF7">
+  <meta name="author" content="Erian C.A.">
+  <title>Kraze · Editor de menú</title>
+
+  <!-- ============================================================
+       KRAZE · Editor de Menú
+       © 2026 Erian C.A. — Todos los derechos reservados
+       Archivo: 19b-Editor-Menu.html
+       ============================================================ -->
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      min-height: 100vh;
+      background-color: #FAFAF7;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1A1F2E;
+    }
+
+    body {
+      padding: 24px 24px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .top-row {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: transparent;
+      color: #1A1F2E;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-left: -8px;
+      text-decoration: none;
+    }
+    .back-btn:active { background-color: rgba(0,0,0,0.05); }
+
+    .step-label { font-size: 13px; font-weight: 600; color: #8A8F80; }
+
+    .progress {
+      width: 100%;
+      max-width: 440px;
+      height: 4px;
+      background-color: #E5E5DE;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+    .progress-fill {
+      height: 100%;
+      background-color: #A4D65E;
+      width: 100%;
+      border-radius: 2px;
+    }
+
+    .title {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      color: #1A1F2E;
+      margin-bottom: 6px;
+      align-self: flex-start;
+      max-width: 440px;
+      width: 100%;
+    }
+
+    .sub {
+      font-size: 14px;
+      color: #8A8F80;
+      margin-bottom: 24px;
+      align-self: flex-start;
+      max-width: 440px;
+      width: 100%;
+      line-height: 1.45;
+    }
+
+    /* --- Tabs --- */
+    .tabs {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      gap: 6px;
+      background-color: #F5F5F0;
+      padding: 4px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 10px;
+      background: none;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #8A8F80;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .tab.activo {
+      background-color: #FFFFFF;
+      color: #1A1F2E;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    /* --- Contenido --- */
+    .panel {
+      width: 100%;
+      max-width: 440px;
+      display: none;
+    }
+    .panel.activo { display: block; }
+
+    /* --- Botón agregar --- */
+    .btn-add {
+      width: 100%;
+      background-color: #FFFFFF;
+      border: 1.5px dashed #A4D65E;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #1A1F2E;
+      cursor: pointer;
+      font-family: inherit;
+      margin-bottom: 16px;
+      transition: background-color 0.15s;
+    }
+    .btn-add:active { background-color: #F8FBEF; }
+
+    /* --- Lista items --- */
+    .lista {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .item {
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .item-foto {
+      width: 60px;
+      height: 60px;
+      border-radius: 10px;
+      background-color: #F5F5F0;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: #8A8F80;
+      overflow: hidden;
+    }
+
+    .item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .item-nombre {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1A1F2E;
+      margin-bottom: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .item-meta {
+      font-size: 12px;
+      color: #8A8F80;
+    }
+
+    .item-precio {
+      font-size: 14px;
+      font-weight: 800;
+      color: #1A1F2E;
+    }
+
+    .item-acciones {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .btn-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background-color: #F5F5F0;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #1A1F2E;
+      font-family: inherit;
+    }
+    .btn-icon:active { background-color: #E5E5DE; }
+    .btn-icon.rojo { color: #EF4444; }
+
+    /* --- Modal --- */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 99999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+    }
+    .modal.show { display: flex; }
+
+    .modal-box {
+      background-color: #FFFFFF;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 440px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+      animation: modal-in 0.25s ease;
+    }
+
+    @keyframes modal-in {
+      from { transform: scale(0.95); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1A1F2E;
+      margin-bottom: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #4A4A4A;
+      padding-left: 2px;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #1A1F2E;
+      outline: none;
+      min-height: 50px;
+    }
+
+    .field textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: #A4D65E;
+      box-shadow: 0 0 0 3px rgba(164, 214, 94, 0.18);
+    }
+
+    .modal-acciones {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn-cancelar,
+    .btn-guardar {
+      flex: 1;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      min-height: 50px;
+      border: none;
+    }
+
+    .btn-cancelar {
+      background-color: #F5F5F0;
+      color: #1A1F2E;
+    }
+
+    .btn-guardar {
+      background-color: #A4D65E;
+      color: #1A1F2E;
+    }
+
+    .btn-guardar:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* --- Estados --- */
+    .estado {
+      text-align: center;
+      padding: 40px 20px;
+      color: #8A8F80;
+    }
+
+    .estado-icon { font-size: 40px; margin-bottom: 10px; opacity: 0.6; }
+
+    .estado-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1A1F2E;
+      margin-bottom: 4px;
+    }
+
+    .estado-text { font-size: 13px; color: #8A8F80; }
+
+    .spinner {
+      width: 28px;
+      height: 28px;
+      border: 3px solid #E5E5DE;
+      border-top-color: #A4D65E;
+      border-radius: 50%;
+      animation: girar 0.8s linear infinite;
+      margin: 0 auto 10px;
+    }
+
+    @keyframes girar { to { transform: rotate(360deg); } }
+
+    .error-msg {
+      background-color: #FEE2E2;
+      color: #B91C1C;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      display: none;
+      margin-bottom: 12px;
+    }
+    .error-msg.show { display: block; }
+  </style>
+</head>
+<body>
+
+  <div class="top-row">
+    <a href="19a-Subir-Documentos.html" class="back-btn" aria-label="Volver">&#8592;</a>
+    <div class="step-label">Paso 3 de 3</div>
+  </div>
+
+  <div class="progress">
+    <div class="progress-fill"></div>
+  </div>
+
+  <h1 class="title">Tu menú</h1>
+  <p class="sub">Crea las categorías de tu menú y agrega los platos. Puedes editar todo después.</p>
+
+  <div class="tabs">
+    <button class="tab activo" data-tab="platos">Platos</button>
+    <button class="tab" data-tab="menus">Menús</button>
+  </div>
+
+  <!-- ============================================================
+       Panel: PLATOS
+       ============================================================ -->
+  <div class="panel activo" id="panel-platos">
+    <button class="btn-add" id="btn-add-plato">+ Agregar plato</button>
+    <div class="lista" id="lista-platos">
+      <div class="estado">
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       Panel: MENUS
+       ============================================================ -->
+  <div class="panel" id="panel-menus">
+    <button class="btn-add" id="btn-add-menu">+ Agregar menú</button>
+    <div class="lista" id="lista-menus">
+      <div class="estado">
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       Modal: PLATO
+       ============================================================ -->
+  <div class="modal" id="modal-plato">
+    <div class="modal-box">
+      <div class="modal-title" id="modal-plato-title">Agregar plato</div>
+
+      <div class="error-msg" id="error-plato"></div>
+
+      <input type="hidden" id="plato-id">
+
+      <div class="field">
+        <label>Nombre del plato</label>
+        <input type="text" id="plato-nombre" placeholder="Ej: Pizza Margarita">
+      </div>
+
+      <div class="field">
+        <label>Descripción (opcional)</label>
+        <textarea id="plato-desc" placeholder="Ej: Salsa de tomate, mozzarella y albahaca"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Precio en dólares</label>
+        <input type="text" id="plato-precio" placeholder="4.50" inputmode="decimal">
+      </div>
+
+      <div class="field">
+        <label>Categoría del menú</label>
+        <select id="plato-menu">
+          <option value="">Sin categoría</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Foto (URL, opcional)</label>
+        <input type="text" id="plato-foto" placeholder="https://...">
+      </div>
+
+      <div class="modal-acciones">
+        <button class="btn-cancelar" id="btn-cancelar-plato">Cancelar</button>
+        <button class="btn-guardar" id="btn-guardar-plato">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       Modal: MENU
+       ============================================================ -->
+  <div class="modal" id="modal-menu">
+    <div class="modal-box">
+      <div class="modal-title" id="modal-menu-title">Agregar menú</div>
+
+      <div class="error-msg" id="error-menu"></div>
+
+      <input type="hidden" id="menu-id">
+
+      <div class="field">
+        <label>Nombre del menú</label>
+        <input type="text" id="menu-nombre" placeholder="Ej: Entradas, Platos fuertes, Postres">
+      </div>
+
+      <div class="modal-acciones">
+        <button class="btn-cancelar" id="btn-cancelar-menu">Cancelar</button>
+        <button class="btn-guardar" id="btn-guardar-menu">Guardar</button>
+      </div>
+    </div>
+  </div>
+  <!-- ============================================================
+       Scripts base
+       ============================================================ -->
+  <script src="js/nav.js"></script>
+  <script src="js/kraze-db.js"></script>
+  <script src="js/kraze-ia.js"></script>
+
+  <!-- ============================================================
+       Lógica del Editor de Menú
+       © 2026 Erian C.A. — Todos los derechos reservados
+       ============================================================ -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* --- Estado --- */
+    var tiendaId = null;
+    var menus = [];
+    var platos = [];
+
+    /* --- Elementos --- */
+    var tabs           = document.querySelectorAll('.tab');
+    var panels         = document.querySelectorAll('.panel');
+    var listaMenus     = document.getElementById('lista-menus');
+    var listaPlatos    = document.getElementById('lista-platos');
+    var modalPlato     = document.getElementById('modal-plato');
+    var modalMenu      = document.getElementById('modal-menu');
+    var selectMenu     = document.getElementById('plato-menu');
+
+    /* --- Utilidades --- */
+    function escaparHTML(txt) {
+      if (!txt) return '';
+      return String(txt)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function mostrarError(elId, msg) {
+      var el = document.getElementById(elId);
+      el.textContent = msg;
+      el.classList.add('show');
+      setTimeout(function () { el.classList.remove('show'); }, 5000);
+    }
+
+    function leerTiendaIdDeURL() {
+      var params = new URLSearchParams(window.location.search);
+      return params.get('id');
+    }
+
+    /* ============================================================
+       TABS
+       ============================================================ */
+    for (var t = 0; t < tabs.length; t++) {
+      tabs[t].addEventListener('click', function () {
+        for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('activo');
+        for (var j = 0; j < panels.length; j++) panels[j].classList.remove('activo');
+        this.classList.add('activo');
+        document.getElementById('panel-' + this.getAttribute('data-tab')).classList.add('activo');
+      });
+    }
+
+    /* ============================================================
+       CARGAR DATOS
+       ============================================================ */
+    function cargarMenus() {
+      return Kraze.db.marketplace.menus.porTienda(tiendaId)
+        .then(function (lista) {
+          menus = lista || [];
+          renderMenus();
+          llenarSelectMenus();
+        });
+    }
+
+    function cargarPlatos() {
+      return Kraze.db.marketplace.platos.porTienda(tiendaId)
+        .then(function (lista) {
+          platos = lista || [];
+          renderPlatos();
+        });
+    }
+
+    /* ============================================================
+       RENDER
+       ============================================================ */
+    function renderMenus() {
+      if (menus.length === 0) {
+        listaMenus.innerHTML =
+          '<div class="estado">' +
+            '<div class="estado-icon">&#127869;</div>' +
+            '<div class="estado-title">Sin menus</div>' +
+            '<div class="estado-text">Crea tu primer menu para organizar tus platos</div>' +
+          '</div>';
+        return;
+      }
+
+      var html = '';
+      for (var i = 0; i < menus.length; i++) {
+        var m = menus[i];
+        html +=
+          '<div class="item">' +
+            '<div class="item-info">' +
+              '<div class="item-nombre">' + escaparHTML(m.name) + '</div>' +
+              '<div class="item-meta">Orden: ' + (m.sort_order || 0) + '</div>' +
+            '</div>' +
+            '<div class="item-acciones">' +
+              '<button class="btn-icon" data-editar-menu="' + escaparHTML(m.id) + '">&#9998;</button>' +
+              '<button class="btn-icon rojo" data-eliminar-menu="' + escaparHTML(m.id) + '">&#128465;</button>' +
+            '</div>' +
+          '</div>';
+      }
+      listaMenus.innerHTML = html;
+      attachEventosMenus();
+    }
+
+    function renderPlatos() {
+      if (platos.length === 0) {
+        listaPlatos.innerHTML =
+          '<div class="estado">' +
+            '<div class="estado-icon">&#127828;</div>' +
+            '<div class="estado-title">Sin platos</div>' +
+            '<div class="estado-text">Agrega tu primer plato al menu</div>' +
+          '</div>';
+        return;
+      }
+
+      var html = '';
+      for (var i = 0; i < platos.length; i++) {
+        var p = platos[i];
+        var foto = p.photo_url
+          ? '<div class="item-foto" style="background-image:url(' + escaparHTML(p.photo_url) + ');"></div>'
+          : '<div class="item-foto">&#127828;</div>';
+
+        var menuNombre = 'Sin categoria';
+        for (var j = 0; j < menus.length; j++) {
+          if (menus[j].id === p.menu_id) {
+            menuNombre = menus[j].name;
+            break;
+          }
+        }
+
+        html +=
+          '<div class="item">' +
+            foto +
+            '<div class="item-info">' +
+              '<div class="item-nombre">' + escaparHTML(p.name) + '</div>' +
+              '<div class="item-meta">' + escaparHTML(menuNombre) + ' · <span class="item-precio">$' + parseFloat(p.price).toFixed(2) + '</span></div>' +
+            '</div>' +
+            '<div class="item-acciones">' +
+              '<button class="btn-icon" data-editar-plato="' + escaparHTML(p.id) + '">&#9998;</button>' +
+              '<button class="btn-icon rojo" data-eliminar-plato="' + escaparHTML(p.id) + '">&#128465;</button>' +
+            '</div>' +
+          '</div>';
+      }
+      listaPlatos.innerHTML = html;
+      attachEventosPlatos();
+    }
+
+    function llenarSelectMenus() {
+      var html = '<option value="">Sin categoria</option>';
+      for (var i = 0; i < menus.length; i++) {
+        html += '<option value="' + escaparHTML(menus[i].id) + '">' + escaparHTML(menus[i].name) + '</option>';
+      }
+      selectMenu.innerHTML = html;
+    }
+
+    /* ============================================================
+       EVENTOS
+       ============================================================ */
+    function attachEventosMenus() {
+      var editar = listaMenus.querySelectorAll('[data-editar-menu]');
+      for (var i = 0; i < editar.length; i++) {
+        editar[i].addEventListener('click', function () {
+          abrirModalMenu(this.getAttribute('data-editar-menu'));
+        });
+      }
+      var eliminar = listaMenus.querySelectorAll('[data-eliminar-menu]');
+      for (var j = 0; j < eliminar.length; j++) {
+        eliminar[j].addEventListener('click', function () {
+          eliminarMenu(this.getAttribute('data-eliminar-menu'));
+        });
+      }
+    }
+
+    function attachEventosPlatos() {
+      var editar = listaPlatos.querySelectorAll('[data-editar-plato]');
+      for (var i = 0; i < editar.length; i++) {
+        editar[i].addEventListener('click', function () {
+          abrirModalPlato(this.getAttribute('data-editar-plato'));
+        });
+      }
+      var eliminar = listaPlatos.querySelectorAll('[data-eliminar-plato]');
+      for (var j = 0; j < eliminar.length; j++) {
+        eliminar[j].addEventListener('click', function () {
+          eliminarPlato(this.getAttribute('data-eliminar-plato'));
+        });
+      }
+    }
+
+    /* ============================================================
+       MODAL PLATO
+       ============================================================ */
+    function abrirModalPlato(platoId) {
+      document.getElementById('plato-id').value = '';
+      document.getElementById('plato-nombre').value = '';
+      document.getElementById('plato-desc').value = '';
+      document.getElementById('plato-precio').value = '';
+      document.getElementById('plato-menu').value = '';
+      document.getElementById('plato-foto').value = '';
+      document.getElementById('modal-plato-title').textContent = 'Agregar plato';
+
+      if (platoId) {
+        var p = platos.filter(function (x) { return x.id === platoId; })[0];
+        if (p) {
+          document.getElementById('plato-id').value = p.id;
+          document.getElementById('plato-nombre').value = p.name || '';
+          document.getElementById('plato-desc').value = p.description || '';
+          document.getElementById('plato-precio').value = p.price || '';
+          document.getElementById('plato-menu').value = p.menu_id || '';
+          document.getElementById('plato-foto').value = p.photo_url || '';
+          document.getElementById('modal-plato-title').textContent = 'Editar plato';
+        }
+      }
+
+      modalPlato.classList.add('show');
+    }
+
+    function cerrarModalPlato() {
+      modalPlato.classList.remove('show');
+    }
+
+    function guardarPlato() {
+      var id       = document.getElementById('plato-id').value;
+      var nombre   = document.getElementById('plato-nombre').value.trim();
+      var desc     = document.getElementById('plato-desc').value.trim();
+      var precio   = document.getElementById('plato-precio').value.trim();
+      var menu_id  = document.getElementById('plato-menu').value;
+      var foto     = document.getElementById('plato-foto').value.trim();
+
+      if (nombre.length < 2) {
+        return mostrarError('error-plato', 'El nombre debe tener al menos 2 caracteres.');
+      }
+      if (!precio || parseFloat(precio) <= 0) {
+        return mostrarError('error-plato', 'Escribe un precio valido.');
+      }
+
+      var datos = {
+        name:        nombre,
+        description: desc,
+        price:       parseFloat(precio),
+        menu_id:     menu_id || null,
+        store_id:    tiendaId,
+        photo_url:   foto || null,
+        available:   true
+      };
+
+      var btn = document.getElementById('btn-guardar-plato');
+      btn.disabled = true;
+      btn.textContent = 'Guardando...';
+
+      var promesa;
+      if (id) {
+        promesa = Kraze.db.marketplace.platos.actualizar(id, datos);
+      } else {
+        promesa = Kraze.db.marketplace.platos.crear(datos);
+      }
+
+      promesa
+        .then(function () {
+          cerrarModalPlato();
+          return cargarPlatos();
+        })
+        .catch(function (e) {
+          console.error('[Editor] Error plato:', e);
+          mostrarError('error-plato', e.message);
+        })
+        .finally(function () {
+          btn.disabled = false;
+          btn.textContent = 'Guardar';
+        });
+    }
+
+    function eliminarPlato(id) {
+      if (!confirm('¿Eliminar este plato?')) return;
+
+      Kraze.db.marketplace.platos.eliminar(id)
+        .then(function () {
+          return cargarPlatos();
+        })
+        .catch(function (e) {
+          alert('Error al eliminar: ' + e.message);
+        });
+    }
+
+    /* ============================================================
+       MODAL MENU
+       ============================================================ */
+    function abrirModalMenu(menuId) {
+      document.getElementById('menu-id').value = '';
+      document.getElementById('menu-nombre').value = '';
+      document.getElementById('modal-menu-title').textContent = 'Agregar menu';
+
+      if (menuId) {
+        var m = menus.filter(function (x) { return x.id === menuId; })[0];
+        if (m) {
+          document.getElementById('menu-id').value = m.id;
+          document.getElementById('menu-nombre').value = m.name || '';
+          document.getElementById('modal-menu-title').textContent = 'Editar menu';
+        }
+      }
+
+      modalMenu.classList.add('show');
+    }
+
+    function cerrarModalMenu() {
+      modalMenu.classList.remove('show');
+    }
+
+    function guardarMenu() {
+      var id     = document.getElementById('menu-id').value;
+      var nombre = document.getElementById('menu-nombre').value.trim();
+
+      if (nombre.length < 2) {
+        return mostrarError('error-menu', 'El nombre debe tener al menos 2 caracteres.');
+      }
+
+      var datos = {
+        name:      nombre,
+        store_id:  tiendaId,
+        sort_order: menus.length
+      };
+
+      var btn = document.getElementById('btn-guardar-menu');
+      btn.disabled = true;
+      btn.textContent = 'Guardando...';
+
+      var promesa;
+      if (id) {
+        promesa = Kraze.db.marketplace.menus.actualizar(id, datos);
+      } else {
+        promesa = Kraze.db.marketplace.menus.crear(datos);
+      }
+
+      promesa
+        .then(function () {
+          cerrarModalMenu();
+          return cargarMenus();
+        })
+        .catch(function (e) {
+          console.error('[Editor] Error menu:', e);
+          mostrarError('error-menu', e.message);
+        })
+        .finally(function () {
+          btn.disabled = false;
+          btn.textContent = 'Guardar';
+        });
+    }
+
+    function eliminarMenu(id) {
+      if (!confirm('¿Eliminar este menu? Los platos no se borraran, quedaran sin categoria.')) return;
+
+      Kraze.db.marketplace.menus.eliminar(id)
+        .then(function () {
+          return cargarMenus().then(cargarPlatos);
+        })
+        .catch(function (e) {
+          alert('Error al eliminar: ' + e.message);
+        });
+    }
+
+    /* ============================================================
+       EVENTOS BOTONES
+       ============================================================ */
+    document.getElementById('btn-add-plato').addEventListener('click', function () { abrirModalPlato(null); });
+    document.getElementById('btn-add-menu').addEventListener('click', function () { abrirModalMenu(null); });
+    document.getElementById('btn-cancelar-plato').addEventListener('click', cerrarModalPlato);
+    document.getElementById('btn-cancelar-menu').addEventListener('click', cerrarModalMenu);
+    document.getElementById('btn-guardar-plato').addEventListener('click', guardarPlato);
+    document.getElementById('btn-guardar-menu').addEventListener('click', guardarMenu);
+
+    modalPlato.addEventListener('click', function (e) {
+      if (e.target === modalPlato) cerrarModalPlato();
+    });
+    modalMenu.addEventListener('click', function (e) {
+      if (e.target === modalMenu) cerrarModalMenu();
+    });
+
+    /* ============================================================
+       INIT
+       ============================================================ */
+    tiendaId = leerTiendaIdDeURL();
+
+    if (!tiendaId) {
+      document.getElementById('lista-platos').innerHTML =
+        '<div class="estado">' +
+          '<div class="estado-icon">&#9888;</div>' +
+          '<div class="estado-title">Tienda no encontrada</div>' +
+          '<div class="estado-text">Vuelve al paso anterior</div>' +
+        '</div>';
+    } else {
+      Promise.all([cargarMenus(), cargarPlatos()]).catch(function (e) {
+        console.error('[Editor] Error init:', e);
+      });
+    }
+
+    console.log('Kraze Editor Menu listo · tienda:', tiendaId);
+
+  })();
+  </script>
+
+</body>
+</html>

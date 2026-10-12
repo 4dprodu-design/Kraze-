@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FAFAF7">
+  <meta name="author" content="Erian C.A.">
+  <title>Kraze · Admin Tiendas</title>
+
+  <!-- ============================================================
+       KRAZE · Panel Admin de Tiendas
+       © 2026 Erian C.A. — Todos los derechos reservados
+       Archivo: 19c-Panel-Admin-Tiendas.html
+       ============================================================ -->
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      min-height: 100vh;
+      background-color: #FAFAF7;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1A1F2E;
+    }
+
+    body {
+      padding: 24px 16px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .top-row {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: transparent;
+      color: #1A1F2E;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-left: -8px;
+      text-decoration: none;
+    }
+    .back-btn:active { background-color: rgba(0,0,0,0.05); }
+
+    .admin-badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: #FFFFFF;
+      background-color: #1A1F2E;
+      padding: 5px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .title {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      color: #1A1F2E;
+      margin-bottom: 6px;
+      align-self: flex-start;
+      max-width: 480px;
+      width: 100%;
+    }
+
+    .sub {
+      font-size: 14px;
+      color: #8A8F80;
+      margin-bottom: 20px;
+      align-self: flex-start;
+      max-width: 480px;
+      width: 100%;
+      line-height: 1.45;
+    }
+
+    /* --- Contadores --- */
+    .stats {
+      width: 100%;
+      max-width: 480px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 12px;
+      padding: 12px 8px;
+      text-align: center;
+    }
+
+    .stat-numero {
+      font-size: 22px;
+      font-weight: 800;
+      color: #1A1F2E;
+      line-height: 1.1;
+      margin-bottom: 2px;
+    }
+
+    .stat-numero.verde  { color: #16A34A; }
+    .stat-numero.rojo   { color: #DC2626; }
+    .stat-numero.naranja{ color: #D97706; }
+
+    .stat-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: #8A8F80;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    /* --- Tabs --- */
+    .tabs {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      gap: 4px;
+      background-color: #F5F5F0;
+      padding: 4px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+
+    .tab {
+      flex: 1;
+      padding: 10px 8px;
+      background: none;
+      border: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #8A8F80;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .tab.activo {
+      background-color: #FFFFFF;
+      color: #1A1F2E;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    /* --- Lista de tiendas --- */
+    .lista {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .tienda-card {
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .tienda-card.pendiente { border-color: #FCD34D; background-color: #FFFBEB; }
+    .tienda-card.aprobada  { border-color: #A4D65E; background-color: #F8FBEF; }
+    .tienda-card.rechazada { border-color: #FCA5A5; background-color: #FEF2F2; }
+
+    .tienda-header {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .tienda-logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background-color: #F5F5F0;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: #8A8F80;
+      overflow: hidden;
+    }
+
+    .tienda-datos { flex: 1; min-width: 0; }
+
+    .tienda-nombre {
+      font-size: 15px;
+      font-weight: 800;
+      color: #1A1F2E;
+      margin-bottom: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .tienda-cat {
+      font-size: 12px;
+      color: #8A8F80;
+      text-transform: capitalize;
+      margin-bottom: 4px;
+    }
+
+    .tienda-status-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .status-pendiente { background-color: #FCD34D; color: #78350F; }
+    .status-aprobada  { background-color: #A4D65E; color: #14532D; }
+    .status-rechazada { background-color: #FCA5A5; color: #7F1D1D; }
+
+    .tienda-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+      color: #4A4A4A;
+      line-height: 1.4;
+    }
+
+    .tienda-meta-item {
+      display: flex;
+      gap: 6px;
+    }
+
+    .tienda-meta-label {
+      font-weight: 700;
+      color: #8A8F80;
+      min-width: 60px;
+    }
+
+    .tienda-fecha {
+      font-size: 11px;
+      color: #B0B5A8;
+      margin-top: 4px;
+    }
+
+    /* --- Botones de acción --- */
+    .acciones {
+      display: flex;
+      gap: 8px;
+      padding-top: 4px;
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .btn-accion {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      min-height: 42px;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    .btn-accion:active { transform: scale(0.97); }
+    .btn-accion:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .btn-aprobar {
+      background-color: #A4D65E;
+      color: #1A1F2E;
+    }
+
+    .btn-rechazar {
+      background-color: #FEE2E2;
+      color: #B91C1C;
+    }
+
+    .btn-ver {
+      background-color: #F5F5F0;
+      color: #1A1F2E;
+    }
+
+    /* --- Estados --- */
+    .estado {
+      text-align: center;
+      padding: 50px 20px;
+      color: #8A8F80;
+      max-width: 480px;
+    }
+
+    .estado-icon { font-size: 44px; margin-bottom: 10px; opacity: 0.6; }
+
+    .estado-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1A1F2E;
+      margin-bottom: 4px;
+    }
+
+    .estado-text { font-size: 13px; color: #8A8F80; }
+
+    .spinner {
+      width: 28px;
+      height: 28px;
+      border: 3px solid #E5E5DE;
+      border-top-color: #A4D65E;
+      border-radius: 50%;
+      animation: girar 0.8s linear infinite;
+      margin: 0 auto 10px;
+    }
+
+    @keyframes girar { to { transform: rotate(360deg); } }
+
+    /* --- Modal de detalle --- */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 99999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+    }
+    .modal.show { display: flex; }
+
+    .modal-box {
+      background-color: #FFFFFF;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 440px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1A1F2E;
+      margin-bottom: 16px;
+    }
+
+    .modal-row {
+      padding: 10px 0;
+      border-bottom: 1px solid #F0F0EB;
+      font-size: 13px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .modal-row:last-child { border-bottom: none; }
+
+    .modal-row-label {
+      font-weight: 700;
+      color: #8A8F80;
+      min-width: 90px;
+    }
+
+    .modal-row-value {
+      color: #1A1F2E;
+      flex: 1;
+      word-break: break-word;
+    }
+
+    .btn-cerrar-modal {
+      width: 100%;
+      background-color: #F5F5F0;
+      color: #1A1F2E;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      margin-top: 18px;
+      min-height: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-row">
+    <a href="04-Home-Pasajero.html" class="back-btn" aria-label="Volver">&#8592;</a>
+    <div class="admin-badge">ADMIN</div>
+  </div>
+
+  <h1 class="title">Panel de tiendas</h1>
+  <p class="sub">Aprueba, revisa o rechaza las tiendas que se registren en Kraze.</p>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-numero naranja" id="stat-pendientes">—</div>
+      <div class="stat-label">Pendientes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-numero verde" id="stat-aprobadas">—</div>
+      <div class="stat-label">Aprobadas</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-numero rojo" id="stat-rechazadas">—</div>
+      <div class="stat-label">Rechazadas</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab activo" data-filtro="pending">Pendientes</button>
+    <button class="tab" data-filtro="active">Aprobadas</button>
+    <button class="tab" data-filtro="rejected">Rechazadas</button>
+    <button class="tab" data-filtro="all">Todas</button>
+  </div>
+
+  <div class="lista" id="lista">
+    <div class="estado"><div class="spinner"></div></div>
+  </div>
+
+  <div class="modal" id="modal-detalle">
+    <div class="modal-box">
+      <div class="modal-title" id="modal-detalle-title">Detalle de la tienda</div>
+      <div id="modal-detalle-body"></div>
+      <button class="btn-cerrar-modal" id="btn-cerrar-detalle">Cerrar</button>
+    </div>
+  </div>
+  <script src="js/nav.js"></script>
+  <script src="js/kraze-db.js"></script>
+  <script src="js/kraze-ia.js"></script>
+
+  <script>
+  (function () {
+    'use strict';
+
+    var lista       = document.getElementById('lista');
+    var tabs        = document.querySelectorAll('.tab');
+    var statPend    = document.getElementById('stat-pendientes');
+    var statAprob   = document.getElementById('stat-aprobadas');
+    var statRech    = document.getElementById('stat-rechazadas');
+    var modal       = document.getElementById('modal-detalle');
+    var modalBody   = document.getElementById('modal-detalle-body');
+    var modalTitle  = document.getElementById('modal-detalle-title');
+
+    var filtroActual = 'pending';
+    var tiendasTodas = [];
+
+    function escaparHTML(txt) {
+      if (!txt) return '';
+      return String(txt)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function formatoFecha(iso) {
+      if (!iso) return '';
+      try {
+        var d = new Date(iso);
+        return d.toLocaleDateString('es-VE') + ' ' + d.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit' });
+      } catch (e) { return iso; }
+    }
+
+    /* ============================================================
+       CARGAR TODAS LAS TIENDAS
+       ============================================================ */
+    function cargarTiendas() {
+      lista.innerHTML = '<div class="estado"><div class="spinner"></div></div>';
+
+      Kraze.db.select('stores', {
+        'select': '*',
+        'order': 'created_at.desc',
+        'limit': 200
+      })
+      .then(function (lista) {
+        tiendasTodas = lista || [];
+        actualizarStats();
+        renderLista();
+      })
+      .catch(function (e) {
+        console.error('[Admin] Error:', e);
+        lista.innerHTML =
+          '<div class="estado">' +
+            '<div class="estado-icon">&#9888;</div>' +
+            '<div class="estado-title">Error al cargar</div>' +
+            '<div class="estado-text">' + escaparHTML(e.message) + '</div>' +
+          '</div>';
+      });
+    }
+
+    function actualizarStats() {
+      var pend = 0, aprob = 0, rech = 0;
+      for (var i = 0; i < tiendasTodas.length; i++) {
+        var s = (tiendasTodas[i].status || '').toLowerCase();
+        if (s === 'pending') pend++;
+        else if (s === 'active' || s === 'approved') aprob++;
+        else if (s === 'rejected') rech++;
+      }
+      statPend.textContent  = pend;
+      statAprob.textContent = aprob;
+      statRech.textContent  = rech;
+    }
+
+    /* ============================================================
+       RENDER
+       ============================================================ */
+    function renderLista() {
+      var filtradas = tiendasTodas;
+
+      if (filtroActual !== 'all') {
+        filtradas = tiendasTodas.filter(function (t) {
+          var s = (t.status || '').toLowerCase();
+          if (filtroActual === 'pending')  return s === 'pending' || s === '';
+          if (filtroActual === 'active')   return s === 'active' || s === 'approved';
+          if (filtroActual === 'rejected') return s === 'rejected';
+          return true;
+        });
+      }
+
+      if (filtradas.length === 0) {
+        lista.innerHTML =
+          '<div class="estado">' +
+            '<div class="estado-icon">&#128230;</div>' +
+            '<div class="estado-title">Sin tiendas</div>' +
+            '<div class="estado-text">No hay tiendas en este filtro</div>' +
+          '</div>';
+        return;
+      }
+
+      var html = '';
+      for (var i = 0; i < filtradas.length; i++) {
+        html += renderTienda(filtradas[i]);
+      }
+      lista.innerHTML = html;
+      attachEventos();
+    }
+
+    function renderTienda(t) {
+      var s = (t.status || 'pending').toLowerCase();
+      var statusClass = 'pendiente';
+      var statusTexto = 'Pendiente';
+      var statusBadgeClass = 'status-pendiente';
+
+      if (s === 'active' || s === 'approved') {
+        statusClass = 'aprobada';
+        statusTexto = 'Aprobada';
+        statusBadgeClass = 'status-aprobada';
+      } else if (s === 'rejected') {
+        statusClass = 'rechazada';
+        statusTexto = 'Rechazada';
+        statusBadgeClass = 'status-rechazada';
+      }
+
+      var logo = t.logo_url
+        ? '<div class="tienda-logo" style="background-image:url(' + escaparHTML(t.logo_url) + ');"></div>'
+        : '<div class="tienda-logo">&#127978;</div>';
+
+      var html = '';
+      html += '<div class="tienda-card ' + statusClass + '">';
+
+      html +=   '<div class="tienda-header">';
+      html +=     logo;
+      html +=     '<div class="tienda-datos">';
+      html +=       '<div class="tienda-nombre">' + escaparHTML(t.name || 'Sin nombre') + '</div>';
+      html +=       '<div class="tienda-cat">' + escaparHTML(t.category || 'Sin categoria') + '</div>';
+      html +=       '<span class="tienda-status-badge ' + statusBadgeClass + '">' + statusTexto + '</span>';
+      html +=     '</div>';
+      html +=   '</div>';
+
+      html +=   '<div class="tienda-meta">';
+      if (t.phone) {
+        html += '<div class="tienda-meta-item"><span class="tienda-meta-label">Telefono:</span> ' + escaparHTML(t.phone) + '</div>';
+      }
+      if (t.address) {
+        html += '<div class="tienda-meta-item"><span class="tienda-meta-label">Direccion:</span> ' + escaparHTML(t.address) + '</div>';
+      }
+      html +=   '</div>';
+
+      html +=   '<div class="tienda-fecha">Registrada: ' + formatoFecha(t.created_at) + '</div>';
+
+      html +=   '<div class="acciones">';
+
+      if (s === 'pending' || s === '') {
+        html += '<button class="btn-accion btn-aprobar" data-aprobar="' + escaparHTML(t.id) + '">Aprobar</button>';
+        html += '<button class="btn-accion btn-rechazar" data-rechazar="' + escaparHTML(t.id) + '">Rechazar</button>';
+      } else if (s === 'active' || s === 'approved') {
+        html += '<button class="btn-accion btn-rechazar" data-rechazar="' + escaparHTML(t.id) + '">Desactivar</button>';
+      } else if (s === 'rejected') {
+        html += '<button class="btn-accion btn-aprobar" data-aprobar="' + escaparHTML(t.id) + '">Reactivar</button>';
+      }
+
+      html +=     '<button class="btn-accion btn-ver" data-ver="' + escaparHTML(t.id) + '">Ver</button>';
+      html +=   '</div>';
+
+      html += '</div>';
+      return html;
+    }
+
+    /* ============================================================
+       EVENTOS
+       ============================================================ */
+    function attachEventos() {
+      var aprobar = lista.querySelectorAll('[data-aprobar]');
+      for (var i = 0; i < aprobar.length; i++) {
+        aprobar[i].addEventListener('click', function () {
+          cambiarEstado(this.getAttribute('data-aprobar'), 'active');
+        });
+      }
+
+      var rechazar = lista.querySelectorAll('[data-rechazar]');
+      for (var j = 0; j < rechazar.length; j++) {
+        rechazar[j].addEventListener('click', function () {
+          if (!confirm('¿Rechazar o desactivar esta tienda?')) return;
+          cambiarEstado(this.getAttribute('data-rechazar'), 'rejected');
+        });
+      }
+
+      var ver = lista.querySelectorAll('[data-ver]');
+      for (var k = 0; k < ver.length; k++) {
+        ver[k].addEventListener('click', function () {
+          verDetalle(this.getAttribute('data-ver'));
+        });
+      }
+    }
+
+    /* ============================================================
+       CAMBIAR ESTADO
+       ============================================================ */
+    function cambiarEstado(tiendaId, nuevoEstado) {
+      var extra = {};
+      if (nuevoEstado === 'active') {
+        extra.approved_at = new Date().toISOString();
+      }
+
+      var datos = { status: nuevoEstado };
+      for (var k in extra) {
+        if (extra.hasOwnProperty(k)) datos[k] = extra[k];
+      }
+
+      Kraze.db.update('stores', { 'id': 'eq.' + tiendaId }, datos)
+        .then(function () {
+          /* Actualizar en memoria */
+          for (var i = 0; i < tiendasTodas.length; i++) {
+            if (tiendasTodas[i].id === tiendaId) {
+              tiendasTodas[i].status = nuevoEstado;
+              if (nuevoEstado === 'active') {
+                tiendasTodas[i].approved_at = extra.approved_at;
+              }
+              break;
+            }
+          }
+          actualizarStats();
+          renderLista();
+        })
+        .catch(function (e) {
+          alert('Error al actualizar: ' + e.message);
+        });
+    }
+
+    /* ============================================================
+       VER DETALLE
+       ============================================================ */
+    function verDetalle(tiendaId) {
+      var t = null;
+      for (var i = 0; i < tiendasTodas.length; i++) {
+        if (tiendasTodas[i].id === tiendaId) { t = tiendasTodas[i]; break; }
+      }
+      if (!t) return;
+
+      modalTitle.textContent = t.name || 'Detalle';
+
+      var html = '';
+      var filas = [
+        ['ID', t.id],
+        ['Nombre', t.name],
+        ['Slug', t.slug],
+        ['Categoria', t.category],
+        ['Descripcion', t.description],
+        ['Telefono', t.phone],
+        ['Direccion', t.address],
+        ['Latitud', t.lat],
+        ['Longitud', t.lng],
+        ['Estado', t.status],
+        ['Rating', t.rating],
+        ['Total pedidos', t.total_orders],
+        ['Creada', formatoFecha(t.created_at)],
+        ['Aprobada', formatoFecha(t.approved_at)]
+      ];
+
+      for (var j = 0; j < filas.length; j++) {
+        var label = filas[j][0];
+        var val = filas[j][1];
+        if (val === null || val === undefined || val === '') val = '—';
+        html +=
+          '<div class="modal-row">' +
+            '<div class="modal-row-label">' + escaparHTML(label) + ':</div>' +
+            '<div class="modal-row-value">' + escaparHTML(String(val)) + '</div>' +
+          '</div>';
+      }
+
+      modalBody.innerHTML = html;
+      modal.classList.add('show');
+    }
+
+    function cerrarDetalle() { modal.classList.remove('show'); }
+
+    /* ============================================================
+       TABS
+       ============================================================ */
+    for (var t = 0; t < tabs.length; t++) {
+      tabs[t].addEventListener('click', function () {
+        for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('activo');
+        this.classList.add('activo');
+        filtroActual = this.getAttribute('data-filtro');
+        renderLista();
+      });
+    }
+
+    /* ============================================================
+       EVENTOS GLOBALES
+       ============================================================ */
+    document.getElementById('btn-cerrar-detalle').addEventListener('click', cerrarDetalle);
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) cerrarDetalle();
+    });
+
+    /* ============================================================
+       INIT
+       ============================================================ */
+    cargarTiendas();
+
+    console.log('Kraze Admin Tiendas listo');
+
+  })();
+  </script>
+
+</body>
+</html>

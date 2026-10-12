@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#FAFAF7">
+<title>Mis viajes · Kraze</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #FAFAF7;
+  color: #1A1F2E;
+  overflow-x: hidden;
+}
+body { padding-bottom: 100px; }
+
+/* HEADER */
+.top-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px 10px;
+  background: #FAFAF7;
+  position: sticky; top: 0; z-index: 50;
+}
+.back-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: #FFFFFF; border: 1px solid #F0F0EB;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #1A1F2E;
+}
+.back-btn svg { width: 20px; height: 20px; pointer-events: none; }
+.top-title { font-size: 18px; font-weight: 800; color: #1A1F2E; letter-spacing: -0.3px; }
+
+/* FILTROS */
+.filters {
+  display: flex;
+  gap: 8px;
+  padding: 12px 20px 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.filters::-webkit-scrollbar { display: none; }
+.filter-btn {
+  padding: 9px 16px;
+  background: #FFFFFF;
+  border: 1.5px solid #F0F0EB;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #8A8F9C;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.filter-btn.active {
+  background: #1A1F2E;
+  border-color: #1A1F2E;
+  color: #FFFFFF;
+}
+
+/* STATS RESUMEN */
+.summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 0 20px 20px;
+}
+.summary-card {
+  background: #FFFFFF;
+  border: 1px solid #F0F0EB;
+  border-radius: 16px;
+  padding: 16px;
+}
+.summary-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #8A8F9C;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.summary-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1A1F2E;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.summary-value small {
+  font-size: 12px;
+  color: #8A8F9C;
+  font-weight: 600;
+  margin-left: 3px;
+}
+
+/* LISTA DE VIAJES */
+.trips-list {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.trip-card {
+  background: #FFFFFF;
+  border-radius: 18px;
+  border: 1px solid #F0F0EB;
+  padding: 16px;
+}
+
+.trip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.trip-tipo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  background: rgba(164,214,94,0.15);
+  color: #1A1F2E;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+.trip-tipo svg { width: 13px; height: 13px; }
+
+.trip-estado {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 12px;
+}
+.trip-estado.completado {
+  background: rgba(164,214,94,0.35);
+  color: #166534;
+}
+.trip-estado.cancelado {
+  background: #FEE2E2;
+  color: #B91C1C;
+}
+.trip-estado.curso {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+
+.trip-ruta {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0 12px;
+}
+
+.ruta-linea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 6px;
+}
+
+.ruta-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.ruta-dot.green { background: #22C55E; }
+.ruta-dot.dark { background: #1A1F2E; }
+
+.ruta-barra {
+  flex: 1;
+  width: 2px;
+  background: #F0F0EB;
+  margin: 4px 0;
+  min-height: 16px;
+}
+
+.ruta-textos {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ruta-punto {
+  font-size: 13px;
+  color: #1A1F2E;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.trip-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid #FAFAF7;
+}
+
+.trip-fecha {
+  font-size: 11px;
+  color: #8A8F9C;
+  font-weight: 600;
+}
+
+.trip-precio {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1A1F2E;
+  letter-spacing: -0.3px;
+}
+.trip-precio small {
+  font-size: 11px;
+  color: #8A8F9C;
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+.trip-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.trip-action-btn {
+  flex: 1;
+  padding: 10px;
+  background: #FAFAF7;
+  border: 1px solid #F0F0EB;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1A1F2E;
+  font-family: inherit;
+  cursor: pointer;
+}
+.trip-action-btn:active { background: #F0F0EB; }
+
+/* ESTADO VACÍO */
+.empty-box {
+  margin: 0 20px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  border: 1px solid #F0F0EB;
+  padding: 50px 20px;
+  text-align: center;
+}
+.empty-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 16px;
+  color: #D1D5DB;
+}
+.empty-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1A1F2E;
+  margin-bottom: 6px;
+}
+.empty-sub {
+  font-size: 13px;
+  color: #8A8F9C;
+  line-height: 1.5;
+  max-width: 280px;
+  margin: 0 auto 20px;
+}
+.empty-btn {
+  padding: 14px 24px;
+  background: #1A1F2E;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+.empty-btn:active { background: #000000; }
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #FFFFFF; border-top: 1px solid #F0F0EB;
+  display: flex; justify-content: space-around;
+  padding: 8px 0 calc(8px + env(safe-area-inset-bottom, 0));
+  z-index: 100;
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 6px 4px; text-decoration: none; color: #8A8F9C;
+  border: none; background: transparent; cursor: pointer; font-family: inherit;
+}
+.nav-item.active { color: #1A1F2E; }
+.nav-item svg { width: 22px; height: 22px; }
+.nav-item span { font-size: 10px; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <button class="back-btn" onclick="location.href='04-Home-Pasajero.html'" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </button>
+  <div class="top-title">Mis viajes</div>
+  <div style="width:40px;"></div>
+</div>
+
+<div class="filters" id="filters">
+  <button class="filter-btn active" data-filtro="todos" type="button">Todos</button>
+  <button class="filter-btn" data-filtro="completado" type="button">Completados</button>
+  <button class="filter-btn" data-filtro="curso" type="button">En curso</button>
+  <button class="filter-btn" data-filtro="cancelado" type="button">Cancelados</button>
+</div>
+
+<div class="summary">
+  <div class="summary-card">
+    <div class="summary-label">Total viajes</div>
+    <div class="summary-value" id="sumTotal">0</div>
+  </div>
+  <div class="summary-card">
+    <div class="summary-label">Gastado</div>
+    <div class="summary-value" id="sumGastado">$0<small>USD</small></div>
+  </div>
+</div>
+
+<div id="containerViajes">
+  <div class="empty-box">
+    <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 8v4l3 3"/>
+      <circle cx="12" cy="12" r="9"/>
+    </svg>
+    <div class="empty-title">Sin viajes aún</div>
+    <div class="empty-sub">Cuando pidas tu primer viaje, aparecerá aquí con todo el detalle.</div>
+    <button class="empty-btn" type="button" onclick="location.href='05-Pedir-Viaje.html'">Pedir mi primer viaje</button>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="04-Home-Pasajero.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 12l9-9 9 9"/>
+      <path d="M5 10v10a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V10"/>
+    </svg>
+    <span>Inicio</span>
+  </a>
+  <a href="11-Mis-Viajes.html" class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/>
+    </svg>
+    <span>Viajes</span>
+  </a>
+  <a href="15-Marketplace-FastFood.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 11h18M5 11V7a7 7 0 0114 0v4"/>
+    </svg>
+    <span>Comida</span>
+  </a>
+  <a href="13-Billetera.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2v-5"/>
+      <circle cx="17" cy="12" r="1.5"/>
+    </svg>
+    <span>Billetera</span>
+  </a>
+  <a href="08-Perfil-Pasajero.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+    </svg>
+    <span>Perfil</span>
+  </a>
+</nav><!-- BOTÓN ERI -->
+<button
+  onclick="document.getElementById('eriOverlay').style.display='flex';"
+  style="position:fixed;bottom:100px;right:20px;width:60px;height:60px;border-radius:50%;background:#FFFFFF;border:2px solid #A4D65E;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(164,214,94,0.5);z-index:99999;padding:0;"
+  type="button"
+  aria-label="Eri">
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;pointer-events:none;">
+    <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#A4D65E"/>
+    <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#1A1F2E"/>
+  </svg>
+</button>
+
+<!-- PANEL ERI -->
+<div id="eriOverlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100dvh;background:#FAFAF7;z-index:999999;flex-direction:column;overflow:hidden;">
+
+  <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:#FFFFFF;border-bottom:1px solid #F0F0EB;padding-top:calc(14px + env(safe-area-inset-top, 0));flex-shrink:0;">
+    <div style="width:38px;height:38px;border-radius:50%;background:#A4D65E;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <svg viewBox="0 0 64 64" fill="none" style="width:22px;height:22px;">
+        <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#1A1F2E"/>
+        <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#A4D65E"/>
+      </svg>
+    </div>
+    <div style="flex:1;">
+      <div style="font-size:16px;font-weight:800;color:#1A1F2E;">Eri</div>
+      <div style="font-size:11px;color:#22C55E;font-weight:600;">En línea</div>
+    </div>
+    <button onclick="document.getElementById('eriOverlay').style.display='none';" type="button" style="width:40px;height:40px;border:none;background:transparent;cursor:pointer;color:#8A8F9C;display:flex;align-items:center;justify-content:center;border-radius:50%;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;pointer-events:none;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <div id="eriChat" style="flex:1 1 auto;overflow-y:auto;padding:18px 16px 12px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch;min-height:0;">
+    <div style="max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;background:#FFFFFF;color:#1A1F2E;border:1px solid #F0F0EB;border-bottom-left-radius:6px;align-self:flex-start;">
+      ¡Epale jefe! Soy Eri. Aquí ves tus viajes. ¿Necesitas algo?
+    </div>
+  </div>
+
+  <div style="background:#FFFFFF;border-top:1px solid #F0F0EB;padding:10px 12px calc(10px + env(safe-area-inset-bottom, 0));display:flex;gap:8px;align-items:flex-end;flex-shrink:0;min-height:64px;">
+    <textarea id="eriInput" placeholder="Escríbele a Eri..." rows="1" style="flex:1;border:2px solid #F0F0EB;border-radius:22px;padding:11px 16px;font-size:15px;font-family:inherit;color:#1A1F2E;outline:none;resize:none;max-height:100px;line-height:1.4;background:#FFFFFF;min-height:44px;"></textarea>
+    <button id="eriMic" type="button" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#F4F4F0;color:#1A1F2E;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;pointer-events:none;">
+        <rect x="9" y="2" width="6" height="12" rx="3"/>
+        <path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3"/>
+      </svg>
+    </button>
+    <button id="eriSend" type="button" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#1A1F2E;color:#FFFFFF;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;pointer-events:none;"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   MIS VIAJES · LÓGICA
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  var viajes = [];
+  try {
+    var raw = localStorage.getItem('kraze_historial_viajes');
+    if (raw) viajes = JSON.parse(raw) || [];
+  } catch (e) {}
+
+  var filtroActual = 'todos';
+  var container = document.getElementById('containerViajes');
+  var sumTotal = document.getElementById('sumTotal');
+  var sumGastado = document.getElementById('sumGastado');
+
+  /* Filtros */
+  var filters = document.getElementById('filters');
+  filters.addEventListener('click', function (e) {
+    var btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    Array.prototype.forEach.call(filters.querySelectorAll('.filter-btn'), function (b) {
+      b.classList.remove('active');
+    });
+    btn.classList.add('active');
+    filtroActual = btn.getAttribute('data-filtro');
+    render();
+  });
+
+  function render() {
+    /* Stats generales (siempre totales, no filtrados) */
+    sumTotal.textContent = viajes.length;
+    var totalGastado = 0;
+    viajes.forEach(function (v) {
+      if (v.estado === 'completado' && typeof v.precio === 'number') {
+        totalGastado += v.precio;
+      }
+    });
+    sumGastado.innerHTML = '$' + totalGastado.toFixed(0) + '<small>USD</small>';
+
+    /* Filtrar */
+    var lista = viajes;
+    if (filtroActual !== 'todos') {
+      lista = viajes.filter(function (v) { return v.estado === filtroActual; });
+    }
+
+    /* Sin viajes en absoluto */
+    if (viajes.length === 0) {
+      container.innerHTML =
+        '<div class="empty-box">' +
+          '<svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' +
+            '<path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/>' +
+          '</svg>' +
+          '<div class="empty-title">Sin viajes aún</div>' +
+          '<div class="empty-sub">Cuando pidas tu primer viaje, aparecerá aquí con todo el detalle.</div>' +
+          '<button class="empty-btn" type="button" onclick="location.href=\'05-Pedir-Viaje.html\'">Pedir mi primer viaje</button>' +
+        '</div>';
+      return;
+    }
+
+    /* Sin viajes en ese filtro */
+    if (lista.length === 0) {
+      container.innerHTML =
+        '<div class="empty-box">' +
+          '<div class="empty-title">Sin viajes en este filtro</div>' +
+          '<div class="empty-sub">Prueba con otro filtro.</div>' +
+        '</div>';
+      return;
+    }
+
+    /* Render tarjetas */
+    var html = '<div class="trips-list">';
+    lista.forEach(function (v, idx) {
+      html += crearTarjeta(v, idx);
+    });
+    html += '</div>';
+    container.innerHTML = html;
+
+    /* Listeners de acciones */
+    Array.prototype.forEach.call(container.querySelectorAll('.trip-action-btn'), function (b) {
+      b.onclick = function () {
+        var accion = b.getAttribute('data-accion');
+        var id = b.getAttribute('data-id');
+        if (accion === 'detalle') verDetalle(id);
+        else if (accion === 'repetir') repetir(id);
+        else if (accion === 'calificar') calificar(id);
+      };
+    });
+  }
+
+  function crearTarjeta(v, idx) {
+    var tipoIcono = '<circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h-3l-3 8"/>';
+    if (v.tipo === 'carro') tipoIcono = '<path d="M5 17h14M5 17a2 2 0 11-4 0 2 2 0 014 0zm18 0a2 2 0 11-4 0 2 2 0 014 0z"/><path d="M3 17V7a2 2 0 012-2h9l3 5h4a2 2 0 012 2v5"/>';
+    else if (v.tipo === 'camion') tipoIcono = '<path d="M1 16V6h12v10M13 16V9h5l4 4v3"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>';
+
+    var estadoTexto = 'Completado';
+    var estadoClase = 'completado';
+    if (v.estado === 'cancelado') { estadoTexto = 'Cancelado'; estadoClase = 'cancelado'; }
+    else if (v.estado === 'curso' || v.estado === 'en_viaje') { estadoTexto = 'En curso'; estadoClase = 'curso'; }
+
+    var fechaTxt = v.fecha || '—';
+    var precioTxt = (typeof v.precio === 'number') ? '$' + v.precio.toFixed(2) : '$—';
+    var id = v.id || idx;
+
+    var html =
+      '<div class="trip-card">' +
+        '<div class="trip-header">' +
+          '<div class="trip-tipo">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + tipoIcono + '</svg>' +
+            (v.tipo || 'viaje') +
+          '</div>' +
+          '<div class="trip-estado ' + estadoClase + '">' + estadoTexto + '</div>' +
+        '</div>' +
+        '<div class="trip-ruta">' +
+          '<div class="ruta-linea">' +
+            '<div class="ruta-dot green"></div>' +
+            '<div class="ruta-barra"></div>' +
+            '<div class="ruta-dot dark"></div>' +
+          '</div>' +
+          '<div class="ruta-textos">' +
+            '<div class="ruta-punto">' + (v.origen || '—') + '</div>' +
+            '<div class="ruta-punto">' + (v.destino || '—') + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="trip-footer">' +
+          '<div class="trip-fecha">' + fechaTxt + '</div>' +
+          '<div class="trip-precio">' + precioTxt + '<small>USD</small></div>' +
+        '</div>' +
+        '<div class="trip-actions">' +
+          '<button class="trip-action-btn" data-accion="detalle" data-id="' + id + '" type="button">Ver detalle</button>' +
+          '<button class="trip-action-btn" data-accion="repetir" data-id="' + id + '" type="button">Repetir</button>' +
+        '</div>' +
+      '</div>';
+
+    return html;
+  }
+
+  function verDetalle(id) {
+    /* Guardar el viaje seleccionado y mostrar detalle */
+    var v = null;
+    for (var i = 0; i < viajes.length; i++) {
+      if ((viajes[i].id || i) == id) { v = viajes[i]; break; }
+    }
+    if (!v) return;
+    try {
+      localStorage.setItem('kraze_viaje_actual', JSON.stringify(v));
+    } catch (e) {}
+    location.href = '06-Ubicacion-Tiempo-Real.html';
+  }
+
+  function repetir(id) {
+    var v = null;
+    for (var i = 0; i < viajes.length; i++) {
+      if ((viajes[i].id || i) == id) { v = viajes[i]; break; }
+    }
+    if (!v) return;
+    try {
+      localStorage.setItem('kraze_pedido_prefill', JSON.stringify({
+        origen: v.origen,
+        destino: v.destino,
+        tipo: v.tipo
+      }));
+    } catch (e) {}
+    location.href = '05-Pedir-Viaje.html';
+  }
+
+  function calificar(id) {
+    location.href = '07-Reseñas.html';
+  }
+
+  render();
+  console.log('[Mis Viajes] listo. Total:', viajes.length);
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   ERI · LÓGICA (con voz)
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  var API = 'https://moto-llave-backend.vercel.app/api/claude';
+  var chat = document.getElementById('eriChat');
+  var input = document.getElementById('eriInput');
+  var sendBtn = document.getElementById('eriSend');
+  var micBtn = document.getElementById('eriMic');
+  var escribiendo = false;
+  var grabando = false;
+  var rec = null;
+
+  function agregarMsg(tipo, texto) {
+    var m = document.createElement('div');
+    m.style.cssText = 'max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;word-wrap:break-word;';
+    if (tipo === 'user') {
+      m.style.background = '#1A1F2E';
+      m.style.color = '#FFFFFF';
+      m.style.borderBottomRightRadius = '6px';
+      m.style.alignSelf = 'flex-end';
+    } else {
+      m.style.background = '#FFFFFF';
+      m.style.color = '#1A1F2E';
+      m.style.border = '1px solid #F0F0EB';
+      m.style.borderBottomLeftRadius = '6px';
+      m.style.alignSelf = 'flex-start';
+    }
+    m.textContent = texto;
+    chat.appendChild(m);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function enviar() {
+    var texto = input.value.trim();
+    if (!texto || escribiendo) return;
+    agregarMsg('user', texto);
+    input.value = '';
+    escribiendo = true;
+    sendBtn.disabled = true;
+
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ texto: texto })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var resp = d && (d.respuesta || d.mensaje);
+      if (resp) { agregarMsg('eri', resp); hablar(resp); }
+      else { agregarMsg('eri', 'Ups, no entendí.'); }
+    })
+    .catch(function () { agregarMsg('eri', 'Ups, error de conexión.'); })
+    .then(function () { escribiendo = false; sendBtn.disabled = false; });
+  }
+
+  sendBtn.onclick = enviar;
+
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviar(); }
+  });
+
+  function iniciarVoz() {
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { alert('Tu navegador no soporta reconocimiento de voz.'); return; }
+    if (grabando) { try { rec.stop(); } catch (e) {} return; }
+
+    rec = new SR();
+    rec.lang = 'es-VE';
+    rec.continuous = false;
+    rec.interimResults = true;
+
+    rec.onstart = function () {
+      grabando = true;
+      micBtn.style.background = '#E5484D';
+      micBtn.style.color = '#FFFFFF';
+    };
+    rec.onresult = function (e) {
+      var t = '';
+      for (var i = e.resultIndex; i < e.results.length; i++) { t += e.results[i][0].transcript; }
+      input.value = t;
+    };
+    rec.onerror = function () {
+      grabando = false;
+      micBtn.style.background = '#F4F4F0';
+      micBtn.style.color = '#1A1F2E';
+    };
+    rec.onend = function () {
+      grabando = false;
+      micBtn.style.background = '#F4F4F0';
+      micBtn.style.color = '#1A1F2E';
+      if (input.value.trim()) setTimeout(enviar, 300);
+    };
+
+    try { rec.start(); } catch (e) {}
+  }
+
+  micBtn.onclick = iniciarVoz;
+
+  function hablar(texto) {
+    if (!window.speechSynthesis) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(texto);
+      u.lang = 'es-VE';
+      u.rate = 1.0;
+      u.pitch = 1.0;
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+
+  console.log('[Eri] listo con voz');
+})();
+</script>
+</body>
+</html>

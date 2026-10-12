@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#FAFAF7">
+<title>Perfil transportista · Kraze</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #FAFAF7;
+  color: #1A1F2E;
+  overflow-x: hidden;
+}
+body { padding-bottom: 110px; }
+
+.top-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px 10px;
+  background: #FAFAF7;
+  position: sticky; top: 0; z-index: 50;
+}
+.back-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: #FFFFFF; border: 1px solid #F0F0EB;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #1A1F2E;
+}
+.back-btn svg { width: 20px; height: 20px; pointer-events: none; }
+.top-title { font-size: 18px; font-weight: 800; color: #1A1F2E; letter-spacing: -0.3px; }
+.edit-btn {
+  background: transparent; border: none; cursor: pointer;
+  font-size: 13px; font-weight: 700; color: #8A8F9C;
+  padding: 8px 4px; font-family: inherit;
+}
+.edit-btn:active { color: #1A1F2E; }
+
+.avatar-section { text-align: center; padding: 20px 20px 24px; }
+.avatar-box {
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  background: #F0F0EB;
+  color: #B0B4BF;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40px; font-weight: 800;
+  margin: 0 auto 14px;
+  border: 4px solid #FFFFFF;
+  box-shadow: 0 4px 16px rgba(26,31,46,0.06);
+  position: relative;
+}
+.avatar-box.filled { background: #A4D65E; color: #1A1F2E; border-color: #A4D65E; }
+.avatar-cam {
+  position: absolute; bottom: 0; right: 0;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: #1A1F2E;
+  color: #FFFFFF;
+  display: flex; align-items: center; justify-content: center;
+  border: 3px solid #FAFAF7;
+  cursor: pointer;
+}
+.avatar-cam svg { width: 14px; height: 14px; }
+.avatar-nombre {
+  font-size: 22px; font-weight: 800; color: #1A1F2E;
+  letter-spacing: -0.5px; min-height: 26px; margin-bottom: 6px;
+}
+.avatar-pills { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
+.pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 20px;
+}
+.pill.rol { color: #8A8F9C; background: #F0F0EB; }
+.pill.estado { color: #8A8F9C; background: #F0F0EB; }
+.pill.estado.verificado { color: #166534; background: rgba(164,214,94,0.35); }
+.pill.estado.pendiente { color: #92400E; background: #FEF3C7; }
+.pill svg { width: 11px; height: 11px; }
+
+.stats {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 10px; margin: 0 20px 20px;
+}
+.stat-card {
+  background: #FFFFFF; border: 1px solid #F0F0EB;
+  border-radius: 16px; padding: 16px 10px; text-align: center;
+}
+.stat-value {
+  font-size: 20px; font-weight: 800; color: #1A1F2E;
+  letter-spacing: -0.5px; min-height: 24px;
+}
+.stat-label {
+  font-size: 11px; font-weight: 700; color: #8A8F9C;
+  letter-spacing: 0.5px; text-transform: uppercase; margin-top: 4px;
+}
+
+.section {
+  margin: 0 20px 16px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  border: 1px solid #F0F0EB;
+  overflow: hidden;
+}
+.section-label {
+  font-size: 12px; font-weight: 700; color: #8A8F9C;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 18px 20px 8px;
+}
+.row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 20px; border-top: 1px solid #FAFAF7;
+}
+.row:first-of-type { border-top: none; }
+.row-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: #FAFAF7;
+  display: flex; align-items: center; justify-content: center;
+  color: #1A1F2E; flex-shrink: 0;
+}
+.row-icon svg { width: 18px; height: 18px; }
+.row-info { flex: 1; min-width: 0; }
+.row-label {
+  font-size: 11px; font-weight: 700; color: #8A8F9C;
+  letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 2px;
+}
+.row-valor {
+  font-size: 15px; font-weight: 700; color: #1A1F2E;
+  word-wrap: break-word;
+}
+.row-valor.empty { color: #B0B4BF; font-weight: 600; }
+.row-valor.placa { font-family: monospace; letter-spacing: 1.5px; font-size: 16px; }
+
+.doc-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 20px; border-top: 1px solid #FAFAF7;
+}
+.doc-row:first-of-type { border-top: none; }
+.doc-icon {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: #FAFAF7;
+  display: flex; align-items: center; justify-content: center;
+  color: #8A8F9C; flex-shrink: 0;
+}
+.doc-icon svg { width: 20px; height: 20px; }
+.doc-info { flex: 1; min-width: 0; }
+.doc-titulo { font-size: 14px; font-weight: 700; color: #1A1F2E; margin-bottom: 2px; }
+.doc-estado {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.5px; text-transform: uppercase;
+  color: #B0B4BF;
+}
+.doc-estado.ok { color: #166534; }
+.doc-estado.pend { color: #92400E; }
+.doc-estado.falta { color: #B0B4BF; }
+.doc-badge {
+  padding: 5px 10px; border-radius: 10px;
+  font-size: 10px; font-weight: 800;
+  letter-spacing: 0.5px; text-transform: uppercase;
+  flex-shrink: 0;
+}
+.doc-badge.ok { background: rgba(164,214,94,0.35); color: #166534; }
+.doc-badge.pend { background: #FEF3C7; color: #92400E; }
+.doc-badge.falta { background: #F0F0EB; color: #8A8F9C; }
+
+.opt-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 20px; cursor: pointer;
+  border-top: 1px solid #FAFAF7;
+  background: transparent;
+  border-left: none; border-right: none;
+  width: 100%; font-family: inherit; text-align: left;
+}
+.opt-row:first-of-type { border-top: none; }
+.opt-row:active { background: #FAFAF7; }
+.opt-row .row-icon { background: rgba(164,214,94,0.15); }
+.opt-titulo { flex: 1; font-size: 15px; font-weight: 700; color: #1A1F2E; }
+.opt-sub { font-size: 11px; color: #8A8F9C; font-weight: 600; margin-top: 2px; }
+.opt-arrow { width: 18px; height: 18px; color: #B0B4BF; flex-shrink: 0; }
+
+.logout-wrap { margin: 8px 20px 20px; }
+.btn-logout {
+  width: 100%; padding: 16px;
+  background: #FFFFFF; border: 1px solid #F0F0EB;
+  border-radius: 16px; color: #E5484D;
+  font-size: 15px; font-weight: 700;
+  font-family: inherit; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.btn-logout:active { background: #FEF2F2; }
+.btn-logout svg { width: 18px; height: 18px; }
+
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #FFFFFF; border-top: 1px solid #F0F0EB;
+  display: flex; justify-content: space-around;
+  padding: 8px 0 calc(8px + env(safe-area-inset-bottom, 0));
+  z-index: 100;
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 6px 4px; text-decoration: none; color: #8A8F9C;
+  border: none; background: transparent; cursor: pointer; font-family: inherit;
+}
+.nav-item.active { color: #1A1F2E; }
+.nav-item svg { width: 22px; height: 22px; }
+.nav-item span { font-size: 10px; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <button class="back-btn" onclick="location.href='09-Panel-Transportista.html'" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </button>
+  <div class="top-title">Mi perfil</div>
+  <button class="edit-btn" type="button" onclick="location.href='18-Editar-Perfil.html'">Editar</button>
+</div>
+
+<div class="avatar-section">
+  <div class="avatar-box" id="avatarBox">
+    <span id="avatarLetra">?</span>
+    <div class="avatar-cam" onclick="location.href='18-Editar-Perfil.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
+        <circle cx="12" cy="13" r="4"/>
+      </svg>
+    </div>
+  </div>
+  <div class="avatar-nombre" id="avatarNombre"></div>
+  <div class="avatar-pills">
+    <span class="pill rol" id="pillRol">Transportista</span>
+    <span class="pill estado" id="pillEstado">Sin verificar</span>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat-card">
+    <div class="stat-value" id="statViajes">0</div>
+    <div class="stat-label">Viajes</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" id="statRating">—</div>
+    <div class="stat-label">Rating</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" id="statSaldo">$0</div>
+    <div class="stat-label">Saldo</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">Datos personales</div>
+  <div class="row">
+    <div class="row-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </div>
+    <div class="row-info">
+      <div class="row-label">Nombre completo</div>
+      <div class="row-valor empty" id="infoNombre">Sin registrar</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="row-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/>
+      </svg>
+    </div>
+    <div class="row-info">
+      <div class="row-label">Teléfono</div>
+      <div class="row-valor empty" id="infoTelefono">Sin registrar</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="row-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v16"/>
+      </svg>
+    </div>
+    <div class="row-info">
+      <div class="row-label">Documento</div>
+      <div class="row-valor empty" id="infoDocumento">Sin registrar</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="row-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16v16H4z"/><path d="M8 2v4M16 2v4M4 10h16"/>
+      </svg>
+    </div>
+    <div class="row-info">
+      <div class="row-label">Fecha de nacimiento</div>
+      <div class="row-valor empty" id="infoFecha">Sin registrar</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">Vehículo</div>
+  <div class="row">
+    <div class="row-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/>
+        <path d="M15 6h-3l-3 8"/>
+      </svg>
+    </div>
+    <div class="row-info">
+      <div class="row-label">Tipo</div>
+      <div class="row-valor empty" id="infoVehiculoTipo">Sin registrar</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="row-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="6" width="18" height="12" rx="2"/>
+        <path d="M7 10h2M11 10h6M7 14h10"/>
+      </svg>
+    </div>
+    <div class="row-info">
+      <div class="row-label">Placa</div>
+      <div class="row-valor empty placa" id="infoPlaca">— — —</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="row-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>
+      </svg>
+    </div>
+    <div class="row-info">
+      <div class="row-label">Marca y modelo</div>
+      <div class="row-valor empty" id="infoMarca">Sin registrar</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="row-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+      </svg>
+    </div>
+    <div class="row-info">
+      <div class="row-label">Año</div>
+      <div class="row-valor empty" id="infoAnio">Sin registrar</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">Documentos</div>
+
+  <div class="doc-row" data-doc="cedula">
+    <div class="doc-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="16" rx="2"/>
+        <circle cx="9" cy="10" r="2"/>
+        <path d="M15 8h4M15 12h4M5 16h14"/>
+      </svg>
+    </div>
+    <div class="doc-info">
+      <div class="doc-titulo">Cédula de identidad</div>
+      <div class="doc-estado falta" id="docCedulaEstado">No subida</div>
+    </div>
+    <div class="doc-badge falta" id="docCedulaBadge">Falta</div>
+  </div>
+
+  <div class="doc-row" data-doc="licencia">
+    <div class="doc-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="5" width="18" height="14" rx="2"/>
+        <circle cx="8" cy="11" r="2"/>
+        <path d="M13 9h5M13 13h5M5 16h14"/>
+      </svg>
+    </div>
+    <div class="doc-info">
+      <div class="doc-titulo">Licencia de conducir</div>
+      <div class="doc-estado falta" id="docLicenciaEstado">No subida</div>
+    </div>
+    <div class="doc-badge falta" id="docLicenciaBadge">Falta</div>
+  </div>
+
+  <div class="doc-row" data-doc="papeles">
+    <div class="doc-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <path d="M14 2v6h6M9 13h6M9 17h4"/>
+      </svg>
+    </div>
+    <div class="doc-info">
+      <div class="doc-titulo">Papeles del vehículo</div>
+      <div class="doc-estado falta" id="docPapelesEstado">No subidos</div>
+    </div>
+    <div class="doc-badge falta" id="docPapelesBadge">Falta</div>
+  </div>
+
+  <div class="doc-row" data-doc="soat">
+    <div class="doc-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6z"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+    </div>
+    <div class="doc-info">
+      <div class="doc-titulo">SOAT / Seguro</div>
+      <div class="doc-estado falta" id="docSoatEstado">No subido</div>
+    </div>
+    <div class="doc-badge falta" id="docSoatBadge">Falta</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">Opciones</div>
+  <button class="opt-row" type="button" onclick="location.href='19a-Subir-Documentos.html'">
+    <div class="row-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+      </svg>
+    </div>
+    <div class="opt-titulo">Subir documentos
+      <div class="opt-sub">Verifica tu cuenta más rápido</div>
+    </div>
+    <svg class="opt-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 18l6-6-6-6"/>
+    </svg>
+  </button>
+  <button class="opt-row" type="button" onclick="location.href='11-Mis-Viajes.html'">
+    <div class="row-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/>
+      </svg>
+    </div>
+    <div class="opt-titulo">Mi historial
+      <div class="opt-sub">Todos los viajes</div>
+    </div>
+    <svg class="opt-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 18l6-6-6-6"/>
+    </svg>
+  </button>
+  <button class="opt-row" type="button" onclick="location.href='13-Billetera.html'">
+    <div class="row-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2v-5"/>
+        <circle cx="17" cy="12" r="1.5"/>
+      </svg>
+    </div>
+    <div class="opt-titulo">Mi billetera
+      <div class="opt-sub">Ganancias y retiros</div>
+    </div>
+    <svg class="opt-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 18l6-6-6-6"/>
+    </svg>
+  </button>
+  <button class="opt-row" type="button" onclick="contactar()">
+    <div class="row-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+      </svg>
+    </div>
+    <div class="opt-titulo">Ayuda y soporte
+      <div class="opt-sub">Contáctanos por WhatsApp</div>
+    </div>
+    <svg class="opt-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 18l6-6-6-6"/>
+    </svg>
+  </button>
+</div>
+
+<div class="logout-wrap">
+  <button class="btn-logout" type="button" onclick="cerrarSesion()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
+    </svg>
+    Cerrar sesión
+  </button>
+</div>
+
+<nav class="bottom-nav">
+  <a href="04-Home-Transportista.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 12l9-9 9 9"/>
+      <path d="M5 10v10a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V10"/>
+    </svg>
+    <span>Inicio</span>
+  </a>
+  <a href="09-Panel-Transportista.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1"/>
+      <rect x="14" y="3" width="7" height="7" rx="1"/>
+      <rect x="3" y="14" width="7" height="7" rx="1"/>
+      <rect x="14" y="14" width="7" height="7" rx="1"/>
+    </svg>
+    <span>Panel</span>
+  </a>
+  <a href="11-Mis-Viajes.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/>
+    </svg>
+    <span>Historial</span>
+  </a>
+  <a href="13-Billetera.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2v-5"/>
+      <circle cx="17" cy="12" r="1.5"/>
+    </svg>
+    <span>Billetera</span>
+  </a>
+  <a href="10-Perfil-Transportista.html" class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+    </svg>
+    <span>Perfil</span>
+  </a>
+</nav><!-- BOTÓN ERI -->
+<button
+  onclick="document.getElementById('eriOverlay').style.display='flex';"
+  style="position:fixed;bottom:100px;right:20px;width:60px;height:60px;border-radius:50%;background:#FFFFFF;border:2px solid #A4D65E;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(164,214,94,0.5);z-index:99999;padding:0;"
+  type="button"
+  aria-label="Eri">
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;pointer-events:none;">
+    <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#A4D65E"/>
+    <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#1A1F2E"/>
+  </svg>
+</button>
+
+<!-- PANEL ERI (con 100dvh + alturas fijas) -->
+<div id="eriOverlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100dvh;background:#FAFAF7;z-index:999999;flex-direction:column;overflow:hidden;">
+
+  <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:#FFFFFF;border-bottom:1px solid #F0F0EB;padding-top:calc(14px + env(safe-area-inset-top, 0));flex-shrink:0;">
+    <div style="width:38px;height:38px;border-radius:50%;background:#A4D65E;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <svg viewBox="0 0 64 64" fill="none" style="width:22px;height:22px;">
+        <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#1A1F2E"/>
+        <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#A4D65E"/>
+      </svg>
+    </div>
+    <div style="flex:1;">
+      <div style="font-size:16px;font-weight:800;color:#1A1F2E;">Eri</div>
+      <div style="font-size:11px;color:#22C55E;font-weight:600;">En línea</div>
+    </div>
+    <button onclick="document.getElementById('eriOverlay').style.display='none';" type="button" style="width:40px;height:40px;border:none;background:transparent;cursor:pointer;color:#8A8F9C;display:flex;align-items:center;justify-content:center;border-radius:50%;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;pointer-events:none;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <div id="eriChat" style="flex:1 1 auto;overflow-y:auto;padding:18px 16px 12px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch;min-height:0;">
+    <div style="max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;background:#FFFFFF;color:#1A1F2E;border:1px solid #F0F0EB;border-bottom-left-radius:6px;align-self:flex-start;">
+      ¡Epale jefe! Soy Eri. Sube tus documentos para verificarte más rápido.
+    </div>
+  </div>
+
+  <div style="background:#FFFFFF;border-top:1px solid #F0F0EB;padding:10px 12px calc(10px + env(safe-area-inset-bottom, 0));display:flex;gap:8px;align-items:flex-end;flex-shrink:0;min-height:64px;">
+    <textarea id="eriInput" placeholder="Escríbele a Eri..." rows="1" style="flex:1;border:2px solid #F0F0EB;border-radius:22px;padding:11px 16px;font-size:15px;font-family:inherit;color:#1A1F2E;outline:none;resize:none;max-height:100px;line-height:1.4;background:#FFFFFF;min-height:44px;"></textarea>
+    <button id="eriMic" type="button" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#F4F4F0;color:#1A1F2E;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;pointer-events:none;">
+        <rect x="9" y="2" width="6" height="12" rx="3"/>
+        <path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3"/>
+      </svg>
+    </button>
+    <button id="eriSend" type="button" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#1A1F2E;color:#FFFFFF;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;pointer-events:none;"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   PERFIL TRANSPORTISTA · Cargar datos reales
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  var perfil = null;
+  try {
+    var raw = localStorage.getItem('kraze_transportista') || localStorage.getItem('kraze_user');
+    if (raw) perfil = JSON.parse(raw);
+  } catch (e) {}
+
+  if (!perfil) return;
+
+  if (perfil.nombre) {
+    document.getElementById('avatarNombre').textContent = perfil.nombre;
+    document.getElementById('infoNombre').textContent = perfil.nombre;
+    document.getElementById('infoNombre').classList.remove('empty');
+    var inicial = perfil.nombre.trim().charAt(0).toUpperCase();
+    document.getElementById('avatarLetra').textContent = inicial;
+    document.getElementById('avatarBox').classList.add('filled');
+  }
+
+  if (perfil.rol) document.getElementById('pillRol').textContent = perfil.rol;
+
+  var est = document.getElementById('pillEstado');
+  if (perfil.verificado === true) {
+    est.textContent = 'Verificado';
+    est.className = 'pill estado verificado';
+  } else if (perfil.documentosEnviados === true) {
+    est.textContent = 'En revisión';
+    est.className = 'pill estado pendiente';
+  }
+
+  if (perfil.telefono) {
+    document.getElementById('infoTelefono').textContent = perfil.telefono;
+    document.getElementById('infoTelefono').classList.remove('empty');
+  }
+  if (perfil.documento) {
+    document.getElementById('infoDocumento').textContent = perfil.documento;
+    document.getElementById('infoDocumento').classList.remove('empty');
+  }
+  if (perfil.fechaNacimiento) {
+    document.getElementById('infoFecha').textContent = perfil.fechaNacimiento;
+    document.getElementById('infoFecha').classList.remove('empty');
+  }
+
+  if (perfil.vehiculo) {
+    var v = perfil.vehiculo;
+    if (v.tipo) {
+      document.getElementById('infoVehiculoTipo').textContent = v.tipo;
+      document.getElementById('infoVehiculoTipo').classList.remove('empty');
+    }
+    if (v.placa) {
+      document.getElementById('infoPlaca').textContent = v.placa;
+      document.getElementById('infoPlaca').classList.remove('empty');
+      document.getElementById('infoPlaca').classList.add('placa');
+    }
+    if (v.marca) {
+      document.getElementById('infoMarca').textContent = v.marca;
+      document.getElementById('infoMarca').classList.remove('empty');
+    }
+    if (v.anio) {
+      document.getElementById('infoAnio').textContent = v.anio;
+      document.getElementById('infoAnio').classList.remove('empty');
+    }
+  }
+
+  if (typeof perfil.viajes === 'number') document.getElementById('statViajes').textContent = perfil.viajes;
+  if (typeof perfil.rating === 'number') document.getElementById('statRating').textContent = perfil.rating.toFixed(1);
+  try {
+    var saldo = parseFloat(localStorage.getItem('kraze_saldo') || '0');
+    if (!isNaN(saldo)) document.getElementById('statSaldo').textContent = '$' + saldo.toFixed(0);
+  } catch (e) {}
+
+  var docs = perfil.documentos || {};
+  actualizarDoc('cedula', docs.cedula);
+  actualizarDoc('licencia', docs.licencia);
+  actualizarDoc('papeles', docs.papeles);
+  actualizarDoc('soat', docs.soat);
+
+  function actualizarDoc(tipo, estado) {
+    var idEstado = 'doc' + tipo.charAt(0).toUpperCase() + tipo.slice(1) + 'Estado';
+    var idBadge = 'doc' + tipo.charAt(0).toUpperCase() + tipo.slice(1) + 'Badge';
+    var elEst = document.getElementById(idEstado);
+    var elBadge = document.getElementById(idBadge);
+    if (!elEst || !elBadge) return;
+
+    if (estado === 'aprobado') {
+      elEst.textContent = 'Aprobada'; elEst.className = 'doc-estado ok';
+      elBadge.textContent = 'OK'; elBadge.className = 'doc-badge ok';
+    } else if (estado === 'enviado') {
+      elEst.textContent = 'En revisión'; elEst.className = 'doc-estado pend';
+      elBadge.textContent = 'Pendiente'; elBadge.className = 'doc-badge pend';
+    } else {
+      elEst.textContent = 'No subida'; elEst.className = 'doc-estado falta';
+      elBadge.textContent = 'Falta'; elBadge.className = 'doc-badge falta';
+    }
+  }
+
+  console.log('[Perfil Transportista] datos cargados', perfil);
+})();
+
+window.contactar = function () {
+  var soporte = '+584121499545';
+  if (confirm('¿Escribir al soporte de Kraze por WhatsApp?')) {
+    location.href = 'https://wa.me/' + soporte.replace(/[^0-9]/g, '');
+  }
+};
+
+window.cerrarSesion = function () {
+  if (!confirm('¿Cerrar sesión?')) return;
+  localStorage.removeItem('kraze_user');
+  localStorage.removeItem('kraze_perfil');
+  localStorage.removeItem('kraze_transportista');
+  localStorage.removeItem('kraze_transportista_online');
+  localStorage.removeItem('kraze_viaje_actual');
+  location.href = '02-Login.html';
+};
+
+/* ═══════════════════════════════════════════════════════════
+   ERI · LÓGICA (con voz)
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  var API = 'https://moto-llave-backend.vercel.app/api/claude';
+  var chat = document.getElementById('eriChat');
+  var input = document.getElementById('eriInput');
+  var sendBtn = document.getElementById('eriSend');
+  var micBtn = document.getElementById('eriMic');
+  var escribiendo = false;
+  var grabando = false;
+  var rec = null;
+
+  function agregarMsg(tipo, texto) {
+    var m = document.createElement('div');
+    m.style.cssText = 'max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;word-wrap:break-word;';
+    if (tipo === 'user') {
+      m.style.background = '#1A1F2E';
+      m.style.color = '#FFFFFF';
+      m.style.borderBottomRightRadius = '6px';
+      m.style.alignSelf = 'flex-end';
+    } else {
+      m.style.background = '#FFFFFF';
+      m.style.color = '#1A1F2E';
+      m.style.border = '1px solid #F0F0EB';
+      m.style.borderBottomLeftRadius = '6px';
+      m.style.alignSelf = 'flex-start';
+    }
+    m.textContent = texto;
+    chat.appendChild(m);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function enviar() {
+    var texto = input.value.trim();
+    if (!texto || escribiendo) return;
+    agregarMsg('user', texto);
+    input.value = '';
+    escribiendo = true;
+    sendBtn.disabled = true;
+
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ texto: texto })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var resp = d && (d.respuesta || d.mensaje);
+      if (resp) { agregarMsg('eri', resp); hablar(resp); }
+      else { agregarMsg('eri', 'Ups, no entendí.'); }
+    })
+    .catch(function () { agregarMsg('eri', 'Ups, error de conexión.'); })
+    .then(function () { escribiendo = false; sendBtn.disabled = false; });
+  }
+
+  sendBtn.onclick = enviar;
+
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviar(); }
+  });
+
+  function iniciarVoz() {
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { alert('Tu navegador no soporta reconocimiento de voz.'); return; }
+    if (grabando) { try { rec.stop(); } catch (e) {} return; }
+
+    rec = new SR();
+    rec.lang = 'es-VE';
+    rec.continuous = false;
+    rec.interimResults = true;
+
+    rec.onstart = function () {
+      grabando = true;
+      micBtn.style.background = '#E5484D';
+      micBtn.style.color = '#FFFFFF';
+    };
+    rec.onresult = function (e) {
+      var t = '';
+      for (var i = e.resultIndex; i < e.results.length; i++) { t += e.results[i][0].transcript; }
+      input.value = t;
+    };
+    rec.onerror = function () {
+      grabando = false;
+      micBtn.style.background = '#F4F4F0';
+      micBtn.style.color = '#1A1F2E';
+    };
+    rec.onend = function () {
+      grabando = false;
+      micBtn.style.background = '#F4F4F0';
+      micBtn.style.color = '#1A1F2E';
+      if (input.value.trim()) setTimeout(enviar, 300);
+    };
+
+    try { rec.start(); } catch (e) {}
+  }
+
+  micBtn.onclick = iniciarVoz;
+
+  function hablar(texto) {
+    if (!window.speechSynthesis) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(texto);
+      u.lang = 'es-VE';
+      u.rate = 1.0;
+      u.pitch = 1.0;
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+
+  console.log('[Eri] listo con voz');
+})();
+</script>
+</body>
+</html>

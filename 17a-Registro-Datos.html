@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FAFAF7">
+  <meta name="author" content="Erian C.A.">
+  <title>Kraze · Tus datos</title>
+
+  <!-- ============================================================
+       KRAZE · Registro de Datos
+       © 2026 Erian C.A. — Todos los derechos reservados
+       Archivo: 17a-Registro-Datos.html
+       ============================================================ -->
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      min-height: 100vh;
+      background-color: #FAFAF7;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1A1F2E;
+    }
+
+    body {
+      padding: 24px 24px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .top-row {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: transparent;
+      color: #1A1F2E;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-left: -8px;
+      text-decoration: none;
+    }
+    .back-btn:active { background-color: rgba(0,0,0,0.05); }
+
+    .step-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #8A8F80;
+    }
+
+    .progress {
+      width: 100%;
+      max-width: 440px;
+      height: 4px;
+      background-color: #E5E5DE;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background-color: #A4D65E;
+      width: 25%;
+      border-radius: 2px;
+      transition: width 0.3s;
+    }
+
+    .title {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      color: #1A1F2E;
+      margin-bottom: 6px;
+      align-self: flex-start;
+      max-width: 440px;
+      width: 100%;
+    }
+
+    .sub {
+      font-size: 14px;
+      color: #8A8F80;
+      margin-bottom: 28px;
+      align-self: flex-start;
+      max-width: 440px;
+      width: 100%;
+      line-height: 1.45;
+    }
+
+    .form {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #4A4A4A;
+      padding-left: 2px;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 12px;
+      padding: 15px 16px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #1A1F2E;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+      min-height: 52px;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: #A4D65E;
+      box-shadow: 0 0 0 3px rgba(164, 214, 94, 0.18);
+    }
+
+    .cedula-row {
+      display: flex;
+      gap: 8px;
+    }
+    .cedula-row select {
+      flex: 0 0 70px;
+      padding-left: 14px;
+      padding-right: 14px;
+      text-align: center;
+      font-weight: 700;
+    }
+    .cedula-row input {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .phone-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .phone-prefix {
+      flex: 0 0 auto;
+      padding: 15px 14px;
+      background-color: #F5F5F0;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1A1F2E;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+    }
+    .phone-row input { flex: 1; min-width: 0; }
+
+    .birth-row {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 1.2fr;
+      gap: 8px;
+    }
+    .birth-row select { padding-left: 12px; padding-right: 28px; }
+
+    .btn-continue {
+      width: 100%;
+      max-width: 440px;
+      background-color: #A4D65E;
+      color: #1A1F2E;
+      border: none;
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 54px;
+      margin-top: 24px;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    .btn-continue:active { transform: scale(0.98); }
+    .btn-continue:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .error-msg {
+      background-color: #FEE2E2;
+      color: #B91C1C;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      display: none;
+      max-width: 440px;
+      width: 100%;
+    }
+    .error-msg.show { display: block; }
+  </style>
+</head>
+<body>
+
+  <div class="top-row">
+    <a href="03-Seleccion-Rol.html" class="back-btn" aria-label="Volver">←</a>
+    <div class="step-label">Paso 1 de 4</div>
+  </div>
+
+  <div class="progress">
+    <div class="progress-fill"></div>
+  </div>
+
+  <h1 class="title" id="titulo">Cuéntanos de ti</h1>
+  <p class="sub" id="subtitulo">Estos datos nos ayudan a verificar tu identidad.</p>
+
+  <form class="form" id="form-datos" autocomplete="on">
+
+    <div class="error-msg" id="error-msg"></div>
+
+    <div class="field">
+      <label for="nombre">Nombre completo</label>
+      <input
+        type="text"
+        id="nombre"
+        name="nombre"
+        placeholder="Ej: María González"
+        autocomplete="name"
+        required
+      >
+    </div>
+
+    <div class="field">
+      <label for="cedula-num">Cédula de identidad</label>
+      <div class="cedula-row">
+        <select id="cedula-tipo" name="cedula-tipo">
+          <option value="V">V</option>
+          <option value="E">E</option>
+          <option value="J">J</option>
+        </select>
+        <input
+          type="tel"
+          id="cedula-num"
+          name="cedula-num"
+          placeholder="12345678"
+          inputmode="numeric"
+          pattern="[0-9]{6,9}"
+          autocomplete="off"
+          required
+        >
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="telefono">Teléfono</label>
+      <div class="phone-row">
+        <div class="phone-prefix">+58</div>
+        <input
+          type="tel"
+          id="telefono"
+          name="telefono"
+          placeholder="4121234567"
+          inputmode="numeric"
+          pattern="[0-9]{10}"
+          autocomplete="tel"
+          required
+        >
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Fecha de nacimiento</label>
+      <div class="birth-row">
+        <select id="birth-day" name="birth-day" required>
+          <option value="">Día</option>
+        </select>
+        <select id="birth-month" name="birth-month" required>
+          <option value="">Mes</option>
+          <option value="1">Enero</option>
+          <option value="2">Febrero</option>
+          <option value="3">Marzo</option>
+          <option value="4">Abril</option>
+          <option value="5">Mayo</option>
+          <option value="6">Junio</option>
+          <option value="7">Julio</option>
+          <option value="8">Agosto</option>
+          <option value="9">Septiembre</option>
+          <option value="10">Octubre</option>
+          <option value="11">Noviembre</option>
+          <option value="12">Diciembre</option>
+        </select>
+        <select id="birth-year" name="birth-year" required>
+          <option value="">Año</option>
+        </select>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-continue" id="btn-continue">
+      Continuar
+    </button>
+
+  </form>
+
+  <script src="js/nav.js"></script>
+
+  <script>
+  /* ============================================================
+     KRAZE · Registro de Datos
+     © 2026 Erian C.A. — Todos los derechos reservados
+     ============================================================ */
+  (function () {
+    'use strict';
+
+    /* --- Leer rol desde URL --- */
+    function leerRolDeURL() {
+      const params = new URLSearchParams(window.location.search);
+      const rol = params.get('rol');
+      if (rol === 'pasajero' || rol === 'transportista') return rol;
+
+      const guardado = Kraze.nav.getRol();
+      if (guardado) return guardado;
+
+      return 'pasajero';
+    }
+
+    const ROL = leerRolDeURL();
+    Kraze.nav.setRol(ROL);
+
+    /* --- Adaptar textos según rol --- */
+    function adaptarTextos() {
+      const titulo    = document.getElementById('titulo');
+      const subtitulo = document.getElementById('subtitulo');
+
+      if (ROL === 'transportista') {
+        titulo.textContent    = 'Datos del conductor';
+        subtitulo.textContent = 'Necesitamos verificar tu identidad antes de continuar.';
+      } else {
+        titulo.textContent    = 'Cuéntanos de ti';
+        subtitulo.textContent = 'Estos datos nos ayudan a verificar tu identidad.';
+      }
+    }
+
+    /* --- Llenar días y años --- */
+    function llenarSelectores() {
+      const daySel  = document.getElementById('birth-day');
+      const yearSel = document.getElementById('birth-year');
+
+      for (let d = 1; d <= 31; d++) {
+        const opt = document.createElement('option');
+        opt.value = d;
+        opt.textContent = d;
+        daySel.appendChild(opt);
+      }
+
+      const currentYear = new Date().getFullYear();
+      for (let y = currentYear - 15; y >= currentYear - 80; y--) {
+        const opt = document.createElement('option');
+        opt.value = y;
+        opt.textContent = y;
+        yearSel.appendChild(opt);
+      }
+    }
+
+    /* --- Mostrar error --- */
+    function mostrarError(msg) {
+      const box = document.getElementById('error-msg');
+      box.textContent = msg;
+      box.classList.add('show');
+      setTimeout(function () { box.classList.remove('show'); }, 5000);
+    }
+
+    /* --- Envío --- */
+    const form = document.getElementById('form-datos');
+    const btn  = document.getElementById('btn-continue');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const nombre     = document.getElementById('nombre').value.trim();
+      const cedulaTipo = document.getElementById('cedula-tipo').value;
+      const cedulaNum  = document.getElementById('cedula-num').value.trim();
+      const telefono   = document.getElementById('telefono').value.trim();
+      const birthDay   = document.getElementById('birth-day').value;
+      const birthMonth = document.getElementById('birth-month').value;
+      const birthYear  = document.getElementById('birth-year').value;
+
+      if (nombre.length < 3) {
+        return mostrarError('Escribe tu nombre completo.');
+      }
+      if (!/^[0-9]{6,9}$/.test(cedulaNum)) {
+        return mostrarError('La cédula debe tener entre 6 y 9 dígitos.');
+      }
+      if (!/^[0-9]{10}$/.test(telefono)) {
+        return mostrarError('El teléfono debe tener 10 dígitos (sin el +58).');
+      }
+      if (!birthDay || !birthMonth || !birthYear) {
+        return mostrarError('Completa tu fecha de nacimiento.');
+      }
+
+      /* --- Validar 18+ --- */
+      const hoy = new Date();
+      const fechaNac = new Date(birthYear, birthMonth - 1, birthDay);
+      let edad = hoy.getFullYear() - fechaNac.getFullYear();
+      const mes = hoy.getMonth() - fechaNac.getMonth();
+      if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) edad--;
+
+      if (edad < 18) {
+        return mostrarError('Debes ser mayor de 18 años para usar Kraze.');
+      }
+
+      /* --- Guardar --- */
+      const datos = {
+        nombre:      nombre,
+        cedulaTipo:  cedulaTipo,
+        cedulaNum:   cedulaNum,
+        cedulaFull:  cedulaTipo + '-' + cedulaNum,
+        telefono:    '+58' + telefono,
+        telefonoRaw: telefono,
+        birthDay:    birthDay,
+        birthMonth:  birthMonth,
+        birthYear:   birthYear,
+        birthFecha:  birthYear + '-' + String(birthMonth).padStart(2,'0') + '-' + String(birthDay).padStart(2,'0'),
+        edad:        edad,
+        rol:         ROL
+      };
+
+      Kraze.nav.store.set('kraze_registro_datos', datos);
+
+      /* --- Siguiente paso --- */
+      btn.disabled = true;
+      btn.textContent = 'Guardando...';
+
+      setTimeout(function () {
+        let destino;
+        if (ROL === 'transportista') {
+          destino = '17b-Registro-Vehiculo.html?rol=transportista';
+        } else {
+          destino = '17d-Registro-Confirmar.html?rol=pasajero';
+        }
+        Kraze.nav.irA(destino);
+      }, 400);
+    });
+
+    adaptarTextos();
+    llenarSelectores();
+
+  })();
+  </script>
+
+</body>
+</html>

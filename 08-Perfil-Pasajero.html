@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="color-scheme" content="only light">
+<meta name="supported-color-schemes" content="only light">
+<meta name="theme-color" content="#A4D65E">
+<title>Kraze · Mi perfil</title>
+<style>
+:root {
+  color-scheme: only light;
+  --verde: #A4D65E;
+  --verde-osc: #8BC34A;
+  --verde-claro: #EEF7DC;
+  --wordmark: #1A1F2E;
+  --fondo: #FAFAF7;
+  --blanco: #FFFFFF;
+  --g1: #F2F2EE;
+  --g2: #E4E4DE;
+  --g3: #9A9A94;
+  --g4: #4A4A4A;
+  --rojo: #E53935;
+  --rojo-claro: #FDECEC;
+  --amarillo: #F5A623;
+  --sombra-1: 0 2px 8px rgba(26,31,46,.06);
+  --sombra-2: 0 6px 24px rgba(26,31,46,.12);
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-full: 999px;
+}
+html { forced-color-adjust: none; -webkit-text-size-adjust: 100%; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--fondo);
+  color: var(--wordmark);
+  overflow-x: hidden;
+  min-height: 100dvh;
+  line-height: 1.4;
+  padding-bottom: 150px;
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, textarea { font-family: inherit; font-size: 16px; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+/* ─────────── HEADER ─────────── */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  height: 60px; background: var(--fondo);
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 16px;
+}
+.header-back {
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  border-radius: var(--r-full);
+  background: var(--blanco);
+  box-shadow: var(--sombra-1);
+}
+.header-title {
+  flex: 1;
+  text-align: center;
+  font-size: 17px; font-weight: 700;
+}
+.header-editar {
+  font-size: 14px; font-weight: 600;
+  color: var(--wordmark);
+  padding: 8px 12px;
+  border-radius: var(--r-full);
+}
+.header-editar:active { background: var(--g1); }
+
+/* ─────────── AVATAR ─────────── */
+.avatar-seccion {
+  text-align: center;
+  padding: 10px 16px 20px;
+}
+.avatar-wrap {
+  position: relative;
+  width: 130px; height: 130px;
+  margin: 0 auto 14px;
+}
+.avatar-img {
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--g1);
+  border: 4px solid var(--blanco);
+  box-shadow: 0 4px 16px rgba(26,31,46,.1);
+  display: none;
+}
+.avatar-placeholder {
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  background: var(--g1);
+  border: 4px solid var(--blanco);
+  box-shadow: 0 4px 16px rgba(26,31,46,.1);
+  display: grid; place-items: center;
+  color: var(--g3);
+  font-size: 60px;
+  font-weight: 700;
+}
+.avatar-cam {
+  position: absolute;
+  right: 0; bottom: 0;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--wordmark);
+  color: var(--blanco);
+  display: grid; place-items: center;
+  border: 3px solid var(--fondo);
+  box-shadow: var(--sombra-1);
+}
+.avatar-cam svg { width: 18px; height: 18px; }
+.rol-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  background: var(--g1);
+  color: var(--g4);
+  border-radius: var(--r-full);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+/* ─────────── STATS ─────────── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 0 16px 14px;
+}
+.stat {
+  background: var(--blanco);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sombra-1);
+  padding: 18px 8px;
+  text-align: center;
+}
+.stat-valor {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--wordmark);
+}
+.stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--g3);
+  margin-top: 4px;
+}
+
+/* ─────────── CARD DATOS ─────────── */
+.card {
+  background: var(--blanco);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sombra-1);
+  margin: 0 16px 14px;
+  padding: 18px 16px;
+}
+.card-label {
+  font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .06em;
+  color: var(--g3); margin-bottom: 8px;
+}
+.dato {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--g2);
+}
+.dato:last-child { border-bottom: none; }
+.dato-icon {
+  width: 40px; height: 40px;
+  border-radius: var(--r-sm);
+  background: var(--verde-claro);
+  display: grid; place-items: center;
+  flex-shrink: 0;
+}
+.dato-icon svg { width: 18px; height: 18px; color: var(--wordmark); }
+.dato-texto { flex: 1; min-width: 0; }
+.dato-label {
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .04em;
+  color: var(--g3);
+}
+.dato-valor {
+  font-size: 15px; font-weight: 600;
+  color: var(--wordmark);
+  margin-top: 3px;
+  word-break: break-word;
+}
+.dato-valor.vacio { color: var(--g3); font-weight: 400; }
+
+/* ─────────── NAV INFERIOR ─────────── */
+.nav-inferior {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: var(--blanco);
+  border-top: 1px solid var(--g2);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+  z-index: 100;
+  box-shadow: 0 -2px 12px rgba(26,31,46,.04);
+}
+.nav-item {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 3px;
+  padding: 6px 4px;
+  color: var(--g3);
+  transition: color .15s;
+}
+.nav-item.activo { color: var(--wordmark); }
+.nav-item svg { width: 22px; height: 22px; }
+.nav-item span {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: -.01em;
+}
+
+/* ─────────── ERI FAB ─────────── */
+.eri-fab {
+  position: fixed; right: 16px;
+  bottom: calc(80px + env(safe-area-inset-bottom));
+  width: 56px; height: 56px;
+  border-radius: var(--r-full);
+  background: var(--verde);
+  display: grid; place-items: center;
+  box-shadow: 0 8px 24px rgba(164,214,94,.45);
+  z-index: 900;
+  transition: transform .15s;
+}
+.eri-fab:active { transform: scale(.92); }
+.eri-fab svg { width: 28px; height: 34px; display: block; }
+
+/* ─────────── PANEL ERI ─────────── */
+.eri-panel {
+  position: fixed; inset: 0; height: 100dvh;
+  background: var(--fondo);
+  display: none; flex-direction: column;
+  z-index: 9999;
+}
+.eri-panel.abierto { display: flex; }
+.eri-header {
+  height: 60px; background: var(--blanco);
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 16px; box-shadow: var(--sombra-1);
+  flex-shrink: 0;
+}
+.eri-avatar-h {
+  width: 38px; height: 38px;
+  border-radius: var(--r-full);
+  background: var(--verde);
+  display: grid; place-items: center;
+  font-weight: 800; font-size: 16px;
+  color: var(--wordmark);
+}
+.eri-titulo { flex: 1; }
+.eri-titulo strong { font-size: 15px; font-weight: 700; display: block; }
+.eri-estado { font-size: 12px; color: var(--verde-osc); font-weight: 600; }
+.eri-close {
+  width: 36px; height: 36px;
+  display: grid; place-items: center;
+  border-radius: var(--r-full);
+  background: var(--g1);
+}
+.eri-close svg { width: 18px; height: 18px; }
+.eri-mensajes {
+  flex: 1; overflow-y: auto; min-height: 0;
+  padding: 16px; display: flex;
+  flex-direction: column; gap: 10px;
+}
+.msg {
+  max-width: 85%; padding: 10px 14px;
+  border-radius: 16px; font-size: 14px;
+  line-height: 1.45; word-wrap: break-word;
+  white-space: pre-wrap;
+}
+.msg.eri {
+  background: var(--blanco); align-self: flex-start;
+  border-bottom-left-radius: 6px;
+  box-shadow: var(--sombra-1);
+}
+.msg.user {
+  background: var(--verde); color: var(--wordmark);
+  align-self: flex-end;
+  border-bottom-right-radius: 6px; font-weight: 500;
+}
+.msg.error {
+  background: var(--rojo-claro); color: var(--rojo);
+  font-size: 12px; align-self: flex-start;
+}
+.eri-input-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  background: var(--blanco);
+  border-top: 1px solid var(--g2);
+  flex-shrink: 0;
+}
+.eri-input {
+  flex: 1; min-width: 0;
+  background: var(--g1); border: none;
+  border-radius: var(--r-full);
+  padding: 12px 16px; font-size: 15px;
+  color: var(--wordmark); outline: none;
+}
+.eri-btn {
+  width: 44px; height: 44px;
+  border-radius: var(--r-full);
+  display: grid; place-items: center;
+  flex-shrink: 0;
+}
+.eri-btn.mic { background: var(--g1); }
+.eri-btn.mic svg { width: 20px; height: 20px; color: var(--wordmark); }
+.eri-btn.mic.grabando { background: var(--rojo); }
+.eri-btn.mic.grabando svg { color: var(--blanco); }
+.eri-btn.enviar { background: var(--wordmark); }
+.eri-btn.enviar svg { width: 20px; height: 20px; color: var(--blanco); }
+
+/* ─────────── TOAST ─────────── */
+.toast {
+  position: fixed; left: 50%; bottom: 160px;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--wordmark); color: var(--blanco);
+  padding: 12px 20px; border-radius: var(--r-full);
+  font-size: 13px; font-weight: 500;
+  z-index: 10000; opacity: 0; pointer-events: none;
+  transition: opacity .2s, transform .2s;
+  max-width: 90%; text-align: center;
+  white-space: pre-line;
+}
+.toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+</style>
+</head>
+<body><!-- ═══════════ HEADER ═══════════ -->
+<header class="header">
+  <button class="header-back" onclick="history.back()" aria-label="Volver">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </button>
+  <div class="header-title">Mi perfil</div>
+  <button class="header-editar" onclick="location.href='18-Editar-Perfil.html'">Editar</button>
+</header>
+
+<!-- ═══════════ AVATAR ═══════════ -->
+<section class="avatar-seccion">
+  <div class="avatar-wrap">
+    <img id="avatarImg" class="avatar-img" src="" alt="Foto de perfil">
+    <div id="avatarPlaceholder" class="avatar-placeholder">?</div>
+    <button class="avatar-cam" onclick="location.href='18-Editar-Perfil.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+        <circle cx="12" cy="13" r="4"/>
+      </svg>
+    </button>
+  </div>
+  <div class="rol-badge" id="rolBadge">PASAJERO</div>
+</section>
+
+<!-- ═══════════ STATS ═══════════ -->
+<section class="stats">
+  <div class="stat">
+    <div class="stat-valor" id="statViajes">0</div>
+    <div class="stat-label">Viajes</div>
+  </div>
+  <div class="stat">
+    <div class="stat-valor" id="statRating">—</div>
+    <div class="stat-label">Rating</div>
+  </div>
+  <div class="stat">
+    <div class="stat-valor" id="statSaldo">$0</div>
+    <div class="stat-label">Saldo</div>
+  </div>
+</section>
+
+<!-- ═══════════ DATOS PERSONALES ═══════════ -->
+<section class="card">
+  <div class="card-label">Datos personales</div>
+
+  <div class="dato">
+    <div class="dato-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </div>
+    <div class="dato-texto">
+      <div class="dato-label">Nombre completo</div>
+      <div class="dato-valor vacio" id="datoNombre">Sin registrar</div>
+    </div>
+  </div>
+
+  <div class="dato">
+    <div class="dato-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/>
+      </svg>
+    </div>
+    <div class="dato-texto">
+      <div class="dato-label">Teléfono</div>
+      <div class="dato-valor vacio" id="datoTelefono">Sin registrar</div>
+    </div>
+  </div>
+
+  <div class="dato">
+    <div class="dato-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16v16H4z"/>
+        <path d="M8 10h8M8 14h6"/>
+      </svg>
+    </div>
+    <div class="dato-texto">
+      <div class="dato-label">Documento</div>
+      <div class="dato-valor vacio" id="datoDocumento">Sin registrar</div>
+    </div>
+  </div>
+
+  <div class="dato">
+    <div class="dato-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16v16H4z"/>
+        <path d="M22 6l-10 7L2 6"/>
+      </svg>
+    </div>
+    <div class="dato-texto">
+      <div class="dato-label">Correo electrónico</div>
+      <div class="dato-valor vacio" id="datoEmail">Sin registrar</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ERI FAB ═══════════ -->
+<button class="eri-fab" id="btnEri" aria-label="Hablar con Eri">
+  <svg viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 1C8.27 1 2 7.27 2 15c0 10.5 12.5 23 13 23.5.28.28.72.28 1 0 .5-.5 13-13 13-23.5C29 7.27 22.73 1 16 1z" fill="#1A1F2E"/>
+    <path d="M16 24s-7-4.4-7-9.3c0-2.2 1.8-4 4-4 1.5 0 2.5.8 3 1.6.5-.8 1.5-1.6 3-1.6 2.2 0 4 1.8 4 4 0 4.9-7 9.3-7 9.3z" fill="#FFFFFF"/>
+  </svg>
+</button>
+
+<!-- ═══════════ PANEL ERI ═══════════ -->
+<div class="eri-panel" id="eriPanel">
+  <div class="eri-header">
+    <div class="eri-avatar-h">E</div>
+    <div class="eri-titulo">
+      <strong>Eri</strong>
+      <div class="eri-estado" id="eriEstado">En línea</div>
+    </div>
+    <button class="eri-close" id="btnEriClose" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+  <div class="eri-mensajes" id="eriMensajes"></div>
+  <div class="eri-input-row">
+    <button class="eri-btn mic" id="btnMic" aria-label="Hablar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        <line x1="12" y1="19" x2="12" y2="23"/>
+      </svg>
+    </button>
+    <input type="text" class="eri-input" id="eriInput" placeholder="Escríbele a Eri..." autocomplete="off">
+    <button class="eri-btn enviar" id="btnEnviar" aria-label="Enviar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════ NAV INFERIOR ═══════════ -->
+<nav class="nav-inferior">
+  <a href="04-Home-Pasajero.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+    <span>Inicio</span>
+  </a>
+  <a href="11-Mis-Viajes.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12 6 12 12 16 14"/>
+    </svg>
+    <span>Viajes</span>
+  </a>
+  <a href="15-Marketplace-FastFood.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 11l19-9-9 19-2-8-8-2z"/>
+    </svg>
+    <span>Comida</span>
+  </a>
+  <a href="13-Billetera.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="6" width="20" height="14" rx="2"/>
+      <path d="M2 10h20"/>
+    </svg>
+    <span>Billetera</span>
+  </a>
+  <a href="08-Perfil-Pasajero.html" class="nav-item activo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+    <span>Perfil</span>
+  </a>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/kraze-auth.js"></script>
+<script>
+/* ═══════════════════════════════════════════════════════════
+   KRAZE · Mi perfil (pasajero) — Lógica
+   © Erian C.A.
+   ═══════════════════════════════════════════════════════════ */
+
+const API_BASE = 'https://moto-llave-backend.vercel.app';
+const $ = (id) => document.getElementById(id);
+
+let toastTimer;
+function toast(msg, ms = 3200) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('visible');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('visible'), ms);
+}
+
+/* ─────────── CARGAR PERFIL ─────────── */
+async function cargarPerfil() {
+  // 1. Intentar desde localStorage
+  let usuario = null;
+  try {
+    usuario = JSON.parse(localStorage.getItem('kraze_usuario') || 'null');
+  } catch (e) { usuario = null; }
+
+  console.log('[PERFIL] Usuario desde localStorage:', usuario);
+
+  // 2. Si hay ID pero no datos completos, consultar Supabase
+  const id = localStorage.getItem('kraze_usuario_id');
+  if (id) {
+    try {
+      const resp = await fetch(
+        `https://xetqvxuiroalddfzrfzc.supabase.co/rest/v1/profiles?id=eq.${id}&select=*`,
+        {
+          headers: {
+            'apikey': 'sb_publishable_SARKcARFpIESQRUDSxbpig_kdlHrZh3',
+            'Authorization': 'Bearer sb_publishable_SARKcARFpIESQRUDSxbpig_kdlHrZh3'
+          }
+        }
+      );
+      if (resp.ok) {
+        const data = await resp.json();
+        if (Array.isArray(data) && data.length > 0) {
+          usuario = data[0];
+          localStorage.setItem('kraze_usuario', JSON.stringify(usuario));
+          console.log('[PERFIL] Usuario desde Supabase:', usuario);
+        }
+      }
+    } catch (e) {
+      console.warn('[PERFIL] No se pudo consultar Supabase:', e);
+    }
+  }
+
+  // 3. Pintar en pantalla
+  pintarPerfil(usuario);
+}
+
+function pintarPerfil(usuario) {
+  if (!usuario) {
+    $('datoNombre').textContent = 'Sin registrar';
+    $('datoNombre').classList.add('vacio');
+    $('datoTelefono').textContent = 'Sin registrar';
+    $('datoTelefono').classList.add('vacio');
+    $('datoDocumento').textContent = 'Sin registrar';
+    $('datoDocumento').classList.add('vacio');
+    $('datoEmail').textContent = 'Sin registrar';
+    $('datoEmail').classList.add('vacio');
+    $('rolBadge').textContent = 'PASAJERO';
+    return;
+  }
+
+  // Nombre
+  const nombre = usuario.nombre || usuario.full_name || '';
+  if (nombre) {
+    $('datoNombre').textContent = nombre;
+    $('datoNombre').classList.remove('vacio');
+  }
+
+  // Teléfono
+  const tel = usuario.telefono || usuario.phone || '';
+  if (tel) {
+    $('datoTelefono').textContent = tel;
+    $('datoTelefono').classList.remove('vacio');
+  }
+
+  // Documento (cédula)
+  if (usuario.cedula) {
+    $('datoDocumento').textContent = usuario.cedula;
+    $('datoDocumento').classList.remove('vacio');
+  }
+
+  // Email
+  if (usuario.email) {
+    $('datoEmail').textContent = usuario.email;
+    $('datoEmail').classList.remove('vacio');
+  }
+
+  // Rol
+  const rol = usuario.rol || usuario.role || 'pasajero';
+  $('rolBadge').textContent = rol === 'transportista' ? 'TRANSPORTISTA' : 'PASAJERO';
+
+  // Stats
+  $('statViajes').textContent = usuario.total_viajes ?? '0';
+  $('statRating').textContent = usuario.rating ?? '—';
+  $('statSaldo').textContent = usuario.saldo ? `$${Number(usuario.saldo).toFixed(0)}` : '$0';
+
+  // Foto de perfil
+  const foto = usuario.foto_url || localStorage.getItem('kraze_foto_perfil');
+  if (foto) {
+    const img = $('avatarImg');
+    const ph = $('avatarPlaceholder');
+    img.src = foto;
+    img.style.display = 'block';
+    ph.style.display = 'none';
+    img.onerror = () => {
+      img.style.display = 'none';
+      ph.style.display = 'grid';
+      ph.textContent = (nombre.charAt(0) || '?').toUpperCase();
+    };
+  } else if (nombre) {
+    // Placeholder con la inicial
+    $('avatarPlaceholder').textContent = nombre.charAt(0).toUpperCase();
+  }
+}
+
+/* ─────────── ERI ─────────── */
+const eriPanel = $('eriPanel');
+const eriMensajes = $('eriMensajes');
+const eriInput = $('eriInput');
+const btnMic = $('btnMic');
+
+let eriHistorial = [];
+let reconocimiento = null;
+let grabando = false;
+
+$('btnEri').addEventListener('click', () => {
+  eriPanel.classList.add('abierto');
+  if (eriMensajes.children.length === 0) {
+    agregarMsg('eri', '¡Hola! Soy Eri. Puedo ayudarte a revisar tu perfil, cambiar tu rol o resolver dudas.');
+  }
+  setTimeout(() => eriInput.focus(), 200);
+});
+$('btnEriClose').addEventListener('click', () => {
+  eriPanel.classList.remove('abierto');
+  detenerReconocimiento();
+});
+
+function agregarMsg(tipo, texto) {
+  const div = document.createElement('div');
+  div.className = `msg ${tipo}`;
+  div.textContent = texto;
+  eriMensajes.appendChild(div);
+  eriMensajes.scrollTop = eriMensajes.scrollHeight;
+  return div;
+}
+
+async function enviarAEri(texto) {
+  texto = (texto || '').trim();
+  if (!texto) return;
+  agregarMsg('user', texto);
+  eriHistorial.push({ role: 'user', content: texto });
+  eriInput.value = '';
+
+  try {
+    const resp = await fetch(`${API_BASE}/api/claude`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        mensajes: eriHistorial,
+        mensaje: texto,
+        prompt: texto,
+        contexto: 'Pantalla "Mi perfil" del pasajero en Kraze. Ayudas con datos personales, edición de perfil, cambio de rol y dudas generales.'
+      })
+    });
+    const textoCrudo = await resp.text();
+    let data;
+    try { data = JSON.parse(textoCrudo); }
+    catch (e) { agregarMsg('eri', textoCrudo); return; }
+
+    const respuesta = data.respuesta || data.content || data.message || '(sin respuesta)';
+    agregarMsg('eri', respuesta);
+    eriHistorial.push({ role: 'assistant', content: respuesta });
+    hablar(respuesta);
+  } catch (err) {
+    agregarMsg('error', 'Error: ' + err.message);
+  }
+}
+
+$('btnEnviar').addEventListener('click', () => enviarAEri(eriInput.value));
+eriInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') { e.preventDefault(); enviarAEri(eriInput.value); }
+});
+
+function hablar(texto) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(texto);
+  u.lang = 'es-VE';
+  const vEs = window.speechSynthesis.getVoices().find(v => v.lang.startsWith('es'));
+  if (vEs) u.voice = vEs;
+  window.speechSynthesis.speak(u);
+}
+
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (SR) {
+  reconocimiento = new SR();
+  reconocimiento.lang = 'es-VE';
+  reconocimiento.continuous = false;
+  reconocimiento.interimResults = false;
+  reconocimiento.onstart = () => { grabando = true; btnMic.classList.add('grabando'); };
+  reconocimiento.onend = () => { grabando = false; btnMic.classList.remove('grabando'); };
+  reconocimiento.onerror = () => { grabando = false; btnMic.classList.remove('grabando'); };
+  reconocimiento.onresult = (e) => {
+    const t = e.results[0][0].transcript;
+    if (t) enviarAEri(t);
+  };
+}
+
+function detenerReconocimiento() {
+  if (reconocimiento && grabando) { try { reconocimiento.stop(); } catch (e) {} }
+}
+
+btnMic.addEventListener('click', () => {
+  if (!reconocimiento) { toast('Micrófono no soportado'); return; }
+  if (grabando) detenerReconocimiento();
+  else { try { reconocimiento.start(); } catch (e) {} }
+});
+
+/* ─────────── INIT ─────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  cargarPerfil();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#FAFAF7">
+<title>Kraze · ¿Cómo quieres usar Kraze?</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #FAFAF7;
+  color: #1A1F2E;
+  overflow-x: hidden;
+}
+body { padding-bottom: 40px; }
+
+/* TOP */
+.top {
+  padding: 16px 20px 0;
+}
+.back-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: transparent; border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #1A1F2E;
+  padding: 0;
+}
+.back-btn svg { width: 22px; height: 22px; pointer-events: none; }
+
+/* BRAND */
+.brand {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px;
+  padding: 20px 20px 30px;
+}
+.brand-pin { width: 42px; height: 42px; }
+.brand-word {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  color: #1A1F2E;
+  line-height: 1;
+}
+
+/* TÍTULO */
+.title-block {
+  text-align: center;
+  padding: 0 24px 26px;
+}
+.title-main {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1A1F2E;
+  letter-spacing: -1px;
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+.title-sub {
+  font-size: 15px;
+  color: #8A8F9C;
+  line-height: 1.5;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+/* OPCIONES */
+.options {
+  padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.option-card {
+  display: flex; align-items: center; gap: 16px;
+  background: #FFFFFF;
+  border: 2px solid #F0F0EB;
+  border-radius: 18px;
+  padding: 18px;
+  cursor: pointer;
+  transition: all 0.18s;
+  text-align: left;
+  font-family: inherit;
+  width: 100%;
+}
+.option-card:active { transform: scale(0.99); }
+.option-card.on {
+  border-color: #A4D65E;
+  background: #FFFFFF;
+  box-shadow: 0 4px 16px rgba(164,214,94,0.2);
+}
+.option-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: #FAFAF7;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  color: #1A1F2E;
+  transition: background 0.18s;
+}
+.option-card.on .option-icon {
+  background: rgba(164,214,94,0.25);
+}
+.option-icon svg { width: 26px; height: 26px; }
+.option-info { flex: 1; min-width: 0; }
+.option-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #1A1F2E;
+  letter-spacing: -0.4px;
+  margin-bottom: 4px;
+}
+.option-desc {
+  font-size: 13px;
+  color: #8A8F9C;
+  line-height: 1.4;
+  font-weight: 500;
+}
+.option-arrow {
+  width: 20px; height: 20px;
+  color: #B0B4BF;
+  flex-shrink: 0;
+}
+.option-card.on .option-arrow {
+  color: #A4D65E;
+}
+
+/* BOTÓN CONTINUAR */
+.continue-wrap {
+  padding: 0 20px 16px;
+}
+.btn-continue {
+  width: 100%;
+  padding: 17px;
+  background: #A4D65E;
+  color: #1A1F2E;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.18s;
+  letter-spacing: -0.3px;
+}
+.btn-continue:disabled {
+  background: #E8EEDC;
+  color: #B0B4BF;
+  cursor: not-allowed;
+}
+.btn-continue:not(:disabled):active {
+  transform: scale(0.98);
+  background: #93C44D;
+}
+
+/* LOGIN LINK */
+.login-link {
+  text-align: center;
+  padding: 8px 20px 20px;
+  font-size: 14px;
+  color: #8A8F9C;
+}
+.login-link a {
+  color: #1A1F2E;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  margin-left: 4px;
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <button class="back-btn" type="button" onclick="location.href='02-Login.html'">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </button>
+</div>
+
+<div class="brand">
+  <svg class="brand-pin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#A4D65E"/>
+    <path d="M32 16c-3.9 0-7 3.1-7 7 0 2.6 1.4 4.9 3.5 6.1l-1.1 8.3c-.1.8.5 1.5 1.3 1.5h6.6c.8 0 1.4-.7 1.3-1.5l-1.1-8.3C37.6 27.9 39 25.6 39 23c0-3.9-3.1-7-7-7z" fill="#1A1F2E"/>
+  </svg>
+  <div class="brand-word">Kraze</div>
+</div>
+
+<div class="title-block">
+  <h1 class="title-main">¿Cómo quieres usar Kraze?</h1>
+  <p class="title-sub">Elige cómo vas a usar la app. Podrás cambiarlo después.</p>
+</div>
+
+<div class="options" id="options">
+  <button class="option-card" data-rol="pasajero" type="button">
+    <div class="option-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+        <circle cx="12" cy="10" r="3"/>
+      </svg>
+    </div>
+    <div class="option-info">
+      <div class="option-title">Quiero viajar</div>
+      <div class="option-desc">Pide moto, taxi, buseta o cualquier transporte</div>
+    </div>
+    <svg class="option-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 18l6-6-6-6"/>
+    </svg>
+  </button>
+
+  <button class="option-card" data-rol="transportista" type="button">
+    <div class="option-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/>
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>
+      </svg>
+    </div>
+    <div class="option-info">
+      <div class="option-title">Quiero conducir</div>
+      <div class="option-desc">Maneja y gana dinero con tu vehículo</div>
+    </div>
+    <svg class="option-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 18l6-6-6-6"/>
+    </svg>
+  </button>
+</div>
+
+<div class="continue-wrap">
+  <button class="btn-continue" id="btnContinue" type="button" disabled>Continuar</button>
+</div>
+
+<div class="login-link">
+  ¿Ya tienes cuenta?<a onclick="location.href='02-Login.html'">Inicia sesión</a>
+</div><!-- BOTÓN ERI -->
+<button
+  onclick="document.getElementById('eriOverlay').style.display='flex';"
+  style="position:fixed;bottom:32px;right:20px;width:60px;height:60px;border-radius:50%;background:#FFFFFF;border:2px solid #A4D65E;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(164,214,94,0.5);z-index:99999;padding:0;"
+  type="button"
+  aria-label="Eri">
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;pointer-events:none;">
+    <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#A4D65E"/>
+    <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#1A1F2E"/>
+  </svg>
+</button>
+
+<!-- PANEL ERI -->
+<div id="eriOverlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100dvh;background:#FAFAF7;z-index:999999;flex-direction:column;overflow:hidden;">
+
+  <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:#FFFFFF;border-bottom:1px solid #F0F0EB;padding-top:calc(14px + env(safe-area-inset-top, 0));flex-shrink:0;">
+    <div style="width:38px;height:38px;border-radius:50%;background:#A4D65E;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <svg viewBox="0 0 64 64" fill="none" style="width:22px;height:22px;">
+        <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#1A1F2E"/>
+        <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#A4D65E"/>
+      </svg>
+    </div>
+    <div style="flex:1;">
+      <div style="font-size:16px;font-weight:800;color:#1A1F2E;">Eri</div>
+      <div style="font-size:11px;color:#22C55E;font-weight:600;">En línea</div>
+    </div>
+    <button onclick="document.getElementById('eriOverlay').style.display='none';" type="button" style="width:40px;height:40px;border:none;background:transparent;cursor:pointer;color:#8A8F9C;display:flex;align-items:center;justify-content:center;border-radius:50%;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;pointer-events:none;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <div id="eriChat" style="flex:1 1 auto;overflow-y:auto;padding:18px 16px 12px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch;min-height:0;">
+    <div style="max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;background:#FFFFFF;color:#1A1F2E;border:1px solid #F0F0EB;border-bottom-left-radius:6px;align-self:flex-start;">
+      ¡Epale jefe! Soy Eri. Elige cómo quieres usar Kraze y te ayudo con lo demás.
+    </div>
+  </div>
+
+  <div style="background:#FFFFFF;border-top:1px solid #F0F0EB;padding:10px 12px calc(10px + env(safe-area-inset-bottom, 0));display:flex;gap:8px;align-items:flex-end;flex-shrink:0;min-height:64px;">
+    <textarea id="eriInput" placeholder="Escríbele a Eri..." rows="1" style="flex:1;border:2px solid #F0F0EB;border-radius:22px;padding:11px 16px;font-size:15px;font-family:inherit;color:#1A1F2E;outline:none;resize:none;max-height:100px;line-height:1.4;background:#FFFFFF;min-height:44px;"></textarea>
+    <button id="eriMic" type="button" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#F4F4F0;color:#1A1F2E;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;pointer-events:none;">
+        <rect x="9" y="2" width="6" height="12" rx="3"/>
+        <path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3"/>
+      </svg>
+    </button>
+    <button id="eriSend" type="button" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#1A1F2E;color:#FFFFFF;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;pointer-events:none;"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   SELECCIÓN DE ROL · LÓGICA
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  var rolSeleccionado = null;
+  var options = document.getElementById('options');
+  var btnContinue = document.getElementById('btnContinue');
+
+  options.addEventListener('click', function (e) {
+    var card = e.target.closest('.option-card');
+    if (!card) return;
+
+    Array.prototype.forEach.call(options.querySelectorAll('.option-card'), function (c) {
+      c.classList.remove('on');
+    });
+    card.classList.add('on');
+    rolSeleccionado = card.getAttribute('data-rol');
+
+    btnContinue.disabled = false;
+  });
+
+  btnContinue.onclick = function () {
+    if (!rolSeleccionado) return;
+
+    try {
+      var perfil = JSON.parse(localStorage.getItem('kraze_user') || '{}');
+      perfil.rol = rolSeleccionado === 'pasajero' ? 'Pasajero' : 'Transportista';
+      perfil.rolKey = rolSeleccionado;
+      localStorage.setItem('kraze_user', JSON.stringify(perfil));
+    } catch (e) {}
+
+    if (rolSeleccionado === 'pasajero') {
+      location.href = '17a-Registro-Datos.html';
+    } else {
+      location.href = '17a-Registro-Datos.html';
+    }
+  };
+
+  console.log('[Selección Rol] listo.');
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   ERI · LÓGICA (con voz)
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  var API = 'https://moto-llave-backend.vercel.app/api/claude';
+  var chat = document.getElementById('eriChat');
+  var input = document.getElementById('eriInput');
+  var sendBtn = document.getElementById('eriSend');
+  var micBtn = document.getElementById('eriMic');
+  var escribiendo = false;
+  var grabando = false;
+  var rec = null;
+
+  function agregarMsg(tipo, texto) {
+    var m = document.createElement('div');
+    m.style.cssText = 'max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;word-wrap:break-word;';
+    if (tipo === 'user') {
+      m.style.background = '#1A1F2E';
+      m.style.color = '#FFFFFF';
+      m.style.borderBottomRightRadius = '6px';
+      m.style.alignSelf = 'flex-end';
+    } else {
+      m.style.background = '#FFFFFF';
+      m.style.color = '#1A1F2E';
+      m.style.border = '1px solid #F0F0EB';
+      m.style.borderBottomLeftRadius = '6px';
+      m.style.alignSelf = 'flex-start';
+    }
+    m.textContent = texto;
+    chat.appendChild(m);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function enviar() {
+    var texto = input.value.trim();
+    if (!texto || escribiendo) return;
+    agregarMsg('user', texto);
+    input.value = '';
+    escribiendo = true;
+    sendBtn.disabled = true;
+
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ texto: texto })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var resp = d && (d.respuesta || d.mensaje);
+      if (resp) { agregarMsg('eri', resp); hablar(resp); }
+      else { agregarMsg('eri', 'Ups, no entendí.'); }
+    })
+    .catch(function () { agregarMsg('eri', 'Ups, error de conexión.'); })
+    .then(function () { escribiendo = false; sendBtn.disabled = false; });
+  }
+
+  sendBtn.onclick = enviar;
+
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviar(); }
+  });
+
+  function iniciarVoz() {
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { alert('Tu navegador no soporta reconocimiento de voz.'); return; }
+    if (grabando) { try { rec.stop(); } catch (e) {} return; }
+
+    rec = new SR();
+    rec.lang = 'es-VE';
+    rec.continuous = false;
+    rec.interimResults = true;
+
+    rec.onstart = function () {
+      grabando = true;
+      micBtn.style.background = '#E5484D';
+      micBtn.style.color = '#FFFFFF';
+    };
+    rec.onresult = function (e) {
+      var t = '';
+      for (var i = e.resultIndex; i < e.results.length; i++) { t += e.results[i][0].transcript; }
+      input.value = t;
+    };
+    rec.onerror = function () {
+      grabando = false;
+      micBtn.style.background = '#F4F4F0';
+      micBtn.style.color = '#1A1F2E';
+    };
+    rec.onend = function () {
+      grabando = false;
+      micBtn.style.background = '#F4F4F0';
+      micBtn.style.color = '#1A1F2E';
+      if (input.value.trim()) setTimeout(enviar, 300);
+    };
+
+    try { rec.start(); } catch (e) {}
+  }
+
+  micBtn.onclick = iniciarVoz;
+
+  function hablar(texto) {
+    if (!window.speechSynthesis) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(texto);
+      u.lang = 'es-VE';
+      u.rate = 1.0;
+      u.pitch = 1.0;
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+
+  console.log('[Eri] listo con voz');
+})();
+</script>
+</body>
+</html>

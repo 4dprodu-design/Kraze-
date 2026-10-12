@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#FAFAF7">
+<meta name="color-scheme" content="only light">
+<meta name="supported-color-schemes" content="only light">
+<title>Registro vehículo · Kraze</title>
+
+<style>
+:root { color-scheme: only light; }
+html { forced-color-adjust: none; }
+@media (prefers-color-scheme: dark) {
+  html, body { background: #FAFAF7 !important; color: #1A1F2E !important; }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  color-scheme: only light;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #FAFAF7 !important;
+  color: #1A1F2E !important;
+  overflow-x: hidden;
+}
+body { padding-bottom: 130px; }
+
+.top-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px 10px;
+  background: #FAFAF7;
+  position: sticky; top: 0; z-index: 50;
+}
+.back-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: #FFFFFF; border: 1px solid #F0F0EB;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #1A1F2E;
+}
+.back-btn svg { width: 20px; height: 20px; pointer-events: none; }
+.top-title { font-size: 18px; font-weight: 800; color: #1A1F2E; letter-spacing: -0.3px; }
+
+.progress-wrap {
+  padding: 8px 20px 14px;
+  display: flex; align-items: center; gap: 6px;
+}
+.progress-step {
+  flex: 1; height: 4px; border-radius: 2px;
+  background: #F0F0EB;
+}
+.progress-step.on { background: #A4D65E; }
+.progress-step.active { background: #1A1F2E; }
+
+.intro { padding: 0 20px 20px; }
+.intro-title {
+  font-size: 24px; font-weight: 800; color: #1A1F2E;
+  letter-spacing: -0.6px; line-height: 1.15; margin-bottom: 6px;
+}
+.intro-sub { font-size: 14px; color: #8A8F9C; line-height: 1.5; }
+
+.cat-section { margin: 0 20px 20px; }
+.cat-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+}
+.cat-icon {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: rgba(164,214,94,0.2);
+  display: flex; align-items: center; justify-content: center;
+  color: #1A1F2E; flex-shrink: 0;
+}
+.cat-icon svg { width: 16px; height: 16px; }
+.cat-name {
+  font-size: 13px; font-weight: 800; color: #1A1F2E;
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+.cat-count {
+  margin-left: auto; font-size: 11px; font-weight: 700;
+  color: #8A8F9C; background: #F0F0EB;
+  padding: 3px 8px; border-radius: 10px;
+}
+.cat-count.has { background: rgba(164,214,94,0.3); color: #166534; }
+
+.chips {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+}
+.chip {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px;
+  background: #FFFFFF;
+  border: 2px solid #F0F0EB;
+  border-radius: 14px;
+  cursor: pointer; font-family: inherit; text-align: left;
+  transition: all 0.15s;
+}
+.chip.on {
+  border-color: #A4D65E;
+  box-shadow: 0 2px 10px rgba(164,214,94,0.2);
+}
+.chip-icon {
+  width: 32px; height: 32px; border-radius: 9px;
+  background: #FAFAF7;
+  display: flex; align-items: center; justify-content: center;
+  color: #1A1F2E; flex-shrink: 0;
+}
+.chip.on .chip-icon { background: rgba(164,214,94,0.25); }
+.chip-icon svg { width: 18px; height: 18px; }
+.chip-info { flex: 1; min-width: 0; }
+.chip-name {
+  font-size: 13px; font-weight: 800; color: #1A1F2E;
+  letter-spacing: -0.2px; line-height: 1.2; margin-bottom: 2px;
+}
+.chip-sub { font-size: 10px; color: #8A8F9C; font-weight: 600; line-height: 1.3; }
+.chip-check {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid #E5E5E0;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all 0.15s;
+}
+.chip-check svg { width: 10px; height: 10px; color: #FFFFFF; opacity: 0; }
+.chip.on .chip-check { background: #A4D65E; border-color: #A4D65E; }
+.chip.on .chip-check svg { opacity: 1; color: #1A1F2E; }
+
+.rasda-note {
+  margin-top: 10px; padding: 10px 12px;
+  background: #FFFBEB; border-radius: 10px;
+  font-size: 11px; color: #92400E; font-weight: 600;
+  line-height: 1.4; display: none; gap: 8px;
+}
+.rasda-note.show { display: flex; }
+.rasda-note svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
+
+.vehicle-form {
+  display: none; margin: 0 20px 20px;
+  background: #FFFFFF; border-radius: 20px;
+  border: 1px solid #F0F0EB; overflow: hidden;
+}
+.vehicle-form.show { display: block; }
+
+.vf-header {
+  background: linear-gradient(135deg, #1A1F2E 0%, #2A3142 100%);
+  padding: 16px 20px; color: #FFFFFF;
+}
+.vf-label {
+  font-size: 11px; font-weight: 700; color: #A4D65E;
+  letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px;
+}
+.vf-name { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
+
+.vf-body { padding: 20px; }
+.vf-field { margin-bottom: 14px; }
+.vf-field:last-child { margin-bottom: 0; }
+.vf-field-label {
+  display: block; font-size: 12px; font-weight: 700;
+  color: #1A1F2E; margin-bottom: 8px; letter-spacing: 0.2px;
+}
+.vf-input {
+  width: 100%; padding: 14px 16px;
+  background: #FAFAF7; border: 2px solid transparent;
+  border-radius: 12px; font-family: inherit;
+  font-size: 15px; color: #1A1F2E; outline: none;
+  transition: all 0.15s;
+}
+.vf-input:focus { background: #FFFFFF; border-color: #A4D65E; }
+.vf-input::placeholder { color: #B0B4BF; }
+.vf-input.placa {
+  text-transform: uppercase; letter-spacing: 2px;
+  font-weight: 800; font-family: monospace;
+  font-size: 16px; text-align: center;
+}
+
+.actions-wrap {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #FFFFFF; border-top: 1px solid #F0F0EB;
+  padding: 14px 20px calc(14px + env(safe-area-inset-bottom, 0));
+  z-index: 100;
+}
+.btn-continue {
+  width: 100%; padding: 17px;
+  background: #1A1F2E; color: #FFFFFF;
+  border: none; border-radius: 14px;
+  font-size: 15px; font-weight: 800;
+  font-family: inherit; cursor: pointer;
+  letter-spacing: -0.2px;
+}
+.btn-continue:disabled { opacity: 0.4; cursor: not-allowed; }
+</style>
+</head>
+<body><div class="top-bar">
+  <button class="back-btn" onclick="location.href='17a-Registro-Datos.html'" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </button>
+  <div class="top-title">Registro vehículo</div>
+  <div style="width:40px;"></div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-step on"></div>
+  <div class="progress-step active"></div>
+  <div class="progress-step"></div>
+</div>
+
+<div class="intro">
+  <h1 class="intro-title">¿Qué transporte haces?</h1>
+  <p class="intro-sub">Puedes elegir varios. El primero será tu vehículo principal.</p>
+</div>
+
+<!-- LIVIANOS -->
+<div class="cat-section">
+  <div class="cat-header">
+    <div class="cat-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h-3l-3 8"/>
+      </svg>
+    </div>
+    <div class="cat-name">Livianos</div>
+    <div class="cat-count" data-count="livianos">0</div>
+  </div>
+  <div class="chips">
+    <button class="chip" data-tipo="moto" data-cat="livianos" type="button">
+      <div class="chip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h-3l-3 8"/>
+        </svg>
+      </div>
+      <div class="chip-info">
+        <div class="chip-name">Moto</div>
+        <div class="chip-sub">Pasajeros y envíos</div>
+      </div>
+      <div class="chip-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+      </div>
+    </button>
+
+    <button class="chip" data-tipo="motocarro" data-cat="livianos" type="button">
+      <div class="chip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M6 15V9h9l3 4M4 9h5"/>
+        </svg>
+      </div>
+      <div class="chip-info">
+        <div class="chip-name">Motocarro</div>
+        <div class="chip-sub">Carga ligera</div>
+      </div>
+      <div class="chip-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+      </div>
+    </button>
+  </div>
+</div>
+
+<!-- PASAJEROS -->
+<div class="cat-section">
+  <div class="cat-header">
+    <div class="cat-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 17V9l2-5h14l2 5v8M3 17h18M5 17v2M19 17v2"/>
+        <circle cx="7" cy="13" r="1"/><circle cx="17" cy="13" r="1"/>
+      </svg>
+    </div>
+    <div class="cat-name">Pasajeros</div>
+    <div class="cat-count" data-count="pasajeros">0</div>
+  </div>
+  <div class="chips">
+    <button class="chip" data-tipo="taxi" data-cat="pasajeros" type="button">
+      <div class="chip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 17V9l2-5h14l2 5v8M3 17h18M5 17v2M19 17v2"/>
+          <circle cx="7" cy="13" r="1"/><circle cx="17" cy="13" r="1"/>
+        </svg>
+      </div>
+      <div class="chip-info">
+        <div class="chip-name">Taxi privado</div>
+        <div class="chip-sub">Servicio ejecutivo</div>
+      </div>
+      <div class="chip-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+      </div>
+    </button>
+
+    <button class="chip" data-tipo="carro" data-cat="pasajeros" type="button">
+      <div class="chip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 17h14M5 17a2 2 0 11-4 0 2 2 0 014 0zm18 0a2 2 0 11-4 0 2 2 0 014 0z"/>
+          <path d="M3 17V7a2 2 0 012-2h9l3 5h4a2 2 0 012 2v5"/>
+        </svg>
+      </div>
+      <div class="chip-info">
+        <div class="chip-name">Carro</div>
+        <div class="chip-sub">Hasta 4 pasajeros</div>
+      </div>
+      <div class="chip-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+      </div>
+    </button>
+
+    <button class="chip" data-tipo="buseta" data-cat="pasajeros" type="button">
+      <div class="chip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="13" rx="2"/>
+          <path d="M3 13h18M8 4v9M16 4v9"/>
+          <circle cx="7" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/>
+        </svg>
+      </div>
+      <div class="chip-info">
+        <div class="chip-name">Buseta</div>
+        <div class="chip-sub">Grupos y rutas</div>
+      </div>
+      <div class="chip-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+      </div>
+    </button>
+  </div>
+</div>
+
+<!-- CARGA -->
+<div class="cat-section">
+  <div class="cat-header">
+    <div class="cat-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M1 16V6h12v10M13 16V9h5l4 4v3"/>
+        <circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>
+      </svg>
+    </div>
+    <div class="cat-name">Carga</div>
+    <div class="cat-count" data-count="carga">0</div>
+  </div>
+  <div class="chips">
+    <button class="chip" data-tipo="camion" data-cat="carga" type="button">
+      <div class="chip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 16V6h12v10M13 16V9h5l4 4v3"/>
+          <circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>
+        </svg>
+      </div>
+      <div class="chip-info">
+        <div class="chip-name">Camión</div>
+        <div class="chip-sub">Carga general</div>
+      </div>
+      <div class="chip-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+      </div>
+    </button>
+
+    <button class="chip" data-tipo="volteo" data-cat="carga" type="button">
+      <div class="chip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 16V6h8l8 6v4M9 16V8"/>
+          <circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>
+        </svg>
+      </div>
+      <div class="chip-info">
+        <div class="chip-name">Volteo</div>
+        <div class="chip-sub">Materiales y escombros</div>
+      </div>
+      <div class="chip-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+      </div>
+    </button>
+
+    <button class="chip" data-tipo="cava" data-cat="carga" type="button">
+      <div class="chip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="7" width="14" height="10" rx="1"/>
+          <path d="M17 10h3l1 4v3h-4"/>
+          <circle cx="7" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/>
+        </svg>
+      </div>
+      <div class="chip-info">
+        <div class="chip-name">Cava</div>
+        <div class="chip-sub">Bebidas y víveres</div>
+      </div>
+      <div class="chip-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+      </div>
+    </button>
+
+    <button class="chip" data-tipo="refrigerado" data-cat="carga" type="button">
+      <div class="chip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="6" width="18" height="14" rx="2"/>
+          <path d="M12 6v14M12 10l-2-2M12 10l2-2M12 15l-2 2M12 15l2 2"/>
+        </svg>
+      </div>
+      <div class="chip-info">
+        <div class="chip-name">Refrigerado</div>
+        <div class="chip-sub">Cadena de frío</div>
+      </div>
+      <div class="chip-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+      </div>
+    </button>
+
+    <button class="chip" data-tipo="jaulas" data-cat="carga" type="button">
+      <div class="chip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="8" width="18" height="9" rx="1"/>
+          <path d="M2 12h18M6 8v9M11 8v9M16 8v9"/>
+          <circle cx="6" cy="19" r="1.5"/><circle cx="18" cy="19" r="1.5"/>
+        </svg>
+      </div>
+      <div class="chip-info">
+        <div class="chip-name">Jaulas</div>
+        <div class="chip-sub">Ganado y animales</div>
+      </div>
+      <div class="chip-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+      </div>
+    </button>
+
+    <button class="chip" data-tipo="plataforma" data-cat="carga" type="button">
+      <div class="chip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="14" width="20" height="4"/>
+          <circle cx="6" cy="20" r="2"/><circle cx="18" cy="20" r="2"/>
+          <path d="M4 14V8h6M14 14V6h6"/>
+        </svg>
+      </div>
+      <div class="chip-info">
+        <div class="chip-name">Plataforma</div>
+        <div class="chip-sub">Maquinaria pesada</div>
+      </div>
+      <div class="chip-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+      </div>
+    </button>
+  </div>
+</div>
+
+<!-- ESPECIAL -->
+<div class="cat-section">
+  <div class="cat-header">
+    <div class="cat-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6z"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+    </div>
+    <div class="cat-name">Especial</div>
+    <div class="cat-count" data-count="especial">0</div>
+  </div>
+  <div class="chips">
+    <button class="chip" data-tipo="rasda" data-cat="especial" type="button">
+      <div class="chip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.3 3.3a2 2 0 013.4 0l7 12.1a2 2 0 01-1.7 3H5a2 2 0 01-1.7-3l7-12.1z"/>
+          <path d="M12 9v4M12 17h.01"/>
+        </svg>
+      </div>
+      <div class="chip-info">
+        <div class="chip-name">RASDA</div>
+        <div class="chip-sub">Materiales peligrosos</div>
+      </div>
+      <div class="chip-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+      </div>
+    </button>
+  </div>
+  <div class="rasda-note" id="rasdaNote">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/>
+    </svg>
+    <span>RASDA requiere certificado vigente. Se te pedirá al subir documentos.</span>
+  </div>
+</div>
+
+<!-- VEHÍCULO PRINCIPAL -->
+<div class="vehicle-form" id="vehicleForm">
+  <div class="vf-header">
+    <div class="vf-label">Vehículo principal</div>
+    <div class="vf-name" id="vfNombre">—</div>
+  </div>
+  <div class="vf-body">
+    <div class="vf-field">
+      <label class="vf-field-label" for="placa">Placa</label>
+      <input type="text" id="placa" class="vf-input placa" placeholder="AB123CD" maxlength="10" autocomplete="off">
+    </div>
+    <div class="vf-field">
+      <label class="vf-field-label" for="marca">Marca y modelo</label>
+      <input type="text" id="marca" class="vf-input" placeholder="Ej: Toyota Corolla" maxlength="60">
+    </div>
+    <div class="vf-field">
+      <label class="vf-field-label" for="color">Color</label>
+      <input type="text" id="color" class="vf-input" placeholder="Ej: Blanco" maxlength="30">
+    </div>
+    <div class="vf-field">
+      <label class="vf-field-label" for="anio">Año</label>
+      <input type="tel" id="anio" class="vf-input" placeholder="Ej: 2018" maxlength="4" inputmode="numeric">
+    </div>
+  </div>
+</div>
+
+<div class="actions-wrap">
+  <button class="btn-continue" id="btnContinue" type="button" disabled>Selecciona al menos un transporte</button>
+</div><!-- BOTÓN ERI -->
+<button
+  onclick="document.getElementById('eriOverlay').style.display='flex';"
+  style="position:fixed;bottom:100px;right:20px;width:60px;height:60px;border-radius:50%;background:#FFFFFF;border:2px solid #A4D65E;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(164,214,94,0.5);z-index:99999;padding:0;"
+  type="button"
+  aria-label="Eri">
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;pointer-events:none;">
+    <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#A4D65E"/>
+    <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#1A1F2E"/>
+  </svg>
+</button>
+
+<div id="eriOverlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100dvh;background:#FAFAF7;z-index:999999;flex-direction:column;overflow:hidden;">
+  <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:#FFFFFF;border-bottom:1px solid #F0F0EB;padding-top:calc(14px + env(safe-area-inset-top, 0));flex-shrink:0;">
+    <div style="width:38px;height:38px;border-radius:50%;background:#A4D65E;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <svg viewBox="0 0 64 64" fill="none" style="width:22px;height:22px;">
+        <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#1A1F2E"/>
+        <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#A4D65E"/>
+      </svg>
+    </div>
+    <div style="flex:1;">
+      <div style="font-size:16px;font-weight:800;color:#1A1F2E;">Eri</div>
+      <div style="font-size:11px;color:#22C55E;font-weight:600;">En línea</div>
+    </div>
+    <button onclick="document.getElementById('eriOverlay').style.display='none';" type="button" style="width:40px;height:40px;border:none;background:transparent;cursor:pointer;color:#8A8F9C;display:flex;align-items:center;justify-content:center;border-radius:50%;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;pointer-events:none;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div id="eriChat" style="flex:1 1 auto;overflow-y:auto;padding:18px 16px 12px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch;min-height:0;">
+    <div style="max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;background:#FFFFFF;color:#1A1F2E;border:1px solid #F0F0EB;border-bottom-left-radius:6px;align-self:flex-start;">
+      ¡Epale jefe! Soy Eri. Elige qué transporte haces. Puedes marcar varios.
+    </div>
+  </div>
+  <div style="background:#FFFFFF;border-top:1px solid #F0F0EB;padding:10px 12px calc(10px + env(safe-area-inset-bottom, 0));display:flex;gap:8px;align-items:flex-end;flex-shrink:0;min-height:64px;">
+    <textarea id="eriInput" placeholder="Escríbele a Eri..." rows="1" style="flex:1;border:2px solid #F0F0EB;border-radius:22px;padding:11px 16px;font-size:15px;font-family:inherit;color:#1A1F2E;outline:none;resize:none;max-height:100px;line-height:1.4;background:#FFFFFF;min-height:44px;"></textarea>
+    <button id="eriMic" type="button" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#F4F4F0;color:#1A1F2E;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;pointer-events:none;">
+        <rect x="9" y="2" width="6" height="12" rx="3"/>
+        <path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3"/>
+      </svg>
+    </button>
+    <button id="eriSend" type="button" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#1A1F2E;color:#FFFFFF;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;pointer-events:none;"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var seleccionados = [];
+  var btnContinue = document.getElementById('btnContinue');
+  var vehicleForm = document.getElementById('vehicleForm');
+  var rasdaNote = document.getElementById('rasdaNote');
+
+  var nombres = {
+    moto: 'Moto', motocarro: 'Motocarro',
+    taxi: 'Taxi privado', carro: 'Carro', buseta: 'Buseta',
+    camion: 'Camión', volteo: 'Volteo', cava: 'Cava',
+    refrigerado: 'Refrigerado', jaulas: 'Jaulas', plataforma: 'Plataforma',
+    rasda: 'RASDA'
+  };
+
+  var chips = document.querySelectorAll('.chip');
+  Array.prototype.forEach.call(chips, function (chip) {
+    chip.addEventListener('click', function () {
+      var tipo = chip.getAttribute('data-tipo');
+      var idx = seleccionados.indexOf(tipo);
+      if (idx === -1) {
+        seleccionados.push(tipo);
+        chip.classList.add('on');
+      } else {
+        seleccionados.splice(idx, 1);
+        chip.classList.remove('on');
+      }
+      actualizarContadores();
+      actualizarFormulario();
+      if (seleccionados.indexOf('rasda') !== -1) rasdaNote.classList.add('show');
+      else rasdaNote.classList.remove('show');
+      if (seleccionados.length > 0) {
+        btnContinue.disabled = false;
+        btnContinue.textContent = 'Continuar con ' + seleccionados.length + (seleccionados.length === 1 ? ' transporte' : ' transportes');
+      } else {
+        btnContinue.disabled = true;
+        btnContinue.textContent = 'Selecciona al menos un transporte';
+      }
+    });
+  });
+
+  function actualizarContadores() {
+    var conteo = { livianos: 0, pasajeros: 0, carga: 0, especial: 0 };
+    seleccionados.forEach(function (t) {
+      var chip = document.querySelector('[data-tipo="' + t + '"]');
+      if (!chip) return;
+      var cat = chip.getAttribute('data-cat');
+      if (conteo[cat] !== undefined) conteo[cat]++;
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.cat-count'), function (el) {
+      var cat = el.getAttribute('data-count');
+      var n = conteo[cat] || 0;
+      el.textContent = n;
+      if (n > 0) el.classList.add('has');
+      else el.classList.remove('has');
+    });
+  }
+
+  function actualizarFormulario() {
+    if (seleccionados.length === 0) {
+      vehicleForm.classList.remove('show');
+      return;
+    }
+    var principal = seleccionados[0];
+    document.getElementById('vfNombre').textContent = nombres[principal] || principal;
+    vehicleForm.classList.add('show');
+    try {
+      var v = JSON.parse(localStorage.getItem('kraze_vehiculo_principal') || '{}');
+      if (v.placa)   document.getElementById('placa').value = v.placa;
+      if (v.marca)   document.getElementById('marca').value = v.marca;
+      if (v.color)   document.getElementById('color').value = v.color;
+      if (v.anio)    document.getElementById('anio').value = v.anio;
+    } catch (e) {}
+  }
+
+  document.getElementById('placa').addEventListener('input', function (e) {
+    e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+  });
+
+  btnContinue.onclick = function () {
+    if (seleccionados.length === 0) return;
+    var principal = seleccionados[0];
+    var datos = {
+      principal: principal,
+      principalNombre: nombres[principal] || principal,
+      tipos: seleccionados.slice(),
+      tiposNombres: seleccionados.map(function (t) { return nombres[t] || t; }),
+      placa: document.getElementById('placa').value.trim().toUpperCase(),
+      marca: document.getElementById('marca').value.trim(),
+      color: document.getElementById('color').value.trim(),
+      anio: document.getElementById('anio').value.trim(),
+      fecha: new Date().toISOString()
+    };
+    try {
+      var perfil = JSON.parse(localStorage.getItem('kraze_user') || '{}');
+      perfil.rolKey = 'transportista';
+      perfil.rol = 'Transportista';
+      perfil.vehiculo = {
+        principal: datos.principal, principalNombre: datos.principalNombre,
+        tipos: datos.tipos, tiposNombres: datos.tiposNombres,
+        placa: datos.placa, marca: datos.marca,
+        color: datos.color, anio: datos.anio
+      };
+      localStorage.setItem('kraze_user', JSON.stringify(perfil));
+      localStorage.setItem('kraze_transportista', JSON.stringify(perfil));
+      localStorage.setItem('kraze_vehiculo_principal', JSON.stringify(datos));
+    } catch (e) {}
+    location.href = '19a-Subir-Documentos.html';
+  };
+
+  try {
+    var prev = JSON.parse(localStorage.getItem('kraze_vehiculo_principal') || '{}');
+    if (prev.tipos && prev.tipos.length > 0) {
+      seleccionados = prev.tipos.slice();
+      seleccionados.forEach(function (t) {
+        var chip = document.querySelector('[data-tipo="' + t + '"]');
+        if (chip) chip.classList.add('on');
+      });
+      actualizarContadores();
+      actualizarFormulario();
+      btnContinue.disabled = false;
+      btnContinue.textContent = 'Continuar con ' + seleccionados.length + (seleccionados.length === 1 ? ' transporte' : ' transportes');
+      if (seleccionados.indexOf('rasda') !== -1) rasdaNote.classList.add('show');
+    }
+  } catch (e) {}
+})();
+
+(function () {
+  var API = 'https://moto-llave-backend.vercel.app/api/claude';
+  var chat = document.getElementById('eriChat');
+  var input = document.getElementById('eriInput');
+  var sendBtn = document.getElementById('eriSend');
+  var micBtn = document.getElementById('eriMic');
+  var escribiendo = false, grabando = false, rec = null;
+
+  function agregarMsg(tipo, texto) {
+    var m = document.createElement('div');
+    m.style.cssText = 'max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;word-wrap:break-word;';
+    if (tipo === 'user') {
+      m.style.background = '#1A1F2E'; m.style.color = '#FFFFFF';
+      m.style.borderBottomRightRadius = '6px'; m.style.alignSelf = 'flex-end';
+    } else {
+      m.style.background = '#FFFFFF'; m.style.color = '#1A1F2E';
+      m.style.border = '1px solid #F0F0EB';
+      m.style.borderBottomLeftRadius = '6px'; m.style.alignSelf = 'flex-start';
+    }
+    m.textContent = texto; chat.appendChild(m); chat.scrollTop = chat.scrollHeight;
+  }
+
+  function enviar() {
+    var texto = input.value.trim();
+    if (!texto || escribiendo) return;
+    agregarMsg('user', texto);
+    input.value = '';
+    escribiendo = true; sendBtn.disabled = true;
+    fetch(API, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ texto: texto })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var resp = d && (d.respuesta || d.mensaje);
+      if (resp) { agregarMsg('eri', resp); hablar(resp); }
+      else { agregarMsg('eri', 'Ups, no entendí.'); }
+    })
+    .catch(function () { agregarMsg('eri', 'Ups, error de conexión.'); })
+    .then(function () { escribiendo = false; sendBtn.disabled = false; });
+  }
+
+  sendBtn.onclick = enviar;
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviar(); }
+  });
+
+  function iniciarVoz() {
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { alert('Tu navegador no soporta reconocimiento de voz.'); return; }
+    if (grabando) { try { rec.stop(); } catch (e) {} return; }
+    rec = new SR();
+    rec.lang = 'es-VE'; rec.continuous = false; rec.interimResults = true;
+    rec.onstart = function () {
+      grabando = true;
+      micBtn.style.background = '#E5484D'; micBtn.style.color = '#FFFFFF';
+    };
+    rec.onresult = function (e) {
+      var t = '';
+      for (var i = e.resultIndex; i < e.results.length; i++) { t += e.results[i][0].transcript; }
+      input.value = t;
+    };
+    rec.onerror = function () {
+      grabando = false;
+      micBtn.style.background = '#F4F4F0'; micBtn.style.color = '#1A1F2E';
+    };
+    rec.onend = function () {
+      grabando = false;
+      micBtn.style.background = '#F4F4F0'; micBtn.style.color = '#1A1F2E';
+      if (input.value.trim()) setTimeout(enviar, 300);
+    };
+    try { rec.start(); } catch (e) {}
+  }
+  micBtn.onclick = iniciarVoz;
+
+  function hablar(texto) {
+    if (!window.speechSynthesis) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(texto);
+      u.lang = 'es-VE'; u.rate = 1.0; u.pitch = 1.0;
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+
+  console.log('[Eri] listo');
+})();
+</script>
+</body>
+</html>

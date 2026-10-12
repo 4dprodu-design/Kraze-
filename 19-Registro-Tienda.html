@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FAFAF7">
+  <meta name="author" content="Erian C.A.">
+  <title>Kraze · Registra tu tienda</title>
+
+  <!-- ============================================================
+       KRAZE · Registro de Tienda
+       © 2026 Erian C.A. — Todos los derechos reservados
+       Archivo: 19-Registro-Tienda.html
+       ============================================================ -->
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      min-height: 100vh;
+      background-color: #FAFAF7;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1A1F2E;
+    }
+
+    body {
+      padding: 24px 24px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .top-row {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: transparent;
+      color: #1A1F2E;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-left: -8px;
+      text-decoration: none;
+    }
+    .back-btn:active { background-color: rgba(0,0,0,0.05); }
+
+    .step-label { font-size: 13px; font-weight: 600; color: #8A8F80; }
+
+    .progress {
+      width: 100%;
+      max-width: 440px;
+      height: 4px;
+      background-color: #E5E5DE;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+    .progress-fill {
+      height: 100%;
+      background-color: #A4D65E;
+      width: 33%;
+      border-radius: 2px;
+    }
+
+    .title {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      color: #1A1F2E;
+      margin-bottom: 6px;
+      align-self: flex-start;
+      max-width: 440px;
+      width: 100%;
+    }
+
+    .sub {
+      font-size: 14px;
+      color: #8A8F80;
+      margin-bottom: 28px;
+      align-self: flex-start;
+      max-width: 440px;
+      width: 100%;
+      line-height: 1.45;
+    }
+
+    .form {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #4A4A4A;
+      padding-left: 2px;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 12px;
+      padding: 15px 16px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #1A1F2E;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      min-height: 52px;
+    }
+
+    .field textarea {
+      min-height: 90px;
+      resize: vertical;
+      line-height: 1.4;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: #A4D65E;
+      box-shadow: 0 0 0 3px rgba(164, 214, 94, 0.18);
+    }
+
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .cat-card {
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 12px;
+      padding: 12px 6px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.15s, border-color 0.15s, background-color 0.15s;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .cat-card:active { transform: scale(0.97); }
+    .cat-card.selected {
+      border-color: #A4D65E;
+      background-color: #F8FBEF;
+      box-shadow: 0 0 0 3px rgba(164, 214, 94, 0.15);
+    }
+
+    .cat-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cat-icon svg {
+      width: 100%;
+      height: 100%;
+      stroke: #1A1F2E;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .cat-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #1A1F2E;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btn-continue {
+      width: 100%;
+      max-width: 440px;
+      background-color: #A4D65E;
+      color: #1A1F2E;
+      border: none;
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 54px;
+      margin-top: 24px;
+    }
+    .btn-continue:active { transform: scale(0.98); }
+    .btn-continue:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .error-msg, .ok-msg {
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      display: none;
+      max-width: 440px;
+      width: 100%;
+    }
+    .error-msg { background-color: #FEE2E2; color: #B91C1C; }
+    .ok-msg    { background-color: #DCFCE7; color: #166534; }
+    .error-msg.show, .ok-msg.show { display: block; }
+  </style>
+</head>
+<body>
+
+  <div class="top-row">
+    <a href="04-Home-Pasajero.html" class="back-btn" aria-label="Volver">&#8592;</a>
+    <div class="step-label">Paso 1 de 3</div>
+  </div>
+
+  <div class="progress"><div class="progress-fill"></div></div>
+
+  <h1 class="title">Registra tu tienda</h1>
+  <p class="sub">Cuentanos de tu negocio. Despues subiras los documentos y podras crear tu menu.</p>
+
+  <form class="form" id="form-tienda" autocomplete="on">
+
+    <div class="error-msg" id="error-msg"></div>
+    <div class="ok-msg" id="ok-msg"></div>
+
+    <div class="field">
+      <label for="nombre">Nombre de tu tienda</label>
+      <input type="text" id="nombre" placeholder="Ej: Pizzeria Bella Napoli" required>
+    </div>
+
+    <div class="field">
+      <label for="descripcion">Descripcion corta</label>
+      <textarea id="descripcion" placeholder="Ej: Pizzas artesanales con ingredientes frescos..." required></textarea>
+    </div>
+
+    <div class="field">
+      <label>Categoria</label>
+      <div class="cat-grid" id="cat-grid">
+
+        <div class="cat-card" data-cat="fastfood">
+          <div class="cat-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 10h16"/>
+              <path d="M4 10c0-4 4-6 8-6s8 2 8 6"/>
+              <path d="M3 14h18v2a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3z"/>
+              <line x1="12" y1="14" x2="12" y2="17"/>
+            </svg>
+          </div>
+          <div class="cat-label">Comida rapida</div>
+        </div>
+
+        <div class="cat-card" data-cat="restaurant">
+          <div class="cat-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M5 3v8a3 3 0 0 0 3 3v7"/>
+              <path d="M5 3v5"/>
+              <path d="M8 3v5"/>
+              <path d="M19 3v18"/>
+              <path d="M19 3c-2 0-3 2-3 4s1 4 3 4"/>
+            </svg>
+          </div>
+          <div class="cat-label">Restaurante</div>
+        </div>
+
+        <div class="cat-card" data-cat="mercado">
+          <div class="cat-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M3 6l2 14h14l2-14"/>
+              <path d="M3 6h18"/>
+              <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            </svg>
+          </div>
+          <div class="cat-label">Mercado</div>
+        </div>
+
+        <div class="cat-card" data-cat="farmacia">
+          <div class="cat-icon">
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="8" width="18" height="12" rx="2"/>
+              <line x1="12" y1="12" x2="12" y2="16"/>
+              <line x1="10" y1="14" x2="14" y2="14"/>
+            </svg>
+          </div>
+          <div class="cat-label">Farmacia</div>
+        </div>
+
+        <div class="cat-card" data-cat="licoreria">
+          <div class="cat-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M8 3h8l-1 10a3 3 0 0 1-6 0z"/>
+              <line x1="12" y1="16" x2="12" y2="21"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+            </svg>
+          </div>
+          <div class="cat-label">Licoreria</div>
+        </div>
+
+        <div class="cat-card" data-cat="postres">
+          <div class="cat-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 3c-3 0-5 2-5 4h10c0-2-2-4-5-4z"/>
+              <path d="M7 7v3l1 2v8h8v-8l1-2V7"/>
+              <line x1="7" y1="13" x2="17" y2="13"/>
+            </svg>
+          </div>
+          <div class="cat-label">Postres</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="telefono">Telefono del negocio</label>
+      <input type="tel" id="telefono" placeholder="4121234567" inputmode="numeric" pattern="[0-9]{10}" required>
+    </div>
+
+    <div class="field">
+      <label for="direccion">Direccion</label>
+      <input type="text" id="direccion" placeholder="Ej: Av. Principal, Local 5, Socopo" required>
+    </div>
+
+    <div class="row-2">
+      <div class="field">
+        <label for="lat">Latitud (opcional)</label>
+        <input type="text" id="lat" placeholder="8.2345" inputmode="decimal">
+      </div>
+      <div class="field">
+        <label for="lng">Longitud (opcional)</label>
+        <input type="text" id="lng" placeholder="-70.8234" inputmode="decimal">
+      </div>
+    </div>
+
+    <button type="submit" class="btn-continue" id="btn-continue">Continuar</button>
+
+  </form><!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FAFAF7">
+  <meta name="author" content="Erian C.A.">
+  <title>Kraze · Registra tu tienda</title>
+
+  <!-- ============================================================
+       KRAZE · Registro de Tienda
+       © 2026 Erian C.A. — Todos los derechos reservados
+       Archivo: 19-Registro-Tienda.html
+       ============================================================ -->
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      min-height: 100vh;
+      background-color: #FAFAF7;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1A1F2E;
+    }
+
+    body {
+      padding: 24px 24px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .top-row {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: transparent;
+      color: #1A1F2E;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-left: -8px;
+      text-decoration: none;
+    }
+    .back-btn:active { background-color: rgba(0,0,0,0.05); }
+
+    .step-label { font-size: 13px; font-weight: 600; color: #8A8F80; }
+
+    .progress {
+      width: 100%;
+      max-width: 440px;
+      height: 4px;
+      background-color: #E5E5DE;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+    .progress-fill {
+      height: 100%;
+      background-color: #A4D65E;
+      width: 33%;
+      border-radius: 2px;
+    }
+
+    .title {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      color: #1A1F2E;
+      margin-bottom: 6px;
+      align-self: flex-start;
+      max-width: 440px;
+      width: 100%;
+    }
+
+    .sub {
+      font-size: 14px;
+      color: #8A8F80;
+      margin-bottom: 28px;
+      align-self: flex-start;
+      max-width: 440px;
+      width: 100%;
+      line-height: 1.45;
+    }
+
+    .form {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #4A4A4A;
+      padding-left: 2px;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 12px;
+      padding: 15px 16px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #1A1F2E;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      min-height: 52px;
+    }
+
+    .field textarea {
+      min-height: 90px;
+      resize: vertical;
+      line-height: 1.4;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: #A4D65E;
+      box-shadow: 0 0 0 3px rgba(164, 214, 94, 0.18);
+    }
+
+    /* --- Botón de ubicación GPS --- */
+    .btn-location {
+      width: 100%;
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1A1F2E;
+      cursor: pointer;
+      font-family: inherit;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: border-color 0.15s, background-color 0.15s;
+      text-align: left;
+    }
+    .btn-location:active { background-color: #F5F5F0; }
+
+    .btn-location.capturada {
+      border-color: #A4D65E;
+      background-color: #F8FBEF;
+    }
+
+    .btn-location-icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .btn-location-icon svg {
+      width: 100%;
+      height: 100%;
+      stroke: #1A1F2E;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .btn-location-texto {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1A1F2E;
+      line-height: 1.3;
+    }
+
+    .btn-location-sub {
+      font-size: 12px;
+      font-weight: 500;
+      color: #8A8F80;
+      display: block;
+      margin-top: 2px;
+    }
+
+    .btn-location.capturada .btn-location-texto { color: #1A1F2E; }
+    .btn-location.capturada .btn-location-sub { color: #166534; }
+
+    /* --- Grid categorías --- */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .cat-card {
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 12px;
+      padding: 12px 6px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.15s, border-color 0.15s, background-color 0.15s;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .cat-card:active { transform: scale(0.97); }
+    .cat-card.selected {
+      border-color: #A4D65E;
+      background-color: #F8FBEF;
+      box-shadow: 0 0 0 3px rgba(164, 214, 94, 0.15);
+    }
+
+    .cat-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cat-icon svg {
+      width: 100%;
+      height: 100%;
+      stroke: #1A1F2E;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .cat-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #1A1F2E;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .btn-continue {
+      width: 100%;
+      max-width: 440px;
+      background-color: #A4D65E;
+      color: #1A1F2E;
+      border: none;
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 54px;
+      margin-top: 24px;
+    }
+    .btn-continue:active { transform: scale(0.98); }
+    .btn-continue:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .error-msg, .ok-msg {
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      display: none;
+      max-width: 440px;
+      width: 100%;
+    }
+    .error-msg { background-color: #FEE2E2; color: #B91C1C; }
+    .ok-msg    { background-color: #DCFCE7; color: #166534; }
+    .error-msg.show, .ok-msg.show { display: block; }
+  </style>
+</head>
+<body>
+
+  <div class="top-row">
+    <a href="04-Home-Pasajero.html" class="back-btn" aria-label="Volver">&#8592;</a>
+    <div class="step-label">Paso 1 de 3</div>
+  </div>
+
+  <div class="progress"><div class="progress-fill"></div></div>
+
+  <h1 class="title">Registra tu tienda</h1>
+  <p class="sub">Cuentanos de tu negocio. Despues subiras los documentos y podras crear tu menu.</p>
+
+  <form class="form" id="form-tienda" autocomplete="on">
+
+    <div class="error-msg" id="error-msg"></div>
+    <div class="ok-msg" id="ok-msg"></div>
+
+    <div class="field">
+      <label for="nombre">Nombre de tu tienda</label>
+      <input type="text" id="nombre" placeholder="Ej: Pizzeria Bella Napoli" required>
+    </div>
+
+    <div class="field">
+      <label for="descripcion">Descripcion corta</label>
+      <textarea id="descripcion" placeholder="Ej: Pizzas artesanales con ingredientes frescos..." required></textarea>
+    </div>
+
+    <div class="field">
+      <label>Categoria</label>
+      <div class="cat-grid" id="cat-grid">
+
+        <div class="cat-card" data-cat="fastfood">
+          <div class="cat-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 10h16"/>
+              <path d="M4 10c0-4 4-6 8-6s8 2 8 6"/>
+              <path d="M3 14h18v2a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3z"/>
+              <line x1="12" y1="14" x2="12" y2="17"/>
+            </svg>
+          </div>
+          <div class="cat-label">Comida rapida</div>
+        </div>
+
+        <div class="cat-card" data-cat="restaurant">
+          <div class="cat-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M5 3v8a3 3 0 0 0 3 3v7"/>
+              <path d="M5 3v5"/>
+              <path d="M8 3v5"/>
+              <path d="M19 3v18"/>
+              <path d="M19 3c-2 0-3 2-3 4s1 4 3 4"/>
+            </svg>
+          </div>
+          <div class="cat-label">Restaurante</div>
+        </div>
+
+        <div class="cat-card" data-cat="mercado">
+          <div class="cat-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M3 6l2 14h14l2-14"/>
+              <path d="M3 6h18"/>
+              <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            </svg>
+          </div>
+          <div class="cat-label">Mercado</div>
+        </div>
+
+        <div class="cat-card" data-cat="farmacia">
+          <div class="cat-icon">
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="8" width="18" height="12" rx="2"/>
+              <line x1="12" y1="12" x2="12" y2="16"/>
+              <line x1="10" y1="14" x2="14" y2="14"/>
+            </svg>
+          </div>
+          <div class="cat-label">Farmacia</div>
+        </div>
+
+        <div class="cat-card" data-cat="licoreria">
+          <div class="cat-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M8 3h8l-1 10a3 3 0 0 1-6 0z"/>
+              <line x1="12" y1="16" x2="12" y2="21"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+            </svg>
+          </div>
+          <div class="cat-label">Licoreria</div>
+        </div>
+
+        <div class="cat-card" data-cat="postres">
+          <div class="cat-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 3c-3 0-5 2-5 4h10c0-2-2-4-5-4z"/>
+              <path d="M7 7v3l1 2v8h8v-8l1-2V7"/>
+              <line x1="7" y1="13" x2="17" y2="13"/>
+            </svg>
+          </div>
+          <div class="cat-label">Postres</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="telefono">Telefono del negocio</label>
+      <input type="tel" id="telefono" placeholder="4121234567" inputmode="numeric" pattern="[0-9]{10}" required>
+    </div>
+
+    <div class="field">
+      <label for="direccion">Direccion</label>
+      <input type="text" id="direccion" placeholder="Ej: Av. Principal, Local 5, Socopo" required>
+    </div>
+
+    <!-- NUEVO: Botón de ubicación GPS -->
+    <div class="field">
+      <label>Ubicacion de la tienda</label>
+      <button type="button" class="btn-location" id="btn-location">
+        <div class="btn-location-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 22s-8-7.5-8-13.5A8 8 0 0 1 20 8.5C20 14.5 12 22 12 22z"/>
+            <circle cx="12" cy="8.5" r="3"/>
+          </svg>
+        </div>
+        <div class="btn-location-texto">
+          Usar mi ubicacion actual
+          <span class="btn-location-sub">Toca para capturar las coordenadas GPS</span>
+        </div>
+      </button>
+    </div>
+
+    <button type="submit" class="btn-continue" id="btn-continue">Continuar</button>
+
+  </form>

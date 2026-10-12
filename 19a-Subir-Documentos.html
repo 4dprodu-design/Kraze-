@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FAFAF7">
+  <meta name="author" content="Erian C.A.">
+  <title>Kraze · Documentos de la tienda</title>
+
+  <!-- ============================================================
+       KRAZE · Subir Documentos
+       © 2026 Erian C.A. — Todos los derechos reservados
+       Archivo: 19a-Subir-Documentos.html
+       ============================================================ -->
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      min-height: 100vh;
+      background-color: #FAFAF7;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1A1F2E;
+    }
+
+    body {
+      padding: 24px 24px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .top-row {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: transparent;
+      color: #1A1F2E;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-left: -8px;
+      text-decoration: none;
+    }
+    .back-btn:active { background-color: rgba(0,0,0,0.05); }
+
+    .step-label { font-size: 13px; font-weight: 600; color: #8A8F80; }
+
+    .progress {
+      width: 100%;
+      max-width: 440px;
+      height: 4px;
+      background-color: #E5E5DE;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+    .progress-fill {
+      height: 100%;
+      background-color: #A4D65E;
+      width: 66%;
+      border-radius: 2px;
+    }
+
+    .title {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      color: #1A1F2E;
+      margin-bottom: 6px;
+      align-self: flex-start;
+      max-width: 440px;
+      width: 100%;
+    }
+
+    .sub {
+      font-size: 14px;
+      color: #8A8F80;
+      margin-bottom: 28px;
+      align-self: flex-start;
+      max-width: 440px;
+      width: 100%;
+      line-height: 1.45;
+    }
+
+    .docs-list {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .doc-card {
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      transition: border-color 0.15s, background-color 0.15s;
+    }
+    .doc-card.completado {
+      border-color: #A4D65E;
+      background-color: #F8FBEF;
+    }
+
+    .doc-preview {
+      width: 72px;
+      height: 72px;
+      border-radius: 12px;
+      background-color: #F5F5F0;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      color: #8A8F80;
+      overflow: hidden;
+    }
+
+    .doc-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .doc-nombre {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1A1F2E;
+      margin-bottom: 3px;
+    }
+
+    .doc-desc {
+      font-size: 12px;
+      color: #8A8F80;
+      line-height: 1.3;
+    }
+
+    .doc-btn {
+      background-color: #F5F5F0;
+      color: #1A1F2E;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      flex-shrink: 0;
+      min-height: 42px;
+    }
+    .doc-btn:active { background-color: #E5E5DE; }
+    .doc-card.completado .doc-btn {
+      background-color: #A4D65E;
+    }
+
+    .doc-input {
+      display: none;
+    }
+
+    .btn-continue {
+      width: 100%;
+      max-width: 440px;
+      background-color: #A4D65E;
+      color: #1A1F2E;
+      border: none;
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 54px;
+      margin-top: 24px;
+      transition: transform 0.15s, opacity 0.15s;
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    .btn-continue.activo {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .btn-continue:active { transform: scale(0.98); }
+    .btn-continue:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .error-msg, .ok-msg {
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      display: none;
+      max-width: 440px;
+      width: 100%;
+      margin-bottom: 12px;
+    }
+    .error-msg { background-color: #FEE2E2; color: #B91C1C; }
+    .ok-msg    { background-color: #DCFCE7; color: #166534; }
+    .error-msg.show, .ok-msg.show { display: block; }
+  </style>
+</head>
+<body>
+
+  <div class="top-row">
+    <a href="19-Registro-Tienda.html" class="back-btn" aria-label="Volver">&#8592;</a>
+    <div class="step-label">Paso 2 de 3</div>
+  </div>
+
+  <div class="progress"><div class="progress-fill"></div></div>
+
+  <h1 class="title">Documentos</h1>
+  <p class="sub">Necesitamos verificar tu identidad y la de tu negocio. Sube fotos claras.</p>
+
+  <div class="error-msg" id="error-msg"></div>
+  <div class="ok-msg" id="ok-msg"></div>
+
+  <div class="docs-list">
+
+    <div class="doc-card" id="card-cedula-frente">
+      <div class="doc-preview" id="prev-cedula-frente">&#128196;</div>
+      <div class="doc-info">
+        <div class="doc-nombre">Cédula (frente)</div>
+        <div class="doc-desc">Foto clara del frente de tu cédula</div>
+      </div>
+      <button class="doc-btn" data-doc="cedula-frente">Subir</button>
+      <input type="file" class="doc-input" id="input-cedula-frente" accept="image/*" capture="environment">
+    </div>
+
+    <div class="doc-card" id="card-cedula-reverso">
+      <div class="doc-preview" id="prev-cedula-reverso">&#128196;</div>
+      <div class="doc-info">
+        <div class="doc-nombre">Cédula (reverso)</div>
+        <div class="doc-desc">Foto clara del reverso de tu cédula</div>
+      </div>
+      <button class="doc-btn" data-doc="cedula-reverso">Subir</button>
+      <input type="file" class="doc-input" id="input-cedula-reverso" accept="image/*" capture="environment">
+    </div>
+
+    <div class="doc-card" id="card-rif">
+      <div class="doc-preview" id="prev-rif">&#128196;</div>
+      <div class="doc-info">
+        <div class="doc-nombre">RIF del negocio</div>
+        <div class="doc-desc">Registro de Información Fiscal</div>
+      </div>
+      <button class="doc-btn" data-doc="rif">Subir</button>
+      <input type="file" class="doc-input" id="input-rif" accept="image/*,application/pdf" capture="environment">
+    </div>
+
+  </div>
+
+  <button class="btn-continue" id="btn-continue">Continuar</button>
+  <!-- ============================================================
+       Scripts base
+       ============================================================ -->
+  <script src="js/nav.js"></script>
+  <script src="js/kraze-db.js"></script>
+  <script src="js/kraze-ia.js"></script>
+
+  <!-- ============================================================
+       Lógica del Registro de Documentos
+       © 2026 Erian C.A. — Todos los derechos reservados
+       ============================================================ -->
+  <script>
+  (function () {
+    'use strict';
+
+    var SUPABASE_URL = 'https://xetqvxuiroalddfzrfzc.supabase.co';
+    var SUPABASE_KEY = 'sb_publishable_SARKcARFpIESQRUDSxbpig_kdlHrZh3';
+
+    var errBox = document.getElementById('error-msg');
+    var okBox  = document.getElementById('ok-msg');
+    var btn    = document.getElementById('btn-continue');
+
+    var tiendaId = null;
+    var docs = {
+      'cedula-frente':  null,
+      'cedula-reverso': null,
+      'rif':            null
+    };
+
+    function mostrarError(msg) {
+      errBox.textContent = msg;
+      errBox.classList.add('show');
+      okBox.classList.remove('show');
+      setTimeout(function () { errBox.classList.remove('show'); }, 6000);
+    }
+
+    function mostrarOk(msg) {
+      okBox.textContent = msg;
+      okBox.classList.add('show');
+      errBox.classList.remove('show');
+    }
+
+    function leerTiendaDeURL() {
+      var params = new URLSearchParams(window.location.search);
+      return params.get('id');
+    }
+
+    function tiendaDeStorage() {
+      if (!Kraze.nav || !Kraze.nav.store) return null;
+      return Kraze.nav.store.get('kraze_tienda_registro');
+    }
+
+    function actualizarBoton() {
+      var completos = 0;
+      for (var k in docs) {
+        if (docs.hasOwnProperty(k) && docs[k]) completos++;
+      }
+
+      if (completos === 3) {
+        btn.classList.add('activo');
+        btn.disabled = false;
+      } else {
+        btn.classList.remove('activo');
+        btn.disabled = true;
+      }
+    }
+
+    function subirArchivo(docKey, file) {
+      var card = document.getElementById('card-' + docKey);
+      var prev = document.getElementById('prev-' + docKey);
+
+      if (file.type.indexOf('image') === 0) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          prev.style.backgroundImage = 'url(' + e.target.result + ')';
+          prev.textContent = '';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        prev.textContent = '📄';
+      }
+
+      card.classList.add('completado');
+      var btnDoc = card.querySelector('.doc-btn');
+      if (btnDoc) btnDoc.textContent = 'Cambiar';
+
+      docs[docKey] = file;
+      actualizarBoton();
+    }
+
+    var botones = document.querySelectorAll('.doc-btn');
+    for (var i = 0; i < botones.length; i++) {
+      botones[i].addEventListener('click', function () {
+        var docKey = this.getAttribute('data-doc');
+        document.getElementById('input-' + docKey).click();
+      });
+    }
+
+    var inputs = document.querySelectorAll('.doc-input');
+    for (var j = 0; j < inputs.length; j++) {
+      inputs[j].addEventListener('change', function () {
+        var docKey = this.id.replace('input-', '');
+        if (this.files && this.files[0]) {
+          subirArchivo(docKey, this.files[0]);
+        }
+      });
+    }
+
+    /* --- Subir a Supabase Storage --- */
+    function subirAStorage(docKey, file) {
+      return new Promise(function (resolve, reject) {
+        var ext = file.name.split('.').pop() || 'jpg';
+        var nombre = tiendaId + '_' + docKey + '_' + Date.now() + '.' + ext;
+        var path = 'tiendas/' + tiendaId + '/' + nombre;
+        var url = SUPABASE_URL + '/storage/v1/object/docs/' + path;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + SUPABASE_KEY);
+        xhr.setRequestHeader('apikey', SUPABASE_KEY);
+        xhr.setRequestHeader('Content-Type', file.type || 'image/jpeg');
+        xhr.setRequestHeader('x-upsert', 'true');
+
+        xhr.onload = function () {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            var publicUrl = SUPABASE_URL + '/storage/v1/object/public/docs/' + path;
+            resolve({ path: path, url: publicUrl });
+          } else {
+            reject(new Error('Upload ' + xhr.status + ': ' + xhr.responseText.substring(0, 150)));
+          }
+        };
+
+        xhr.onerror = function () {
+          reject(new Error('Error de red al subir'));
+        };
+
+        xhr.send(file);
+      });
+    }
+
+    /* --- Guardar verificación --- */
+    function guardarVerificacion(urls) {
+      var datos = {
+        store_id: tiendaId,
+        docs: urls,
+        estado: 'pendiente',
+        creada: new Date().toISOString()
+      };
+
+      return fetch(SUPABASE_URL + '/rest/v1/verifications', {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=representation'
+        },
+        body: JSON.stringify(datos)
+      })
+      .then(function (res) {
+        if (!res.ok) {
+          return res.text().then(function (t) {
+            throw new Error('Verifications ' + res.status + ': ' + t.substring(0, 200));
+          });
+        }
+        return res.json();
+      });
+    }
+
+    /* --- Enviar --- */
+    btn.addEventListener('click', function () {
+      if (!tiendaId) {
+        return mostrarError('No se encontró la tienda. Vuelve al paso 1.');
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Subiendo...';
+
+      Promise.all([
+        subirAStorage('cedula-frente',  docs['cedula-frente']),
+        subirAStorage('cedula-reverso', docs['cedula-reverso']),
+        subirAStorage('rif',            docs['rif'])
+      ])
+      .then(function (resultados) {
+        var urls = {
+          cedula_frente:  resultados[0].path,
+          cedula_reverso: resultados[1].path,
+          rif:            resultados[2].path
+        };
+        return guardarVerificacion(urls);
+      })
+      .then(function () {
+        mostrarOk('Documentos subidos. Continuando...');
+        setTimeout(function () {
+          Kraze.nav.irA('19b-Editor-Menu.html?id=' + tiendaId);
+        }, 1200);
+      })
+      .catch(function (err) {
+        console.error('[Docs] Error:', err);
+        mostrarError('Error: ' + err.message);
+        btn.disabled = false;
+        btn.textContent = 'Continuar';
+      });
+    });
+
+    tiendaId = leerTiendaDeURL() || (tiendaDeStorage() && tiendaDeStorage().id);
+
+    if (!tiendaId) {
+      mostrarError('No se encontró la tienda. Vuelve al paso 1.');
+    }
+
+    console.log('Kraze Documentos listo · tienda:', tiendaId);
+
+  })();
+  </script>
+
+</body>
+</html>

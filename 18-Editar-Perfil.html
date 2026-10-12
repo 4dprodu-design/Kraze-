@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="color-scheme" content="only light">
+<meta name="supported-color-schemes" content="only light">
+<meta name="theme-color" content="#A4D65E">
+<title>Kraze · Editar perfil</title>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   KRAZE · Editar perfil
+   © Erian C.A. — "Transporte total"
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  color-scheme: only light;
+  --verde: #A4D65E;
+  --verde-osc: #8BC34A;
+  --verde-claro: #EEF7DC;
+  --wordmark: #1A1F2E;
+  --fondo: #FAFAF7;
+  --blanco: #FFFFFF;
+  --g1: #F2F2EE;
+  --g2: #E4E4DE;
+  --g3: #9A9A94;
+  --g4: #4A4A4A;
+  --rojo: #E53935;
+  --rojo-claro: #FDECEC;
+  --sombra-1: 0 2px 8px rgba(26,31,46,.06);
+  --sombra-2: 0 6px 24px rgba(26,31,46,.12);
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-full: 999px;
+}
+html { forced-color-adjust: none; -webkit-text-size-adjust: 100%; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--fondo);
+  color: var(--wordmark);
+  overflow-x: hidden;
+  min-height: 100dvh;
+  line-height: 1.4;
+  padding-bottom: 100px;
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, textarea, select { font-family: inherit; font-size: 16px; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+/* ─────────── HEADER ─────────── */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 60px;
+  background: var(--blanco);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  box-shadow: var(--sombra-1);
+}
+.header-back {
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  border-radius: var(--r-full);
+  background: var(--g1);
+  transition: background .15s;
+}
+.header-back:active { background: var(--g2); }
+.header-title {
+  flex: 1;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+
+/* ─────────── CONTENIDO ─────────── */
+.contenido {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.card {
+  background: var(--blanco);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sombra-1);
+  padding: 18px 16px;
+}
+.card-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--g3);
+  margin-bottom: 14px;
+}
+
+/* ─────────── FOTO PERFIL ─────────── */
+.foto-bloque { text-align: center; }
+.foto-wrap {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 18px;
+}
+.foto-img {
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--g1);
+  border: 3px solid var(--verde);
+  display: none;
+}
+.foto-placeholder {
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  background: var(--g1);
+  border: 3px solid var(--g2);
+  display: grid;
+  place-items: center;
+  color: var(--g3);
+}
+.foto-placeholder svg { width: 52px; height: 52px; }
+.foto-borrar {
+  position: absolute;
+  top: 0; right: 0;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--rojo);
+  color: var(--blanco);
+  display: none;
+  place-items: center;
+  box-shadow: 0 2px 8px rgba(229,57,53,.4);
+  transition: transform .15s;
+}
+.foto-borrar:active { transform: scale(.9); }
+.foto-borrar svg { width: 16px; height: 16px; }
+
+.foto-botones {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn-foto {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: var(--r-full);
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform .12s, opacity .15s;
+}
+.btn-foto:active { transform: scale(.96); }
+.btn-foto.primario { background: var(--wordmark); color: var(--blanco); }
+.btn-foto.secundario { background: var(--verde); color: var(--wordmark); }
+.btn-foto svg { width: 18px; height: 18px; }
+
+/* ─────────── FORM ─────────── */
+.campo { margin-bottom: 14px; }
+.campo:last-child { margin-bottom: 0; }
+.campo-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--g3);
+  margin-bottom: 6px;
+}
+.campo-input,
+.campo-textarea {
+  width: 100%;
+  background: var(--g1);
+  border: 1.5px solid transparent;
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  font-size: 15px;
+  color: var(--wordmark);
+  outline: none;
+  transition: border-color .15s, background .15s;
+}
+.campo-input:focus,
+.campo-textarea:focus {
+  background: var(--blanco);
+  border-color: var(--verde);
+}
+.campo-input::placeholder,
+.campo-textarea::placeholder { color: var(--g3); }
+.campo-textarea { min-height: 80px; resize: vertical; }
+.campo-hint {
+  font-size: 12px;
+  color: var(--g3);
+  margin-top: 6px;
+  padding-left: 4px;
+}
+
+/* ─────────── BOTÓN GUARDAR ─────────── */
+.btn-guardar {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  height: 56px;
+  border-radius: var(--r-full);
+  background: var(--verde);
+  color: var(--wordmark);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 24px rgba(164,214,94,.4);
+  transition: transform .15s;
+  z-index: 90;
+}
+.btn-guardar:active { transform: scale(.97); }
+.btn-guardar:disabled {
+  background: var(--g3);
+  box-shadow: none;
+  color: rgba(255,255,255,.7);
+}
+
+/* ─────────── ERI FAB ─────────── */
+.eri-fab {
+  position: fixed;
+  right: 16px;
+  bottom: 86px;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--r-full);
+  background: var(--verde);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 24px rgba(164,214,94,.45);
+  z-index: 900;
+  transition: transform .15s;
+}
+.eri-fab:active { transform: scale(.92); }
+.eri-fab svg { width: 28px; height: 34px; display: block; }
+
+/* ─────────── PANEL ERI ─────────── */
+.eri-panel {
+  position: fixed;
+  inset: 0;
+  height: 100dvh;
+  background: var(--fondo);
+  display: none;
+  flex-direction: column;
+  z-index: 9999;
+  overscroll-behavior: contain;
+}
+.eri-panel.abierto { display: flex; }
+.eri-header {
+  height: 60px;
+  background: var(--blanco);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  box-shadow: var(--sombra-1);
+  flex-shrink: 0;
+}
+.eri-avatar-h {
+  width: 38px; height: 38px;
+  border-radius: var(--r-full);
+  background: var(--verde);
+  display: grid; place-items: center;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--wordmark);
+}
+.eri-titulo { flex: 1; }
+.eri-titulo strong { font-size: 15px; font-weight: 700; display: block; }
+.eri-estado { font-size: 12px; color: var(--verde-osc); font-weight: 600; }
+.eri-close {
+  width: 36px; height: 36px;
+  display: grid; place-items: center;
+  border-radius: var(--r-full);
+  background: var(--g1);
+}
+.eri-close svg { width: 18px; height: 18px; }
+.eri-mensajes {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  -webkit-overflow-scrolling: touch;
+}
+.msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.45;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  animation: msgIn .2s ease-out;
+}
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.msg.eri {
+  background: var(--blanco);
+  align-self: flex-start;
+  border-bottom-left-radius: 6px;
+  box-shadow: var(--sombra-1);
+}
+.msg.user {
+  background: var(--verde);
+  color: var(--wordmark);
+  align-self: flex-end;
+  border-bottom-right-radius: 6px;
+  font-weight: 500;
+}
+.msg.error {
+  background: var(--rojo-claro);
+  color: var(--rojo);
+  font-size: 12px;
+  align-self: flex-start;
+  border-bottom-left-radius: 6px;
+}
+.msg.typing {
+  display: flex;
+  gap: 4px;
+  padding: 14px;
+}
+.msg.typing span {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--g3);
+  animation: bounce 1.2s infinite;
+}
+.msg.typing span:nth-child(2) { animation-delay: .15s; }
+.msg.typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: .5; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+.eri-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  background: var(--blanco);
+  border-top: 1px solid var(--g2);
+  flex-shrink: 0;
+}
+.eri-input {
+  flex: 1;
+  min-width: 0;
+  background: var(--g1);
+  border: none;
+  border-radius: var(--r-full);
+  padding: 12px 16px;
+  font-size: 15px;
+  color: var(--wordmark);
+  outline: none;
+}
+.eri-input::placeholder { color: var(--g3); }
+.eri-btn {
+  width: 44px; height: 44px;
+  border-radius: var(--r-full);
+  display: grid; place-items: center;
+  flex-shrink: 0;
+  transition: transform .12s, background .15s;
+}
+.eri-btn:active { transform: scale(.92); }
+.eri-btn.mic { background: var(--g1); }
+.eri-btn.mic svg { width: 20px; height: 20px; color: var(--wordmark); }
+.eri-btn.mic.grabando {
+  background: var(--rojo);
+  animation: pulsar .8s infinite alternate;
+}
+.eri-btn.mic.grabando svg { color: var(--blanco); }
+@keyframes pulsar {
+  from { box-shadow: 0 0 0 0 rgba(229,57,53,.5); }
+  to { box-shadow: 0 0 0 12px rgba(229,57,53,0); }
+}
+.eri-btn.enviar { background: var(--wordmark); }
+.eri-btn.enviar svg { width: 20px; height: 20px; color: var(--blanco); }
+
+/* ─────────── MENÚ AVATAR ─────────── */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26,31,46,.4);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s;
+}
+.menu-overlay.abierto { opacity: 1; pointer-events: auto; }
+.menu-panel {
+  position: fixed;
+  top: 0; right: 0;
+  width: 78%;
+  max-width: 320px;
+  height: 100dvh;
+  background: var(--blanco);
+  z-index: 1001;
+  transform: translateX(100%);
+  transition: transform .25s cubic-bezier(.2,.9,.3,1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -8px 0 32px rgba(26,31,46,.15);
+}
+.menu-panel.abierto { transform: translateX(0); }
+.menu-head {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--g2);
+}
+.menu-head-avatar {
+  width: 56px; height: 56px;
+  border-radius: var(--r-full);
+  background: var(--verde);
+  display: grid; place-items: center;
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--wordmark);
+  margin-bottom: 10px;
+}
+.menu-head-nombre { font-size: 16px; font-weight: 700; }
+.menu-head-sub { font-size: 13px; color: var(--g3); margin-top: 2px; }
+.menu-lista { flex: 1; overflow-y: auto; padding: 8px 0; }
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  transition: background .15s;
+  width: 100%;
+  text-align: left;
+}
+.menu-item:active { background: var(--g1); }
+.menu-item svg { width: 20px; height: 20px; color: var(--g4); flex-shrink: 0; }
+.menu-item span { font-size: 15px; font-weight: 500; color: var(--wordmark); }
+.menu-item.rojo svg { color: var(--rojo); }
+.menu-item.rojo span { color: var(--rojo); }
+.menu-foot {
+  padding: 14px 20px calc(14px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--g2);
+  font-size: 11px;
+  color: var(--g3);
+  text-align: center;
+}
+
+/* ─────────── TOAST ─────────── */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 110px;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--wordmark);
+  color: var(--blanco);
+  padding: 12px 20px;
+  border-radius: var(--r-full);
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s, transform .2s;
+  max-width: 90%;
+  text-align: center;
+  white-space: pre-line;
+}
+.toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+</style>
+</head>
+<body><!-- ═══════════ HEADER ═══════════ -->
+<header class="header">
+  <button class="header-back" onclick="history.back()" aria-label="Volver">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </button>
+  <div class="header-title">Editar perfil</div>
+</header>
+
+<!-- ═══════════ CONTENIDO ═══════════ -->
+<main class="contenido">
+
+  <!-- Foto de perfil -->
+  <section class="card foto-bloque">
+    <div class="card-label">Foto de perfil</div>
+
+    <div class="foto-wrap">
+      <img id="fotoPerfil" class="foto-img" src="" alt="Foto de perfil">
+
+      <div id="fotoPlaceholder" class="foto-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+
+      <button id="btnBorrarFoto" class="foto-borrar" aria-label="Quitar foto">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Inputs ocultos -->
+    <input type="file" id="inputCamara" accept="image/*" capture="user" style="display:none;">
+    <input type="file" id="inputGaleria" accept="image/*" style="display:none;">
+
+    <!-- Botones visibles -->
+    <div class="foto-botones">
+      <button id="btnCamara" class="btn-foto primario" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+        <span>Tomar foto</span>
+      </button>
+
+      <button id="btnGaleria" class="btn-foto secundario" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21 15 16 10 5 21"/>
+        </svg>
+        <span>Elegir de galería</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Datos personales -->
+  <section class="card">
+    <div class="card-label">Datos personales</div>
+
+    <div class="campo">
+      <label class="campo-label" for="inputNombre">Nombre completo</label>
+      <input type="text" id="inputNombre" class="campo-input" placeholder="Tu nombre" autocomplete="name">
+    </div>
+
+    <div class="campo">
+      <label class="campo-label" for="inputTelefono">Teléfono</label>
+      <input type="tel" id="inputTelefono" class="campo-input" placeholder="+58 4XX XXX XXXX" autocomplete="tel">
+    </div>
+
+    <div class="campo">
+      <label class="campo-label" for="inputEmail">Correo electrónico</label>
+      <input type="email" id="inputEmail" class="campo-input" placeholder="tucorreo@ejemplo.com" autocomplete="email">
+    </div>
+
+    <div class="campo">
+      <label class="campo-label" for="inputBio">Biografía</label>
+      <textarea id="inputBio" class="campo-textarea" placeholder="Cuéntanos algo sobre ti..."></textarea>
+      <div class="campo-hint">Máximo 200 caracteres.</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══════════ BOTÓN GUARDAR ═══════════ -->
+<button class="btn-guardar" id="btnGuardar">Guardar cambios</button>
+
+<!-- ═══════════ ERI FAB (logo Kraze) ═══════════ -->
+<button class="eri-fab" id="btnEri" aria-label="Hablar con Eri">
+  <svg viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 1C8.27 1 2 7.27 2 15c0 10.5 12.5 23 13 23.5.28.28.72.28 1 0 .5-.5 13-13 13-23.5C29 7.27 22.73 1 16 1z" fill="#A4D65E"/>
+    <path d="M16 24s-7-4.4-7-9.3c0-2.2 1.8-4 4-4 1.5 0 2.5.8 3 1.6.5-.8 1.5-1.6 3-1.6 2.2 0 4 1.8 4 4 0 4.9-7 9.3-7 9.3z" fill="#1A1F2E"/>
+  </svg>
+</button>
+
+<!-- ═══════════ PANEL ERI ═══════════ -->
+<div class="eri-panel" id="eriPanel">
+  <div class="eri-header">
+    <div class="eri-avatar-h">E</div>
+    <div class="eri-titulo">
+      <strong>Eri</strong>
+      <div class="eri-estado" id="eriEstado">En línea</div>
+    </div>
+    <button class="eri-close" id="btnEriClose" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+  <div class="eri-mensajes" id="eriMensajes"></div>
+  <div class="eri-input-row">
+    <button class="eri-btn mic" id="btnMic" aria-label="Hablar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        <line x1="12" y1="19" x2="12" y2="23"/>
+      </svg>
+    </button>
+    <input type="text" class="eri-input" id="eriInput" placeholder="Escríbele a Eri..." autocomplete="off">
+    <button class="eri-btn enviar" id="btnEnviar" aria-label="Enviar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════ MENÚ AVATAR ═══════════ -->
+<div class="menu-overlay" id="menuOverlay"></div>
+<aside class="menu-panel" id="menuPanel">
+  <div class="menu-head">
+    <div class="menu-head-avatar" id="menuAvatar">P</div>
+    <div class="menu-head-nombre" id="menuNombre">Usuario</div>
+    <div class="menu-head-sub" id="menuSub">—</div>
+  </div>
+  <div class="menu-lista">
+    <button class="menu-item" onclick="location.href='08-Perfil-Pasajero.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <span>Mi perfil</span>
+    </button>
+    <button class="menu-item" onclick="location.href='13-Billetera.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/>
+        <path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/>
+        <path d="M18 12a2 2 0 0 0 0 4h4v-4z"/>
+      </svg>
+      <span>Mi billetera</span>
+    </button>
+    <button class="menu-item" onclick="location.href='11-Mis-Viajes.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+      <span>Mis viajes</span>
+    </button>
+    <button class="menu-item" onclick="cambiarRol()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="17 1 21 5 17 9"/>
+        <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+        <polyline points="7 23 3 19 7 15"/>
+        <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+      </svg>
+      <span>Cambiar rol</span>
+    </button>
+    <button class="menu-item rojo" onclick="cerrarSesion()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      <span>Cerrar sesión</span>
+    </button>
+  </div>
+  <div class="menu-foot">Kraze · Erian C.A. © 2026</div>
+</aside>
+
+<div class="toast" id="toast"></div><script>
+/* ═══════════════════════════════════════════════════════════
+   KRAZE · Editar perfil — Lógica
+   © Erian C.A.
+   ═══════════════════════════════════════════════════════════ */
+
+const API_BASE = 'https://moto-llave-backend.vercel.app';
+const STORAGE_USUARIO = 'kraze_usuario';
+const STORAGE_FOTO = 'kraze_foto_perfil';
+const STORAGE_ROL = 'kraze_rol';
+
+const $ = (id) => document.getElementById(id);
+
+/* ─────────── TOAST ─────────── */
+let toastTimer;
+function toast(msg, ms = 3000) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('visible');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('visible'), ms);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FOTO DE PERFIL — cámara + galería
+   ═══════════════════════════════════════════════════════════ */
+const inputCamara = $('inputCamara');
+const inputGaleria = $('inputGaleria');
+const fotoPerfil = $('fotoPerfil');
+const fotoPlaceholder = $('fotoPlaceholder');
+const btnBorrarFoto = $('btnBorrarFoto');
+
+function cargarFotoGuardada() {
+  const guardada = localStorage.getItem(STORAGE_FOTO);
+  if (guardada) {
+    fotoPerfil.src = guardada;
+    fotoPerfil.style.display = 'block';
+    fotoPlaceholder.style.display = 'none';
+    btnBorrarFoto.style.display = 'grid';
+  }
+}
+
+function procesarArchivo(file) {
+  if (!file) return;
+
+  if (!file.type.startsWith('image/')) {
+    toast('❌ El archivo debe ser una imagen');
+    return;
+  }
+
+  const MAX_MB = 5;
+  if (file.size > MAX_MB * 1024 * 1024) {
+    toast(`❌ Imagen muy grande (máx ${MAX_MB} MB)`);
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const dataUrl = e.target.result;
+    fotoPerfil.src = dataUrl;
+    fotoPerfil.style.display = 'block';
+    fotoPlaceholder.style.display = 'none';
+    btnBorrarFoto.style.display = 'grid';
+
+    try {
+      localStorage.setItem(STORAGE_FOTO, dataUrl);
+      toast('✅ Foto actualizada');
+    } catch (err) {
+      console.warn('LocalStorage lleno:', err);
+      toast('⚠️ Foto muy grande, no se pudo guardar');
+    }
+  };
+  reader.onerror = () => toast('❌ Error al leer la imagen');
+  reader.readAsDataURL(file);
+}
+
+$('btnCamara').addEventListener('click', () => inputCamara.click());
+$('btnGaleria').addEventListener('click', () => inputGaleria.click());
+
+inputCamara.addEventListener('change', (e) => {
+  procesarArchivo(e.target.files[0]);
+  e.target.value = '';
+});
+inputGaleria.addEventListener('change', (e) => {
+  procesarArchivo(e.target.files[0]);
+  e.target.value = '';
+});
+
+btnBorrarFoto.addEventListener('click', () => {
+  if (!confirm('¿Quitar foto de perfil?')) return;
+  localStorage.removeItem(STORAGE_FOTO);
+  fotoPerfil.src = '';
+  fotoPerfil.style.display = 'none';
+  fotoPlaceholder.style.display = 'grid';
+  btnBorrarFoto.style.display = 'none';
+  toast('Foto eliminada');
+});
+
+/* ═══════════════════════════════════════════════════════════
+   CARGAR / GUARDAR DATOS
+   ═══════════════════════════════════════════════════════════ */
+function cargarDatos() {
+  const usuario = JSON.parse(localStorage.getItem(STORAGE_USUARIO) || 'null');
+  const rol = localStorage.getItem(STORAGE_ROL) || 'pasajero';
+
+  // Header avatar
+  const inicial = rol === 'transportista' ? 'C' : 'P';
+  $('menuAvatar').textContent = inicial;
+  $('menuNombre').textContent = usuario?.nombre || (rol === 'transportista' ? 'Conductor' : 'Pasajero');
+  $('menuSub').textContent = usuario?.telefono || '—';
+
+  // Formulario
+  if (usuario) {
+    $('inputNombre').value = usuario.nombre || '';
+    $('inputTelefono').value = usuario.telefono || '';
+    $('inputEmail').value = usuario.email || '';
+    $('inputBio').value = usuario.bio || '';
+  }
+}
+
+function guardarDatos() {
+  const nombre = $('inputNombre').value.trim();
+  const telefono = $('inputTelefono').value.trim();
+  const email = $('inputEmail').value.trim();
+  const bio = $('inputBio').value.trim();
+
+  if (!nombre) {
+    toast('El nombre no puede estar vacío');
+    return;
+  }
+  if (bio.length > 200) {
+    toast('La biografía no puede pasar de 200 caracteres');
+    return;
+  }
+
+  const usuario = {
+    nombre,
+    telefono,
+    email,
+    bio,
+    actualizado: Date.now()
+  };
+
+  localStorage.setItem(STORAGE_USUARIO, JSON.stringify(usuario));
+  toast('✅ Cambios guardados');
+  setTimeout(() => history.back(), 900);
+}
+
+$('btnGuardar').addEventListener('click', guardarDatos);
+
+/* ═══════════════════════════════════════════════════════════
+   MENÚ AVATAR
+   ═══════════════════════════════════════════════════════════ */
+const menuPanel = $('menuPanel');
+const menuOverlay = $('menuOverlay');
+
+function abrirMenu() {
+  menuPanel.classList.add('abierto');
+  menuOverlay.classList.add('abierto');
+}
+function cerrarMenu() {
+  menuPanel.classList.remove('abierto');
+  menuOverlay.classList.remove('abierto');
+}
+menuOverlay.addEventListener('click', cerrarMenu);
+
+function cambiarRol() {
+  const actual = localStorage.getItem(STORAGE_ROL) || 'pasajero';
+  const nuevo = actual === 'pasajero' ? 'transportista' : 'pasajero';
+  localStorage.setItem(STORAGE_ROL, nuevo);
+  location.href = nuevo === 'transportista'
+    ? '04-Home-Transportista.html'
+    : '04-Home-Pasajero.html';
+}
+function cerrarSesion() {
+  if (!confirm('¿Cerrar sesión?')) return;
+  localStorage.removeItem(STORAGE_USUARIO);
+  localStorage.removeItem(STORAGE_ROL);
+  location.href = '02-Login.html';
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ERI — Asistente IA
+   ═══════════════════════════════════════════════════════════ */
+const eriPanel = $('eriPanel');
+const eriMensajes = $('eriMensajes');
+const eriInput = $('eriInput');
+const btnMic = $('btnMic');
+const eriEstadoEl = $('eriEstado');
+
+let eriHistorial = [];
+let reconocimiento = null;
+let grabando = false;
+
+$('btnEri').addEventListener('click', () => {
+  eriPanel.classList.add('abierto');
+  if (eriMensajes.children.length === 0) {
+    agregarMsg('eri', '¡Hola! Soy Eri. ¿Te ayudo a completar tu perfil?');
+  }
+  setTimeout(() => eriInput.focus(), 200);
+});
+$('btnEriClose').addEventListener('click', () => {
+  eriPanel.classList.remove('abierto');
+  detenerReconocimiento();
+});
+
+function agregarMsg(tipo, texto) {
+  const div = document.createElement('div');
+  div.className = `msg ${tipo}`;
+  div.textContent = texto;
+  eriMensajes.appendChild(div);
+  eriMensajes.scrollTop = eriMensajes.scrollHeight;
+  return div;
+}
+function mostrarTyping() {
+  const div = document.createElement('div');
+  div.className = 'msg eri typing';
+  div.innerHTML = '<span></span><span></span><span></span>';
+  eriMensajes.appendChild(div);
+  eriMensajes.scrollTop = eriMensajes.scrollHeight;
+  return div;
+}
+
+async function enviarAEri(texto) {
+  texto = (texto || '').trim();
+  if (!texto) return;
+
+  agregarMsg('user', texto);
+  eriHistorial.push({ role: 'user', content: texto });
+  eriInput.value = '';
+  const typing = mostrarTyping();
+  eriEstadoEl.textContent = 'Pensando...';
+
+  try {
+    const resp = await fetch(`${API_BASE}/api/claude`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        mensajes: eriHistorial,
+        mensaje: texto,
+        prompt: texto,
+        contexto: 'Pantalla "Editar perfil" de Kraze. Ayudas al usuario a llenar sus datos personales: nombre, teléfono, correo y biografía. Eres amable y breve.'
+      })
+    });
+
+    const textoCrudo = await resp.text();
+    typing.remove();
+    eriEstadoEl.textContent = 'En línea';
+
+    if (!resp.ok) {
+      agregarMsg('error', `HTTP ${resp.status}`);
+      return;
+    }
+
+    let data;
+    try { data = JSON.parse(textoCrudo); }
+    catch (e) { agregarMsg('eri', textoCrudo); return; }
+
+    const respuesta =
+      data.respuesta ||
+      data.content ||
+      data.message ||
+      data.reply ||
+      (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) ||
+      '(sin respuesta)';
+
+    agregarMsg('eri', respuesta);
+    eriHistorial.push({ role: 'assistant', content: respuesta });
+    hablar(respuesta);
+
+  } catch (err) {
+    typing.remove();
+    eriEstadoEl.textContent = 'Error';
+    agregarMsg('error', 'Error de red: ' + err.message);
+  }
+}
+
+$('btnEnviar').addEventListener('click', () => enviarAEri(eriInput.value));
+eriInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    enviarAEri(eriInput.value);
+  }
+});
+
+function hablar(texto) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(texto);
+  u.lang = 'es-VE';
+  u.rate = 1.05;
+  const vEs = window.speechSynthesis.getVoices().find(v => v.lang.startsWith('es'));
+  if (vEs) u.voice = vEs;
+  window.speechSynthesis.speak(u);
+}
+
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (SR) {
+  reconocimiento = new SR();
+  reconocimiento.lang = 'es-VE';
+  reconocimiento.continuous = false;
+  reconocimiento.interimResults = false;
+
+  reconocimiento.onstart = () => {
+    grabando = true;
+    btnMic.classList.add('grabando');
+    toast('🎤 Escuchando...', 6000);
+  };
+  reconocimiento.onend = () => {
+    grabando = false;
+    btnMic.classList.remove('grabando');
+  };
+  reconocimiento.onerror = (e) => {
+    grabando = false;
+    btnMic.classList.remove('grabando');
+    if (e.error === 'not-allowed') toast('Permite el micrófono en Chrome', 4000);
+    else if (e.error !== 'no-speech' && e.error !== 'aborted') toast('Error mic: ' + e.error);
+  };
+  reconocimiento.onresult = (e) => {
+    const texto = e.results[0][0].transcript;
+    if (texto) enviarAEri(texto);
+  };
+}
+
+function detenerReconocimiento() {
+  if (reconocimiento && grabando) {
+    try { reconocimiento.stop(); } catch (e) {}
+  }
+}
+
+btnMic.addEventListener('click', () => {
+  if (!reconocimiento) {
+    toast('Micrófono no soportado. Usa Chrome Android.');
+    return;
+  }
+  if (grabando) detenerReconocimiento();
+  else {
+    try { reconocimiento.start(); } catch (e) {}
+  }
+});
+
+/* ═══════════════════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  cargarFotoGuardada();
+  cargarDatos();
+  console.log('[KRAZE] 18-Editar-Perfil cargado');
+});
+</script>
+</body>
+</html>

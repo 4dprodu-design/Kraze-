@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#FAFAF7">
+<title>Calificar viaje · Kraze</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #FAFAF7;
+  color: #1A1F2E;
+  overflow-x: hidden;
+}
+body { padding-bottom: 110px; }
+
+/* HEADER */
+.top-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px 10px;
+  background: #FAFAF7;
+  position: sticky; top: 0; z-index: 50;
+}
+.back-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: #FFFFFF; border: 1px solid #F0F0EB;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #1A1F2E;
+}
+.back-btn svg { width: 20px; height: 20px; pointer-events: none; }
+.top-title { font-size: 18px; font-weight: 800; color: #1A1F2E; letter-spacing: -0.3px; }
+
+/* CONDUCTOR */
+.driver-head {
+  text-align: center;
+  padding: 20px 20px 26px;
+}
+.driver-photo-big {
+  width: 88px; height: 88px;
+  border-radius: 50%;
+  background: #F0F0EB;
+  color: #B0B4BF;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 34px;
+  font-weight: 800;
+  margin: 0 auto 14px;
+  border: 4px solid #F0F0EB;
+}
+.driver-nombre-big {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1A1F2E;
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+  min-height: 26px;
+}
+.driver-vehiculo {
+  font-size: 13px;
+  color: #8A8F9C;
+  font-weight: 600;
+  min-height: 18px;
+}
+
+/* PREGUNTA */
+.pregunta {
+  text-align: center;
+  padding: 0 24px 20px;
+}
+.pregunta h1 {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1A1F2E;
+  letter-spacing: -0.4px;
+  margin-bottom: 6px;
+}
+.pregunta p {
+  font-size: 14px;
+  color: #8A8F9C;
+  line-height: 1.5;
+}
+
+/* ESTRELLAS */
+.stars-box {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 20px 20px;
+}
+.star {
+  width: 44px; height: 44px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #E5E5E0;
+  transition: transform 0.15s, color 0.15s;
+  padding: 0;
+}
+.star svg { width: 100%; height: 100%; pointer-events: none; }
+.star.on { color: #F59E0B; }
+.star:active { transform: scale(0.9); }
+
+.rating-label {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1A1F2E;
+  height: 22px;
+  margin-bottom: 24px;
+  padding: 0 20px;
+}
+
+/* TAGS */
+.tags-section {
+  margin: 0 20px 20px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid #F0F0EB;
+}
+.tags-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #8A8F9C;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.tags-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tag {
+  padding: 9px 14px;
+  background: #FAFAF7;
+  border: 1.5px solid #F0F0EB;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1A1F2E;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.tag svg { width: 14px; height: 14px; pointer-events: none; }
+.tag:active { transform: scale(0.96); }
+.tag.on {
+  background: #A4D65E;
+  border-color: #A4D65E;
+  color: #1A1F2E;
+  font-weight: 700;
+}
+
+/* COMENTARIO */
+.comentario-section {
+  margin: 0 20px 20px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid #F0F0EB;
+}
+.comentario-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #8A8F9C;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.comentario-input {
+  width: 100%;
+  min-height: 96px;
+  border: 2px solid #F0F0EB;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-family: inherit;
+  font-size: 15px;
+  color: #1A1F2E;
+  outline: none;
+  resize: vertical;
+  line-height: 1.5;
+  background: #FAFAF7;
+  transition: border-color 0.15s;
+}
+.comentario-input:focus { border-color: #A4D65E; background: #FFFFFF; }
+.comentario-input::placeholder { color: #B0B4BF; }
+
+/* PROPINA */
+.propina-section {
+  margin: 0 20px 20px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid #F0F0EB;
+}
+.propina-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #8A8F9C;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.propina-sub {
+  font-size: 13px;
+  color: #8A8F9C;
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+.propina-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.propina-simbolo {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1A1F2E;
+}
+.propina-input {
+  flex: 1;
+  border: 2px solid #F0F0EB;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1A1F2E;
+  outline: none;
+  background: #FAFAF7;
+  transition: border-color 0.15s;
+  text-align: center;
+}
+.propina-input:focus { border-color: #A4D65E; background: #FFFFFF; }
+.propina-input::placeholder { color: #B0B4BF; font-weight: 600; }
+.propina-input.sin-propina { background: #F0F0EB; color: #8A8F9C; }
+.propina-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+.propina-check input { display: none; }
+.propina-check .box {
+  width: 22px; height: 22px;
+  border: 2px solid #F0F0EB;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.propina-check .box svg {
+  width: 14px; height: 14px;
+  color: #FFFFFF;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.propina-check input:checked + .box {
+  background: #1A1F2E;
+  border-color: #1A1F2E;
+}
+.propina-check input:checked + .box svg { opacity: 1; }
+.propina-check-text {
+  font-size: 13px;
+  color: #1A1F2E;
+  font-weight: 600;
+}
+
+/* BOTÓN CONFIRMAR */
+.confirm-wrap {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: #FFFFFF;
+  padding: 14px 20px calc(14px + env(safe-area-inset-bottom, 0));
+  border-top: 1px solid #F0F0EB;
+  z-index: 100;
+}
+.btn-confirm {
+  width: 100%;
+  padding: 18px;
+  background: #1A1F2E;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.btn-confirm:active { transform: scale(0.98); }
+.btn-confirm:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-confirm.loading { opacity: 0.7; }
+
+/* SKIP LINK */
+.skip-link {
+  display: block;
+  text-align: center;
+  padding: 16px 20px 0;
+  font-size: 13px;
+  color: #8A8F9C;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.skip-link:active { color: #1A1F2E; }
+
+/* ÉXITO */
+.success-box {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #FAFAF7;
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  flex-direction: column;
+}
+.success-box.show { display: flex; }
+.success-icon {
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  background: #A4D65E;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px;
+  animation: pop 0.4s ease;
+}
+@keyframes pop {
+  0% { transform: scale(0); }
+  70% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+.success-icon svg { width: 56px; height: 56px; color: #1A1F2E; }
+.success-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1A1F2E;
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+}
+.success-sub {
+  font-size: 14px;
+  color: #8A8F9C;
+  line-height: 1.5;
+  max-width: 300px;
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <button class="back-btn" onclick="location.href='04-Home-Pasajero.html'" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </button>
+  <div class="top-title">Calificar viaje</div>
+</div>
+
+<div class="driver-head">
+  <div class="driver-photo-big" id="driverPhoto">?</div>
+  <div class="driver-nombre-big" id="driverNombre"></div>
+  <div class="driver-vehiculo" id="driverVehiculo"></div>
+</div>
+
+<div class="pregunta">
+  <h1>¿Cómo estuvo tu viaje?</h1>
+  <p>Tu opinión ayuda a mejorar Kraze para todos</p>
+</div>
+
+<div class="stars-box" id="starsBox">
+  <button class="star" data-val="1" type="button" aria-label="1 estrella">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+  </button>
+  <button class="star" data-val="2" type="button" aria-label="2 estrellas">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+  </button>
+  <button class="star" data-val="3" type="button" aria-label="3 estrellas">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+  </button>
+  <button class="star" data-val="4" type="button" aria-label="4 estrellas">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+  </button>
+  <button class="star" data-val="5" type="button" aria-label="5 estrellas">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+  </button>
+</div>
+
+<div class="rating-label" id="ratingLabel">Toca para calificar</div>
+
+<div class="tags-section">
+  <div class="tags-label">¿Qué destacas?</div>
+  <div class="tags-grid" id="tagsGrid">
+    <button class="tag" data-tag="puntual" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      Puntual
+    </button>
+    <button class="tag" data-tag="amable" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>
+      Amable
+    </button>
+    <button class="tag" data-tag="limpio" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></svg>
+      Limpio
+    </button>
+    <button class="tag" data-tag="seguro" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6z"/></svg>
+      Seguro
+    </button>
+    <button class="tag" data-tag="rapido" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg>
+      Rápido
+    </button>
+    <button class="tag" data-tag="musica" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      Buena música
+    </button>
+    <button class="tag" data-tag="conversador" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      Conversador
+    </button>
+    <button class="tag" data-tag="tranquilo" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Reservado
+    </button>
+  </div>
+</div>
+
+<div class="comentario-section">
+  <div class="comentario-label">Comentario (opcional)</div>
+  <textarea class="comentario-input" id="comentario" placeholder="Cuéntanos cómo fue tu experiencia..."></textarea>
+</div>
+
+<div class="propina-section">
+  <div class="propina-label">¿Dejar propina?</div>
+  <div class="propina-sub">100% va directo al conductor</div>
+  <div class="propina-row">
+    <span class="propina-simbolo">$</span>
+    <input type="number" inputmode="decimal" min="0" step="0.01" class="propina-input" id="propinaInput" placeholder="0.00">
+  </div>
+  <label class="propina-check" for="sinPropina">
+    <input type="checkbox" id="sinPropina">
+    <span class="box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+    </span>
+    <span class="propina-check-text">No dejar propina esta vez</span>
+  </label>
+</div>
+
+<a class="skip-link" onclick="saltar()" type="button">Omitir y volver al inicio</a>
+
+<div class="confirm-wrap">
+  <button class="btn-confirm" id="btnConfirm" type="button" disabled>Califica con estrellas</button>
+</div>
+
+<div class="success-box" id="successBox">
+  <div class="success-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+  </div>
+  <div class="success-title">¡Gracias jefe!</div>
+  <div class="success-sub">Tu calificación ayuda a que Kraze sea mejor cada día para todos.</div>
+</div><!-- BOTÓN ERI -->
+<button
+  onclick="document.getElementById('eriOverlay').style.display='flex';"
+  style="position:fixed;bottom:100px;right:20px;width:60px;height:60px;border-radius:50%;background:#FFFFFF;border:2px solid #A4D65E;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(164,214,94,0.5);z-index:99999;padding:0;"
+  type="button"
+  aria-label="Eri">
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;pointer-events:none;">
+    <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#A4D65E"/>
+    <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#1A1F2E"/>
+  </svg>
+</button>
+
+<!-- PANEL ERI -->
+<div id="eriOverlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100vh;background:#FAFAF7;z-index:999999;flex-direction:column;">
+  <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:#FFFFFF;border-bottom:1px solid #F0F0EB;padding-top:calc(14px + env(safe-area-inset-top, 0));flex-shrink:0;">
+    <div style="width:38px;height:38px;border-radius:50%;background:#A4D65E;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <svg viewBox="0 0 64 64" fill="none" style="width:22px;height:22px;">
+        <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#1A1F2E"/>
+        <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#A4D65E"/>
+      </svg>
+    </div>
+    <div style="flex:1;">
+      <div style="font-size:16px;font-weight:800;color:#1A1F2E;">Eri</div>
+      <div style="font-size:11px;color:#22C55E;font-weight:600;">En línea</div>
+    </div>
+    <button onclick="document.getElementById('eriOverlay').style.display='none';" type="button" style="width:40px;height:40px;border:none;background:transparent;cursor:pointer;color:#8A8F9C;display:flex;align-items:center;justify-content:center;border-radius:50%;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;pointer-events:none;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div id="eriChat" style="flex:1;overflow-y:auto;padding:18px 16px 12px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch;">
+    <div style="max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;background:#FFFFFF;color:#1A1F2E;border:1px solid #F0F0EB;border-bottom-left-radius:6px;align-self:flex-start;">
+      ¡Epale jefe! Soy Eri. Cuéntame cómo te fue en el viaje.
+    </div>
+  </div>
+  <div style="background:#FFFFFF;border-top:1px solid #F0F0EB;padding:10px 12px calc(10px + env(safe-area-inset-bottom, 0));display:flex;gap:8px;align-items:flex-end;flex-shrink:0;">
+    <textarea id="eriInput" placeholder="Escríbele a Eri..." rows="1" style="flex:1;border:2px solid #F0F0EB;border-radius:22px;padding:11px 16px;font-size:15px;font-family:inherit;color:#1A1F2E;outline:none;resize:none;max-height:100px;line-height:1.4;background:#FFFFFF;"></textarea>
+    <button id="eriSend" type="button" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#1A1F2E;color:#FFFFFF;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;pointer-events:none;"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   RESEÑAS · LÓGICA (todo en blanco, sin valores por defecto)
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  var rating = 0;
+  var tagsSeleccionados = [];
+  var propina = 0;
+
+  /* ─── Cargar SOLO si hay datos reales ─── */
+  try {
+    var v = localStorage.getItem('kraze_viaje_actual');
+    if (v) {
+      var viaje = JSON.parse(v);
+      if (viaje && viaje.conductor) {
+        var c = viaje.conductor;
+        if (c.inicial) document.getElementById('driverPhoto').textContent = c.inicial;
+        if (c.nombre)  document.getElementById('driverNombre').textContent = c.nombre;
+
+        var vehiculoTxt = '';
+        if (viaje.vehiculo) vehiculoTxt = viaje.vehiculo;
+        if (c.placa) vehiculoTxt += (vehiculoTxt ? ' · ' : '') + c.placa;
+        if (vehiculoTxt) document.getElementById('driverVehiculo').textContent = vehiculoTxt;
+      }
+    }
+  } catch (e) {}
+
+  /* ─── Estrellas ─── */
+  var starsBox = document.getElementById('starsBox');
+  var ratingLabel = document.getElementById('ratingLabel');
+  var btnConfirm = document.getElementById('btnConfirm');
+
+  var labels = { 1: 'Muy malo', 2: 'Malo', 3: 'Regular', 4: 'Bueno', 5: '¡Excelente!' };
+
+  starsBox.addEventListener('click', function (e) {
+    var s = e.target.closest('.star');
+    if (!s) return;
+    rating = parseInt(s.getAttribute('data-val'), 10);
+    pintarEstrellas();
+    ratingLabel.textContent = labels[rating];
+    actualizarBoton();
+  });
+
+  function pintarEstrellas() {
+    var stars = starsBox.querySelectorAll('.star');
+    Array.prototype.forEach.call(stars, function (st) {
+      var v = parseInt(st.getAttribute('data-val'), 10);
+      if (v <= rating) st.classList.add('on');
+      else st.classList.remove('on');
+    });
+  }
+
+  /* ─── Tags ─── */
+  var tagsGrid = document.getElementById('tagsGrid');
+  tagsGrid.addEventListener('click', function (e) {
+    var t = e.target.closest('.tag');
+    if (!t) return;
+    var tag = t.getAttribute('data-tag');
+    if (tagsSeleccionados.indexOf(tag) === -1) {
+      tagsSeleccionados.push(tag);
+      t.classList.add('on');
+    } else {
+      tagsSeleccionados = tagsSeleccionados.filter(function (x) { return x !== tag; });
+      t.classList.remove('on');
+    }
+  });
+
+  /* ─── Propina (input libre) ─── */
+  var propinaInput = document.getElementById('propinaInput');
+  var sinPropina = document.getElementById('sinPropina');
+
+  propinaInput.addEventListener('input', function () {
+    var v = parseFloat(propinaInput.value);
+    propina = (!isNaN(v) && v >= 0) ? v : 0;
+    if (propina > 0) {
+      sinPropina.checked = false;
+      propinaInput.classList.remove('sin-propina');
+    }
+    actualizarBoton();
+  });
+
+  sinPropina.addEventListener('change', function () {
+    if (sinPropina.checked) {
+      propinaInput.value = '';
+      propina = 0;
+      propinaInput.classList.add('sin-propina');
+      propinaInput.disabled = true;
+    } else {
+      propinaInput.classList.remove('sin-propina');
+      propinaInput.disabled = false;
+    }
+    actualizarBoton();
+  });
+
+  function actualizarBoton() {
+    if (rating === 0) {
+      btnConfirm.disabled = true;
+      btnConfirm.textContent = 'Califica con estrellas';
+      return;
+    }
+    btnConfirm.disabled = false;
+    var txt = 'Enviar calificación';
+    if (propina > 0) txt += ' + $' + propina.toFixed(2) + ' propina';
+    btnConfirm.textContent = txt;
+  }
+
+  /* ─── Enviar ─── */
+  btnConfirm.onclick = function () {
+    if (rating === 0) return;
+    var comentario = document.getElementById('comentario').value.trim();
+
+    var payload = {
+      rating: rating,
+      tags: tagsSeleccionados,
+      comentario: comentario,
+      propina: propina,
+      fecha: new Date().toISOString()
+    };
+
+    try {
+      var reseñas = JSON.parse(localStorage.getItem('kraze_resenas') || '[]');
+      reseñas.push(payload);
+      localStorage.setItem('kraze_resenas', JSON.stringify(reseñas));
+      localStorage.removeItem('kraze_viaje_actual');
+    } catch (e) {}
+
+    console.log('[Reseña] enviada', payload);
+
+    btnConfirm.classList.add('loading');
+    btnConfirm.disabled = true;
+    btnConfirm.textContent = 'Enviando...';
+
+    setTimeout(function () {
+      document.getElementById('successBox').classList.add('show');
+      setTimeout(function () {
+        location.href = '04-Home-Pasajero.html';
+      }, 2200);
+    }, 800);
+  };
+
+  /* ─── Saltar ─── */
+  window.saltar = function () {
+    localStorage.removeItem('kraze_viaje_actual');
+    location.href = '04-Home-Pasajero.html';
+  };
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   ERI · LÓGICA
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  var API = 'https://moto-llave-backend.vercel.app/api/claude';
+  var chat = document.getElementById('eriChat');
+  var input = document.getElementById('eriInput');
+  var sendBtn = document.getElementById('eriSend');
+  var escribiendo = false;
+
+  function agregarMsg(tipo, texto) {
+    var m = document.createElement('div');
+    m.style.cssText = 'max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;word-wrap:break-word;';
+    if (tipo === 'user') {
+      m.style.background = '#1A1F2E';
+      m.style.color = '#FFFFFF';
+      m.style.borderBottomRightRadius = '6px';
+      m.style.alignSelf = 'flex-end';
+    } else {
+      m.style.background = '#FFFFFF';
+      m.style.color = '#1A1F2E';
+      m.style.border = '1px solid #F0F0EB';
+      m.style.borderBottomLeftRadius = '6px';
+      m.style.alignSelf = 'flex-start';
+    }
+    m.textContent = texto;
+    chat.appendChild(m);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function enviar() {
+    var texto = input.value.trim();
+    if (!texto || escribiendo) return;
+    agregarMsg('user', texto);
+    input.value = '';
+    escribiendo = true;
+    sendBtn.disabled = true;
+
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ texto: texto })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var resp = d && (d.respuesta || d.mensaje);
+      if (resp) agregarMsg('eri', resp);
+      else agregarMsg('eri', 'Ups, no entendí.');
+    })
+    .catch(function () { agregarMsg('eri', 'Ups, error de conexión.'); })
+    .then(function () { escribiendo = false; sendBtn.disabled = false; });
+  }
+
+  sendBtn.onclick = enviar;
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviar(); }
+  });
+})();
+</script>
+</body>
+</html>

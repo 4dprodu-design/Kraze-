@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FAFAF7">
+  <meta name="author" content="Erian C.A.">
+  <title>Kraze · Iniciar sesión</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      min-height: 100vh;
+      background-color: #FAFAF7;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1A1F2E;
+    }
+
+    body {
+      padding: 24px 24px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .back-btn {
+      align-self: flex-start;
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: transparent;
+      color: #1A1F2E;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-left: -8px;
+      margin-bottom: 8px;
+      text-decoration: none;
+    }
+    .back-btn:active { background-color: rgba(0,0,0,0.05); }
+
+    .login-logo {
+      height: 56px;
+      margin: 40px 0 40px;
+      display: flex;
+      align-items: center;
+    }
+    .login-logo svg { display: block; height: 100%; width: auto; }
+
+    .login-form {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .login-title {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      color: #1A1F2E;
+      margin: 0 0 6px;
+      text-align: left;
+    }
+
+    .login-sub {
+      font-size: 14px;
+      color: #8A8F80;
+      margin: 0 0 16px;
+      text-align: left;
+    }
+
+    .login-form input {
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #1A1F2E;
+      outline: none;
+      min-height: 52px;
+    }
+
+    .login-form input:focus {
+      border-color: #A4D65E;
+      box-shadow: 0 0 0 3px rgba(164, 214, 94, 0.18);
+    }
+
+    .btn-login {
+      background-color: #A4D65E;
+      color: #1A1F2E;
+      border: none;
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      min-height: 54px;
+      margin-top: 8px;
+    }
+    .btn-login:active { transform: scale(0.98); }
+    .btn-login:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .login-forgot {
+      text-align: center;
+      font-size: 13px;
+      color: #8A8F80;
+      margin: 4px 0 8px;
+    }
+    .login-forgot a {
+      color: #1A1F2E;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .login-sep {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #B0B5A8;
+      font-weight: 500;
+    }
+    .login-sep::before,
+    .login-sep::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background-color: #E5E5DE;
+    }
+
+    .btn-social {
+      background-color: #FFFFFF;
+      border: 1.5px solid #E5E5DE;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1A1F2E;
+      cursor: pointer;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: inherit;
+    }
+    .btn-social svg { width: 20px; height: 20px; }
+
+    .login-bottom {
+      margin-top: auto;
+      padding-top: 40px;
+      text-align: center;
+      font-size: 14px;
+      color: #8A8F80;
+      max-width: 400px;
+      width: 100%;
+    }
+    .login-bottom a {
+      color: #1A1F2E;
+      font-weight: 700;
+      text-decoration: none;
+      margin-left: 4px;
+    }
+
+    .login-error {
+      background-color: #FEE2E2;
+      color: #B91C1C;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      display: none;
+    }
+    .login-error.show { display: block; }
+  </style>
+</head>
+<body>
+
+  <a href="01-Splash.html" class="back-btn" aria-label="Volver">&#8592;</a>
+
+  <div class="login-logo">
+    <svg viewBox="0 0 360 96" xmlns="http://www.w3.org/2000/svg" aria-label="Kraze">
+      <g transform="translate(0, 4)">
+        <path d="M 36 0 C 16 0 0 16 0 36 C 0 52 10 64 24 76 L 36 88 L 48 76 C 62 64 72 52 72 36 C 72 16 56 0 36 0 Z" fill="#A4D65E"/>
+        <path d="M 36 22 C 36 22 30 15 23 15 C 16 15 11 20 11 27 C 11 33 15 38 21 44 L 36 60 L 51 44 C 57 38 61 33 61 27 C 61 20 56 15 49 15 C 42 15 36 22 36 22 Z" fill="#1A1F2E"/>
+      </g>
+      <text x="94" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="62" font-weight="900" letter-spacing="-2.5" fill="#1A1F2E">Kraze</text>
+    </svg>
+  </div>
+
+  <form class="login-form" id="login-form" autocomplete="on">
+
+    <h1 class="login-title">Bienvenido</h1>
+    <p class="login-sub">Ingresa para continuar</p>
+
+    <div class="login-error" id="login-error"></div>
+
+    <input type="email" id="email" name="email" placeholder="Correo electrónico" autocomplete="email" inputmode="email" required>
+
+    <input type="password" id="password" name="password" placeholder="Contraseña" autocomplete="current-password" required>
+
+    <button type="submit" class="btn-login" id="btn-login">Iniciar sesión</button>
+
+    <div class="login-forgot">
+      <a href="#" id="forgot-link">¿Olvidaste tu contraseña?</a>
+    </div>
+
+    <div class="login-sep">o</div>
+
+    <button type="button" class="btn-social" id="btn-google">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+      </svg>
+      Continuar con Google
+    </button>
+
+  </form>
+
+  <div class="login-bottom">
+    ¿No tienes cuenta?
+    <a href="03-Seleccion-Rol.html">Regístrate</a>
+  </div>
+  <!-- ============================================================
+       Scripts base
+       ============================================================ -->
+  <script src="js/kraze-config.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/kraze-db.js"></script>
+  <script src="js/kraze-ia.js"></script>
+
+  <!-- ============================================================
+       Lógica del Login
+       © 2026 Erian C.A. — Todos los derechos reservados
+       ============================================================ -->
+  <script>
+  (function () {
+    'use strict';
+
+    var form       = document.getElementById('login-form');
+    var btnLogin   = document.getElementById('btn-login');
+    var btnGoogle  = document.getElementById('btn-google');
+    var forgotLink = document.getElementById('forgot-link');
+    var errBox     = document.getElementById('login-error');
+
+    /* --- Mensajes desde la configuración central --- */
+    function mensaje(clave, porDefecto) {
+      if (window.Kraze && Kraze.config && Kraze.config.mensaje) {
+        var m = Kraze.config.mensaje(clave);
+        return m || porDefecto;
+      }
+      return porDefecto;
+    }
+
+    /* --- Mostrar error --- */
+    function mostrarError(msg) {
+      errBox.textContent = msg;
+      errBox.classList.add('show');
+      setTimeout(function () {
+        errBox.classList.remove('show');
+      }, 5000);
+    }
+
+    /* --- Estado de carga --- */
+    function setLoading(on) {
+      btnLogin.disabled = on;
+      btnLogin.textContent = on ? 'Ingresando...' : 'Iniciar sesión';
+    }
+
+    /* --- Envío --- */
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var email    = document.getElementById('email').value.trim();
+      var password = document.getElementById('password').value;
+
+      if (!email || !password) {
+        return mostrarError('Completa todos los campos.');
+      }
+      if (email.indexOf('@') === -1) {
+        return mostrarError('El correo no es valido.');
+      }
+      if (password.length < 6) {
+        return mostrarError('La contrasena debe tener al menos 6 caracteres.');
+      }
+
+      setLoading(true);
+
+      setTimeout(function () {
+        setLoading(false);
+
+        if (window.Kraze && window.Kraze.nav) {
+          Kraze.nav.setRol('pasajero');
+          Kraze.nav.store.set(Kraze.nav.keys.user, {
+            email: email,
+            rol: 'pasajero',
+            nuevo: false
+          });
+          Kraze.nav.irInicio();
+        } else {
+          console.warn('[login] Kraze.nav no disponible');
+        }
+
+      }, 800);
+    });
+
+    /* --- Google --- */
+    btnGoogle.addEventListener('click', function () {
+      mostrarError('Google login estara disponible pronto.');
+    });
+
+    /* --- Olvide contraseña --- */
+    forgotLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      mostrarError('La recuperacion estara disponible pronto.');
+    });
+
+    /* --- Test rápido de configuración --- */
+    setTimeout(function () {
+      if (window.Kraze && Kraze.config && Kraze.config.ready()) {
+        console.log('Config activa · Empresa:', Kraze.config.get('empresa'));
+      }
+    }, 500);
+
+  })();
+  </script>
+
+</body>
+</html>

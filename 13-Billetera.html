@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#FAFAF7">
+<title>Mi billetera · Kraze</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #FAFAF7;
+  color: #1A1F2E;
+  overflow-x: hidden;
+}
+body { padding-bottom: 110px; }
+
+/* HEADER */
+.top-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px 10px;
+  background: #FAFAF7;
+  position: sticky; top: 0; z-index: 50;
+}
+.back-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: #FFFFFF; border: 1px solid #F0F0EB;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #1A1F2E;
+}
+.back-btn svg { width: 20px; height: 20px; pointer-events: none; }
+.top-title { font-size: 18px; font-weight: 800; color: #1A1F2E; letter-spacing: -0.3px; }
+
+/* SALDO HERO */
+.hero {
+  margin: 0 20px 20px;
+  background: linear-gradient(135deg, #1A1F2E 0%, #2A3142 100%);
+  border-radius: 22px;
+  padding: 26px 24px;
+  color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; right: -60px; top: -60px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: rgba(164,214,94,0.15);
+}
+.hero-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #A4D65E;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  position: relative; z-index: 1;
+}
+.hero-monto {
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1;
+  position: relative; z-index: 1;
+}
+.hero-monto small {
+  font-size: 16px;
+  font-weight: 600;
+  color: #A4D65E;
+  margin-left: 6px;
+}
+.hero-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 22px;
+  position: relative; z-index: 1;
+}
+.hero-btn {
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  font-size: 14px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px;
+  transition: transform 0.15s;
+}
+.hero-btn:active { transform: scale(0.97); }
+.hero-btn svg { width: 18px; height: 18px; }
+.hero-btn.primary {
+  background: #A4D65E;
+  color: #1A1F2E;
+}
+.hero-btn.secondary {
+  background: rgba(255,255,255,0.1);
+  color: #FFFFFF;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* STATS RÁPIDAS */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 0 20px 20px;
+}
+.stat-card {
+  background: #FFFFFF;
+  border: 1px solid #F0F0EB;
+  border-radius: 16px;
+  padding: 14px 10px;
+  text-align: center;
+}
+.stat-value {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1A1F2E;
+  letter-spacing: -0.4px;
+  line-height: 1;
+  min-height: 20px;
+}
+.stat-value small {
+  font-size: 10px;
+  color: #8A8F9C;
+  font-weight: 600;
+  margin-left: 2px;
+}
+.stat-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #8A8F9C;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+/* SECCIÓN */
+.section-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px 12px;
+}
+.section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1A1F2E;
+  letter-spacing: -0.3px;
+}
+.section-link {
+  font-size: 13px;
+  font-weight: 700;
+  color: #8A8F9C;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+  padding: 4px;
+}
+.section-link:active { color: #1A1F2E; }
+
+/* MÉTODOS DE PAGO */
+.pay-methods {
+  margin: 0 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pay-card {
+  display: flex; align-items: center; gap: 14px;
+  background: #FFFFFF;
+  border: 1px solid #F0F0EB;
+  border-radius: 16px;
+  padding: 16px;
+}
+.pay-icon {
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  background: #FAFAF7;
+  display: flex; align-items: center; justify-content: center;
+  color: #1A1F2E;
+  flex-shrink: 0;
+}
+.pay-icon svg { width: 22px; height: 22px; }
+.pay-info { flex: 1; min-width: 0; }
+.pay-nombre {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1A1F2E;
+  margin-bottom: 3px;
+  letter-spacing: -0.2px;
+}
+.pay-detalle {
+  font-size: 12px;
+  color: #8A8F9C;
+  font-weight: 600;
+}
+.pay-badge {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+.pay-badge.default {
+  background: rgba(164,214,94,0.35);
+  color: #166534;
+}
+.pay-badge.agregar {
+  background: #F0F0EB;
+  color: #8A8F9C;
+}
+.pay-action {
+  background: transparent;
+  border: none;
+  color: #B0B4BF;
+  cursor: pointer;
+  padding: 6px;
+  font-family: inherit;
+}
+.pay-action svg { width: 18px; height: 18px; }
+
+/* HISTORIAL */
+.tx-list {
+  margin: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tx-item {
+  display: flex; align-items: center; gap: 12px;
+  background: #FFFFFF;
+  border: 1px solid #F0F0EB;
+  border-radius: 14px;
+  padding: 14px;
+}
+.tx-icon {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.tx-icon.in {
+  background: rgba(164,214,94,0.2);
+  color: #166534;
+}
+.tx-icon.out {
+  background: #FEE2E2;
+  color: #B91C1C;
+}
+.tx-icon svg { width: 18px; height: 18px; }
+.tx-info { flex: 1; min-width: 0; }
+.tx-titulo {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A1F2E;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tx-fecha {
+  font-size: 11px;
+  color: #8A8F9C;
+  font-weight: 600;
+}
+.tx-monto {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1A1F2E;
+  flex-shrink: 0;
+  letter-spacing: -0.3px;
+}
+.tx-monto.in { color: #166534; }
+.tx-monto.out { color: #B91C1C; }
+
+/* VACÍO */
+.empty-box {
+  margin: 0 20px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  border: 1px solid #F0F0EB;
+  padding: 40px 20px;
+  text-align: center;
+}
+.empty-icon {
+  width: 64px; height: 64px;
+  margin: 0 auto 14px;
+  color: #D1D5DB;
+}
+.empty-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1A1F2E;
+  margin-bottom: 4px;
+}
+.empty-sub {
+  font-size: 13px;
+  color: #8A8F9C;
+  line-height: 1.5;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #FFFFFF; border-top: 1px solid #F0F0EB;
+  display: flex; justify-content: space-around;
+  padding: 8px 0 calc(8px + env(safe-area-inset-bottom, 0));
+  z-index: 100;
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 6px 4px; text-decoration: none; color: #8A8F9C;
+  border: none; background: transparent; cursor: pointer; font-family: inherit;
+}
+.nav-item.active { color: #1A1F2E; }
+.nav-item svg { width: 22px; height: 22px; }
+.nav-item span { font-size: 10px; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <button class="back-btn" onclick="location.href='08-Perfil-Pasajero.html'" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </button>
+  <div class="top-title">Mi billetera</div>
+  <div style="width:40px;"></div>
+</div>
+
+<div class="hero">
+  <div class="hero-label">Saldo disponible</div>
+  <div class="hero-monto" id="heroSaldo">$0.00<small>USD</small></div>
+  <div class="hero-actions">
+    <button class="hero-btn primary" type="button" onclick="recargar()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14M5 12h14"/>
+      </svg>
+      Recargar
+    </button>
+    <button class="hero-btn secondary" type="button" onclick="retirar()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 19V5M5 12l7-7 7 7"/>
+      </svg>
+      Retirar
+    </button>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat-card">
+    <div class="stat-value" id="statIngresos">$0<small>USD</small></div>
+    <div class="stat-label">Ingresos</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" id="statEgresos">$0<small>USD</small></div>
+    <div class="stat-label">Egresos</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" id="statPendiente">$0<small>USD</small></div>
+    <div class="stat-label">Pendiente</div>
+  </div>
+</div>
+
+<div class="section-head">
+  <div class="section-title">Métodos de pago</div>
+  <button class="section-link" type="button" onclick="agregarMetodo()">+ Agregar</button>
+</div>
+
+<div class="pay-methods" id="payMethods">
+  <div class="empty-box" style="padding:24px 20px;">
+    <div class="empty-sub" style="margin:0;">Sin métodos de pago guardados</div>
+  </div>
+</div>
+
+<div class="section-head">
+  <div class="section-title">Movimientos</div>
+  <button class="section-link" type="button" onclick="verTodos()">Ver todos</button>
+</div>
+
+<div class="tx-list" id="txList">
+  <div class="empty-box">
+    <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2v-5"/>
+      <circle cx="17" cy="12" r="1.5"/>
+    </svg>
+    <div class="empty-title">Sin movimientos</div>
+    <div class="empty-sub">Tus recargas, pagos y retiros aparecerán aquí.</div>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="04-Home-Pasajero.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 12l9-9 9 9"/>
+      <path d="M5 10v10a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V10"/>
+    </svg>
+    <span>Inicio</span>
+  </a>
+  <a href="11-Mis-Viajes.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/>
+    </svg>
+    <span>Viajes</span>
+  </a>
+  <a href="15-Marketplace-FastFood.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 11h18M5 11V7a7 7 0 0114 0v4"/>
+    </svg>
+    <span>Comida</span>
+  </a>
+  <a href="13-Billetera.html" class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2v-5"/>
+      <circle cx="17" cy="12" r="1.5"/>
+    </svg>
+    <span>Billetera</span>
+  </a>
+  <a href="08-Perfil-Pasajero.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+    </svg>
+    <span>Perfil</span>
+  </a>
+</nav><!-- BOTÓN ERI -->
+<button
+  onclick="document.getElementById('eriOverlay').style.display='flex';"
+  style="position:fixed;bottom:100px;right:20px;width:60px;height:60px;border-radius:50%;background:#FFFFFF;border:2px solid #A4D65E;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(164,214,94,0.5);z-index:99999;padding:0;"
+  type="button"
+  aria-label="Eri">
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;pointer-events:none;">
+    <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#A4D65E"/>
+    <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#1A1F2E"/>
+  </svg>
+</button>
+
+<!-- PANEL ERI -->
+<div id="eriOverlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100dvh;background:#FAFAF7;z-index:999999;flex-direction:column;overflow:hidden;">
+
+  <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:#FFFFFF;border-bottom:1px solid #F0F0EB;padding-top:calc(14px + env(safe-area-inset-top, 0));flex-shrink:0;">
+    <div style="width:38px;height:38px;border-radius:50%;background:#A4D65E;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <svg viewBox="0 0 64 64" fill="none" style="width:22px;height:22px;">
+        <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#1A1F2E"/>
+        <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#A4D65E"/>
+      </svg>
+    </div>
+    <div style="flex:1;">
+      <div style="font-size:16px;font-weight:800;color:#1A1F2E;">Eri</div>
+      <div style="font-size:11px;color:#22C55E;font-weight:600;">En línea</div>
+    </div>
+    <button onclick="document.getElementById('eriOverlay').style.display='none';" type="button" style="width:40px;height:40px;border:none;background:transparent;cursor:pointer;color:#8A8F9C;display:flex;align-items:center;justify-content:center;border-radius:50%;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;pointer-events:none;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <div id="eriChat" style="flex:1 1 auto;overflow-y:auto;padding:18px 16px 12px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch;min-height:0;">
+    <div style="max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;background:#FFFFFF;color:#1A1F2E;border:1px solid #F0F0EB;border-bottom-left-radius:6px;align-self:flex-start;">
+      ¡Epale jefe! Soy Eri. Aquí manejas tu saldo. ¿Te ayudo con algo?
+    </div>
+  </div>
+
+  <div style="background:#FFFFFF;border-top:1px solid #F0F0EB;padding:10px 12px calc(10px + env(safe-area-inset-bottom, 0));display:flex;gap:8px;align-items:flex-end;flex-shrink:0;min-height:64px;">
+    <textarea id="eriInput" placeholder="Escríbele a Eri..." rows="1" style="flex:1;border:2px solid #F0F0EB;border-radius:22px;padding:11px 16px;font-size:15px;font-family:inherit;color:#1A1F2E;outline:none;resize:none;max-height:100px;line-height:1.4;background:#FFFFFF;min-height:44px;"></textarea>
+    <button id="eriMic" type="button" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#F4F4F0;color:#1A1F2E;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;pointer-events:none;">
+        <rect x="9" y="2" width="6" height="12" rx="3"/>
+        <path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3"/>
+      </svg>
+    </button>
+    <button id="eriSend" type="button" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#1A1F2E;color:#FFFFFF;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;pointer-events:none;"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   BILLETERA · LÓGICA
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  var metodos = [];
+  var movimientos = [];
+
+  try {
+    var m = localStorage.getItem('kraze_metodos_pago');
+    if (m) metodos = JSON.parse(m) || [];
+  } catch (e) {}
+
+  try {
+    var t = localStorage.getItem('kraze_movimientos');
+    if (t) movimientos = JSON.parse(t) || [];
+  } catch (e) {}
+
+  /* ─── Saldo ─── */
+  var saldo = 0;
+  try {
+    saldo = parseFloat(localStorage.getItem('kraze_saldo') || '0');
+    if (isNaN(saldo)) saldo = 0;
+  } catch (e) {}
+
+  document.getElementById('heroSaldo').innerHTML =
+    '$' + saldo.toFixed(2) + '<small>USD</small>';
+
+  /* ─── Stats ─── */
+  var ingresos = 0, egresos = 0, pendiente = 0;
+  movimientos.forEach(function (tx) {
+    var monto = typeof tx.monto === 'number' ? tx.monto : 0;
+    if (tx.tipo === 'ingreso') ingresos += monto;
+    else if (tx.tipo === 'egreso') egresos += monto;
+    if (tx.estado === 'pendiente') pendiente += monto;
+  });
+  document.getElementById('statIngresos').innerHTML = '$' + ingresos.toFixed(0) + '<small>USD</small>';
+  document.getElementById('statEgresos').innerHTML  = '$' + egresos.toFixed(0)  + '<small>USD</small>';
+  document.getElementById('statPendiente').innerHTML = '$' + pendiente.toFixed(0) + '<small>USD</small>';
+
+  /* ─── Métodos de pago ─── */
+  var payMethods = document.getElementById('payMethods');
+
+  function iconoMetodo(tipo) {
+    if (tipo === 'efectivo') return '<path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>';
+    if (tipo === 'pago_movil') return '<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M12 18h.01"/>';
+    if (tipo === 'transferencia') return '<path d="M3 12h18M3 6h18M3 18h18"/>';
+    if (tipo === 'zelle') return '<path d="M4 7h16L4 17h16"/>';
+    if (tipo === 'usdt') return '<circle cx="12" cy="12" r="9"/><path d="M9 9h6M12 9v7"/>';
+    return '<path d="M21 12V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2v-5"/><circle cx="17" cy="12" r="1.5"/>';
+  }
+
+  function renderMetodos() {
+    if (metodos.length === 0) {
+      payMethods.innerHTML =
+        '<div class="empty-box" style="padding:24px 20px;">' +
+          '<div class="empty-sub" style="margin:0;">Sin métodos de pago guardados</div>' +
+        '</div>';
+      return;
+    }
+
+    var html = '';
+    metodos.forEach(function (m) {
+      var esDefault = m.default === true;
+      html +=
+        '<div class="pay-card">' +
+          '<div class="pay-icon">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + iconoMetodo(m.tipo) + '</svg>' +
+          '</div>' +
+          '<div class="pay-info">' +
+            '<div class="pay-nombre">' + (m.nombre || m.tipo) + '</div>' +
+            '<div class="pay-detalle">' + (m.detalle || '') + '</div>' +
+          '</div>' +
+          (esDefault
+            ? '<div class="pay-badge default">Principal</div>'
+            : '<button class="pay-action" type="button" onclick="eliminarMetodo(\'' + (m.id || '') + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>'
+          ) +
+        '</div>';
+    });
+    payMethods.innerHTML = html;
+  }
+
+  /* ─── Movimientos ─── */
+  var txList = document.getElementById('txList');
+
+  function renderMovimientos() {
+    if (movimientos.length === 0) return; /* ya hay estado vacío por HTML */
+
+    var html = '';
+    movimientos.slice().reverse().forEach(function (tx) {
+      var monto = typeof tx.monto === 'number' ? tx.monto : 0;
+      var signo = tx.tipo === 'ingreso' ? '+' : '-';
+      var clase = tx.tipo === 'ingreso' ? 'in' : 'out';
+
+      var fechaTxt = '—';
+      try {
+        var d = new Date(tx.fecha);
+        fechaTxt = String(d.getDate()).padStart(2, '0') + '/' +
+                   String(d.getMonth() + 1).padStart(2, '0') + '/' +
+                   d.getFullYear();
+      } catch (e) {}
+
+      var iconoSvg = tx.tipo === 'ingreso'
+        ? '<path d="M12 5v14M5 12h14"/>'
+        : '<path d="M5 12h14"/>';
+
+      html +=
+        '<div class="tx-item">' +
+          '<div class="tx-icon ' + clase + '">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' + iconoSvg + '</svg>' +
+          '</div>' +
+          '<div class="tx-info">' +
+            '<div class="tx-titulo">' + (tx.titulo || 'Movimiento') + '</div>' +
+            '<div class="tx-fecha">' + fechaTxt + '</div>' +
+          '</div>' +
+          '<div class="tx-monto ' + clase + '">' + signo + '$' + monto.toFixed(2) + '</div>' +
+        '</div>';
+    });
+    txList.innerHTML = html;
+  }
+
+  renderMetodos();
+  renderMovimientos();
+
+  /* ─── Acciones globales ─── */
+  window.recargar = function () {
+    var monto = prompt('¿Cuánto deseas recargar? (USD)', '');
+    if (!monto) return;
+    var n = parseFloat(monto);
+    if (isNaN(n) || n <= 0) { alert('Monto inválido'); return; }
+
+    try {
+      var nuevoSaldo = (parseFloat(localStorage.getItem('kraze_saldo') || '0') || 0) + n;
+      localStorage.setItem('kraze_saldo', nuevoSaldo.toFixed(2));
+
+      var mov = JSON.parse(localStorage.getItem('kraze_movimientos') || '[]');
+      mov.push({
+        tipo: 'ingreso',
+        monto: n,
+        titulo: 'Recarga billetera',
+        fecha: new Date().toISOString(),
+        estado: 'completado'
+      });
+      localStorage.setItem('kraze_movimientos', JSON.stringify(mov));
+    } catch (e) {}
+
+    alert('Recarga exitosa: +$' + n.toFixed(2));
+    location.reload();
+  };
+
+  window.retirar = function () {
+    var monto = prompt('¿Cuánto deseas retirar? (USD)', '');
+    if (!monto) return;
+    var n = parseFloat(monto);
+    if (isNaN(n) || n <= 0) { alert('Monto inválido'); return; }
+
+    var saldoActual = parseFloat(localStorage.getItem('kraze_saldo') || '0') || 0;
+    if (n > saldoActual) { alert('Saldo insuficiente'); return; }
+
+    try {
+      var nuevoSaldo = saldoActual - n;
+      localStorage.setItem('kraze_saldo', nuevoSaldo.toFixed(2));
+
+      var mov = JSON.parse(localStorage.getItem('kraze_movimientos') || '[]');
+      mov.push({
+        tipo: 'egreso',
+        monto: n,
+        titulo: 'Retiro billetera',
+        fecha: new Date().toISOString(),
+        estado: 'pendiente'
+      });
+      localStorage.setItem('kraze_movimientos', JSON.stringify(mov));
+    } catch (e) {}
+
+    alert('Retiro solicitado: -$' + n.toFixed(2) + '\nSe procesará pronto.');
+    location.reload();
+  };
+
+  window.agregarMetodo = function () {
+    var tipo = prompt('Tipo de método:\n1) Efectivo\n2) Pago Móvil\n3) Transferencia\n4) Zelle\n5) USDT', '2');
+    if (!tipo) return;
+    var tipos = { '1': 'efectivo', '2': 'pago_movil', '3': 'transferencia', '4': 'zelle', '5': 'usdt' };
+    var tipoKey = tipos[tipo] || 'efectivo';
+
+    var detalle = prompt('Detalle (ej: banco, teléfono, cuenta, correo):', '');
+    if (!detalle) return;
+
+    var nombre = prompt('Nombre del método:', tipoKey.replace('_', ' '));
+    if (!nombre) return;
+
+    var nuevo = {
+      id: 'm_' + Date.now(),
+      tipo: tipoKey,
+      nombre: nombre,
+      detalle: detalle,
+      default: metodos.length === 0
+    };
+
+    metodos.push(nuevo);
+    try { localStorage.setItem('kraze_metodos_pago', JSON.stringify(metodos)); } catch (e) {}
+    renderMetodos();
+  };
+
+  window.eliminarMetodo = function (id) {
+    if (!id) return;
+    if (!confirm('¿Eliminar este método?')) return;
+    metodos = metodos.filter(function (m) { return m.id !== id; });
+    try { localStorage.setItem('kraze_metodos_pago', JSON.stringify(metodos)); } catch (e) {}
+    renderMetodos();
+  };
+
+  window.verTodos = function () {
+    alert('Historial completo próximamente.');
+  };
+
+  console.log('[Billetera] listo. Saldo:', saldo);
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   ERI · LÓGICA (con voz)
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  var API = 'https://moto-llave-backend.vercel.app/api/claude';
+  var chat = document.getElementById('eriChat');
+  var input = document.getElementById('eriInput');
+  var sendBtn = document.getElementById('eriSend');
+  var micBtn = document.getElementById('eriMic');
+  var escribiendo = false;
+  var grabando = false;
+  var rec = null;
+
+  function agregarMsg(tipo, texto) {
+    var m = document.createElement('div');
+    m.style.cssText = 'max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;word-wrap:break-word;';
+    if (tipo === 'user') {
+      m.style.background = '#1A1F2E';
+      m.style.color = '#FFFFFF';
+      m.style.borderBottomRightRadius = '6px';
+      m.style.alignSelf = 'flex-end';
+    } else {
+      m.style.background = '#FFFFFF';
+      m.style.color = '#1A1F2E';
+      m.style.border = '1px solid #F0F0EB';
+      m.style.borderBottomLeftRadius = '6px';
+      m.style.alignSelf = 'flex-start';
+    }
+    m.textContent = texto;
+    chat.appendChild(m);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function enviar() {
+    var texto = input.value.trim();
+    if (!texto || escribiendo) return;
+    agregarMsg('user', texto);
+    input.value = '';
+    escribiendo = true;
+    sendBtn.disabled = true;
+
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ texto: texto })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var resp = d && (d.respuesta || d.mensaje);
+      if (resp) { agregarMsg('eri', resp); hablar(resp); }
+      else { agregarMsg('eri', 'Ups, no entendí.'); }
+    })
+    .catch(function () { agregarMsg('eri', 'Ups, error de conexión.'); })
+    .then(function () { escribiendo = false; sendBtn.disabled = false; });
+  }
+
+  sendBtn.onclick = enviar;
+
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviar(); }
+  });
+
+  function iniciarVoz() {
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { alert('Tu navegador no soporta reconocimiento de voz.'); return; }
+    if (grabando) { try { rec.stop(); } catch (e) {} return; }
+
+    rec = new SR();
+    rec.lang = 'es-VE';
+    rec.continuous = false;
+    rec.interimResults = true;
+
+    rec.onstart = function () {
+      grabando = true;
+      micBtn.style.background = '#E5484D';
+      micBtn.style.color = '#FFFFFF';
+    };
+    rec.onresult = function (e) {
+      var t = '';
+      for (var i = e.resultIndex; i < e.results.length; i++) { t += e.results[i][0].transcript; }
+      input.value = t;
+    };
+    rec.onerror = function () {
+      grabando = false;
+      micBtn.style.background = '#F4F4F0';
+      micBtn.style.color = '#1A1F2E';
+    };
+    rec.onend = function () {
+      grabando = false;
+      micBtn.style.background = '#F4F4F0';
+      micBtn.style.color = '#1A1F2E';
+      if (input.value.trim()) setTimeout(enviar, 300);
+    };
+
+    try { rec.start(); } catch (e) {}
+  }
+
+  micBtn.onclick = iniciarVoz;
+
+  function hablar(texto) {
+    if (!window.speechSynthesis) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(texto);
+      u.lang = 'es-VE';
+      u.rate = 1.0;
+      u.pitch = 1.0;
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+
+  console.log('[Eri] listo con voz');
+})();
+</script>
+</body>
+</html>

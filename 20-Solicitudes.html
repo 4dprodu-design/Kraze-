@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#FAFAF7">
+<title>Solicitudes · Kraze</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #FAFAF7;
+  color: #1A1F2E;
+  overflow-x: hidden;
+}
+body { padding-bottom: 110px; }
+
+/* HEADER */
+.top-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px 10px;
+  background: #FAFAF7;
+  position: sticky; top: 0; z-index: 50;
+}
+.back-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: #FFFFFF; border: 1px solid #F0F0EB;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #1A1F2E;
+}
+.back-btn svg { width: 20px; height: 20px; pointer-events: none; }
+.top-title { font-size: 18px; font-weight: 800; color: #1A1F2E; letter-spacing: -0.3px; }
+
+/* ESTADO ONLINE */
+.online-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  background: #F0F0EB;
+  color: #8A8F9C;
+  margin: 0 20px 16px;
+}
+.online-pill.on {
+  background: rgba(34,197,94,0.15);
+  color: #166534;
+}
+.online-pill .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #B0B4BF;
+}
+.online-pill.on .dot {
+  background: #22C55E;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+/* FILTROS */
+.filters {
+  display: flex;
+  gap: 8px;
+  padding: 0 20px 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.filters::-webkit-scrollbar { display: none; }
+.filter-btn {
+  padding: 9px 16px;
+  background: #FFFFFF;
+  border: 1.5px solid #F0F0EB;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #8A8F9C;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.filter-btn.active {
+  background: #1A1F2E;
+  border-color: #1A1F2E;
+  color: #FFFFFF;
+}
+
+/* LISTA SOLICITUDES */
+.req-list {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.req-card {
+  background: #FFFFFF;
+  border-radius: 18px;
+  border: 1px solid #F0F0EB;
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+}
+
+.req-card.urgent::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: #A4D65E;
+}
+
+.req-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.req-tipo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(164,214,94,0.15);
+  color: #1A1F2E;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+.req-tipo svg { width: 14px; height: 14px; }
+
+.req-tiempo {
+  font-size: 11px;
+  font-weight: 700;
+  color: #8A8F9C;
+  background: #FAFAF7;
+  padding: 5px 10px;
+  border-radius: 10px;
+  letter-spacing: 0.3px;
+}
+.req-tiempo.urgent {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.req-precio {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1A1F2E;
+  letter-spacing: -0.6px;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+.req-precio small {
+  font-size: 12px;
+  color: #8A8F9C;
+  font-weight: 600;
+  margin-left: 3px;
+}
+
+.req-ruta {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid #FAFAF7;
+  border-bottom: 1px solid #FAFAF7;
+  margin-bottom: 12px;
+}
+
+.ruta-linea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 6px;
+}
+
+.ruta-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.ruta-dot.green { background: #22C55E; }
+.ruta-dot.dark { background: #1A1F2E; }
+
+.ruta-barra {
+  flex: 1;
+  width: 2px;
+  background: #F0F0EB;
+  margin: 4px 0;
+  min-height: 16px;
+}
+
+.ruta-textos {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ruta-punto {
+  font-size: 13px;
+  color: #1A1F2E;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.req-meta {
+  display: flex;
+  gap: 14px;
+  font-size: 12px;
+  color: #8A8F9C;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.req-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.req-meta svg { width: 13px; height: 13px; }
+
+.req-actions {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 10px;
+}
+.btn-reject {
+  padding: 14px;
+  background: #FAFAF7;
+  color: #8A8F9C;
+  border: 1px solid #F0F0EB;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+.btn-reject:active { background: #F0F0EB; }
+.btn-accept {
+  padding: 14px;
+  background: #1A1F2E;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.btn-accept:active { transform: scale(0.98); background: #000000; }
+
+/* EMPTY */
+.empty-box {
+  margin: 0 20px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  border: 1px solid #F0F0EB;
+  padding: 50px 20px;
+  text-align: center;
+}
+.empty-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 16px;
+  color: #D1D5DB;
+}
+.empty-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1A1F2E;
+  margin-bottom: 6px;
+}
+.empty-sub {
+  font-size: 13px;
+  color: #8A8F9C;
+  line-height: 1.5;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #FFFFFF; border-top: 1px solid #F0F0EB;
+  display: flex; justify-content: space-around;
+  padding: 8px 0 calc(8px + env(safe-area-inset-bottom, 0));
+  z-index: 100;
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 6px 4px; text-decoration: none; color: #8A8F9C;
+  border: none; background: transparent; cursor: pointer; font-family: inherit;
+}
+.nav-item.active { color: #1A1F2E; }
+.nav-item svg { width: 22px; height: 22px; }
+.nav-item span { font-size: 10px; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <button class="back-btn" onclick="location.href='09-Panel-Transportista.html'" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </button>
+  <div class="top-title">Solicitudes</div>
+  <div style="width:40px;"></div>
+</div>
+
+<div class="online-pill" id="onlinePill">
+  <span class="dot"></span>
+  <span id="onlineText">Offline</span>
+</div>
+
+<div class="filters" id="filters">
+  <button class="filter-btn active" data-filtro="todas" type="button">Todas</button>
+  <button class="filter-btn" data-filtro="moto" type="button">Moto</button>
+  <button class="filter-btn" data-filtro="carro" type="button">Carro</button>
+  <button class="filter-btn" data-filtro="camion" type="button">Camión</button>
+</div>
+
+<div id="containerSolicitudes">
+  <div class="empty-box">
+    <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 17h14M5 17a2 2 0 11-4 0 2 2 0 014 0zm18 0a2 2 0 11-4 0 2 2 0 014 0z"/>
+      <path d="M3 17V7a2 2 0 012-2h9l3 5h4a2 2 0 012 2v5"/>
+    </svg>
+    <div class="empty-title">Sin solicitudes</div>
+    <div class="empty-sub" id="emptySub">Ponte en línea para empezar a recibir viajes.</div>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="04-Home-Transportista.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 12l9-9 9 9"/>
+      <path d="M5 10v10a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V10"/>
+    </svg>
+    <span>Inicio</span>
+  </a>
+  <a href="09-Panel-Transportista.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1"/>
+      <rect x="14" y="3" width="7" height="7" rx="1"/>
+      <rect x="3" y="14" width="7" height="7" rx="1"/>
+      <rect x="14" y="14" width="7" height="7" rx="1"/>
+    </svg>
+    <span>Panel</span>
+  </a>
+  <a href="20-Solicitudes.html" class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/>
+    </svg>
+    <span>Solicitudes</span>
+  </a>
+  <a href="11-Mis-Viajes.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/>
+    </svg>
+    <span>Historial</span>
+  </a>
+  <a href="10-Perfil-Transportista.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+    </svg>
+    <span>Perfil</span>
+  </a>
+</nav><!-- BOTÓN ERI -->
+<button
+  onclick="document.getElementById('eriOverlay').style.display='flex';"
+  style="position:fixed;bottom:100px;right:20px;width:60px;height:60px;border-radius:50%;background:#FFFFFF;border:2px solid #A4D65E;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(164,214,94,0.5);z-index:99999;padding:0;"
+  type="button"
+  aria-label="Eri">
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;pointer-events:none;">
+    <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#A4D65E"/>
+    <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#1A1F2E"/>
+  </svg>
+</button>
+
+<!-- PANEL ERI -->
+<div id="eriOverlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100dvh;background:#FAFAF7;z-index:999999;flex-direction:column;overflow:hidden;">
+
+  <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:#FFFFFF;border-bottom:1px solid #F0F0EB;padding-top:calc(14px + env(safe-area-inset-top, 0));flex-shrink:0;">
+    <div style="width:38px;height:38px;border-radius:50%;background:#A4D65E;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <svg viewBox="0 0 64 64" fill="none" style="width:22px;height:22px;">
+        <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#1A1F2E"/>
+        <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#A4D65E"/>
+      </svg>
+    </div>
+    <div style="flex:1;">
+      <div style="font-size:16px;font-weight:800;color:#1A1F2E;">Eri</div>
+      <div style="font-size:11px;color:#22C55E;font-weight:600;">En línea</div>
+    </div>
+    <button onclick="document.getElementById('eriOverlay').style.display='none';" type="button" style="width:40px;height:40px;border:none;background:transparent;cursor:pointer;color:#8A8F9C;display:flex;align-items:center;justify-content:center;border-radius:50%;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;pointer-events:none;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <div id="eriChat" style="flex:1 1 auto;overflow-y:auto;padding:18px 16px 12px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch;min-height:0;">
+    <div style="max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;background:#FFFFFF;color:#1A1F2E;border:1px solid #F0F0EB;border-bottom-left-radius:6px;align-self:flex-start;">
+      ¡Epale jefe! Soy Eri. Aquí ves todas las solicitudes de viaje.
+    </div>
+  </div>
+
+  <div style="background:#FFFFFF;border-top:1px solid #F0F0EB;padding:10px 12px calc(10px + env(safe-area-inset-bottom, 0));display:flex;gap:8px;align-items:flex-end;flex-shrink:0;min-height:64px;">
+    <textarea id="eriInput" placeholder="Escríbele a Eri..." rows="1" style="flex:1;border:2px solid #F0F0EB;border-radius:22px;padding:11px 16px;font-size:15px;font-family:inherit;color:#1A1F2E;outline:none;resize:none;max-height:100px;line-height:1.4;background:#FFFFFF;min-height:44px;"></textarea>
+    <button id="eriMic" type="button" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#F4F4F0;color:#1A1F2E;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;pointer-events:none;">
+        <rect x="9" y="2" width="6" height="12" rx="3"/>
+        <path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3"/>
+      </svg>
+    </button>
+    <button id="eriSend" type="button" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#1A1F2E;color:#FFFFFF;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;pointer-events:none;"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   SOLICITUDES · LÓGICA
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  var online = false;
+  try { online = localStorage.getItem('kraze_transportista_online') === '1'; } catch (e) {}
+  actualizarOnline();
+
+  function actualizarOnline() {
+    var pill = document.getElementById('onlinePill');
+    var txt = document.getElementById('onlineText');
+    var emptySub = document.getElementById('emptySub');
+    if (online) {
+      pill.classList.add('on');
+      txt.textContent = 'Online';
+      if (emptySub) emptySub.textContent = 'Buscando viajes cerca de ti...';
+    } else {
+      pill.classList.remove('on');
+      txt.textContent = 'Offline';
+      if (emptySub) emptySub.textContent = 'Ponte en línea para empezar a recibir viajes.';
+    }
+  }
+
+  /* ─── Solicitudes ─── */
+  var solicitudes = [];
+  try {
+    var s = localStorage.getItem('kraze_solicitudes');
+    if (s) solicitudes = JSON.parse(s) || [];
+  } catch (e) {}
+
+  var filtroActual = 'todas';
+  var filters = document.getElementById('filters');
+  var container = document.getElementById('containerSolicitudes');
+
+  filters.addEventListener('click', function (e) {
+    var b = e.target.closest('.filter-btn');
+    if (!b) return;
+    Array.prototype.forEach.call(filters.querySelectorAll('.filter-btn'), function (x) {
+      x.classList.remove('active');
+    });
+    b.classList.add('active');
+    filtroActual = b.getAttribute('data-filtro');
+    render();
+  });
+
+  function render() {
+    if (solicitudes.length === 0) {
+      container.innerHTML =
+        '<div class="empty-box">' +
+          '<svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' +
+            '<path d="M5 17h14M5 17a2 2 0 11-4 0 2 2 0 014 0zm18 0a2 2 0 11-4 0 2 2 0 014 0z"/>' +
+            '<path d="M3 17V7a2 2 0 012-2h9l3 5h4a2 2 0 012 2v5"/>' +
+          '</svg>' +
+          '<div class="empty-title">Sin solicitudes</div>' +
+          '<div class="empty-sub" id="emptySub">' +
+            (online ? 'Buscando viajes cerca de ti...' : 'Ponte en línea para empezar a recibir viajes.') +
+          '</div>' +
+        '</div>';
+      return;
+    }
+
+    var lista = solicitudes;
+    if (filtroActual !== 'todas') {
+      lista = solicitudes.filter(function (s) { return s.tipo === filtroActual; });
+    }
+
+    if (lista.length === 0) {
+      container.innerHTML =
+        '<div class="empty-box">' +
+          '<div class="empty-title">Sin solicitudes en este filtro</div>' +
+          '<div class="empty-sub">Prueba con otro tipo de vehículo.</div>' +
+        '</div>';
+      return;
+    }
+
+    var html = '<div class="req-list">';
+    lista.forEach(function (sol, idx) {
+      html += crearCard(sol, idx);
+    });
+    html += '</div>';
+    container.innerHTML = html;
+
+    /* Listeners */
+    Array.prototype.forEach.call(container.querySelectorAll('.btn-accept'), function (b) {
+      b.onclick = function () { aceptar(b.getAttribute('data-id')); };
+    });
+    Array.prototype.forEach.call(container.querySelectorAll('.btn-reject'), function (b) {
+      b.onclick = function () { rechazar(b.getAttribute('data-id')); };
+    });
+  }
+
+  function crearCard(sol, idx) {
+    var tipoIcono = '<circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h-3l-3 8"/>';
+    if (sol.tipo === 'carro') tipoIcono = '<path d="M5 17h14M5 17a2 2 0 11-4 0 2 2 0 014 0zm18 0a2 2 0 11-4 0 2 2 0 014 0z"/><path d="M3 17V7a2 2 0 012-2h9l3 5h4a2 2 0 012 2v5"/>';
+    else if (sol.tipo === 'camion') tipoIcono = '<path d="M1 16V6h12v10M13 16V9h5l4 4v3"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>';
+    else if (sol.tipo === 'taxi') tipoIcono = '<path d="M3 17V9l2-5h14l2 5v8M3 17h18M5 17v2M19 17v2"/>';
+
+    var precioTxt = (typeof sol.precio === 'number') ? '$' + sol.precio.toFixed(2) : '$—';
+    var distTxt = sol.distancia ? sol.distancia + ' km' : '— km';
+    var tiempoTxt = sol.tiempo ? sol.tiempo + ' min' : '— min';
+    var id = sol.id || idx;
+
+    var urgencia = sol.urgente === true || (sol.minutosEspera && sol.minutosEspera < 1);
+    var tiempoEspera = sol.minutosEspera ? sol.minutosEspera + ' min' : 'nueva';
+
+    return (
+      '<div class="req-card' + (urgencia ? ' urgent' : '') + '">' +
+        '<div class="req-top">' +
+          '<div class="req-tipo">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + tipoIcono + '</svg>' +
+            (sol.tipo || 'viaje') +
+          '</div>' +
+          '<div class="req-tiempo' + (urgencia ? ' urgent' : '') + '">' + tiempoEspera + '</div>' +
+        '</div>' +
+        '<div class="req-precio">' + precioTxt + '<small>USD</small></div>' +
+        '<div class="req-ruta">' +
+          '<div class="ruta-linea">' +
+            '<div class="ruta-dot green"></div>' +
+            '<div class="ruta-barra"></div>' +
+            '<div class="ruta-dot dark"></div>' +
+          '</div>' +
+          '<div class="ruta-textos">' +
+            '<div class="ruta-punto">' + (sol.origen || '—') + '</div>' +
+            '<div class="ruta-punto">' + (sol.destino || '—') + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="req-meta">' +
+          '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>' + distTxt + '</span>' +
+          '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>' + tiempoTxt + '</span>' +
+        '</div>' +
+        '<div class="req-actions">' +
+          '<button class="btn-reject" type="button" data-id="' + id + '">Rechazar</button>' +
+          '<button class="btn-accept" type="button" data-id="' + id + '">Aceptar viaje</button>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  /* ─── Aceptar viaje ─── */
+  function aceptar(id) {
+    var sol = null;
+    for (var i = 0; i < solicitudes.length; i++) {
+      if ((solicitudes[i].id || i) == id) { sol = solicitudes[i]; break; }
+    }
+    if (!sol) return;
+
+    try {
+      localStorage.setItem('kraze_viaje_actual', JSON.stringify({
+        origen: sol.origen,
+        destino: sol.destino,
+        vehiculo: sol.tipo,
+        distancia: sol.distancia,
+        tiempoMin: sol.tiempo,
+        total: sol.precio,
+        estado: 'en_camino'
+      }));
+
+      /* Eliminar de solicitudes */
+      solicitudes = solicitudes.filter(function (s, i) {
+        return (s.id || i) != id;
+      });
+      localStorage.setItem('kraze_solicitudes', JSON.stringify(solicitudes));
+    } catch (e) {}
+
+    location.href = '06-Ubicacion-Tiempo-Real.html';
+  }
+
+  /* ─── Rechazar viaje ─── */
+  function rechazar(id) {
+    if (!confirm('¿Rechazar esta solicitud?')) return;
+    solicitudes = solicitudes.filter(function (s, i) {
+      return (s.id || i) != id;
+    });
+    try { localStorage.setItem('kraze_solicitudes', JSON.stringify(solicitudes)); } catch (e) {}
+    render();
+  }
+
+  render();
+  console.log('[Solicitudes] listo. Total:', solicitudes.length);
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   ERI · LÓGICA (con voz)
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  var API = 'https://moto-llave-backend.vercel.app/api/claude';
+  var chat = document.getElementById('eriChat');
+  var input = document.getElementById('eriInput');
+  var sendBtn = document.getElementById('eriSend');
+  var micBtn = document.getElementById('eriMic');
+  var escribiendo = false;
+  var grabando = false;
+  var rec = null;
+
+  function agregarMsg(tipo, texto) {
+    var m = document.createElement('div');
+    m.style.cssText = 'max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;word-wrap:break-word;';
+    if (tipo === 'user') {
+      m.style.background = '#1A1F2E';
+      m.style.color = '#FFFFFF';
+      m.style.borderBottomRightRadius = '6px';
+      m.style.alignSelf = 'flex-end';
+    } else {
+      m.style.background = '#FFFFFF';
+      m.style.color = '#1A1F2E';
+      m.style.border = '1px solid #F0F0EB';
+      m.style.borderBottomLeftRadius = '6px';
+      m.style.alignSelf = 'flex-start';
+    }
+    m.textContent = texto;
+    chat.appendChild(m);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function enviar() {
+    var texto = input.value.trim();
+    if (!texto || escribiendo) return;
+    agregarMsg('user', texto);
+    input.value = '';
+    escribiendo = true;
+    sendBtn.disabled = true;
+
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ texto: texto })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var resp = d && (d.respuesta || d.mensaje);
+      if (resp) { agregarMsg('eri', resp); hablar(resp); }
+      else { agregarMsg('eri', 'Ups, no entendí.'); }
+    })
+    .catch(function () { agregarMsg('eri', 'Ups, error de conexión.'); })
+    .then(function () { escribiendo = false; sendBtn.disabled = false; });
+  }
+
+  sendBtn.onclick = enviar;
+
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviar(); }
+  });
+
+  function iniciarVoz() {
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { alert('Tu navegador no soporta reconocimiento de voz.'); return; }
+    if (grabando) { try { rec.stop(); } catch (e) {} return; }
+
+    rec = new SR();
+    rec.lang = 'es-VE';
+    rec.continuous = false;
+    rec.interimResults = true;
+
+    rec.onstart = function () {
+      grabando = true;
+      micBtn.style.background = '#E5484D';
+      micBtn.style.color = '#FFFFFF';
+    };
+    rec.onresult = function (e) {
+      var t = '';
+      for (var i = e.resultIndex; i < e.results.length; i++) { t += e.results[i][0].transcript; }
+      input.value = t;
+    };
+    rec.onerror = function () {
+      grabando = false;
+      micBtn.style.background = '#F4F4F0';
+      micBtn.style.color = '#1A1F2E';
+    };
+    rec.onend = function () {
+      grabando = false;
+      micBtn.style.background = '#F4F4F0';
+      micBtn.style.color = '#1A1F2E';
+      if (input.value.trim()) setTimeout(enviar, 300);
+    };
+
+    try { rec.start(); } catch (e) {}
+  }
+
+  micBtn.onclick = iniciarVoz;
+
+  function hablar(texto) {
+    if (!window.speechSynthesis) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(texto);
+      u.lang = 'es-VE';
+      u.rate = 1.0;
+      u.pitch = 1.0;
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+
+  console.log('[Eri] listo con voz');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+{
+  "app": {
+    "nombre": "Kraze",
+    "slogan": "Transporte total",
+    "empresa": "Erian C.A.",
+    "version": "1.0.0",
+    "moneda": "USD",
+    "monedaLocal": "VES",
+    "pais": "Venezuela",
+    "ciudad": "Socopó, Barinas"
+  },
+
+  "soporte": {
+    "telefono": "+58 412 149 9545",
+    "whatsapp": "+584121499545",
+    "email": "soporte@kraze.app",
+    "horario": "Lun a Dom · 6:00 am - 11:00 pm"
+  },
+
+  "precios": {
+    "tarifaBase": 1.00,
+    "precioPorKm": 0.50,
+    "precioPorMinuto": 0.08,
+    "recargoNocturno": 0.20,
+    "recargoLluvia": 0.15,
+    "comisionKraze": 0.15,
+    "minimoViaje": 1.50,
+    "deliveryBase": 1.00,
+    "deliveryPorKm": 0.40,
+    "deliveryMinimo": 1.50
+  },
+
+  "vehiculos": {
+    "moto":        { "activo": true, "multiplicador": 1.00, "nombre": "Moto" },
+    "motocarro":   { "activo": true, "multiplicador": 1.20, "nombre": "Motocarro" },
+    "taxi":        { "activo": true, "multiplicador": 1.50, "nombre": "Taxi" },
+    "carro":       { "activo": true, "multiplicador": 1.60, "nombre": "Carro" },
+    "buseta":      { "activo": true, "multiplicador": 2.00, "nombre": "Buseta" },
+    "camion":      { "activo": true, "multiplicador": 2.50, "nombre": "Camión" },
+    "volteo":      { "activo": true, "multiplicador": 3.00, "nombre": "Volteo" },
+    "cava":        { "activo": true, "multiplicador": 2.80, "nombre": "Cava" },
+    "ganado":      { "activo": true, "multiplicador": 3.50, "nombre": "Ganado" }
+  },
+
+  "metodosPago": {
+    "efectivo":      { "activo": true,  "nombre": "Efectivo", "icono": "cash" },
+    "pago_movil":    { "activo": true,  "nombre": "Pago Móvil", "icono": "phone" },
+    "transferencia": { "activo": true,  "nombre": "Transferencia", "icono": "bank" },
+    "zelle":         { "activo": false, "nombre": "Zelle", "icono": "zelle" },
+    "usdt":          { "activo": false, "nombre": "USDT", "icono": "crypto" }
+  },
+
+  "marketplace": {
+    "categorias": [
+      { "id": "fastfood",   "nombre": "Comida rápida", "activo": true },
+      { "id": "restaurant", "nombre": "Restaurantes",  "activo": true },
+      { "id": "mercado",    "nombre": "Mercado",       "activo": true },
+      { "id": "farmacia",   "nombre": "Farmacia",      "activo": true },
+      { "id": "licores",    "nombre": "Licorería",     "activo": true },
+      { "id": "tienda",     "nombre": "Tiendas",       "activo": true }
+    ]
+  },
+
+  "features": {
+    "viajesActivo":       true,
+    "marketplaceActivo":  true,
+    "billeteraActiva":    true,
+    "creditosActivo":     true,
+    "publicidadActiva":   true,
+    "asistenteEri":       true,
+    "vozEri":             true,
+    "gpsActivo":          true,
+    "pagosRealesActivos": false,
+    "modoMantenimiento":  false
+  },
+
+  "limites": {
+    "creditoMinimo": 5,
+    "creditoMaximo": 500,
+    "plazoMaximoDias": 30,
+    "viajesMinimosCredito": 10,
+    "ratingMinimoCredito": 4.0,
+    "distanciaMaximaKm": 50
+  },
+
+  "mensajes": {
+    "errorGenerico": "Algo salió mal. Intenta de nuevo.",
+    "sinInternet": "Sin conexión a internet. Revisa tu red.",
+    "sesionExpirada": "Tu sesión expiró. Vuelve a iniciar sesión.",
+    "servidorCaido": "El servicio no está disponible. Intenta más tarde.",
+    "campoRequerido": "Este campo es obligatorio.",
+    "telefonoInvalido": "El teléfono no es válido.",
+    "claveCorta": "La contraseña es muy corta.",
+    "tiendaNoDisponible": "La tienda no está disponible ahora.",
+    "platoNoDisponible": "Ese plato ya no está disponible."
+  },
+
+  "api": {
+    "backendUrl": "https://moto-llave-backend.vercel.app",
+    "endpoints": {
+      "claude":     "/api/claude",
+      "config":     "/api/config-publica",
+      "cotizar":    "/api/viaje/cotizar",
+      "pedido":     "/api/pedido/validar"
+    }
+  },
+
+  "supabase": {
+    "url": "https://xetqvxuiroalddfzrfzc.supabase.co",
+    "anonKey": "sb_publishable_SARKcARFpIESQRUDSxbpig_kdlHrZh3"
+  }
+}

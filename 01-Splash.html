@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FAFAF7">
+  <meta name="author" content="Erian C.A.">
+  <title>Kraze</title>
+
+  <!-- ============================================================
+       KRAZE · Splash
+       © 2026 Erian C.A. — Todos los derechos reservados
+       Archivo: 01-Splash.html
+       Sin animaciones, sin transiciones, sin parpadeo.
+       ============================================================ -->
+  <style>
+    /* --- Reset total --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background-color: #FAFAF7;
+      -webkit-tap-highlight-color: transparent;
+      animation: none !important;
+      transition: none !important;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    /* --- Logo centrado, sin animación --- */
+    .splash-logo {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .splash-logo svg {
+      display: block;
+      height: 100%;
+      width: auto;
+    }
+
+    /* --- Copyright --- */
+    .splash-copy {
+      position: fixed;
+      bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 500;
+      color: #B0B5A8;
+      letter-spacing: 0.4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="splash-logo">
+    <svg viewBox="0 0 360 96" xmlns="http://www.w3.org/2000/svg" aria-label="Kraze">
+      <g transform="translate(0, 4)">
+        <path
+          d="M 36 0 C 16 0 0 16 0 36 C 0 52 10 64 24 76 L 36 88 L 48 76 C 62 64 72 52 72 36 C 72 16 56 0 36 0 Z"
+          fill="#A4D65E"
+        />
+        <path
+          d="M 36 22 C 36 22 30 15 23 15 C 16 15 11 20 11 27 C 11 33 15 38 21 44 L 36 60 L 51 44 C 57 38 61 33 61 27 C 61 20 56 15 49 15 C 42 15 36 22 36 22 Z"
+          fill="#1A1F2E"
+        />
+      </g>
+      <text
+        x="94" y="70"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+        font-size="62"
+        font-weight="900"
+        letter-spacing="-2.5"
+        fill="#1A1F2E"
+      >Kraze</text>
+    </svg>
+  </div>
+
+  <div class="splash-copy">
+    © 2026 Erian C.A.
+  </div>
+
+  <!-- ============================================================
+       Scripts base
+       ============================================================ -->
+  <script src="js/nav.js"></script>
+
+  <!-- ============================================================
+       Lógica del Splash
+       NO carga theme.js (evita que cambie colores y parpadee)
+       ============================================================ -->
+  <script>
+  (function () {
+    'use strict';
+
+    const DURACION_MS = 1500;
+
+    /* --- Bloquear botón atrás --- */
+    window.history.pushState(null, '', window.location.href);
+    window.addEventListener('popstate', function () {
+      window.history.pushState(null, '', window.location.href);
+    });
+
+    /* --- Decidir destino --- */
+    function decidirDestino() {
+      const rol = Kraze.nav.getRol();
+      if (rol === 'pasajero')      return Kraze.nav.config.homePasajero;
+      if (rol === 'transportista') return Kraze.nav.config.homeTransportista;
+      return Kraze.nav.config.login;
+    }
+
+    /* --- Redirigir sin transición --- */
+    setTimeout(function () {
+      const destino = decidirDestino();
+      window.location.replace(destino);
+    }, DURACION_MS);
+
+  })();
+  </script>
+
+</body>
+</html>

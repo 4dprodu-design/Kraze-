@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1A1F2E">
+<title>Admin · Kraze</title>
+
+<!-- ═══════════════════════════════════════════════════════════
+     KRAZE · ADMIN LOGIN
+     Archivo: admin-login.html
+     Descripción: Login de administrador con sistema de seguridad
+     Erian C.A. · "Transporte total"
+     ═══════════════════════════════════════════════════════════ -->
+
+<style>
+/* ─────────── RESET Y BASE ─────────── */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+               Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #FAFAF7;
+  color: #1A1F2E;
+  overflow-x: hidden;
+}
+
+/* ─────────── LAYOUT ─────────── */
+.wrap {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px 40px;
+}
+
+/* ─────────── LOGO ─────────── */
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.brand-pin {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 14px;
+}
+
+.brand-word {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1.2px;
+  color: #1A1F2E;
+  line-height: 1;
+}
+
+.brand-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #8A8F9C;
+  margin-top: 6px;
+}
+
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #1A1F2E;
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin-top: 14px;
+  text-transform: uppercase;
+}
+
+.brand-badge .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #A4D65E;
+}
+
+/* ─────────── CARD ─────────── */
+.card {
+  width: 100%;
+  max-width: 400px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 28px 24px 24px;
+  box-shadow: 0 4px 24px rgba(26, 31, 46, 0.06),
+              0 1px 3px rgba(26, 31, 46, 0.04);
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1A1F2E;
+  margin-bottom: 6px;
+}
+
+.card-sub {
+  font-size: 13px;
+  color: #8A8F9C;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+/* ─────────── INPUT ─────────── */
+.field {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.field-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1A1F2E;
+  margin-bottom: 8px;
+  letter-spacing: 0.2px;
+}
+
+.field-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #F4F4F0;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  transition: all 0.18s ease;
+}
+
+.field-input-wrap:focus-within {
+  border-color: #A4D65E;
+  background: #FFFFFF;
+}
+
+.field-input-wrap.error {
+  border-color: #E5484D;
+  background: #FFF5F5;
+}
+
+.field-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 14px;
+  flex-shrink: 0;
+  color: #8A8F9C;
+}
+
+.field-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 15px 14px;
+  font-size: 16px;
+  font-family: inherit;
+  color: #1A1F2E;
+  letter-spacing: 1.5px;
+}
+
+.field-input::placeholder {
+  color: #B0B4BF;
+  letter-spacing: normal;
+}
+
+.field-toggle {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #8A8F9C;
+  padding: 0;
+}
+
+.field-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ─────────── MENSAJES ─────────── */
+.msg {
+  display: none;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+
+.msg.show {
+  display: flex;
+}
+
+.msg.error {
+  background: #FEF2F2;
+  color: #B91C1C;
+  border: 1px solid #FEE2E2;
+}
+
+.msg.warn {
+  background: #FFFBEB;
+  color: #92400E;
+  border: 1px solid #FEF3C7;
+}
+
+.msg.info {
+  background: #EFF6FF;
+  color: #1E40AF;
+  border: 1px solid #DBEAFE;
+}
+
+.msg svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ─────────── BOTÓN ─────────── */
+.btn-primary {
+  width: 100%;
+  padding: 16px;
+  background: #1A1F2E;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+  background: #000000;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary .spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.25);
+  border-top-color: #FFFFFF;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: none;
+}
+
+.btn-primary.loading .spinner {
+  display: block;
+}
+
+.btn-primary.loading .btn-text {
+  display: none;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}/* ─────────── INFO DE SEGURIDAD ─────────── */
+.sec-info {
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid #F0F0EB;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sec-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #8A8F9C;
+  line-height: 1.4;
+}
+
+.sec-row svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  color: #A4D65E;
+}
+
+/* ─────────── FOOTER ─────────── */
+.foot {
+  margin-top: 32px;
+  font-size: 11px;
+  color: #B0B4BF;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.foot strong {
+  color: #1A1F2E;
+  font-weight: 700;
+}
+
+/* ─────────── OVERLAY DE BLOQUEO ─────────── */
+.lock-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 31, 46, 0.92);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(4px);
+}
+
+.lock-overlay.show {
+  display: flex;
+}
+
+.lock-box {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 32px 24px;
+  max-width: 340px;
+  width: 100%;
+  text-align: center;
+}
+
+.lock-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 18px;
+  color: #E5484D;
+}
+
+.lock-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1A1F2E;
+  margin-bottom: 8px;
+}
+
+.lock-text {
+  font-size: 14px;
+  color: #8A8F9C;
+  line-height: 1.5;
+}
+
+.lock-timer {
+  font-size: 24px;
+  font-weight: 800;
+  color: #E5484D;
+  margin-top: 16px;
+  font-variant-numeric: tabular-nums;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CONTENIDO
+     ═══════════════════════════════════════════════════════════ -->
+<div class="wrap">
+
+  <!-- Logo -->
+  <div class="brand">
+    <svg class="brand-pin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#A4D65E"/>
+      <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#1A1F2E"/>
+    </svg>
+    <div class="brand-word">Kraze</div>
+    <div class="brand-tag">Transporte total</div>
+    <div class="brand-badge">
+      <span class="dot"></span>
+      Panel administrador
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div class="card">
+    <h1 class="card-title">Acceso restringido</h1>
+    <p class="card-sub">
+      Ingresa la clave maestra para administrar la plataforma Kraze.
+    </p>
+
+    <!-- Mensaje de error -->
+    <div class="msg error" id="msgError">
+      <svg viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.7 7.3a1 1 0 011.4 0L10 7.6l-.1-.1a1 1 0 011.4 1.4L11.4 10l.9.9a1 1 0 11-1.4 1.4L10 11.4l-.9.9a1 1 0 11-1.4-1.4l.9-.9-.9-.9a1 1 0 010-1.8z" clip-rule="evenodd"/>
+      </svg>
+      <span id="msgErrorText">Clave incorrecta.</span>
+    </div>
+
+    <!-- Mensaje de aviso -->
+    <div class="msg warn" id="msgWarn">
+      <svg viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M8.3 2.6a2 2 0 013.4 0l6.5 11.2a2 2 0 01-1.7 3H3.5a2 2 0 01-1.7-3L8.3 2.6zM10 7a1 1 0 00-1 1v3a1 1 0 102 0V8a1 1 0 00-1-1zm0 7a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+      </svg>
+      <span id="msgWarnText">Atención.</span>
+    </div>
+
+    <!-- Formulario -->
+    <form id="formLogin" autocomplete="off">
+      <div class="field">
+        <label class="field-label" for="clave">Clave maestra</label>
+        <div class="field-input-wrap" id="inputWrap">
+          <svg class="field-icon" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 1a4 4 0 00-4 4v2H5a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V9a2 2 0 00-2-2h-1V5a4 4 0 00-4-4zM7 5a3 3 0 116 0v2H7V5zm3 6a1 1 0 00-1 1v3a1 1 0 102 0v-3a1 1 0 00-1-1z" clip-rule="evenodd"/>
+          </svg>
+          <input
+            type="password"
+            id="clave"
+            class="field-input"
+            placeholder="••••••••••••"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            maxlength="64"
+          >
+          <button type="button" class="field-toggle" id="btnToggle" aria-label="Mostrar clave">
+            <svg id="iconEye" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M10 4C5.5 4 2 10 2 10s3.5 6 8 6 8-6 8-6-3.5-6-8-6zm0 10a4 4 0 110-8 4 4 0 010 8zm0-6.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary" id="btnLogin">
+        <span class="btn-text">Ingresar al panel</span>
+        <div class="spinner"></div>
+      </button>
+    </form>
+
+    <!-- Info de seguridad -->
+    <div class="sec-info">
+      <div class="sec-row">
+        <svg viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 1a4 4 0 00-4 4v2H5a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V9a2 2 0 00-2-2h-1V5a4 4 0 00-4-4z" clip-rule="evenodd"/>
+        </svg>
+        <span>Clave ofuscada con cifrado XOR</span>
+      </div>
+      <div class="sec-row">
+        <svg viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.3.7l3 3a1 1 0 001.4-1.4L11 9.6V6z" clip-rule="evenodd"/>
+        </svg>
+        <span>Bloqueo automático tras 5 intentos</span>
+      </div>
+      <div class="sec-row">
+        <svg viewBox="0 0 20 20" fill="currentColor">
+          <path d="M10 2a1 1 0 011 1v6.6l2.7 1.6a1 1 0 11-1 1.7l-3.2-1.9a1 1 0 01-.5-.9V3a1 1 0 011-1z"/>
+        </svg>
+        <span>Sesión expira en 8 horas</span>
+      </div>
+      <div class="sec-row">
+        <svg viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M6.7 5.3a1 1 0 010-1.4l3-3a1 1 0 011.4 0l3 3a1 1 0 01-1.4 1.4L11 3.7V10a1 1 0 11-2 0V3.7L7.3 5.3a1 1 0 01-.6.2 1 1 0 01-.8-.4z" clip-rule="evenodd"/>
+        </svg>
+        <span>Auto-salida por inactividad 30 min</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="foot">
+    <strong>Kraze</strong> · Erian C.A. © 2026<br>
+    Socopó, Barinas · Venezuela
+  </div>
+</div>
+
+<!-- Overlay de bloqueo -->
+<div class="lock-overlay" id="lockOverlay">
+  <div class="lock-box">
+    <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+    </svg>
+    <div class="lock-title">Acceso bloqueado</div>
+    <div class="lock-text" id="lockText">
+      Demasiados intentos fallidos. Espera antes de volver a intentarlo.
+    </div>
+    <div class="lock-timer" id="lockTimer">15:00</div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="js/kraze-seguridad.js"></script>
+<script>
+/* ═══════════════════════════════════════════════════════════
+   LÓGICA DEL LOGIN (CORREGIDO - compatibilidad exito/ok)
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  'use strict';
+
+  /* ─────────── ELEMENTOS ─────────── */
+  const form       = document.getElementById('formLogin');
+  const input      = document.getElementById('clave');
+  const inputWrap  = document.getElementById('inputWrap');
+  const btnLogin   = document.getElementById('btnLogin');
+  const btnToggle  = document.getElementById('btnToggle');
+  const iconEye    = document.getElementById('iconEye');
+  const msgError   = document.getElementById('msgError');
+  const msgErrorTx = document.getElementById('msgErrorText');
+  const msgWarn    = document.getElementById('msgWarn');
+  const msgWarnTx  = document.getElementById('msgWarnText');
+  const overlay    = document.getElementById('lockOverlay');
+  const lockTimer  = document.getElementById('lockTimer');
+  const lockText   = document.getElementById('lockText');
+
+  /* ─────────── VERIFICAR DEPENDENCIAS ─────────── */
+  if (!window.Kraze || !Kraze.seguridad) {
+    alert('Error: kraze-seguridad.js no está cargado.');
+    return;
+  }
+
+  /* ─────────── ESTADO ─────────── */
+  let segundosBloqueo = 0;
+  let intervaloTimer = null;
+
+  /* ─────────── MOSTRAR / OCULTAR CLAVE ─────────── */
+  btnToggle.addEventListener('click', function () {
+    const esPassword = input.type === 'password';
+    input.type = esPassword ? 'text' : 'password';
+    iconEye.innerHTML = esPassword
+      ? '<path d="M3.3 2A1 1 0 002 3.3l1.8 1.8C2.4 6.1 1.4 7.5.6 9c-.3.5-.3 1.2 0 1.7C2 13.5 5.7 17 10 17c1.6 0 3.2-.5 4.6-1.3l2.1 2.1a1 1 0 001.4-1.4L4.7 3.3A1 1 0 003.3 2zM10 7a3 3 0 013 3c0 .4-.1.8-.2 1.1l-1-1A1.5 1.5 0 0010 8.5l-1.1-1C9.2 7.1 9.6 7 10 7z"/><path d="M10 3c-.8 0-1.6.1-2.3.4l1.6 1.6c.2 0 .4-.1.7-.1 3.2 0 6 2.7 6.6 5.1-.3.6-.7 1.2-1.2 1.7l1.4 1.4c.8-.7 1.5-1.5 2-2.4.3-.5.3-1.2 0-1.7C17.5 6.5 14 3 10 3z"/>'
+      : '<path d="M10 4C5.5 4 2 10 2 10s3.5 6 8 6 8-6 8-6-3.5-6-8-6zm0 10a4 4 0 110-8 4 4 0 010 8zm0-6.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5z"/>';
+    input.focus();
+  });
+
+  /* ─────────── UTILIDADES DE UI ─────────── */
+  function mostrarError(texto) {
+    msgErrorTx.textContent = texto;
+    msgError.classList.add('show');
+    msgWarn.classList.remove('show');
+    inputWrap.classList.add('error');
+    setTimeout(function () {
+      inputWrap.classList.remove('error');
+    }, 2200);
+  }
+
+  function mostrarAviso(texto) {
+    msgWarnTx.textContent = texto;
+    msgWarn.classList.add('show');
+    msgError.classList.remove('show');
+  }
+
+  function ocultarMensajes() {
+    msgError.classList.remove('show');
+    msgWarn.classList.remove('show');
+  }
+
+  function ponerCargando(cargando) {
+    if (cargando) {
+      btnLogin.classList.add('loading');
+      btnLogin.disabled = true;
+      input.disabled = true;
+    } else {
+      btnLogin.classList.remove('loading');
+      btnLogin.disabled = false;
+      input.disabled = false;
+    }
+  }
+
+  /* ─────────── BLOQUEO Y OVERLAY ─────────── */
+  function verificarBloqueoInicial() {
+    try {
+      if (typeof Kraze.seguridad.verificarBloqueo !== 'function') return;
+      const info = Kraze.seguridad.verificarBloqueo();
+      if (info && info.bloqueado) {
+        const seg = (info.minRestantes || 15) * 60;
+        mostrarOverlayBloqueo(seg);
+      }
+    } catch (e) {
+      console.warn('[AdminLogin] Error verificando bloqueo:', e);
+    }
+  }
+
+  function mostrarOverlayBloqueo(segundos) {
+    segundosBloqueo = segundos;
+    overlay.classList.add('show');
+    actualizarTimer();
+
+    if (intervaloTimer) clearInterval(intervaloTimer);
+    intervaloTimer = setInterval(function () {
+      segundosBloqueo--;
+      if (segundosBloqueo <= 0) {
+        clearInterval(intervaloTimer);
+        intervaloTimer = null;
+        overlay.classList.remove('show');
+        lockText.textContent =
+          'Demasiados intentos fallidos. Espera antes de volver a intentarlo.';
+        ocultarMensajes();
+        input.disabled = false;
+        btnLogin.disabled = false;
+        input.value = '';
+      } else {
+        actualizarTimer();
+      }
+    }, 1000);
+  }
+
+  function actualizarTimer() {
+    const m = Math.floor(segundosBloqueo / 60);
+    const s = segundosBloqueo % 60;
+    lockTimer.textContent =
+      String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  }
+
+  /* ─────────── ENVÍO DEL FORMULARIO ─────────── */
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    ocultarMensajes();
+
+    const clave = input.value.trim();
+
+    if (!clave) {
+      mostrarError('Escribe la clave maestra.');
+      input.focus();
+      return;
+    }
+    if (clave.length < 6) {
+      mostrarError('La clave debe tener al menos 6 caracteres.');
+      input.focus();
+      return;
+    }
+
+    ponerCargando(true);
+
+    /* Pequeña pausa anti-fuerza bruta */
+    await new Promise(function (r) { setTimeout(r, 400); });
+
+    try {
+      /* Compatibilidad: el sistema puede exponer .login() o .autenticar() */
+      const fn = Kraze.seguridad.login || Kraze.seguridad.autenticar;
+      if (typeof fn !== 'function') {
+        ponerCargando(false);
+        mostrarError('Sistema de seguridad no disponible.');
+        return;
+      }
+
+      const resultado = fn.call(Kraze.seguridad, clave) || {};
+
+      /* Compatibilidad: 'exito' (sistema actual) o 'ok' */
+      const fueExito =
+        resultado.exito === true || resultado.ok === true;
+
+      if (fueExito) {
+        mostrarAviso('Acceso concedido. Redirigiendo...');
+        setTimeout(function () {
+          window.location.href = '19c-Panel-Admin-Tiendas.html';
+        }, 700);
+        return;
+      }
+
+      /* Login fallido */
+      ponerCargando(false);
+
+      const intentos = resultado.intentosRestantes ??
+                       resultado.intentos_restantes ??
+                       resultado.intentos;
+      const msg = resultado.mensaje ||
+                  resultado.error ||
+                  'Clave incorrecta.';
+
+      if (resultado.bloqueado) {
+        mostrarError(msg);
+        verificarBloqueoInicial();
+      } else if (typeof intentos === 'number') {
+        if (intentos <= 0) {
+          mostrarError('Clave incorrecta. Cuenta bloqueada.');
+          verificarBloqueoInicial();
+        } else {
+          mostrarError(msg + ' Intentos restantes: ' + intentos);
+        }
+      } else {
+        mostrarError(msg);
+      }
+
+      input.value = '';
+      input.focus();
+
+    } catch (err) {
+      console.error('[AdminLogin] Error:', err);
+      ponerCargando(false);
+      mostrarError('Error inesperado. Intenta de nuevo.');
+    }
+  });
+
+  /* ─────────── VERIFICAR SESIÓN ACTIVA ─────────── */
+  try {
+    if (Kraze.seguridad.verificarSesion) {
+      const s = Kraze.seguridad.verificarSesion();
+      if (s && s.activa) {
+        mostrarAviso('Ya tienes una sesión activa. Redirigiendo...');
+        setTimeout(function () {
+          window.location.href = '19c-Panel-Admin-Tiendas.html';
+        }, 900);
+        return;
+      }
+    }
+  } catch (e) {
+    /* Ignorar */
+  }
+
+  /* ─────────── CHEQUEO INICIAL ─────────── */
+  verificarBloqueoInicial();
+
+  /* Foco automático */
+  setTimeout(function () {
+    if (!overlay.classList.contains('show')) {
+      input.focus();
+    }
+  }, 300);
+
+  console.log('[Kraze Admin] Login listo.');
+})();
+</script>
+</body>
+</html>

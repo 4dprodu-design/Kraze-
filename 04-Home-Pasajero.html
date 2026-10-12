@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#FAFAF7">
+<meta name="color-scheme" content="only light">
+<meta name="supported-color-schemes" content="only light">
+<title>Inicio · Kraze</title>
+
+<style>
+:root { color-scheme: only light; }
+html { forced-color-adjust: none; }
+@media (prefers-color-scheme: dark) {
+  html, body { background: #FAFAF7 !important; color: #1A1F2E !important; }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  color-scheme: only light;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #FAFAF7 !important;
+  color: #1A1F2E !important;
+  overflow-x: hidden;
+}
+body { padding-bottom: 96px; }
+
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px 8px;
+  background: #FAFAF7;
+  position: sticky; top: 0; z-index: 50;
+}
+.header-left { display: flex; align-items: center; gap: 10px; }
+.header-pin { width: 32px; height: 32px; }
+.header-word { font-size: 22px; font-weight: 800; letter-spacing: -0.8px; color: #1A1F2E; }
+
+.header-user {
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 24px;
+  transition: background 0.15s;
+}
+.header-user:active { background: #F0F0EB; }
+.header-name { font-size: 13px; font-weight: 600; color: #8A8F9C; text-align: right; }
+.header-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: #F0F0EB;
+  color: #B0B4BF;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 15px;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 2px 8px rgba(26,31,46,0.08);
+  background-size: cover;
+  background-position: center;
+}
+.header-avatar.filled { background: #A4D65E; color: #1A1F2E; border-color: #A4D65E; }
+.header-avatar.has-photo { color: transparent; }
+
+.greeting { padding: 8px 20px 20px; }
+.greeting-title { font-size: 24px; font-weight: 800; color: #1A1F2E; letter-spacing: -0.5px; line-height: 1.2; }
+.greeting-sub { font-size: 14px; color: #8A8F9C; margin-top: 4px; }
+
+.balance-card {
+  margin: 0 20px 20px;
+  background: linear-gradient(135deg, #1A1F2E 0%, #2A3142 100%);
+  border-radius: 20px; padding: 20px 22px; color: #FFFFFF;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(26,31,46,0.15);
+  position: relative; overflow: hidden;
+}
+.balance-card::before {
+  content: ''; position: absolute; right: -40px; top: -40px;
+  width: 140px; height: 140px; border-radius: 50%;
+  background: rgba(164,214,94,0.15);
+}
+.balance-info { position: relative; z-index: 1; }
+.balance-label { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #A4D65E; margin-bottom: 6px; }
+.balance-amount { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+.balance-amount small { font-size: 14px; font-weight: 600; color: #A4D65E; margin-left: 6px; }
+.balance-btn {
+  position: relative; z-index: 1;
+  background: #A4D65E; color: #1A1F2E; border: none;
+  padding: 10px 18px; border-radius: 12px;
+  font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer;
+}
+
+.action-main { margin: 0 20px 20px; background: #FFFFFF; border-radius: 20px; padding: 20px; border: 1px solid #F0F0EB; }
+.action-main-title { font-size: 13px; font-weight: 700; color: #8A8F9C; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
+.big-btn {
+  width: 100%; display: flex; align-items: center; gap: 16px;
+  padding: 18px; border: none; border-radius: 16px;
+  font-family: inherit; cursor: pointer; text-align: left; margin-bottom: 10px;
+}
+.big-btn:last-child { margin-bottom: 0; }
+.big-btn.dark { background: #1A1F2E; color: #FFFFFF; }
+.big-btn.lima { background: #A4D65E; color: #1A1F2E; }
+.big-btn-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.big-btn.dark .big-btn-icon { background: rgba(164,214,94,0.2); color: #A4D65E; }
+.big-btn.lima .big-btn-icon { background: rgba(26,31,46,0.12); color: #1A1F2E; }
+.big-btn-icon svg { width: 22px; height: 22px; }
+.big-btn-text { flex: 1; }
+.big-btn-title { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+.big-btn-sub { font-size: 12px; opacity: 0.7; font-weight: 500; }
+
+.quick-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 20px 20px; }
+.quick-card {
+  background: #FFFFFF; border: 1px solid #F0F0EB; border-radius: 16px;
+  padding: 16px; cursor: pointer; text-decoration: none; color: inherit; display: block;
+}
+.quick-icon {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: rgba(164,214,94,0.15);
+  display: flex; align-items: center; justify-content: center;
+  color: #1A1F2E; margin-bottom: 12px;
+}
+.quick-icon svg { width: 20px; height: 20px; }
+.quick-title { font-size: 14px; font-weight: 700; color: #1A1F2E; margin-bottom: 2px; }
+.quick-sub { font-size: 11px; color: #8A8F9C; font-weight: 500; }
+
+.section-head { display: flex; align-items: center; justify-content: space-between; padding: 8px 20px 12px; }
+.section-title { font-size: 16px; font-weight: 800; color: #1A1F2E; }
+.section-link { font-size: 13px; font-weight: 600; color: #8A8F9C; text-decoration: none; cursor: pointer; }
+.activity-list { padding: 0 20px 20px; }
+.empty { padding: 30px 20px 40px; text-align: center; }
+.empty-icon { width: 64px; height: 64px; margin: 0 auto 14px; color: #D1D5DB; }
+.empty-title { font-size: 15px; font-weight: 700; color: #1A1F2E; margin-bottom: 4px; }
+.empty-sub { font-size: 13px; color: #8A8F9C; line-height: 1.5; }
+
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #FFFFFF; border-top: 1px solid #F0F0EB;
+  display: flex; justify-content: space-around;
+  padding: 8px 0 calc(8px + env(safe-area-inset-bottom, 0));
+  z-index: 100;
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 6px 4px; text-decoration: none; color: #8A8F9C;
+  border: none; background: transparent; cursor: pointer; font-family: inherit;
+}
+.nav-item.active { color: #1A1F2E; }
+.nav-item svg { width: 22px; height: 22px; }
+.nav-item span { font-size: 10px; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <svg class="header-pin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#A4D65E"/>
+      <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#1A1F2E"/>
+    </svg>
+    <div class="header-word">Kraze</div>
+  </div>
+  <div class="header-user" id="headerUser">
+    <div class="header-name" id="headerName">Pasajero</div>
+    <div class="header-avatar" id="headerAvatar">P</div>
+  </div>
+</header>
+
+<section class="greeting">
+  <h1 class="greeting-title" id="greetingTitle">Buenos días</h1>
+  <p class="greeting-sub">¿Pa' dónde vamos hoy?</p>
+</section>
+
+<section class="balance-card">
+  <div class="balance-info">
+    <div class="balance-label">Saldo disponible</div>
+    <div class="balance-amount" id="balanceAmount">$0.00<small>USD</small></div>
+  </div>
+  <button class="balance-btn" onclick="location.href='13-Billetera.html'">Recargar</button>
+</section>
+
+<section class="action-main">
+  <div class="action-main-title">¿Qué necesitas?</div>
+  <button class="big-btn dark" onclick="location.href='05-Pedir-Viaje.html'">
+    <div class="big-btn-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm18 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+        <path d="M3 17V7a2 2 0 0 1 2-2h9l3 5h4a2 2 0 0 1 2 2v5"/>
+      </svg>
+    </div>
+    <div class="big-btn-text">
+      <div class="big-btn-title">Pedir un viaje</div>
+      <div class="big-btn-sub">Moto, carro, camión y más</div>
+    </div>
+  </button>
+  <button class="big-btn lima" onclick="location.href='15-Marketplace-FastFood.html'">
+    <div class="big-btn-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 11h18M5 11V7a7 7 0 0 1 14 0v4M5 11v9M19 11v9"/>
+      </svg>
+    </div>
+    <div class="big-btn-text">
+      <div class="big-btn-title">Pedir comida</div>
+      <div class="big-btn-sub">Restaurantes y tiendas cerca</div>
+    </div>
+  </button>
+</section>
+
+<section class="quick-grid">
+  <a href="11-Mis-Viajes.html" class="quick-card">
+    <div class="quick-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/>
+      </svg>
+    </div>
+    <div class="quick-title">Mis viajes</div>
+    <div class="quick-sub">Historial</div>
+  </a>
+  <a href="13-Billetera.html" class="quick-card">
+    <div class="quick-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/>
+        <circle cx="17" cy="12" r="1.5"/>
+      </svg>
+    </div>
+    <div class="quick-title">Billetera</div>
+    <div class="quick-sub">Recargar</div>
+  </a>
+  <a href="12-Creditos.html" class="quick-card">
+    <div class="quick-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+      </svg>
+    </div>
+    <div class="quick-title">Créditos</div>
+    <div class="quick-sub">Solicitar</div>
+  </a>
+  <a href="14-Publicidad.html" class="quick-card">
+    <div class="quick-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 11l18-5v12L3 14v-3z"/>
+        <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+      </svg>
+    </div>
+    <div class="quick-title">Promociones</div>
+    <div class="quick-sub">Ver ofertas</div>
+  </a>
+</section>
+
+<div class="section-head">
+  <div class="section-title">Última actividad</div>
+  <a href="11-Mis-Viajes.html" class="section-link">Ver todo</a>
+</div>
+
+<section class="activity-list">
+  <div class="empty">
+    <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/>
+    </svg>
+    <div class="empty-title">Aún no hay movimientos</div>
+    <div class="empty-sub">Cuando pidas tu primer viaje, aparecerá aquí.</div>
+  </div>
+</section>
+
+<nav class="bottom-nav">
+  <a href="04-Home-Pasajero.html" class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 12l9-9 9 9"/>
+      <path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/>
+    </svg>
+    <span>Inicio</span>
+  </a>
+  <a href="11-Mis-Viajes.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/>
+    </svg>
+    <span>Viajes</span>
+  </a>
+  <a href="15-Marketplace-FastFood.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 11h18M5 11V7a7 7 0 0 1 14 0v4"/>
+    </svg>
+    <span>Comida</span>
+  </a>
+  <a href="13-Billetera.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/>
+      <circle cx="17" cy="12" r="1.5"/>
+    </svg>
+    <span>Billetera</span>
+  </a>
+  <a href="08-Perfil-Pasajero.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+    </svg>
+    <span>Perfil</span>
+  </a>
+</nav><!-- MENÚ DE USUARIO -->
+<div id="userMenu" style="display:none;position:fixed;inset:0;background:rgba(26,31,46,0.5);z-index:99998;" onclick="if(event.target===this)cerrarMenu()">
+  <div style="position:absolute;top:70px;right:16px;background:#FFFFFF;border-radius:18px;width:calc(100% - 32px);max-width:320px;box-shadow:0 12px 40px rgba(26,31,46,0.25);overflow:hidden;">
+
+    <div style="padding:18px 20px 14px;border-bottom:1px solid #F0F0EB;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div id="menuAvatar" style="width:48px;height:48px;border-radius:50%;background:#F0F0EB;color:#B0B4BF;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;flex-shrink:0;background-size:cover;background-position:center;">P</div>
+        <div style="flex:1;min-width:0;">
+          <div id="menuNombre" style="font-size:15px;font-weight:800;color:#1A1F2E;letter-spacing:-0.3px;margin-bottom:2px;">Sin registrar</div>
+          <div id="menuRol" style="font-size:12px;color:#8A8F9C;font-weight:600;">Pasajero</div>
+        </div>
+      </div>
+    </div>
+
+    <button onclick="irA('08-Perfil-Pasajero.html')" style="width:100%;display:flex;align-items:center;gap:14px;padding:15px 20px;background:none;border:none;cursor:pointer;font-family:inherit;text-align:left;border-bottom:1px solid #FAFAF7;">
+      <svg style="width:20px;height:20px;color:#1A1F2E;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+      </svg>
+      <span style="flex:1;font-size:15px;font-weight:700;color:#1A1F2E;">Mi perfil</span>
+      <svg style="width:16px;height:16px;color:#B0B4BF;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+
+    <button onclick="irA('13-Billetera.html')" style="width:100%;display:flex;align-items:center;gap:14px;padding:15px 20px;background:none;border:none;cursor:pointer;font-family:inherit;text-align:left;border-bottom:1px solid #FAFAF7;">
+      <svg style="width:20px;height:20px;color:#1A1F2E;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2v-5"/><circle cx="17" cy="12" r="1.5"/>
+      </svg>
+      <span style="flex:1;font-size:15px;font-weight:700;color:#1A1F2E;">Mi billetera</span>
+      <svg style="width:16px;height:16px;color:#B0B4BF;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+
+    <button onclick="irA('11-Mis-Viajes.html')" style="width:100%;display:flex;align-items:center;gap:14px;padding:15px 20px;background:none;border:none;cursor:pointer;font-family:inherit;text-align:left;border-bottom:1px solid #FAFAF7;">
+      <svg style="width:20px;height:20px;color:#1A1F2E;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/>
+      </svg>
+      <span style="flex:1;font-size:15px;font-weight:700;color:#1A1F2E;">Mis viajes</span>
+      <svg style="width:16px;height:16px;color:#B0B4BF;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+
+    <button onclick="cambiarRol()" style="width:100%;display:flex;align-items:center;gap:14px;padding:15px 20px;background:none;border:none;cursor:pointer;font-family:inherit;text-align:left;border-bottom:1px solid #FAFAF7;">
+      <svg style="width:20px;height:20px;color:#1A1F2E;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/>
+        <path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/>
+      </svg>
+      <span style="flex:1;font-size:15px;font-weight:700;color:#1A1F2E;">Cambiar a conductor</span>
+      <svg style="width:16px;height:16px;color:#B0B4BF;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+
+    <button onclick="cerrarSesion()" style="width:100%;display:flex;align-items:center;gap:14px;padding:15px 20px;background:none;border:none;cursor:pointer;font-family:inherit;text-align:left;">
+      <svg style="width:20px;height:20px;color:#E5484D;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
+      </svg>
+      <span style="flex:1;font-size:15px;font-weight:700;color:#E5484D;">Cerrar sesión</span>
+    </button>
+  </div>
+</div>
+
+<!-- BOTÓN ERI -->
+<button
+  onclick="document.getElementById('eriOverlay').style.display='flex';"
+  style="position:fixed;bottom:100px;right:20px;width:60px;height:60px;border-radius:50%;background:#FFFFFF;border:2px solid #A4D65E;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(164,214,94,0.5);z-index:99999;padding:0;"
+  type="button"
+  aria-label="Eri">
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;pointer-events:none;">
+    <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#A4D65E"/>
+    <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#1A1F2E"/>
+  </svg>
+</button>
+
+<!-- PANEL ERI -->
+<div id="eriOverlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100dvh;background:#FAFAF7;z-index:999999;flex-direction:column;overflow:hidden;">
+  <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:#FFFFFF;border-bottom:1px solid #F0F0EB;padding-top:calc(14px + env(safe-area-inset-top, 0));flex-shrink:0;">
+    <div style="width:38px;height:38px;border-radius:50%;background:#A4D65E;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <svg viewBox="0 0 64 64" fill="none" style="width:22px;height:22px;">
+        <path d="M32 4C20.4 4 11 13.4 11 25c0 15 21 35 21 35s21-20 21-35C53 13.4 43.6 4 32 4z" fill="#1A1F2E"/>
+        <path d="M32 18c-3.9 0-7 3.1-7 7 0 3.4 2.4 6.2 5.6 6.8v5.2c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4v-5.2c3.2-.6 5.6-3.4 5.6-6.8 0-3.9-3.1-7-7-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" fill="#A4D65E"/>
+      </svg>
+    </div>
+    <div style="flex:1;">
+      <div style="font-size:16px;font-weight:800;color:#1A1F2E;">Eri</div>
+      <div style="font-size:11px;color:#22C55E;font-weight:600;">En línea</div>
+    </div>
+    <button onclick="document.getElementById('eriOverlay').style.display='none';" type="button" style="width:40px;height:40px;border:none;background:transparent;cursor:pointer;color:#8A8F9C;display:flex;align-items:center;justify-content:center;border-radius:50%;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;pointer-events:none;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div id="eriChat" style="flex:1 1 auto;overflow-y:auto;padding:18px 16px 12px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch;min-height:0;">
+    <div style="max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;background:#FFFFFF;color:#1A1F2E;border:1px solid #F0F0EB;border-bottom-left-radius:6px;align-self:flex-start;">
+      ¡Epale jefe! Soy Eri, tu asistente de Kraze. ¿En qué te puedo ayudar hoy?
+    </div>
+  </div>
+  <div style="background:#FFFFFF;border-top:1px solid #F0F0EB;padding:10px 12px calc(10px + env(safe-area-inset-bottom, 0));display:flex;gap:8px;align-items:flex-end;flex-shrink:0;min-height:64px;">
+    <textarea id="eriInput" placeholder="Escríbele a Eri..." rows="1" style="flex:1;border:2px solid #F0F0EB;border-radius:22px;padding:11px 16px;font-size:15px;font-family:inherit;color:#1A1F2E;outline:none;resize:none;max-height:100px;line-height:1.4;background:#FFFFFF;min-height:44px;"></textarea>
+    <button id="eriMic" type="button" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#F4F4F0;color:#1A1F2E;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;pointer-events:none;">
+        <rect x="9" y="2" width="6" height="12" rx="3"/>
+        <path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3"/>
+      </svg>
+    </button>
+    <button id="eriSend" type="button" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#1A1F2E;color:#FFFFFF;padding:0;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;pointer-events:none;"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   HOME PASAJERO · LÓGICA
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  var h = new Date().getHours();
+  var s = 'Buenos días';
+  if (h >= 12 && h < 19) s = 'Buenas tardes';
+  else if (h >= 19 || h < 5) s = 'Buenas noches';
+  var elTitulo = document.getElementById('greetingTitle');
+  if (elTitulo) elTitulo.textContent = s;
+
+  /* Cargar usuario */
+  var perfil = null;
+  try {
+    var raw = localStorage.getItem('kraze_user') || localStorage.getItem('kraze_perfil');
+    if (raw) perfil = JSON.parse(raw);
+  } catch (e) {}
+
+  var rolKey = 'pasajero';
+  if (perfil && perfil.rolKey) rolKey = perfil.rolKey;
+
+  if (perfil && perfil.nombre) {
+    var nombre = perfil.nombre.split(' ')[0];
+    var inicial = nombre.charAt(0).toUpperCase();
+
+    document.getElementById('headerName').textContent = nombre;
+    var av = document.getElementById('headerAvatar');
+
+    /* Si tiene foto, mostrarla */
+    if (perfil.foto) {
+      av.style.backgroundImage = 'url(' + perfil.foto + ')';
+      av.classList.add('has-photo');
+      av.textContent = '';
+    } else {
+      av.textContent = inicial;
+      av.classList.add('filled');
+    }
+
+    document.getElementById('menuNombre').textContent = perfil.nombre;
+    var mv = document.getElementById('menuAvatar');
+    if (perfil.foto) {
+      mv.style.backgroundImage = 'url(' + perfil.foto + ')';
+      mv.textContent = '';
+    } else {
+      mv.textContent = inicial;
+      mv.style.background = '#A4D65E';
+      mv.style.color = '#1A1F2E';
+    }
+  }
+
+  var rolTexto = rolKey === 'transportista' ? 'Conductor' : 'Pasajero';
+  document.getElementById('menuRol').textContent = rolTexto;
+
+  /* Saldo */
+  try {
+    var v = localStorage.getItem('kraze_saldo');
+    if (v) {
+      var n = parseFloat(v);
+      if (!isNaN(n)) document.getElementById('balanceAmount').innerHTML = '$' + n.toFixed(2) + '<small>USD</small>';
+    }
+  } catch (e) {}
+
+  /* Abrir menú */
+  document.getElementById('headerUser').addEventListener('click', abrirMenu);
+  document.getElementById('headerUser').addEventListener('touchend', function (e) {
+    e.preventDefault();
+    abrirMenu();
+  });
+
+  function abrirMenu() {
+    document.getElementById('userMenu').style.display = 'block';
+  }
+
+  window.cerrarMenu = function () {
+    document.getElementById('userMenu').style.display = 'none';
+  };
+
+  window.irA = function (url) {
+    cerrarMenu();
+    location.href = url;
+  };
+
+  window.cambiarRol = function () {
+    try {
+      var p = JSON.parse(localStorage.getItem('kraze_user') || '{}');
+      p.rolKey = 'transportista';
+      p.rol = 'Transportista';
+      localStorage.setItem('kraze_user', JSON.stringify(p));
+    } catch (e) {}
+    cerrarMenu();
+    location.href = '04-Home-Transportista.html';
+  };
+
+  window.cerrarSesion = function () {
+    if (!confirm('¿Cerrar sesión?')) return;
+    try {
+      localStorage.removeItem('kraze_user');
+      localStorage.removeItem('kraze_perfil');
+      localStorage.removeItem('kraze_transportista');
+      localStorage.removeItem('kraze_transportista_online');
+      localStorage.removeItem('kraze_viaje_actual');
+    } catch (e) {}
+    location.href = '02-Login.html';
+  };
+
+  console.log('[Home Pasajero] listo');
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   ERI
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  var API = 'https://moto-llave-backend.vercel.app/api/claude';
+  var chat = document.getElementById('eriChat');
+  var input = document.getElementById('eriInput');
+  var sendBtn = document.getElementById('eriSend');
+  var micBtn = document.getElementById('eriMic');
+  var escribiendo = false;
+  var grabando = false;
+  var rec = null;
+
+  function agregarMsg(tipo, texto) {
+    var m = document.createElement('div');
+    m.style.cssText = 'max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;word-wrap:break-word;';
+    if (tipo === 'user') {
+      m.style.background = '#1A1F2E';
+      m.style.color = '#FFFFFF';
+      m.style.borderBottomRightRadius = '6px';
+      m.style.alignSelf = 'flex-end';
+    } else {
+      m.style.background = '#FFFFFF';
+      m.style.color = '#1A1F2E';
+      m.style.border = '1px solid #F0F0EB';
+      m.style.borderBottomLeftRadius = '6px';
+      m.style.alignSelf = 'flex-start';
+    }
+    m.textContent = texto;
+    chat.appendChild(m);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function enviar() {
+    var texto = input.value.trim();
+    if (!texto || escribiendo) return;
+    agregarMsg('user', texto);
+    input.value = '';
+    escribiendo = true;
+    sendBtn.disabled = true;
+
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ texto: texto })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var resp = d && (d.respuesta || d.mensaje);
+      if (resp) { agregarMsg('eri', resp); hablar(resp); }
+      else { agregarMsg('eri', 'Ups, no entendí.'); }
+    })
+    .catch(function () { agregarMsg('eri', 'Ups, error de conexión.'); })
+    .then(function () { escribiendo = false; sendBtn.disabled = false; });
+  }
+
+  sendBtn.onclick = enviar;
+
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviar(); }
+  });
+
+  function iniciarVoz() {
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { alert('Tu navegador no soporta reconocimiento de voz.'); return; }
+    if (grabando) { try { rec.stop(); } catch (e) {} return; }
+
+    rec = new SR();
+    rec.lang = 'es-VE';
+    rec.continuous = false;
+    rec.interimResults = true;
+
+    rec.onstart = function () {
+      grabando = true;
+      micBtn.style.background = '#E5484D';
+      micBtn.style.color = '#FFFFFF';
+    };
+    rec.onresult = function (e) {
+      var t = '';
+      for (var i = e.resultIndex; i < e.results.length; i++) { t += e.results[i][0].transcript; }
+      input.value = t;
+    };
+    rec.onerror = function () {
+      grabando = false;
+      micBtn.style.background = '#F4F4F0';
+      micBtn.style.color = '#1A1F2E';
+    };
+    rec.onend = function () {
+      grabando = false;
+      micBtn.style.background = '#F4F4F0';
+      micBtn.style.color = '#1A1F2E';
+      if (input.value.trim()) setTimeout(enviar, 300);
+    };
+
+    try { rec.start(); } catch (e) {}
+  }
+
+  micBtn.onclick = iniciarVoz;
+
+  function hablar(texto) {
+    if (!window.speechSynthesis) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(texto);
+      u.lang = 'es-VE';
+      u.rate = 1.0;
+      u.pitch = 1.0;
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+
+  console.log('[Eri] listo');
+})();
+</script>
+</body>
+</html>

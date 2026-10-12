@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="color-scheme" content="only light">
+<meta name="supported-color-schemes" content="only light">
+<meta name="theme-color" content="#A4D65E">
+<title>Kraze · Pedir un viaje</title>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   KRAZE · Pedir un viaje
+   © Erian C.A. — "Transporte total"
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  color-scheme: only light;
+  --verde: #A4D65E;
+  --verde-osc: #8BC34A;
+  --verde-claro: #EEF7DC;
+  --wordmark: #1A1F2E;
+  --fondo: #FAFAF7;
+  --blanco: #FFFFFF;
+  --g1: #F2F2EE;
+  --g2: #E4E4DE;
+  --g3: #9A9A94;
+  --g4: #4A4A4A;
+  --rojo: #E53935;
+  --rojo-claro: #FDECEC;
+  --sombra-1: 0 2px 8px rgba(26,31,46,.06);
+  --sombra-2: 0 6px 24px rgba(26,31,46,.12);
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-full: 999px;
+}
+html { forced-color-adjust: none; -webkit-text-size-adjust: 100%; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--fondo);
+  color: var(--wordmark);
+  overflow-x: hidden;
+  min-height: 100dvh;
+  line-height: 1.4;
+  padding-bottom: 100px;
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, textarea { font-family: inherit; font-size: 16px; }
+a { color: inherit; text-decoration: none; }
+
+/* ─────────── HEADER ─────────── */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 60px;
+  background: var(--blanco);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  box-shadow: var(--sombra-1);
+}
+.header-back {
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  border-radius: var(--r-full);
+  background: var(--g1);
+  transition: background .15s;
+}
+.header-back:active { background: var(--g2); }
+.header-title {
+  flex: 1;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+
+/* ─────────── MAPA ─────────── */
+.mapa-wrap {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  background: var(--g1);
+  overflow: hidden;
+}
+.mapa-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: var(--g1);
+}
+.mapa-badge {
+  position: absolute;
+  top: 12px; left: 12px;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(8px);
+  border-radius: var(--r-full);
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--wordmark);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--sombra-1);
+  z-index: 2;
+}
+.mapa-badge .pulso {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--verde);
+  animation: pulso 1.8s infinite;
+}
+@keyframes pulso {
+  0% { box-shadow: 0 0 0 0 rgba(164,214,94,.7); }
+  70% { box-shadow: 0 0 0 10px rgba(164,214,94,0); }
+  100% { box-shadow: 0 0 0 0 rgba(164,214,94,0); }
+}
+.mapa-btn {
+  position: absolute;
+  right: 12px; bottom: 12px;
+  width: 48px; height: 48px;
+  border-radius: var(--r-full);
+  background: var(--wordmark);
+  color: var(--blanco);
+  display: grid; place-items: center;
+  box-shadow: var(--sombra-2);
+  z-index: 2;
+  transition: transform .15s;
+}
+.mapa-btn:active { transform: scale(.92); }
+.mapa-btn.grabando {
+  background: var(--verde);
+  color: var(--wordmark);
+}
+.mapa-btn svg { width: 22px; height: 22px; }
+
+/* ─────────── CONTENIDO ─────────── */
+.contenido {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.card {
+  background: var(--blanco);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sombra-1);
+  padding: 16px;
+}
+.card-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--g3);
+  margin-bottom: 12px;
+}
+
+/* ─────────── RUTA ─────────── */
+.ruta-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--g1);
+  border-radius: var(--r-md);
+  margin-bottom: 8px;
+}
+.ruta-item:last-child { margin-bottom: 0; }
+.ruta-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.ruta-dot.origen { background: var(--verde); }
+.ruta-dot.destino { background: var(--wordmark); }
+.ruta-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  color: var(--wordmark);
+  font-weight: 500;
+}
+.ruta-input::placeholder { color: var(--g3); font-weight: 400; }
+.ruta-gps {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--verde-osc);
+  letter-spacing: .04em;
+  padding: 4px 8px;
+  background: var(--verde-claro);
+  border-radius: var(--r-sm);
+}
+
+/* ─────────── VEHÍCULOS ─────────── */
+.vehiculos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.vehiculo {
+  background: var(--g1);
+  border: 2px solid transparent;
+  border-radius: var(--r-md);
+  padding: 14px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: all .15s;
+  cursor: pointer;
+}
+.vehiculo:active { transform: scale(.96); }
+.vehiculo.activo {
+  background: var(--blanco);
+  border-color: var(--verde);
+}
+.vehiculo svg {
+  width: 32px; height: 32px;
+  color: var(--wordmark);
+  stroke-width: 1.8;
+}
+.vehiculo span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--wordmark);
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* ─────────── BOTÓN PRINCIPAL ─────────── */
+.btn-principal {
+  position: fixed;
+  left: 14px;
+  right: 14px;
+  bottom: calc(14px + env(safe-area-inset-bottom));
+  height: 56px;
+  border-radius: var(--r-full);
+  background: var(--wordmark);
+  color: var(--blanco);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 24px rgba(26,31,46,.25);
+  transition: transform .15s, background .15s;
+  z-index: 90;
+}
+.btn-principal:active { transform: scale(.97); }
+.btn-principal.deshabilitado {
+  background: var(--g3);
+  box-shadow: none;
+}
+
+/* ─────────── ERI FAB (logo Kraze) ─────────── */
+.eri-fab {
+  position: fixed;
+  right: 16px;
+  bottom: 86px;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--r-full);
+  background: var(--verde);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 24px rgba(164,214,94,.45);
+  z-index: 900;
+  transition: transform .15s;
+}
+.eri-fab:active { transform: scale(.92); }
+.eri-fab svg { width: 28px; height: 34px; display: block; }
+
+/* ─────────── PANEL ERI ─────────── */
+.eri-panel {
+  position: fixed;
+  inset: 0;
+  height: 100dvh;
+  background: var(--fondo);
+  display: none;
+  flex-direction: column;
+  z-index: 9999;
+  overscroll-behavior: contain;
+}
+.eri-panel.abierto { display: flex; }
+.eri-header {
+  height: 60px;
+  background: var(--blanco);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  box-shadow: var(--sombra-1);
+  flex-shrink: 0;
+}
+.eri-avatar-h {
+  width: 38px; height: 38px;
+  border-radius: var(--r-full);
+  background: var(--verde);
+  display: grid; place-items: center;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--wordmark);
+}
+.eri-titulo { flex: 1; }
+.eri-titulo strong { font-size: 15px; font-weight: 700; display: block; }
+.eri-estado {
+  font-size: 12px;
+  color: var(--verde-osc);
+  font-weight: 600;
+}
+.eri-close {
+  width: 36px; height: 36px;
+  display: grid; place-items: center;
+  border-radius: var(--r-full);
+  background: var(--g1);
+}
+.eri-close svg { width: 18px; height: 18px; }
+.eri-mensajes {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  -webkit-overflow-scrolling: touch;
+}
+.msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.45;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  animation: msgIn .2s ease-out;
+}
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.msg.eri {
+  background: var(--blanco);
+  align-self: flex-start;
+  border-bottom-left-radius: 6px;
+  box-shadow: var(--sombra-1);
+}
+.msg.user {
+  background: var(--verde);
+  color: var(--wordmark);
+  align-self: flex-end;
+  border-bottom-right-radius: 6px;
+  font-weight: 500;
+}
+.msg.error {
+  background: var(--rojo-claro);
+  color: var(--rojo);
+  font-size: 12px;
+  align-self: flex-start;
+  border-bottom-left-radius: 6px;
+}
+.msg.typing {
+  display: flex;
+  gap: 4px;
+  padding: 14px;
+}
+.msg.typing span {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--g3);
+  animation: bounce 1.2s infinite;
+}
+.msg.typing span:nth-child(2) { animation-delay: .15s; }
+.msg.typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: .5; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+.eri-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  background: var(--blanco);
+  border-top: 1px solid var(--g2);
+  flex-shrink: 0;
+}
+.eri-input {
+  flex: 1;
+  min-width: 0;
+  background: var(--g1);
+  border: none;
+  border-radius: var(--r-full);
+  padding: 12px 16px;
+  font-size: 15px;
+  color: var(--wordmark);
+  outline: none;
+}
+.eri-input::placeholder { color: var(--g3); }
+.eri-btn {
+  width: 44px; height: 44px;
+  border-radius: var(--r-full);
+  display: grid; place-items: center;
+  flex-shrink: 0;
+  transition: transform .12s, background .15s;
+}
+.eri-btn:active { transform: scale(.92); }
+.eri-btn.mic { background: var(--g1); }
+.eri-btn.mic svg { width: 20px; height: 20px; color: var(--wordmark); }
+.eri-btn.mic.grabando {
+  background: var(--rojo);
+  animation: pulsar .8s infinite alternate;
+}
+.eri-btn.mic.grabando svg { color: var(--blanco); }
+@keyframes pulsar {
+  from { box-shadow: 0 0 0 0 rgba(229,57,53,.5); }
+  to { box-shadow: 0 0 0 12px rgba(229,57,53,0); }
+}
+.eri-btn.enviar { background: var(--wordmark); }
+.eri-btn.enviar svg { width: 20px; height: 20px; color: var(--blanco); }
+
+/* ─────────── TOAST ─────────── */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 110px;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--wordmark);
+  color: var(--blanco);
+  padding: 12px 20px;
+  border-radius: var(--r-full);
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s, transform .2s;
+  max-width: 90%;
+  text-align: center;
+  white-space: pre-line;
+}
+.toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+</style>
+</head>
+<body><!-- ═══════════ HEADER ═══════════ -->
+<header class="header">
+  <button class="header-back" onclick="history.back()" aria-label="Volver">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </button>
+  <div class="header-title">Pedir un viaje</div>
+</header>
+
+<!-- ═══════════ MAPA ═══════════ -->
+<div class="mapa-wrap">
+  <iframe
+    id="mapaIframe"
+    src="https://maps.google.com/maps?q=8.2346,-70.8218&z=15&output=embed"
+    loading="eager"
+    referrerpolicy="no-referrer-when-downgrade"
+    allowfullscreen>
+  </iframe>
+  <div class="mapa-badge">
+    <span class="pulso"></span>
+    <span id="badgeTexto">Ubicación actual</span>
+  </div>
+  <button class="mapa-btn" id="btnGPS" aria-label="Usar mi ubicación GPS">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7z"/>
+      <circle cx="12" cy="9" r="2.5"/>
+    </svg>
+  </button>
+</div>
+
+<!-- ═══════════ CONTENIDO ═══════════ -->
+<main class="contenido">
+
+  <!-- Ruta -->
+  <section class="card">
+    <div class="card-label">Ruta</div>
+    <div class="ruta-item">
+      <div class="ruta-dot origen"></div>
+      <input type="text" class="ruta-input" id="inputOrigen" placeholder="Punto de origen" autocomplete="off">
+      <button class="ruta-gps" id="btnOrigenGPS">GPS</button>
+    </div>
+    <div class="ruta-item">
+      <div class="ruta-dot destino"></div>
+      <input type="text" class="ruta-input" id="inputDestino" placeholder="¿A dónde vas?" autocomplete="off">
+    </div>
+  </section>
+
+  <!-- Tipo de vehículo -->
+  <section class="card">
+    <div class="card-label">Tipo de vehículo</div>
+    <div class="vehiculos-grid" id="vehiculosGrid">
+
+      <button class="vehiculo activo" data-tipo="moto" data-nombre="Moto">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="5.5" cy="17.5" r="3.5"/>
+          <circle cx="18.5" cy="17.5" r="3.5"/>
+          <path d="M15 17.5h-3l-2-5h5l1.5 5zM14 6h-3l3 6"/>
+        </svg>
+        <span>Moto</span>
+      </button>
+
+      <button class="vehiculo" data-tipo="motocarro" data-nombre="Motocarro">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="5" cy="18" r="3"/>
+          <circle cx="19" cy="18" r="3"/>
+          <path d="M8 18h8M11 6h4l3 9h-2M13 6v6"/>
+        </svg>
+        <span>Motocarro</span>
+      </button>
+
+      <button class="vehiculo" data-tipo="taxi" data-nombre="Taxi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="10" width="18" height="8" rx="2"/>
+          <path d="M7 10l1.5-4h7L17 10M7 14h.01M17 14h.01"/>
+        </svg>
+        <span>Taxi</span>
+      </button>
+
+      <button class="vehiculo" data-tipo="carro" data-nombre="Carro">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 16l1.5-5h11L19 16M3 16h18v4h-3l-1-2h-10l-1 2H3z"/>
+          <circle cx="7" cy="16" r="1.5"/>
+          <circle cx="17" cy="16" r="1.5"/>
+        </svg>
+        <span>Carro</span>
+      </button>
+
+      <button class="vehiculo" data-tipo="buseta" data-nombre="Buseta">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="4" width="16" height="15" rx="2"/>
+          <path d="M4 12h16M8 19v2M16 19v2M8 7h3M13 7h3"/>
+        </svg>
+        <span>Buseta</span>
+      </button>
+
+      <button class="vehiculo" data-tipo="camion" data-nombre="Camión">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 12h10v6H2zM12 14h5l3 3v1h-8z"/>
+          <circle cx="6" cy="19" r="1.5"/>
+          <circle cx="17" cy="19" r="1.5"/>
+        </svg>
+        <span>Camión</span>
+      </button>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══════════ BOTÓN PRINCIPAL ═══════════ -->
+<button class="btn-principal deshabilitado" id="btnPedir">
+  Completa origen y destino
+</button>
+
+<!-- ═══════════ ERI FAB (logo Kraze) ═══════════ -->
+<button class="eri-fab" id="btnEri" aria-label="Hablar con Eri">
+  <svg viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 1C8.27 1 2 7.27 2 15c0 10.5 12.5 23 13 23.5.28.28.72.28 1 0 .5-.5 13-13 13-23.5C29 7.27 22.73 1 16 1z" fill="#1A1F2E"/>
+    <path d="M16 24s-7-4.4-7-9.3c0-2.2 1.8-4 4-4 1.5 0 2.5.8 3 1.6.5-.8 1.5-1.6 3-1.6 2.2 0 4 1.8 4 4 0 4.9-7 9.3-7 9.3z" fill="#FFFFFF"/>
+  </svg>
+</button>
+
+<!-- ═══════════ PANEL ERI ═══════════ -->
+<div class="eri-panel" id="eriPanel">
+  <div class="eri-header">
+    <div class="eri-avatar-h">E</div>
+    <div class="eri-titulo">
+      <strong>Eri</strong>
+      <div class="eri-estado" id="eriEstado">En línea</div>
+    </div>
+    <button class="eri-close" id="btnEriClose" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+  <div class="eri-mensajes" id="eriMensajes"></div>
+  <div class="eri-input-row">
+    <button class="eri-btn mic" id="btnMic" aria-label="Hablar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        <line x1="12" y1="19" x2="12" y2="23"/>
+      </svg>
+    </button>
+    <input type="text" class="eri-input" id="eriInput" placeholder="Escríbele a Eri..." autocomplete="off">
+    <button class="eri-btn enviar" id="btnEnviar" aria-label="Enviar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div><script>
+/* ═══════════════════════════════════════════════════════════
+   KRAZE · Pedir un viaje — Lógica
+   © Erian C.A.
+   ═══════════════════════════════════════════════════════════ */
+
+const API_BASE = 'https://moto-llave-backend.vercel.app';
+const URL_MAPA = '06-Ubicacion-Tiempo-Real.html';
+
+const $ = (id) => document.getElementById(id);
+
+/* ─────────── TOAST ─────────── */
+let toastTimer;
+function toast(msg, ms = 3500) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('visible');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('visible'), ms);
+}
+
+/* ─────────── ESTADO ─────────── */
+const estado = {
+  origen: '',
+  destino: '',
+  vehiculo: 'moto',
+  vehiculoNombre: 'Moto',
+  coordsOrigen: null
+};
+
+/* ─────────── VEHÍCULOS ─────────── */
+document.querySelectorAll('.vehiculo').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.vehiculo').forEach(b => b.classList.remove('activo'));
+    btn.classList.add('activo');
+    estado.vehiculo = btn.dataset.tipo;
+    estado.vehiculoNombre = btn.dataset.nombre;
+    actualizarBotonPrincipal();
+  });
+});
+
+/* ─────────── RUTA ─────────── */
+$('inputOrigen').addEventListener('input', (e) => {
+  estado.origen = e.target.value.trim();
+  actualizarBotonPrincipal();
+});
+$('inputDestino').addEventListener('input', (e) => {
+  estado.destino = e.target.value.trim();
+  actualizarBotonPrincipal();
+});
+
+function actualizarBotonPrincipal() {
+  const btn = $('btnPedir');
+  if (estado.origen && estado.destino) {
+    btn.classList.remove('deshabilitado');
+    btn.textContent = `Pedir ${estado.vehiculoNombre}`;
+  } else {
+    btn.classList.add('deshabilitado');
+    btn.textContent = 'Completa origen y destino';
+  }
+}
+
+/* ─────────── MAPA ─────────── */
+function centrarMapa(lat, lng, zoom = 16) {
+  const url = `https://maps.google.com/maps?q=${lat},${lng}&z=${zoom}&output=embed`;
+  $('mapaIframe').src = url;
+}
+
+/* ─────────── GPS ─────────── */
+function obtenerGPS(callback) {
+  if (!navigator.geolocation) {
+    toast('❌ Tu navegador no soporta GPS');
+    return;
+  }
+  if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+    toast('⚠️ El GPS requiere HTTPS o localhost');
+    return;
+  }
+
+  toast('📍 Obteniendo ubicación...');
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const { latitude, longitude, accuracy } = pos.coords;
+      estado.coordsOrigen = { lat: latitude, lng: longitude };
+      centrarMapa(latitude, longitude, 17);
+      $('badgeTexto').textContent = 'Tu ubicación';
+      $('btnGPS').classList.add('grabando');
+      setTimeout(() => $('btnGPS').classList.remove('grabando'), 1500);
+
+      const texto = `Mi ubicación (${latitude.toFixed(4)}, ${longitude.toFixed(4)})`;
+      $('inputOrigen').value = texto;
+      estado.origen = texto;
+      actualizarBotonPrincipal();
+
+      toast('✅ Ubicación lista (±' + Math.round(accuracy) + ' m)');
+      if (callback) callback({ lat: latitude, lng: longitude });
+    },
+    (err) => {
+      console.error('GPS Error:', err);
+      let msg = '❌ Error GPS';
+      switch (err.code) {
+        case 1: msg += '\nPermiso denegado. Revisa el candado 🔒'; break;
+        case 2: msg += '\nSeñal no disponible'; break;
+        case 3: msg += '\nTiempo agotado'; break;
+        default: msg += '\n' + err.message;
+      }
+      toast(msg, 5000);
+    },
+    { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
+  );
+}
+
+$('btnGPS').addEventListener('click', () => obtenerGPS());
+$('btnOrigenGPS').addEventListener('click', () => obtenerGPS());
+
+/* ═══════════════════════════════════════════════════════════
+   PEDIR VIAJE — navegación directa, sin fetch
+   ═══════════════════════════════════════════════════════════ */
+function irAlMapa() {
+  console.log('[KRAZE] Navegando a', URL_MAPA);
+  window.location.href = URL_MAPA;
+}
+
+function guardarYNavegar() {
+  const viaje = {
+    origen: estado.origen,
+    destino: estado.destino,
+    vehiculo: estado.vehiculo,
+    vehiculoNombre: estado.vehiculoNombre,
+    coords: estado.coordsOrigen,
+    precio: 0,
+    metodoPago: 'efectivo',
+    creado: Date.now(),
+    estado: 'solicitado'
+  };
+
+  localStorage.setItem('kraze_viaje_activo', JSON.stringify(viaje));
+  console.log('[KRAZE] Viaje guardado:', viaje);
+
+  toast('🛵 Buscando ' + estado.vehiculoNombre + '...');
+  setTimeout(irAlMapa, 800);
+}
+
+$('btnPedir').addEventListener('click', () => {
+  if (!estado.origen || !estado.destino) return;
+
+  if (estado.coordsOrigen) {
+    guardarYNavegar();
+  } else {
+    toast('📍 Obteniendo tu ubicación para el viaje...');
+    navigator.geolocation?.getCurrentPosition(
+      (pos) => {
+        estado.coordsOrigen = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        guardarYNavegar();
+      },
+      () => {
+        // Si falla GPS, guardar sin coords (el 06 pedirá GPS él mismo)
+        guardarYNavegar();
+      },
+      { enableHighAccuracy: true, timeout: 8000 }
+    );
+  }
+});
+
+/* ═══════════════════════════════════════════════════════════
+   ERI — Asistente IA
+   ═══════════════════════════════════════════════════════════ */
+const eriPanel = $('eriPanel');
+const eriMensajes = $('eriMensajes');
+const eriInput = $('eriInput');
+const btnMic = $('btnMic');
+const eriEstadoEl = $('eriEstado');
+
+let eriHistorial = [];
+let reconocimiento = null;
+let grabando = false;
+
+$('btnEri').addEventListener('click', () => {
+  eriPanel.classList.add('abierto');
+  if (eriMensajes.children.length === 0) {
+    agregarMsg('eri', '¡Hola! Soy Eri. ¿En qué te ayudo?');
+  }
+  setTimeout(() => eriInput.focus(), 200);
+});
+$('btnEriClose').addEventListener('click', () => {
+  eriPanel.classList.remove('abierto');
+  detenerReconocimiento();
+});
+
+function agregarMsg(tipo, texto) {
+  const div = document.createElement('div');
+  div.className = `msg ${tipo}`;
+  div.textContent = texto;
+  eriMensajes.appendChild(div);
+  eriMensajes.scrollTop = eriMensajes.scrollHeight;
+  return div;
+}
+function mostrarTyping() {
+  const div = document.createElement('div');
+  div.className = 'msg eri typing';
+  div.innerHTML = '<span></span><span></span><span></span>';
+  eriMensajes.appendChild(div);
+  eriMensajes.scrollTop = eriMensajes.scrollHeight;
+  return div;
+}
+
+async function enviarAEri(texto) {
+  texto = (texto || '').trim();
+  if (!texto) return;
+
+  agregarMsg('user', texto);
+  eriHistorial.push({ role: 'user', content: texto });
+  eriInput.value = '';
+  const typing = mostrarTyping();
+  eriEstadoEl.textContent = 'Pensando...';
+
+  try {
+    const resp = await fetch(`${API_BASE}/api/claude`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        mensajes: eriHistorial,
+        mensaje: texto,
+        prompt: texto,
+        contexto: 'Pantalla "Pedir un viaje" de Kraze (transporte tipo Uber en Socopó, Venezuela). Ayudas a elegir vehículo y completar origen/destino.'
+      })
+    });
+
+    const textoCrudo = await resp.text();
+    typing.remove();
+    eriEstadoEl.textContent = 'En línea';
+
+    if (!resp.ok) {
+      agregarMsg('error', `HTTP ${resp.status}: ${textoCrudo.slice(0, 150)}`);
+      return;
+    }
+
+    let data;
+    try { data = JSON.parse(textoCrudo); }
+    catch (e) { agregarMsg('eri', textoCrudo); return; }
+
+    const respuesta =
+      data.respuesta ||
+      data.content ||
+      data.message ||
+      data.reply ||
+      (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) ||
+      '(sin respuesta)';
+
+    agregarMsg('eri', respuesta);
+    eriHistorial.push({ role: 'assistant', content: respuesta });
+    hablar(respuesta);
+  } catch (err) {
+    typing.remove();
+    eriEstadoEl.textContent = 'Error';
+    agregarMsg('error', 'Error de red: ' + err.message);
+  }
+}
+
+$('btnEnviar').addEventListener('click', () => enviarAEri(eriInput.value));
+eriInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    enviarAEri(eriInput.value);
+  }
+});
+
+function hablar(texto) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(texto);
+  u.lang = 'es-VE';
+  u.rate = 1.05;
+  const vEs = window.speechSynthesis.getVoices().find(v => v.lang.startsWith('es'));
+  if (vEs) u.voice = vEs;
+  window.speechSynthesis.speak(u);
+}
+
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (SR) {
+  reconocimiento = new SR();
+  reconocimiento.lang = 'es-VE';
+  reconocimiento.continuous = false;
+  reconocimiento.interimResults = false;
+
+  reconocimiento.onstart = () => {
+    grabando = true;
+    btnMic.classList.add('grabando');
+    toast('🎤 Escuchando...', 6000);
+  };
+  reconocimiento.onend = () => {
+    grabando = false;
+    btnMic.classList.remove('grabando');
+  };
+  reconocimiento.onerror = (e) => {
+    grabando = false;
+    btnMic.classList.remove('grabando');
+    if (e.error === 'not-allowed') toast('❌ Permite el micrófono en Chrome', 4000);
+    else if (e.error === 'no-speech') toast('No escuché nada, intenta de nuevo');
+    else if (e.error !== 'aborted') toast('Error mic: ' + e.error);
+  };
+  reconocimiento.onresult = (e) => {
+    const texto = e.results[0][0].transcript;
+    if (texto) enviarAEri(texto);
+  };
+}
+
+function detenerReconocimiento() {
+  if (reconocimiento && grabando) {
+    try { reconocimiento.stop(); } catch (e) {}
+  }
+}
+
+btnMic.addEventListener('click', () => {
+  if (!reconocimiento) {
+    toast('Micrófono no soportado. Usa Chrome Android.');
+    return;
+  }
+  if (grabando) detenerReconocimiento();
+  else {
+    try { reconocimiento.start(); } catch (e) {}
+  }
+});
+
+/* ─────────── INIT ─────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  actualizarBotonPrincipal();
+  console.log('[KRAZE] 05-Pedir-Viaje cargado. URL del mapa:', URL_MAPA);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="color-scheme" content="only light">
+<meta name="supported-color-schemes" content="only light">
+<meta name="theme-color" content="#A4D65E">
+<title>Kraze · Registro completado</title>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   KRAZE · Registro completado
+   © Erian C.A. — "Transporte total"
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  color-scheme: only light;
+  --verde: #A4D65E;
+  --verde-osc: #8BC34A;
+  --verde-claro: #EEF7DC;
+  --wordmark: #1A1F2E;
+  --fondo: #FAFAF7;
+  --blanco: #FFFFFF;
+  --g1: #F2F2EE;
+  --g2: #E4E4DE;
+  --g3: #9A9A94;
+  --g4: #4A4A4A;
+  --rojo: #E53935;
+  --rojo-claro: #FDECEC;
+  --sombra-1: 0 2px 8px rgba(26,31,46,.06);
+  --sombra-2: 0 6px 24px rgba(26,31,46,.12);
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-full: 999px;
+}
+html { forced-color-adjust: none; -webkit-text-size-adjust: 100%; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--fondo);
+  color: var(--wordmark);
+  overflow-x: hidden;
+  min-height: 100dvh;
+  line-height: 1.4;
+  padding-bottom: 100px;
+  display: flex;
+  flex-direction: column;
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, textarea { font-family: inherit; font-size: 16px; }
+a { color: inherit; text-decoration: none; }
+
+.header {
+  position: sticky; top: 0; z-index: 100;
+  height: 60px; background: var(--blanco);
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 16px; box-shadow: var(--sombra-1);
+}
+.header-back {
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  border-radius: var(--r-full); background: var(--g1);
+}
+.header-back:active { background: var(--g2); }
+.header-title {
+  flex: 1; font-size: 17px; font-weight: 700;
+  letter-spacing: -.01em;
+}
+
+.contenido {
+  flex: 1; padding: 30px 20px 20px;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 22px;
+}
+
+.exito-wrap {
+  position: relative;
+  width: 120px; height: 120px;
+  margin-top: 10px;
+}
+.exito-circulo {
+  width: 120px; height: 120px;
+  border-radius: 50%; background: var(--verde-claro);
+  display: grid; place-items: center;
+  animation: aparecer .5s cubic-bezier(.2,.9,.3,1);
+}
+.exito-circulo-inner {
+  width: 84px; height: 84px;
+  border-radius: 50%; background: var(--verde);
+  display: grid; place-items: center;
+  box-shadow: 0 8px 20px rgba(164,214,94,.4);
+}
+.exito-circulo-inner svg {
+  width: 42px; height: 42px;
+  color: var(--wordmark); stroke-width: 3;
+}
+@keyframes aparecer {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.exito-pulso {
+  position: absolute; inset: 0;
+  border-radius: 50%; border: 3px solid var(--verde);
+  animation: pulsoExito 1.8s infinite;
+  pointer-events: none;
+}
+@keyframes pulsoExito {
+  0% { transform: scale(1); opacity: .8; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+.titulo {
+  font-size: 24px; font-weight: 800;
+  letter-spacing: -.02em; text-align: center;
+  color: var(--wordmark);
+}
+.subtitulo {
+  font-size: 15px; color: var(--g4);
+  text-align: center; max-width: 320px;
+  margin-top: -10px; line-height: 1.5;
+}
+
+.resumen {
+  width: 100%; background: var(--blanco);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sombra-1);
+  padding: 4px 0; margin-top: 6px;
+}
+.resumen-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--g2);
+}
+.resumen-item:last-child { border-bottom: none; }
+.resumen-icon {
+  width: 36px; height: 36px;
+  border-radius: var(--r-sm); background: var(--verde-claro);
+  display: grid; place-items: center; flex-shrink: 0;
+}
+.resumen-icon svg { width: 18px; height: 18px; color: var(--wordmark); }
+.resumen-texto { flex: 1; min-width: 0; }
+.resumen-label {
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .04em;
+  color: var(--g3);
+}
+.resumen-valor {
+  font-size: 14px; font-weight: 600;
+  color: var(--wordmark); margin-top: 2px;
+  word-break: break-word;
+}
+
+.acciones {
+  width: 100%; display: flex;
+  flex-direction: column; gap: 10px; margin-top: 8px;
+}
+.btn {
+  height: 54px; border-radius: var(--r-full);
+  font-size: 16px; font-weight: 700;
+  letter-spacing: -.01em;
+  display: grid; place-items: center;
+  transition: transform .15s, background .15s;
+  width: 100%;
+}
+.btn:active { transform: scale(.97); }
+.btn.primario {
+  background: var(--verde); color: var(--wordmark);
+  box-shadow: 0 8px 20px rgba(164,214,94,.4);
+}
+.btn.secundario {
+  background: var(--blanco); color: var(--wordmark);
+  border: 1.5px solid var(--g2);
+}
+.btn.secundario:active { background: var(--g1); }
+
+.footer {
+  text-align: center; font-size: 11px;
+  color: var(--g3); padding: 10px 20px 20px;
+}
+
+.eri-fab {
+  position: fixed; right: 16px; bottom: 20px;
+  width: 60px; height: 60px;
+  border-radius: var(--r-full); background: var(--verde);
+  display: grid; place-items: center;
+  box-shadow: 0 8px 24px rgba(164,214,94,.45);
+  z-index: 900; transition: transform .15s;
+}
+.eri-fab:active { transform: scale(.92); }
+.eri-fab svg { width: 30px; height: 37px; display: block; }
+
+.eri-panel {
+  position: fixed; inset: 0;
+  height: 100dvh; background: var(--fondo);
+  display: none; flex-direction: column;
+  z-index: 9999; overscroll-behavior: contain;
+}
+.eri-panel.abierto { display: flex; }
+.eri-header {
+  height: 60px; background: var(--blanco);
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 16px; box-shadow: var(--sombra-1);
+  flex-shrink: 0;
+}
+.eri-avatar-h {
+  width: 38px; height: 38px;
+  border-radius: var(--r-full); background: var(--verde);
+  display: grid; place-items: center;
+  font-weight: 800; font-size: 16px;
+  color: var(--wordmark);
+}
+.eri-titulo { flex: 1; }
+.eri-titulo strong { font-size: 15px; font-weight: 700; display: block; }
+.eri-estado { font-size: 12px; color: var(--verde-osc); font-weight: 600; }
+.eri-close {
+  width: 36px; height: 36px;
+  display: grid; place-items: center;
+  border-radius: var(--r-full); background: var(--g1);
+}
+.eri-close svg { width: 18px; height: 18px; }
+.eri-mensajes {
+  flex: 1; overflow-y: auto; min-height: 0;
+  padding: 16px; display: flex;
+  flex-direction: column; gap: 10px;
+  -webkit-overflow-scrolling: touch;
+}
+.msg {
+  max-width: 85%; padding: 10px 14px;
+  border-radius: 16px; font-size: 14px;
+  line-height: 1.45; word-wrap: break-word;
+  white-space: pre-wrap;
+  animation: msgIn .2s ease-out;
+}
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.msg.eri {
+  background: var(--blanco);
+  align-self: flex-start;
+  border-bottom-left-radius: 6px;
+  box-shadow: var(--sombra-1);
+}
+.msg.user {
+  background: var(--verde); color: var(--wordmark);
+  align-self: flex-end;
+  border-bottom-right-radius: 6px; font-weight: 500;
+}
+.msg.error {
+  background: var(--rojo-claro); color: var(--rojo);
+  font-size: 12px; align-self: flex-start;
+  border-bottom-left-radius: 6px;
+}
+.msg.typing {
+  display: flex; gap: 4px; padding: 14px;
+}
+.msg.typing span {
+  width: 7px; height: 7px;
+  border-radius: 50%; background: var(--g3);
+  animation: bounce 1.2s infinite;
+}
+.msg.typing span:nth-child(2) { animation-delay: .15s; }
+.msg.typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: .5; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+.eri-input-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  background: var(--blanco);
+  border-top: 1px solid var(--g2);
+  flex-shrink: 0;
+}
+.eri-input {
+  flex: 1; min-width: 0;
+  background: var(--g1); border: none;
+  border-radius: var(--r-full);
+  padding: 12px 16px; font-size: 15px;
+  color: var(--wordmark); outline: none;
+}
+.eri-input::placeholder { color: var(--g3); }
+.eri-btn {
+  width: 44px; height: 44px;
+  border-radius: var(--r-full);
+  display: grid; place-items: center;
+  flex-shrink: 0;
+  transition: transform .12s, background .15s;
+}
+.eri-btn:active { transform: scale(.92); }
+.eri-btn.mic { background: var(--g1); }
+.eri-btn.mic svg { width: 20px; height: 20px; color: var(--wordmark); }
+.eri-btn.mic.grabando {
+  background: var(--rojo);
+  animation: pulsar .8s infinite alternate;
+}
+.eri-btn.mic.grabando svg { color: var(--blanco); }
+@keyframes pulsar {
+  from { box-shadow: 0 0 0 0 rgba(229,57,53,.5); }
+  to { box-shadow: 0 0 0 12px rgba(229,57,53,0); }
+}
+.eri-btn.enviar { background: var(--wordmark); }
+.eri-btn.enviar svg { width: 20px; height: 20px; color: var(--blanco); }
+
+.toast {
+  position: fixed; left: 50%; bottom: 110px;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--wordmark); color: var(--blanco);
+  padding: 12px 20px; border-radius: var(--r-full);
+  font-size: 13px; font-weight: 500;
+  z-index: 10000; opacity: 0; pointer-events: none;
+  transition: opacity .2s, transform .2s;
+  max-width: 90%; text-align: center;
+  white-space: pre-line;
+}
+.toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <button class="header-back" onclick="history.back()" aria-label="Volver">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </button>
+  <div class="header-title">Registro completado</div>
+</header>
+
+<main class="contenido">
+
+  <div class="exito-wrap">
+    <div class="exito-pulso"></div>
+    <div class="exito-circulo">
+      <div class="exito-circulo-inner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <h1 class="titulo">¡Todo listo!</h1>
+  <p class="subtitulo" id="subtitulo">
+    Tu registro en Kraze fue completado con éxito.
+  </p>
+
+  <section class="resumen">
+    <div class="resumen-item">
+      <div class="resumen-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+      <div class="resumen-texto">
+        <div class="resumen-label">Nombre</div>
+        <div class="resumen-valor" id="resNombre">—</div>
+      </div>
+    </div>
+
+    <div class="resumen-item">
+      <div class="resumen-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/>
+        </svg>
+      </div>
+      <div class="resumen-texto">
+        <div class="resumen-label">Teléfono</div>
+        <div class="resumen-valor" id="resTelefono">—</div>
+      </div>
+    </div>
+
+    <div class="resumen-item">
+      <div class="resumen-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+      <div class="resumen-texto">
+        <div class="resumen-label">Tipo de cuenta</div>
+        <div class="resumen-valor" id="resRol">—</div>
+      </div>
+    </div>
+
+    <div class="resumen-item">
+      <div class="resumen-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      </div>
+      <div class="resumen-texto">
+        <div class="resumen-label">Fecha de registro</div>
+        <div class="resumen-valor" id="resFecha">—</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="acciones">
+    <button class="btn primario" id="btnContinuar">Continuar</button>
+    <button class="btn secundario" id="btnEditar">Editar mis datos</button>
+  </div>
+
+</main>
+
+<footer class="footer">
+  Kraze · Erian C.A. © 2026
+</footer>
+
+<button class="eri-fab" id="btnEri" aria-label="Hablar con Eri">
+  <svg viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 1C8.27 1 2 7.27 2 15c0 10.5 12.5 23 13 23.5.28.28.72.28 1 0 .5-.5 13-13 13-23.5C29 7.27 22.73 1 16 1z" fill="#1A1F2E"/>
+    <path d="M16 24s-7-4.4-7-9.3c0-2.2 1.8-4 4-4 1.5 0 2.5.8 3 1.6.5-.8 1.5-1.6 3-1.6 2.2 0 4 1.8 4 4 0 4.9-7 9.3-7 9.3z" fill="#FFFFFF"/>
+  </svg>
+</button>
+
+<div class="eri-panel" id="eriPanel">
+  <div class="eri-header">
+    <div class="eri-avatar-h">E</div>
+    <div class="eri-titulo">
+      <strong>Eri</strong>
+      <div class="eri-estado" id="eriEstado">En línea</div>
+    </div>
+    <button class="eri-close" id="btnEriClose" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+  <div class="eri-mensajes" id="eriMensajes"></div>
+  <div class="eri-input-row">
+    <button class="eri-btn mic" id="btnMic" aria-label="Hablar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        <line x1="12" y1="19" x2="12" y2="23"/>
+      </svg>
+    </button>
+    <input type="text" class="eri-input" id="eriInput" placeholder="Escríbele a Eri..." autocomplete="off">
+    <button class="eri-btn enviar" id="btnEnviar" aria-label="Enviar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div><script>
+/* ═══════════════════════════════════════════════════════════
+   KRAZE · Registro completado — Lógica
+   © Erian C.A.
+   ═══════════════════════════════════════════════════════════ */
+
+const API_BASE = 'https://moto-llave-backend.vercel.app';
+const STORAGE_USUARIO = 'kraze_usuario';
+const STORAGE_ROL = 'kraze_rol';
+
+const $ = (id) => document.getElementById(id);
+
+let toastTimer;
+function toast(msg, ms = 3200) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('visible');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('visible'), ms);
+}
+
+function obtenerRolDeURL() {
+  const params = new URLSearchParams(location.search);
+  const rol = params.get('rol');
+  if (rol === 'transportista' || rol === 'pasajero') return rol;
+  return localStorage.getItem(STORAGE_ROL) || 'pasajero';
+}
+
+function cargarDatos() {
+  const usuario = JSON.parse(localStorage.getItem(STORAGE_USUARIO) || 'null');
+  const rol = obtenerRolDeURL();
+  localStorage.setItem(STORAGE_ROL, rol);
+
+  $('resNombre').textContent = usuario?.nombre || '—';
+  $('resTelefono').textContent = usuario?.telefono || '—';
+
+  const rolTexto = rol === 'transportista' ? 'Conductor' : 'Pasajero';
+  $('resRol').textContent = rolTexto;
+
+  const fecha = new Date();
+  const meses = ['enero','febrero','marzo','abril','mayo','junio',
+                 'julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  $('resFecha').textContent = `${fecha.getDate()} de ${meses[fecha.getMonth()]} de ${fecha.getFullYear()}`;
+
+  if (rol === 'transportista') {
+    $('subtitulo').textContent = 'Tu cuenta de conductor fue creada. Ya puedes empezar a recibir solicitudes de viaje.';
+  } else {
+    $('subtitulo').textContent = 'Tu cuenta fue creada con éxito. Ya puedes pedir tu primer viaje en Kraze.';
+  }
+}
+
+$('btnContinuar').addEventListener('click', () => {
+  const rol = localStorage.getItem(STORAGE_ROL) || 'pasajero';
+  const destino = rol === 'transportista'
+    ? '04-Home-Transportista.html'
+    : '04-Home-Pasajero.html';
+  window.location.href = destino;
+});
+
+$('btnEditar').addEventListener('click', () => {
+  history.back();
+});
+
+const eriPanel = $('eriPanel');
+const eriMensajes = $('eriMensajes');
+const eriInput = $('eriInput');
+const btnMic = $('btnMic');
+const eriEstadoEl = $('eriEstado');
+
+let eriHistorial = [];
+let reconocimiento = null;
+let grabando = false;
+
+$('btnEri').addEventListener('click', () => {
+  eriPanel.classList.add('abierto');
+  if (eriMensajes.children.length === 0) {
+    const rol = localStorage.getItem(STORAGE_ROL) || 'pasajero';
+    const saludo = rol === 'transportista'
+      ? '¡Felicidades! Ya eres conductor Kraze. ¿En qué te ayudo?'
+      : '¡Bienvenido a Kraze! ¿En qué te ayudo?';
+    agregarMsg('eri', saludo);
+  }
+  setTimeout(() => eriInput.focus(), 200);
+});
+$('btnEriClose').addEventListener('click', () => {
+  eriPanel.classList.remove('abierto');
+  detenerReconocimiento();
+});
+
+function agregarMsg(tipo, texto) {
+  const div = document.createElement('div');
+  div.className = `msg ${tipo}`;
+  div.textContent = texto;
+  eriMensajes.appendChild(div);
+  eriMensajes.scrollTop = eriMensajes.scrollHeight;
+  return div;
+}
+function mostrarTyping() {
+  const div = document.createElement('div');
+  div.className = 'msg eri typing';
+  div.innerHTML = '<span></span><span></span><span></span>';
+  eriMensajes.appendChild(div);
+  eriMensajes.scrollTop = eriMensajes.scrollHeight;
+  return div;
+}
+
+async function enviarAEri(texto) {
+  texto = (texto || '').trim();
+  if (!texto) return;
+
+  agregarMsg('user', texto);
+  eriHistorial.push({ role: 'user', content: texto });
+  eriInput.value = '';
+  const typing = mostrarTyping();
+  eriEstadoEl.textContent = 'Pensando...';
+
+  try {
+    const resp = await fetch(`${API_BASE}/api/claude`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        mensajes: eriHistorial,
+        mensaje: texto,
+        prompt: texto,
+        contexto: 'Pantalla "Registro completado" de Kraze. El usuario acaba de registrarse como pasajero o conductor. Felicítalo brevemente y ofrécele ayuda para sus primeros pasos en la app.'
+      })
+    });
+
+    const textoCrudo = await resp.text();
+    typing.remove();
+    eriEstadoEl.textContent = 'En línea';
+
+    if (!resp.ok) {
+      agregarMsg('error', `HTTP ${resp.status}: ${textoCrudo.slice(0, 150)}`);
+      return;
+    }
+
+    let data;
+    try { data = JSON.parse(textoCrudo); }
+    catch (e) { agregarMsg('eri', textoCrudo); return; }
+
+    const respuesta =
+      data.respuesta ||
+      data.content ||
+      data.message ||
+      data.reply ||
+      (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) ||
+      '(sin respuesta)';
+
+    agregarMsg('eri', respuesta);
+    eriHistorial.push({ role: 'assistant', content: respuesta });
+    hablar(respuesta);
+  } catch (err) {
+    typing.remove();
+    eriEstadoEl.textContent = 'Error';
+    agregarMsg('error', 'Error de red: ' + err.message);
+  }
+}
+
+$('btnEnviar').addEventListener('click', () => enviarAEri(eriInput.value));
+eriInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    enviarAEri(eriInput.value);
+  }
+});
+
+function hablar(texto) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(texto);
+  u.lang = 'es-VE';
+  u.rate = 1.05;
+  const vEs = window.speechSynthesis.getVoices().find(v => v.lang.startsWith('es'));
+  if (vEs) u.voice = vEs;
+  window.speechSynthesis.speak(u);
+}
+
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (SR) {
+  reconocimiento = new SR();
+  reconocimiento.lang = 'es-VE';
+  reconocimiento.continuous = false;
+  reconocimiento.interimResults = false;
+
+  reconocimiento.onstart = () => {
+    grabando = true;
+    btnMic.classList.add('grabando');
+    toast('🎤 Escuchando...', 6000);
+  };
+  reconocimiento.onend = () => {
+    grabando = false;
+    btnMic.classList.remove('grabando');
+  };
+  reconocimiento.onerror = (e) => {
+    grabando = false;
+    btnMic.classList.remove('grabando');
+    if (e.error === 'not-allowed') toast('❌ Permite el micrófono en Chrome', 4000);
+    else if (e.error === 'no-speech') toast('No escuché nada, intenta de nuevo');
+    else if (e.error !== 'aborted') toast('Error mic: ' + e.error);
+  };
+  reconocimiento.onresult = (e) => {
+    const texto = e.results[0][0].transcript;
+    if (texto) enviarAEri(texto);
+  };
+}
+
+function detenerReconocimiento() {
+  if (reconocimiento && grabando) {
+    try { reconocimiento.stop(); } catch (e) {}
+  }
+}
+
+btnMic.addEventListener('click', () => {
+  if (!reconocimiento) {
+    toast('Micrófono no soportado. Usa Chrome Android.');
+    return;
+  }
+  if (grabando) detenerReconocimiento();
+  else {
+    try { reconocimiento.start(); } catch (e) {}
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  cargarDatos();
+  console.log('[KRAZE] 17-Registro-Confirmar cargado');
+});
+</script>
+</body>
+</html>
