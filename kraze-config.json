@@ -1,112 +1,178 @@
 {
-  "app": {
-    "nombre": "Kraze",
-    "slogan": "Transporte total",
-    "empresa": "Erian C.A.",
-    "version": "1.0.0",
-    "moneda": "USD",
-    "monedaLocal": "VES",
-    "pais": "Venezuela",
-    "ciudad": "Socopó, Barinas"
-  },
+  "version": 1,
+  "appName": "Kraze",
+  "empresa": "Erian C.A.",
+  "copyright": "© 2026 Erian C.A. — Todos los derechos reservados",
 
   "soporte": {
     "telefono": "+58 412 149 9545",
-    "whatsapp": "+584121499545",
+    "whatsapp": "584121499545",
     "email": "soporte@kraze.app",
-    "horario": "Lun a Dom · 6:00 am - 11:00 pm"
+    "horario": "Lun a Dom · 6am a 10pm"
   },
 
-  "precios": {
-    "tarifaBase": 1.00,
-    "precioPorKm": 0.50,
-    "precioPorMinuto": 0.08,
-    "recargoNocturno": 0.20,
-    "recargoLluvia": 0.15,
-    "comisionKraze": 0.15,
-    "minimoViaje": 1.50,
-    "deliveryBase": 1.00,
-    "deliveryPorKm": 0.40,
-    "deliveryMinimo": 1.50
+  "legal": {
+    "rif": "J-XXXXXXXX-X",
+    "razonSocial": "Erian C.A.",
+    "ciudad": "Socopó, Barinas, Venezuela"
+  },
+
+  "monedas": {
+    "base": "USD",
+    "permitidas": ["USD", "VES", "USDT"],
+    "simbolos": {
+      "USD": "$",
+      "VES": "Bs.",
+      "USDT": "₮"
+    },
+    "tasaVES": 0,
+    "actualizarTasaCada": 24
+  },
+
+  "viajes": {
+    "activo": true,
+    "categorias": {
+      "economica": {
+        "nombre": "Económica",
+        "precioBase": 2.00,
+        "precioPorKm": 0.50,
+        "tiempoEstimadoMin": 15,
+        "icono": "economy"
+      },
+      "estandar": {
+        "nombre": "Estándar",
+        "precioBase": 4.00,
+        "precioPorKm": 0.80,
+        "tiempoEstimadoMin": 12,
+        "icono": "standard"
+      },
+      "premium": {
+        "nombre": "Premium",
+        "precioBase": 6.00,
+        "precioPorKm": 1.20,
+        "tiempoEstimadoMin": 8,
+        "icono": "premium"
+      }
+    },
+    "comision": {
+      "base": 10,
+      "nivel1": 7,
+      "nivel2": 5,
+      "nivel1MinViajes": 50,
+      "nivel2MinViajes": 200
+    },
+    "cancelacionGratisMin": 2,
+    "esperaGratisMin": 3,
+    "cargoEsperaPorMin": 0.20
   },
 
   "vehiculos": {
-    "moto":        { "activo": true, "multiplicador": 1.00, "nombre": "Moto" },
-    "motocarro":   { "activo": true, "multiplicador": 1.20, "nombre": "Motocarro" },
-    "taxi":        { "activo": true, "multiplicador": 1.50, "nombre": "Taxi" },
-    "carro":       { "activo": true, "multiplicador": 1.60, "nombre": "Carro" },
-    "buseta":      { "activo": true, "multiplicador": 2.00, "nombre": "Buseta" },
-    "camion":      { "activo": true, "multiplicador": 2.50, "nombre": "Camión" },
-    "volteo":      { "activo": true, "multiplicador": 3.00, "nombre": "Volteo" },
-    "cava":        { "activo": true, "multiplicador": 2.80, "nombre": "Cava" },
-    "ganado":      { "activo": true, "multiplicador": 3.50, "nombre": "Ganado" }
-  },
-
-  "metodosPago": {
-    "efectivo":      { "activo": true,  "nombre": "Efectivo", "icono": "cash" },
-    "pago_movil":    { "activo": true,  "nombre": "Pago Móvil", "icono": "phone" },
-    "transferencia": { "activo": true,  "nombre": "Transferencia", "icono": "bank" },
-    "zelle":         { "activo": false, "nombre": "Zelle", "icono": "zelle" },
-    "usdt":          { "activo": false, "nombre": "USDT", "icono": "crypto" }
-  },
-
-  "marketplace": {
-    "categorias": [
-      { "id": "fastfood",   "nombre": "Comida rápida", "activo": true },
-      { "id": "restaurant", "nombre": "Restaurantes",  "activo": true },
-      { "id": "mercado",    "nombre": "Mercado",       "activo": true },
-      { "id": "farmacia",   "nombre": "Farmacia",      "activo": true },
-      { "id": "licores",    "nombre": "Licorería",     "activo": true },
-      { "id": "tienda",     "nombre": "Tiendas",       "activo": true }
-    ]
-  },
-
-  "features": {
-    "viajesActivo":       true,
-    "marketplaceActivo":  true,
-    "billeteraActiva":    true,
-    "creditosActivo":     true,
-    "publicidadActiva":   true,
-    "asistenteEri":       true,
-    "vozEri":             true,
-    "gpsActivo":          true,
-    "pagosRealesActivos": false,
-    "modoMantenimiento":  false
-  },
-
-  "limites": {
-    "creditoMinimo": 5,
-    "creditoMaximo": 500,
-    "plazoMaximoDias": 30,
-    "viajesMinimosCredito": 10,
-    "ratingMinimoCredito": 4.0,
-    "distanciaMaximaKm": 50
-  },
-
-  "mensajes": {
-    "errorGenerico": "Algo salió mal. Intenta de nuevo.",
-    "sinInternet": "Sin conexión a internet. Revisa tu red.",
-    "sesionExpirada": "Tu sesión expiró. Vuelve a iniciar sesión.",
-    "servidorCaido": "El servicio no está disponible. Intenta más tarde.",
-    "campoRequerido": "Este campo es obligatorio.",
-    "telefonoInvalido": "El teléfono no es válido.",
-    "claveCorta": "La contraseña es muy corta.",
-    "tiendaNoDisponible": "La tienda no está disponible ahora.",
-    "platoNoDisponible": "Ese plato ya no está disponible."
-  },
-
-  "api": {
-    "backendUrl": "https://moto-llave-backend.vercel.app",
-    "endpoints": {
-      "claude":     "/api/claude",
-      "config":     "/api/config-publica",
-      "cotizar":    "/api/viaje/cotizar",
-      "pedido":     "/api/pedido/validar"
+    "activos": ["moto", "carro", "buseta", "camion", "volteo", "cava", "ganado", "motocarro"],
+    "lista": {
+      "moto":      { "nombre": "Moto",       "icono": "moto",      "activo": true },
+      "carro":     { "nombre": "Carro/Taxi", "icono": "car",       "activo": true },
+      "buseta":    { "nombre": "Buseta",     "icono": "bus",       "activo": true },
+      "camion":    { "nombre": "Camión",     "icono": "truck",     "activo": true },
+      "volteo":    { "nombre": "Volteo",     "icono": "dump",      "activo": true },
+      "cava":      { "nombre": "Cava",       "icono": "fridge",    "activo": true },
+      "ganado":    { "nombre": "Ganado",     "icono": "livestock", "activo": true },
+      "motocarro": { "nombre": "Motocarro",  "icono": "tricycle",  "activo": true },
+      "grua":      { "nombre": "Grúa",       "icono": "crane",     "activo": false },
+      "ambulancia":{ "nombre": "Ambulancia", "icono": "ambulance", "activo": false }
     }
   },
 
-  "supabase": {
-    "url": "https://xetqvxuiroalddfzrfzc.supabase.co",
-    "anonKey": "sb_publishable_SARKcARFpIESQRUDSxbpig_kdlHrZh3"
+  "delivery": {
+    "activo": true,
+    "precioPorParada": 1.50,
+    "maxParadas": 3,
+    "tiempoPreparacionMin": 15,
+    "tiempoEntregaMin": 25,
+    "radioEntregaKm": 10
+  },
+
+  "marketplace": {
+    "activo": true,
+    "maxTiendas": 500,
+    "categorias": {
+      "fastfood":   { "nombre": "Comida rápida", "activo": true },
+      "restaurant": { "nombre": "Restaurante",   "activo": true },
+      "mercado":    { "nombre": "Mercado",       "activo": true },
+      "farmacia":   { "nombre": "Farmacia",      "activo": true },
+      "licoreria":  { "nombre": "Licorería",     "activo": true },
+      "postres":    { "nombre": "Postres",       "activo": true },
+      "panaderia":  { "nombre": "Panadería",     "activo": false },
+      "ferreteria": { "nombre": "Ferretería",    "activo": false },
+      "ropa":       { "nombre": "Ropa",          "activo": false },
+      "tecnologia": { "nombre": "Tecnología",    "activo": false }
+    },
+    "comision": 10,
+    "requiereAprobacion": true,
+    "maxProductosPorTienda": 200
+  },
+
+  "billetera": {
+    "activo": true,
+    "recargaMinima": 1.00,
+    "recargaMaxima": 500.00,
+    "saldoMinimo": 0,
+    "comisionRecarga": 0
+  },
+
+  "pagos": {
+    "proveedorActivo": "simulado",
+    "metodos": {
+      "efectivo":      { "activo": true,  "nombre": "Efectivo",       "icono": "cash" },
+      "pago_movil":    { "activo": true,  "nombre": "Pago Móvil",     "icono": "phone" },
+      "transferencia": { "activo": true,  "nombre": "Transferencia",  "icono": "bank" },
+      "zelle":         { "activo": true,  "nombre": "Zelle",          "icono": "zelle" },
+      "usdt":          { "activo": true,  "nombre": "USDT",           "icono": "crypto" },
+      "binance":       { "activo": false, "nombre": "Binance Pay",    "icono": "binance" },
+      "tarjeta":       { "activo": false, "nombre": "Tarjeta",        "icono": "card" },
+      "paypal":        { "activo": false, "nombre": "PayPal",         "icono": "paypal" }
+    }
+  },
+
+  "asistente": {
+    "activo": true,
+    "nombre": "Eri",
+    "vozActiva": true,
+    "idiomaVoz": "es-VE",
+    "maxHistorial": 20,
+    "mostrarEnPaginas": ["02-Login", "03-Seleccion-Rol", "15-Marketplace-FastFood", "16-Pedido-Comida", "17a-Registro-Datos", "17b-Registro-Vehiculo", "19-Registro-Tienda", "19a-Subir-Documentos", "19b-Editor-Menu", "19c-Panel-Admin-Tiendas"]
+  },
+
+  "social": {
+    "instagram": "https://instagram.com/kraze",
+    "facebook": "https://facebook.com/kraze",
+    "tiktok": "https://tiktok.com/@kraze",
+    "twitter": "https://twitter.com/kraze",
+    "web": "https://kraze.app"
+  },
+
+  "features": {
+    "loginGoogle": false,
+    "loginApple": false,
+    "loginEmail": true,
+    "registroTienda": true,
+    "marketplace": true,
+    "delivery": true,
+    "publicidad": true,
+    "musicaFM": false,
+    "chatEntreUsuarios": false,
+    "llamadasVoz": false,
+    "compartirViaje": true,
+    "botonSOS": false,
+    "notificacionesPush": false
+  },
+
+  "mensajes": {
+    "bienvenida": "Bienvenido a Kraze",
+    "sinConexion": "Sin conexion. Revisa tu internet.",
+    "errorGeneral": "Algo salio mal. Intenta de nuevo.",
+    "mantenimiento": "Kraze esta en mantenimiento. Volvemos pronto.",
+    "tiendaEnRevision": "Tu tienda esta en revision. Te avisaremos pronto.",
+    "pedidoConfirmado": "Pedido confirmado. Preparando tu comida.",
+    "viajeEnCamino": "Tu conductor esta en camino."
   }
 }
