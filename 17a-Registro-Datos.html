@@ -66,7 +66,7 @@ input,select,textarea{font-family:inherit;font-size:16px}
 .k-btn-primario{background:var(--verde);color:var(--tinta);box-shadow:0 4px 14px rgba(164,214,94,.4)}
 .k-btn-primario:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
 .k-btn-ghost{background:var(--blanco);color:var(--tinta-2);border:1.5px solid var(--gris-cla);flex:0 0 auto;padding-left:22px;padding-right:22px}
-.k-error{display:none;background:#FFEFEF;color:var(--rojo);padding:10px 14px;border-radius:10px;font-size:13px;font-weight:500;margin-bottom:14px;border:1px solid #FFD5D6}
+.k-error{display:none;background:#FFEFEF;color:var(--rojo);padding:10px 14px;border-radius:10px;font-size:13px;font-weight:500;margin-bottom:14px;border:1px solid #FFD5D6;word-break:break-word}
 .k-error.visible{display:block}
 .k-exito{display:none;text-align:center;padding:40px 20px 20px}
 .k-exito.activo{display:block}
@@ -104,7 +104,9 @@ input,select,textarea{font-family:inherit;font-size:16px}
 .k-eri-btn svg{width:22px;height:22px}
 @media (max-width:380px){.k-fecha{grid-template-columns:70px 1fr 84px}.k-h2{font-size:20px}}
 </style>
-</head><body>
+</head>
+<body>
+
 <header class="k-header">
   <div class="k-header-top">
     <button class="k-back" onclick="KrazeReg.volver()" aria-label="Atrás">←</button>
@@ -432,18 +434,22 @@ const KrazeReg = (() => {
         method: "POST",
         headers: {
           "apikey": KRAZE_SUPABASE_KEY,
-          "Authorization": `Bearer ${KRAZE_SUPABASE_KEY}`,
           "Content-Type": "application/json",
           "Prefer": "return=representation"
         },
         body: JSON.stringify(payload)
       });
+
       if (!res.ok) {
         const txt = await res.text();
         console.error("Supabase error:", res.status, txt);
-        if (res.status === 409 || /duplicate|unique/i.test(txt)) throw new Error("Ya existe una cuenta con esa cédula, teléfono o correo.");
-        throw new Error("No pudimos guardar tu cuenta. Intenta de nuevo. (" + res.status + ")");
+        if (res.status === 409 || /duplicate|unique/i.test(txt)) 
+          throw new Error("Ya existe una cuenta con esa cédula, teléfono o correo.");
+        let detalle = txt;
+        try { const j = JSON.parse(txt); detalle = j.message || j.details || j.hint || txt; } catch(_) {}
+        throw new Error("Supabase " + res.status + ": " + detalle);
       }
+
       const data = await res.json();
       const perfil = Array.isArray(data) ? data[0] : data;
       console.log("Registro exitoso:", perfil);
