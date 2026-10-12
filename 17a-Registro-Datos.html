@@ -1,473 +1,986 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#FAFAF7">
-  <meta name="author" content="Erian C.A.">
-  <title>Kraze · Tus datos</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="color-scheme" content="only light">
+<meta name="supported-color-schemes" content="only light">
+<meta name="theme-color" content="#A4D65E">
+<title>Kraze · Registro</title>
+<style>
+:root {
+  color-scheme: only light;
+  --verde: #A4D65E;
+  --verde-osc: #8BC34A;
+  --verde-claro: #EEF7DC;
+  --wordmark: #1A1F2E;
+  --fondo: #FAFAF7;
+  --blanco: #FFFFFF;
+  --g1: #F2F2EE;
+  --g2: #E4E4DE;
+  --g3: #9A9A94;
+  --g4: #4A4A4A;
+  --rojo: #E53935;
+  --rojo-claro: #FDECEC;
+  --sombra-1: 0 2px 8px rgba(26,31,46,.06);
+  --sombra-2: 0 6px 24px rgba(26,31,46,.12);
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-full: 999px;
+}
+html { forced-color-adjust: none; -webkit-text-size-adjust: 100%; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--fondo);
+  color: var(--wordmark);
+  overflow-x: hidden;
+  min-height: 100dvh;
+  line-height: 1.4;
+  padding-bottom: 110px;
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, textarea, select { font-family: inherit; font-size: 16px; }
 
-  <!-- ============================================================
-       KRAZE · Registro de Datos
-       © 2026 Erian C.A. — Todos los derechos reservados
-       Archivo: 17a-Registro-Datos.html
-       ============================================================ -->
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+/* ─────────── HEADER ─────────── */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  height: 60px; background: var(--blanco);
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 16px; box-shadow: var(--sombra-1);
+}
+.header-back {
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  border-radius: var(--r-full); background: var(--g1);
+}
+.header-back:active { background: var(--g2); }
+.header-paso {
+  flex: 1;
+  text-align: right;
+  font-size: 13px;
+  color: var(--g3);
+  font-weight: 600;
+}
 
-    html, body {
-      min-height: 100vh;
-      background-color: #FAFAF7;
-      -webkit-tap-highlight-color: transparent;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      color: #1A1F2E;
-    }
+/* ─────────── PROGRESO ─────────── */
+.progreso {
+  display: flex;
+  gap: 6px;
+  padding: 12px 16px 4px;
+}
+.progreso-item {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--g2);
+  transition: background .3s;
+}
+.progreso-item.activo { background: var(--verde); }
+.progreso-item.completado { background: var(--verde-osc); }
 
-    body {
-      padding: 24px 24px 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
+/* ─────────── CONTENIDO ─────────── */
+.contenido {
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.paso { display: none; flex-direction: column; gap: 14px; }
+.paso.activo { display: flex; }
 
-    .top-row {
-      width: 100%;
-      max-width: 440px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
+.titulo {
+  font-size: 26px; font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--wordmark);
+}
+.subtitulo {
+  font-size: 14px; color: var(--g4);
+  margin-top: -8px;
+}
 
-    .back-btn {
-      width: 44px;
-      height: 44px;
-      border: none;
-      background: transparent;
-      color: #1A1F2E;
-      font-size: 22px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      margin-left: -8px;
-      text-decoration: none;
-    }
-    .back-btn:active { background-color: rgba(0,0,0,0.05); }
+/* ─────────── CAMPOS ─────────── */
+.campo { margin-bottom: 14px; }
+.campo:last-child { margin-bottom: 0; }
+.campo-label {
+  display: block; font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .04em;
+  color: var(--g3); margin-bottom: 6px;
+}
+.campo-input {
+  width: 100%;
+  background: var(--g1);
+  border: 1.5px solid transparent;
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  font-size: 15px; color: var(--wordmark);
+  outline: none;
+  transition: border-color .15s, background .15s;
+}
+.campo-input:focus {
+  background: var(--blanco);
+  border-color: var(--verde);
+}
+.campo-input::placeholder { color: var(--g3); }
+.campo-input.error { border-color: var(--rojo); background: var(--rojo-claro); }
 
-    .step-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: #8A8F80;
-    }
+.campo-fila { display: flex; gap: 8px; }
+.campo-prefijo {
+  background: var(--g1);
+  border-radius: var(--r-md);
+  padding: 14px 12px;
+  font-weight: 700;
+  color: var(--g4);
+  display: grid; place-items: center;
+  min-width: 60px;
+  font-size: 15px;
+}
+.campo-fila .campo-input { flex: 1; }
 
-    .progress {
-      width: 100%;
-      max-width: 440px;
-      height: 4px;
-      background-color: #E5E5DE;
-      border-radius: 2px;
-      overflow: hidden;
-      margin-bottom: 32px;
-    }
+/* ─────────── FECHA ─────────── */
+.fecha-fila {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  gap: 8px;
+}
+.fecha-select {
+  background: var(--g1);
+  border: 1.5px solid transparent;
+  border-radius: var(--r-md);
+  padding: 14px 10px;
+  font-size: 15px;
+  color: var(--wordmark);
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  text-align: center;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239A9A94' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 24px;
+}
+.fecha-select:focus { background-color: var(--blanco); border-color: var(--verde); }
+.fecha-select.error { border-color: var(--rojo); background-color: var(--rojo-claro); }
 
-    .progress-fill {
-      height: 100%;
-      background-color: #A4D65E;
-      width: 25%;
-      border-radius: 2px;
-      transition: width 0.3s;
-    }
+/* ─────────── FOTO ─────────── */
+.foto-seccion { text-align: center; margin-bottom: 8px; }
+.foto-wrap {
+  position: relative;
+  width: 120px; height: 120px;
+  margin: 0 auto 14px;
+}
+.foto-img {
+  width: 120px; height: 120px;
+  border-radius: 50%; object-fit: cover;
+  background: var(--g1);
+  border: 3px solid var(--verde);
+  display: none;
+}
+.foto-placeholder {
+  width: 120px; height: 120px;
+  border-radius: 50%; background: var(--g1);
+  border: 3px solid var(--g2);
+  display: grid; place-items: center;
+  color: var(--g3);
+}
+.foto-placeholder svg { width: 48px; height: 48px; }
+.foto-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 18px;
+  background: var(--verde); color: var(--wordmark);
+  border-radius: var(--r-full);
+  font-size: 14px; font-weight: 700;
+}
+.foto-btn svg { width: 18px; height: 18px; }
 
-    .title {
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: -0.6px;
-      color: #1A1F2E;
-      margin-bottom: 6px;
-      align-self: flex-start;
-      max-width: 440px;
-      width: 100%;
-    }
+/* ─────────── CARD ─────────── */
+.card {
+  background: var(--blanco);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sombra-1);
+  padding: 18px 16px;
+}
+.card-label {
+  font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .06em;
+  color: var(--g3); margin-bottom: 14px;
+}
 
-    .sub {
-      font-size: 14px;
-      color: #8A8F80;
-      margin-bottom: 28px;
-      align-self: flex-start;
-      max-width: 440px;
-      width: 100%;
-      line-height: 1.45;
-    }
+/* ─────────── BOTONES ─────────── */
+.btn-principal {
+  position: fixed;
+  left: 14px; right: 14px;
+  bottom: calc(14px + env(safe-area-inset-bottom));
+  height: 56px; border-radius: var(--r-full);
+  background: var(--verde); color: var(--wordmark);
+  font-size: 16px; font-weight: 700;
+  display: grid; place-items: center;
+  box-shadow: 0 8px 24px rgba(164,214,94,.4);
+  z-index: 90;
+  transition: transform .15s, background .15s;
+}
+.btn-principal:active { transform: scale(.97); }
+.btn-principal:disabled {
+  background: var(--g3); color: rgba(255,255,255,.7);
+  box-shadow: none;
+}
 
-    .form {
-      width: 100%;
-      max-width: 440px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
+/* ─────────── ERI FAB ─────────── */
+.eri-fab {
+  position: fixed; right: 16px; bottom: 86px;
+  width: 56px; height: 56px;
+  border-radius: var(--r-full); background: var(--verde);
+  display: grid; place-items: center;
+  box-shadow: 0 8px 24px rgba(164,214,94,.45);
+  z-index: 900;
+}
+.eri-fab svg { width: 28px; height: 34px; display: block; }
 
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+/* ─────────── PANEL ERI ─────────── */
+.eri-panel {
+  position: fixed; inset: 0; height: 100dvh;
+  background: var(--fondo);
+  display: none; flex-direction: column;
+  z-index: 9999;
+}
+.eri-panel.abierto { display: flex; }
+.eri-header {
+  height: 60px; background: var(--blanco);
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 16px; box-shadow: var(--sombra-1);
+  flex-shrink: 0;
+}
+.eri-avatar-h {
+  width: 38px; height: 38px;
+  border-radius: var(--r-full); background: var(--verde);
+  display: grid; place-items: center;
+  font-weight: 800; font-size: 16px;
+  color: var(--wordmark);
+}
+.eri-titulo { flex: 1; }
+.eri-titulo strong { font-size: 15px; font-weight: 700; display: block; }
+.eri-estado { font-size: 12px; color: var(--verde-osc); font-weight: 600; }
+.eri-close {
+  width: 36px; height: 36px;
+  display: grid; place-items: center;
+  border-radius: var(--r-full); background: var(--g1);
+}
+.eri-close svg { width: 18px; height: 18px; }
+.eri-mensajes {
+  flex: 1; overflow-y: auto; min-height: 0;
+  padding: 16px; display: flex;
+  flex-direction: column; gap: 10px;
+}
+.msg {
+  max-width: 85%; padding: 10px 14px;
+  border-radius: 16px; font-size: 14px;
+  line-height: 1.45; word-wrap: break-word;
+  white-space: pre-wrap;
+}
+.msg.eri {
+  background: var(--blanco); align-self: flex-start;
+  border-bottom-left-radius: 6px;
+  box-shadow: var(--sombra-1);
+}
+.msg.user {
+  background: var(--verde); color: var(--wordmark);
+  align-self: flex-end;
+  border-bottom-right-radius: 6px; font-weight: 500;
+}
+.msg.error {
+  background: var(--rojo-claro); color: var(--rojo);
+  font-size: 12px; align-self: flex-start;
+}
+.eri-input-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  background: var(--blanco);
+  border-top: 1px solid var(--g2);
+  flex-shrink: 0;
+}
+.eri-input {
+  flex: 1; min-width: 0;
+  background: var(--g1); border: none;
+  border-radius: var(--r-full);
+  padding: 12px 16px; font-size: 15px;
+  color: var(--wordmark); outline: none;
+}
+.eri-btn {
+  width: 44px; height: 44px;
+  border-radius: var(--r-full);
+  display: grid; place-items: center;
+  flex-shrink: 0;
+}
+.eri-btn.mic { background: var(--g1); }
+.eri-btn.mic svg { width: 20px; height: 20px; color: var(--wordmark); }
+.eri-btn.mic.grabando { background: var(--rojo); }
+.eri-btn.mic.grabando svg { color: var(--blanco); }
+.eri-btn.enviar { background: var(--wordmark); }
+.eri-btn.enviar svg { width: 20px; height: 20px; color: var(--blanco); }
 
-    .field label {
-      font-size: 13px;
-      font-weight: 600;
-      color: #4A4A4A;
-      padding-left: 2px;
-    }
+/* ─────────── TOAST ─────────── */
+.toast {
+  position: fixed; left: 50%; bottom: 130px;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--wordmark); color: var(--blanco);
+  padding: 12px 20px; border-radius: var(--r-full);
+  font-size: 13px; font-weight: 500;
+  z-index: 10000; opacity: 0; pointer-events: none;
+  transition: opacity .2s, transform .2s;
+  max-width: 90%; text-align: center;
+  white-space: pre-line;
+}
+.toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    .field input,
-    .field select {
-      width: 100%;
-      background-color: #FFFFFF;
-      border: 1.5px solid #E5E5DE;
-      border-radius: 12px;
-      padding: 15px 16px;
-      font-size: 15px;
-      font-family: inherit;
-      color: #1A1F2E;
-      outline: none;
-      transition: border-color 0.2s;
-      -webkit-appearance: none;
-      appearance: none;
-      min-height: 52px;
-    }
-
-    .field input:focus,
-    .field select:focus {
-      border-color: #A4D65E;
-      box-shadow: 0 0 0 3px rgba(164, 214, 94, 0.18);
-    }
-
-    .cedula-row {
-      display: flex;
-      gap: 8px;
-    }
-    .cedula-row select {
-      flex: 0 0 70px;
-      padding-left: 14px;
-      padding-right: 14px;
-      text-align: center;
-      font-weight: 700;
-    }
-    .cedula-row input {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .phone-row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-    .phone-prefix {
-      flex: 0 0 auto;
-      padding: 15px 14px;
-      background-color: #F5F5F0;
-      border: 1.5px solid #E5E5DE;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 600;
-      color: #1A1F2E;
-      min-height: 52px;
-      display: flex;
-      align-items: center;
-    }
-    .phone-row input { flex: 1; min-width: 0; }
-
-    .birth-row {
-      display: grid;
-      grid-template-columns: 1fr 1.4fr 1.2fr;
-      gap: 8px;
-    }
-    .birth-row select { padding-left: 12px; padding-right: 28px; }
-
-    .btn-continue {
-      width: 100%;
-      max-width: 440px;
-      background-color: #A4D65E;
-      color: #1A1F2E;
-      border: none;
-      border-radius: 12px;
-      padding: 16px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      min-height: 54px;
-      margin-top: 24px;
-      transition: transform 0.15s, opacity 0.15s;
-    }
-    .btn-continue:active { transform: scale(0.98); }
-    .btn-continue:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    .error-msg {
-      background-color: #FEE2E2;
-      color: #B91C1C;
-      padding: 12px 14px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 500;
-      display: none;
-      max-width: 440px;
-      width: 100%;
-    }
-    .error-msg.show { display: block; }
-  </style>
+/* ─────────── OVERLAY ─────────── */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(26,31,46,.7);
+  backdrop-filter: blur(4px);
+  z-index: 9998;
+  display: none; place-items: center;
+  color: var(--blanco);
+  font-size: 15px; font-weight: 600;
+}
+.overlay.visible { display: grid; }
+.spinner {
+  width: 44px; height: 44px;
+  border: 4px solid rgba(255,255,255,.3);
+  border-top-color: var(--verde);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
 </head>
-<body>
+<body><!-- ═══════════ HEADER ═══════════ -->
+<header class="header">
+  <button class="header-back" id="btnAtras" aria-label="Volver">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </button>
+  <div class="header-paso" id="headerPaso">Paso 1 de 4</div>
+</header>
 
-  <div class="top-row">
-    <a href="03-Seleccion-Rol.html" class="back-btn" aria-label="Volver">←</a>
-    <div class="step-label">Paso 1 de 4</div>
-  </div>
+<!-- ═══════════ PROGRESO ═══════════ -->
+<div class="progreso">
+  <div class="progreso-item activo" data-prog="1"></div>
+  <div class="progreso-item" data-prog="2"></div>
+  <div class="progreso-item" data-prog="3"></div>
+  <div class="progreso-item" data-prog="4"></div>
+</div>
 
-  <div class="progress">
-    <div class="progress-fill"></div>
-  </div>
+<!-- ═══════════ CONTENIDO ═══════════ -->
+<main class="contenido">
 
-  <h1 class="title" id="titulo">Cuéntanos de ti</h1>
-  <p class="sub" id="subtitulo">Estos datos nos ayudan a verificar tu identidad.</p>
-
-  <form class="form" id="form-datos" autocomplete="on">
-
-    <div class="error-msg" id="error-msg"></div>
-
-    <div class="field">
-      <label for="nombre">Nombre completo</label>
-      <input
-        type="text"
-        id="nombre"
-        name="nombre"
-        placeholder="Ej: María González"
-        autocomplete="name"
-        required
-      >
+  <!-- PASO 1: Datos personales -->
+  <section class="paso activo" data-paso="1">
+    <div>
+      <h1 class="titulo">Cuéntanos de ti</h1>
+      <p class="subtitulo">Estos datos nos ayudan a verificar tu identidad.</p>
     </div>
 
-    <div class="field">
-      <label for="cedula-num">Cédula de identidad</label>
-      <div class="cedula-row">
-        <select id="cedula-tipo" name="cedula-tipo">
+    <div class="campo">
+      <label class="campo-label" for="p1Nombre">Nombre completo *</label>
+      <input type="text" id="p1Nombre" class="campo-input" placeholder="Ej: Juan Pérez" autocomplete="name">
+    </div>
+
+    <div class="campo">
+      <label class="campo-label" for="p1CedulaNum">Cédula de identidad *</label>
+      <div class="campo-fila">
+        <select id="p1CedulaTipo" class="campo-prefijo" style="min-width:70px;">
           <option value="V">V</option>
           <option value="E">E</option>
           <option value="J">J</option>
         </select>
-        <input
-          type="tel"
-          id="cedula-num"
-          name="cedula-num"
-          placeholder="12345678"
-          inputmode="numeric"
-          pattern="[0-9]{6,9}"
-          autocomplete="off"
-          required
-        >
+        <input type="text" id="p1CedulaNum" class="campo-input" placeholder="12345678" inputmode="numeric">
       </div>
     </div>
 
-    <div class="field">
-      <label for="telefono">Teléfono</label>
-      <div class="phone-row">
-        <div class="phone-prefix">+58</div>
-        <input
-          type="tel"
-          id="telefono"
-          name="telefono"
-          placeholder="4121234567"
-          inputmode="numeric"
-          pattern="[0-9]{10}"
-          autocomplete="tel"
-          required
-        >
+    <div class="campo">
+      <label class="campo-label" for="p1Telefono">Teléfono *</label>
+      <div class="campo-fila">
+        <div class="campo-prefijo">+58</div>
+        <input type="tel" id="p1Telefono" class="campo-input" placeholder="412 123 4567" autocomplete="tel" inputmode="numeric">
       </div>
     </div>
 
-    <div class="field">
-      <label>Fecha de nacimiento</label>
-      <div class="birth-row">
-        <select id="birth-day" name="birth-day" required>
+    <div class="campo">
+      <label class="campo-label">Fecha de nacimiento *</label>
+      <div class="fecha-fila">
+        <select id="p1Dia" class="fecha-select">
           <option value="">Día</option>
         </select>
-        <select id="birth-month" name="birth-month" required>
+        <select id="p1Mes" class="fecha-select">
           <option value="">Mes</option>
-          <option value="1">Enero</option>
-          <option value="2">Febrero</option>
-          <option value="3">Marzo</option>
-          <option value="4">Abril</option>
-          <option value="5">Mayo</option>
-          <option value="6">Junio</option>
-          <option value="7">Julio</option>
-          <option value="8">Agosto</option>
-          <option value="9">Septiembre</option>
-          <option value="10">Octubre</option>
-          <option value="11">Noviembre</option>
-          <option value="12">Diciembre</option>
         </select>
-        <select id="birth-year" name="birth-year" required>
+        <select id="p1Anio" class="fecha-select">
           <option value="">Año</option>
         </select>
       </div>
     </div>
+  </section>
 
-    <button type="submit" class="btn-continue" id="btn-continue">
-      Continuar
+  <!-- PASO 2: Cuenta -->
+  <section class="paso" data-paso="2">
+    <div>
+      <h1 class="titulo">Tu cuenta</h1>
+      <p class="subtitulo">Cómo vas a iniciar sesión en Kraze.</p>
+    </div>
+
+    <div class="foto-seccion">
+      <div class="foto-wrap">
+        <img id="p2FotoImg" class="foto-img" src="" alt="Foto">
+        <div id="p2FotoPlaceholder" class="foto-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+      </div>
+      <input type="file" id="p2FotoInput" accept="image/*" capture="user" style="display:none;">
+      <button class="foto-btn" id="p2FotoBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+        <span id="p2FotoTexto">Agregar foto (opcional)</span>
+      </button>
+    </div>
+
+    <div class="campo">
+      <label class="campo-label" for="p2Email">Correo electrónico *</label>
+      <input type="email" id="p2Email" class="campo-input" placeholder="tucorreo@ejemplo.com" autocomplete="email">
+    </div>
+
+    <div class="campo">
+      <label class="campo-label" for="p2Pass">Contraseña *</label>
+      <input type="password" id="p2Pass" class="campo-input" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+    </div>
+
+    <div class="campo">
+      <label class="campo-label" for="p2Pass2">Confirmar contraseña *</label>
+      <input type="password" id="p2Pass2" class="campo-input" placeholder="Repite la contraseña" autocomplete="new-password">
+    </div>
+  </section>
+
+  <!-- PASO 3: Ubicación -->
+  <section class="paso" data-paso="3">
+    <div>
+      <h1 class="titulo">¿Dónde estás?</h1>
+      <p class="subtitulo">Para mostrarte viajes y servicios cerca de ti.</p>
+    </div>
+
+    <div class="campo">
+      <label class="campo-label" for="p3Estado">Estado *</label>
+      <select id="p3Estado" class="campo-input" style="appearance:none;-webkit-appearance:none;">
+        <option value="">Selecciona tu estado</option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label class="campo-label" for="p3Ciudad">Ciudad / Municipio *</label>
+      <input type="text" id="p3Ciudad" class="campo-input" placeholder="Ej: Socopó">
+    </div>
+
+    <div class="campo">
+      <label class="campo-label" for="p3Direccion">Dirección (opcional)</label>
+      <input type="text" id="p3Direccion" class="campo-input" placeholder="Calle, sector, punto de referencia">
+    </div>
+  </section>
+
+  <!-- PASO 4: Confirmación -->
+  <section class="paso" data-paso="4">
+    <div style="text-align:center;padding:20px 0;">
+      <div style="width:100px;height:100px;border-radius:50%;background:var(--verde-claro);display:grid;place-items:center;margin:0 auto 20px;">
+        <div style="width:70px;height:70px;border-radius:50%;background:var(--verde);display:grid;place-items:center;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1A1F2E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="36" height="36">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+      </div>
+      <h1 class="titulo" style="text-align:center;">¡Casi listo!</h1>
+      <p class="subtitulo" style="text-align:center;margin-top:8px;">Revisa tus datos y toca Finalizar para crear tu cuenta.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Resumen</div>
+      <div id="p4Resumen"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══════════ BOTÓN PRINCIPAL ═══════════ -->
+<button class="btn-principal" id="btnContinuar" type="button">Continuar</button>
+
+<!-- ═══════════ ERI FAB ═══════════ -->
+<button class="eri-fab" id="btnEri" aria-label="Hablar con Eri">
+  <svg viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 1C8.27 1 2 7.27 2 15c0 10.5 12.5 23 13 23.5.28.28.72.28 1 0 .5-.5 13-13 13-23.5C29 7.27 22.73 1 16 1z" fill="#1A1F2E"/>
+    <path d="M16 24s-7-4.4-7-9.3c0-2.2 1.8-4 4-4 1.5 0 2.5.8 3 1.6.5-.8 1.5-1.6 3-1.6 2.2 0 4 1.8 4 4 0 4.9-7 9.3-7 9.3z" fill="#FFFFFF"/>
+  </svg>
+</button>
+
+<!-- ═══════════ PANEL ERI ═══════════ -->
+<div class="eri-panel" id="eriPanel">
+  <div class="eri-header">
+    <div class="eri-avatar-h">E</div>
+    <div class="eri-titulo">
+      <strong>Eri</strong>
+      <div class="eri-estado" id="eriEstado">En línea</div>
+    </div>
+    <button class="eri-close" id="btnEriClose" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
     </button>
+  </div>
+  <div class="eri-mensajes" id="eriMensajes"></div>
+  <div class="eri-input-row">
+    <button class="eri-btn mic" id="btnMic" aria-label="Hablar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        <line x1="12" y1="19" x2="12" y2="23"/>
+      </svg>
+    </button>
+    <input type="text" class="eri-input" id="eriInput" placeholder="Escríbele a Eri..." autocomplete="off">
+    <button class="eri-btn enviar" id="btnEnviar" aria-label="Enviar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+    </button>
+  </div>
+</div>
 
-  </form>
+<div class="toast" id="toast"></div>
 
-  <script src="js/nav.js"></script>
+<div class="overlay" id="overlay">
+  <div style="text-align:center;">
+    <div class="spinner"></div>
+    <div id="overlayTexto">Creando tu cuenta...</div>
+  </div>
+</div><script src="js/kraze-auth.js"></script>
+<script>
+/* ═══════════════════════════════════════════════════════════
+   KRAZE · Registro en 4 pasos
+   © Erian C.A.
+   ═══════════════════════════════════════════════════════════ */
 
-  <script>
-  /* ============================================================
-     KRAZE · Registro de Datos
-     © 2026 Erian C.A. — Todos los derechos reservados
-     ============================================================ */
-  (function () {
-    'use strict';
+const API_BASE = 'https://moto-llave-backend.vercel.app';
+const $ = (id) => document.getElementById(id);
 
-    /* --- Leer rol desde URL --- */
-    function leerRolDeURL() {
-      const params = new URLSearchParams(window.location.search);
-      const rol = params.get('rol');
-      if (rol === 'pasajero' || rol === 'transportista') return rol;
+let pasoActual = 1;
+let fotoBase64 = null;
 
-      const guardado = Kraze.nav.getRol();
-      if (guardado) return guardado;
+/* ─────────── TOAST ─────────── */
+let toastTimer;
+function toast(msg, ms = 3200) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('visible');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('visible'), ms);
+}
 
-      return 'pasajero';
+/* ─────────── ROL ─────────── */
+function obtenerRolDeURL() {
+  const params = new URLSearchParams(location.search);
+  const rol = params.get('rol');
+  if (rol === 'transportista' || rol === 'pasajero') return rol;
+  return 'pasajero';
+}
+
+/* ─────────── LLENAR FECHAS ─────────── */
+function llenarFechas() {
+  // Días 1-31
+  const dia = $('p1Dia');
+  for (let i = 1; i <= 31; i++) {
+    const opt = document.createElement('option');
+    opt.value = String(i).padStart(2, '0');
+    opt.textContent = String(i).padStart(2, '0');
+    dia.appendChild(opt);
+  }
+
+  // Meses
+  const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const mes = $('p1Mes');
+  meses.forEach((nombre, idx) => {
+    const opt = document.createElement('option');
+    opt.value = String(idx + 1).padStart(2, '0');
+    opt.textContent = nombre;
+    mes.appendChild(opt);
+  });
+
+  // Años 1940 - 2010 (para mayores de 16 años)
+  const anio = $('p1Anio');
+  for (let i = 2010; i >= 1940; i--) {
+    const opt = document.createElement('option');
+    opt.value = String(i);
+    opt.textContent = String(i);
+    anio.appendChild(opt);
+  }
+}
+
+/* ─────────── LLENAR ESTADOS VENEZUELA ─────────── */
+function llenarEstados() {
+  const estados = [
+    'Amazonas','Anzoátegui','Apure','Aragua','Barinas','Bolívar','Carabobo',
+    'Cojedes','Delta Amacuro','Distrito Capital','Falcón','Guárico','Lara',
+    'Mérida','Miranda','Monagas','Nueva Esparta','Portuguesa','Sucre',
+    'Táchira','Trujillo','Vargas','Yaracuy','Zulia'
+  ];
+  const sel = $('p3Estado');
+  estados.forEach(e => {
+    const opt = document.createElement('option');
+    opt.value = e;
+    opt.textContent = e;
+    sel.appendChild(opt);
+  });
+}
+
+/* ─────────── FOTO ─────────── */
+$('p2FotoBtn').addEventListener('click', () => $('p2FotoInput').click());
+$('p2FotoInput').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('image/')) { toast('Debe ser imagen'); return; }
+  if (file.size > 5 * 1024 * 1024) { toast('Máx 5 MB'); return; }
+
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    fotoBase64 = ev.target.result;
+    $('p2FotoImg').src = fotoBase64;
+    $('p2FotoImg').style.display = 'block';
+    $('p2FotoPlaceholder').style.display = 'none';
+    $('p2FotoTexto').textContent = 'Cambiar foto';
+    toast('✅ Foto lista');
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+});
+
+/* ─────────── NAVEGACIÓN ─────────── */
+function irAPaso(n) {
+  if (n < 1 || n > 4) return;
+  document.querySelectorAll('.paso').forEach(el => el.classList.remove('activo'));
+  document.querySelector(`.paso[data-paso="${n}"]`).classList.add('activo');
+
+  document.querySelectorAll('.progreso-item').forEach((el, idx) => {
+    el.classList.remove('activo', 'completado');
+    if (idx + 1 < n) el.classList.add('completado');
+    if (idx + 1 === n) el.classList.add('activo');
+  });
+
+  $('headerPaso').textContent = `Paso ${n} de 4`;
+  $('btnContinuar').textContent = n === 4 ? 'Finalizar registro' : 'Continuar';
+
+  pasoActual = n;
+  window.scrollTo(0, 0);
+
+  if (n === 4) actualizarResumen();
+}
+
+/* ─────────── VALIDACIONES ─────────── */
+function limpiarErrores() {
+  document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+}
+
+function validarPaso1() {
+  limpiarErrores();
+  const nombre = $('p1Nombre').value.trim();
+  const cedulaNum = $('p1CedulaNum').value.trim();
+  const telefono = $('p1Telefono').value.trim();
+  const dia = $('p1Dia').value;
+  const mes = $('p1Mes').value;
+  const anio = $('p1Anio').value;
+
+  let ok = true;
+  if (!nombre || nombre.length < 3) { $('p1Nombre').classList.add('error'); ok = false; }
+  if (!cedulaNum || cedulaNum.length < 6) { $('p1CedulaNum').classList.add('error'); ok = false; }
+  if (!telefono || telefono.replace(/\D/g, '').length < 10) { $('p1Telefono').classList.add('error'); ok = false; }
+  if (!dia) { $('p1Dia').classList.add('error'); ok = false; }
+  if (!mes) { $('p1Mes').classList.add('error'); ok = false; }
+  if (!anio) { $('p1Anio').classList.add('error'); ok = false; }
+
+  if (!ok) toast('Completa todos los campos');
+  return ok;
+}
+
+function validarPaso2() {
+  limpiarErrores();
+  const email = $('p2Email').value.trim();
+  const pass = $('p2Pass').value;
+  const pass2 = $('p2Pass2').value;
+
+  let ok = true;
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!emailOk) { $('p2Email').classList.add('error'); ok = false; }
+  if (!pass || pass.length < 6) { $('p2Pass').classList.add('error'); ok = false; }
+  if (pass !== pass2) { $('p2Pass2').classList.add('error'); ok = false; toast('Las contraseñas no coinciden'); return false; }
+
+  if (!ok) toast('Completa todos los campos');
+  return ok;
+}
+
+function validarPaso3() {
+  limpiarErrores();
+  const estado = $('p3Estado').value;
+  const ciudad = $('p3Ciudad').value.trim();
+
+  let ok = true;
+  if (!estado) { $('p3Estado').classList.add('error'); ok = false; }
+  if (!ciudad) { $('p3Ciudad').classList.add('error'); ok = false; }
+
+  if (!ok) toast('Completa estado y ciudad');
+  return ok;
+}
+
+/* ─────────── RESUMEN ─────────── */
+function actualizarResumen() {
+  const nombre = $('p1Nombre').value.trim();
+  const cedula = $('p1CedulaTipo').value + '-' + $('p1CedulaNum').value.trim();
+  const tel = '+58 ' + $('p1Telefono').value.trim();
+  const fechaNac = `${$('p1Dia').value}/${$('p1Mes').value}/${$('p1Anio').value}`;
+  const email = $('p2Email').value.trim();
+  const estado = $('p3Estado').value;
+  const ciudad = $('p3Ciudad').value.trim();
+
+  $('p4Resumen').innerHTML = `
+    <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--g2);">
+      <span style="color:var(--g3);font-size:13px;">Nombre</span>
+      <span style="font-weight:600;font-size:14px;text-align:right;">${nombre || '—'}</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--g2);">
+      <span style="color:var(--g3);font-size:13px;">Cédula</span>
+      <span style="font-weight:600;font-size:14px;">${cedula}</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--g2);">
+      <span style="color:var(--g3);font-size:13px;">Teléfono</span>
+      <span style="font-weight:600;font-size:14px;">${tel}</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--g2);">
+      <span style="color:var(--g3);font-size:13px;">Nacimiento</span>
+      <span style="font-weight:600;font-size:14px;">${fechaNac}</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--g2);">
+      <span style="color:var(--g3);font-size:13px;">Correo</span>
+      <span style="font-weight:600;font-size:14px;text-align:right;word-break:break-all;">${email || '—'}</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:10px 0;">
+      <span style="color:var(--g3);font-size:13px;">Ubicación</span>
+      <span style="font-weight:600;font-size:14px;">${ciudad}, ${estado}</span>
+    </div>
+  `;
+}
+
+/* ─────────── REGISTRAR EN SUPABASE ─────────── */
+async function registrarUsuario() {
+  if (!window.KrazeAuth) {
+    toast('❌ kraze-auth.js no cargado', 5000);
+    return;
+  }
+
+  const btn = $('btnContinuar');
+  btn.disabled = true;
+  btn.textContent = 'Creando cuenta...';
+  $('overlay').classList.add('visible');
+
+  // Fecha en formato ISO
+  const fechaISO = `${$('p1Anio').value}-${$('p1Mes').value}-${$('p1Dia').value}`;
+  const telefono = '+58' + $('p1Telefono').value.replace(/\D/g, '');
+  const cedula = $('p1CedulaTipo').value + '-' + $('p1CedulaNum').value.trim();
+
+  const datos = {
+    nombre: $('p1Nombre').value.trim(),
+    telefono: telefono,
+    cedula: cedula,
+    email: $('p2Email').value.trim(),
+    rol: obtenerRolDeURL()
+  };
+
+  console.log('[REGISTRO] Enviando:', datos);
+
+  try {
+    // 1. Registrar en Supabase
+    const resultado = await window.KrazeAuth.registrar(datos);
+
+    if (!resultado.exito) {
+      $('overlay').classList.remove('visible');
+      btn.disabled = false;
+      btn.textContent = 'Finalizar registro';
+      toast('❌ ' + (resultado.error || 'Error'), 5000);
+      return;
     }
 
-    const ROL = leerRolDeURL();
-    Kraze.nav.setRol(ROL);
-
-    /* --- Adaptar textos según rol --- */
-    function adaptarTextos() {
-      const titulo    = document.getElementById('titulo');
-      const subtitulo = document.getElementById('subtitulo');
-
-      if (ROL === 'transportista') {
-        titulo.textContent    = 'Datos del conductor';
-        subtitulo.textContent = 'Necesitamos verificar tu identidad antes de continuar.';
-      } else {
-        titulo.textContent    = 'Cuéntanos de ti';
-        subtitulo.textContent = 'Estos datos nos ayudan a verificar tu identidad.';
-      }
-    }
-
-    /* --- Llenar días y años --- */
-    function llenarSelectores() {
-      const daySel  = document.getElementById('birth-day');
-      const yearSel = document.getElementById('birth-year');
-
-      for (let d = 1; d <= 31; d++) {
-        const opt = document.createElement('option');
-        opt.value = d;
-        opt.textContent = d;
-        daySel.appendChild(opt);
-      }
-
-      const currentYear = new Date().getFullYear();
-      for (let y = currentYear - 15; y >= currentYear - 80; y--) {
-        const opt = document.createElement('option');
-        opt.value = y;
-        opt.textContent = y;
-        yearSel.appendChild(opt);
-      }
-    }
-
-    /* --- Mostrar error --- */
-    function mostrarError(msg) {
-      const box = document.getElementById('error-msg');
-      box.textContent = msg;
-      box.classList.add('show');
-      setTimeout(function () { box.classList.remove('show'); }, 5000);
-    }
-
-    /* --- Envío --- */
-    const form = document.getElementById('form-datos');
-    const btn  = document.getElementById('btn-continue');
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const nombre     = document.getElementById('nombre').value.trim();
-      const cedulaTipo = document.getElementById('cedula-tipo').value;
-      const cedulaNum  = document.getElementById('cedula-num').value.trim();
-      const telefono   = document.getElementById('telefono').value.trim();
-      const birthDay   = document.getElementById('birth-day').value;
-      const birthMonth = document.getElementById('birth-month').value;
-      const birthYear  = document.getElementById('birth-year').value;
-
-      if (nombre.length < 3) {
-        return mostrarError('Escribe tu nombre completo.');
-      }
-      if (!/^[0-9]{6,9}$/.test(cedulaNum)) {
-        return mostrarError('La cédula debe tener entre 6 y 9 dígitos.');
-      }
-      if (!/^[0-9]{10}$/.test(telefono)) {
-        return mostrarError('El teléfono debe tener 10 dígitos (sin el +58).');
-      }
-      if (!birthDay || !birthMonth || !birthYear) {
-        return mostrarError('Completa tu fecha de nacimiento.');
-      }
-
-      /* --- Validar 18+ --- */
-      const hoy = new Date();
-      const fechaNac = new Date(birthYear, birthMonth - 1, birthDay);
-      let edad = hoy.getFullYear() - fechaNac.getFullYear();
-      const mes = hoy.getMonth() - fechaNac.getMonth();
-      if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) edad--;
-
-      if (edad < 18) {
-        return mostrarError('Debes ser mayor de 18 años para usar Kraze.');
-      }
-
-      /* --- Guardar --- */
-      const datos = {
-        nombre:      nombre,
-        cedulaTipo:  cedulaTipo,
-        cedulaNum:   cedulaNum,
-        cedulaFull:  cedulaTipo + '-' + cedulaNum,
-        telefono:    '+58' + telefono,
-        telefonoRaw: telefono,
-        birthDay:    birthDay,
-        birthMonth:  birthMonth,
-        birthYear:   birthYear,
-        birthFecha:  birthYear + '-' + String(birthMonth).padStart(2,'0') + '-' + String(birthDay).padStart(2,'0'),
-        edad:        edad,
-        rol:         ROL
+    // 2. Actualizar campos extra (fecha_nacimiento, estado, ciudad, direccion, foto)
+    if (resultado.usuario?.id) {
+      const extras = {
+        fecha_nacimiento: fechaISO,
+        estado_ve: $('p3Estado').value,
+        ciudad: $('p3Ciudad').value.trim(),
+        city: $('p3Ciudad').value.trim(),
+        direccion: $('p3Direccion').value.trim() || null
       };
+      if (fotoBase64) extras.foto_url = fotoBase64;
+      try {
+        await window.KrazeAuth.actualizar(resultado.usuario.id, extras);
+      } catch (e) {
+        console.warn('No se pudieron guardar extras:', e);
+      }
+    }
 
-      Kraze.nav.store.set('kraze_registro_datos', datos);
+    $('overlayTexto').textContent = '¡Listo! Redirigiendo...';
+    toast('✅ Cuenta creada', 2000);
 
-      /* --- Siguiente paso --- */
-      btn.disabled = true;
-      btn.textContent = 'Guardando...';
+    setTimeout(() => {
+      const rol = resultado.usuario?.rol || datos.rol;
+      location.href = `17-Registro-Confirmar.html?rol=${rol}`;
+    }, 1200);
 
-      setTimeout(function () {
-        let destino;
-        if (ROL === 'transportista') {
-          destino = '17b-Registro-Vehiculo.html?rol=transportista';
-        } else {
-          destino = '17d-Registro-Confirmar.html?rol=pasajero';
-        }
-        Kraze.nav.irA(destino);
-      }, 400);
+  } catch (err) {
+    console.error('[REGISTRO] Error:', err);
+    $('overlay').classList.remove('visible');
+    btn.disabled = false;
+    btn.textContent = 'Finalizar registro';
+    toast('❌ Error: ' + err.message, 5000);
+  }
+}
+
+/* ─────────── BOTÓN CONTINUAR ─────────── */
+$('btnContinuar').addEventListener('click', () => {
+  if (pasoActual === 1) {
+    if (validarPaso1()) irAPaso(2);
+  } else if (pasoActual === 2) {
+    if (validarPaso2()) irAPaso(3);
+  } else if (pasoActual === 3) {
+    if (validarPaso3()) irAPaso(4);
+  } else if (pasoActual === 4) {
+    registrarUsuario();
+  }
+});
+
+/* ─────────── BOTÓN ATRÁS ─────────── */
+$('btnAtras').addEventListener('click', () => {
+  if (pasoActual === 1) history.back();
+  else irAPaso(pasoActual - 1);
+});
+
+/* ═══════════════════════════════════════════════════════════
+   ERI
+   ═══════════════════════════════════════════════════════════ */
+const eriPanel = $('eriPanel');
+const eriMensajes = $('eriMensajes');
+const eriInput = $('eriInput');
+const btnMic = $('btnMic');
+
+let eriHistorial = [];
+let reconocimiento = null;
+let grabando = false;
+
+$('btnEri').addEventListener('click', () => {
+  eriPanel.classList.add('abierto');
+  if (eriMensajes.children.length === 0) {
+    agregarMsg('eri', '¡Hola! Soy Eri. Te ayudo con tu registro. ¿Qué necesitas?');
+  }
+  setTimeout(() => eriInput.focus(), 200);
+});
+$('btnEriClose').addEventListener('click', () => {
+  eriPanel.classList.remove('abierto');
+  detenerReconocimiento();
+});
+
+function agregarMsg(tipo, texto) {
+  const div = document.createElement('div');
+  div.className = `msg ${tipo}`;
+  div.textContent = texto;
+  eriMensajes.appendChild(div);
+  eriMensajes.scrollTop = eriMensajes.scrollHeight;
+  return div;
+}
+
+async function enviarAEri(texto) {
+  texto = (texto || '').trim();
+  if (!texto) return;
+  agregarMsg('user', texto);
+  eriHistorial.push({ role: 'user', content: texto });
+  eriInput.value = '';
+
+  try {
+    const resp = await fetch(`${API_BASE}/api/claude`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        mensajes: eriHistorial,
+        mensaje: texto,
+        prompt: texto,
+        contexto: 'Pantalla "Registro de datos" de Kraze en 4 pasos: (1) datos personales, (2) cuenta y contraseña, (3) ubicación, (4) confirmación. Ayuda al usuario.'
+      })
     });
+    const textoCrudo = await resp.text();
+    let data;
+    try { data = JSON.parse(textoCrudo); }
+    catch (e) { agregarMsg('eri', textoCrudo); return; }
 
-    adaptarTextos();
-    llenarSelectores();
+    const respuesta = data.respuesta || data.content || data.message || '(sin respuesta)';
+    agregarMsg('eri', respuesta);
+    eriHistorial.push({ role: 'assistant', content: respuesta });
+    hablar(respuesta);
+  } catch (err) {
+    agregarMsg('error', 'Error: ' + err.message);
+  }
+}
 
-  })();
-  </script>
+$('btnEnviar').addEventListener('click', () => enviarAEri(eriInput.value));
+eriInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') { e.preventDefault(); enviarAEri(eriInput.value); }
+});
 
+function hablar(texto) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(texto);
+  u.lang = 'es-VE';
+  const vEs = window.speechSynthesis.getVoices().find(v => v.lang.startsWith('es'));
+  if (vEs) u.voice = vEs;
+  window.speechSynthesis.speak(u);
+}
+
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (SR) {
+  reconocimiento = new SR();
+  reconocimiento.lang = 'es-VE';
+  reconocimiento.continuous = false;
+  reconocimiento.interimResults = false;
+  reconocimiento.onstart = () => { grabando = true; btnMic.classList.add('grabando'); };
+  reconocimiento.onend = () => { grabando = false; btnMic.classList.remove('grabando'); };
+  reconocimiento.onerror = () => { grabando = false; btnMic.classList.remove('grabando'); };
+  reconocimiento.onresult = (e) => {
+    const t = e.results[0][0].transcript;
+    if (t) enviarAEri(t);
+  };
+}
+
+function detenerReconocimiento() {
+  if (reconocimiento && grabando) { try { reconocimiento.stop(); } catch (e) {} }
+}
+
+btnMic.addEventListener('click', () => {
+  if (!reconocimiento) { toast('Micrófono no soportado'); return; }
+  if (grabando) detenerReconocimiento();
+  else { try { reconocimiento.start(); } catch (e) {} }
+});
+
+/* ─────────── INIT ─────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  llenarFechas();
+  llenarEstados();
+  irAPaso(1);
+});
+</script>
 </body>
 </html>
