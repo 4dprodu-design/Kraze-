@@ -2,930 +2,177 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="only light">
-<meta name="supported-color-schemes" content="only light">
 <meta name="theme-color" content="#A4D65E">
-<title>Kraze · Registro</title>
+<title>Kraze · Registro de Datos</title>
 <style>
-:root {
+:root{
   color-scheme: only light;
-  --verde: #A4D65E;
-  --verde-osc: #8BC34A;
-  --verde-claro: #EEF7DC;
-  --wordmark: #1A1F2E;
-  --fondo: #FAFAF7;
-  --blanco: #FFFFFF;
-  --g1: #F2F2EE;
-  --g2: #E4E4DE;
-  --g3: #9A9A94;
-  --g4: #4A4A4A;
-  --rojo: #E53935;
-  --rojo-claro: #FDECEC;
-  --sombra-1: 0 2px 8px rgba(26,31,46,.06);
-  --sombra-2: 0 6px 24px rgba(26,31,46,.12);
-  --r-sm: 10px;
-  --r-md: 14px;
-  --r-lg: 20px;
-  --r-full: 999px;
+  --verde:#A4D65E;--verde-osc:#8BC34A;--verde-cla:#EEF7DC;
+  --tinta:#1A1F2E;--tinta-2:#3A4256;--gris:#7A8194;
+  --gris-cla:#E8EAEE;--fondo:#FAFAF7;--blanco:#FFFFFF;--rojo:#E5484D;
+  --radio:14px;--sombra:0 2px 10px rgba(26,31,46,.06);
 }
-html { forced-color-adjust: none; -webkit-text-size-adjust: 100%; }
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background: var(--fondo);
-  color: var(--wordmark);
-  overflow-x: hidden;
-  min-height: 100dvh;
-  line-height: 1.4;
-  padding-bottom: 110px;
-}
-button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
-input, textarea, select { font-family: inherit; font-size: 16px; }
-
-/* ─────────── HEADER ─────────── */
-.header {
-  position: sticky; top: 0; z-index: 100;
-  height: 60px; background: var(--blanco);
-  display: flex; align-items: center; gap: 12px;
-  padding: 0 16px; box-shadow: var(--sombra-1);
-}
-.header-back {
-  width: 40px; height: 40px;
-  display: grid; place-items: center;
-  border-radius: var(--r-full); background: var(--g1);
-}
-.header-back:active { background: var(--g2); }
-.header-paso {
-  flex: 1;
-  text-align: right;
-  font-size: 13px;
-  color: var(--g3);
-  font-weight: 600;
-}
-
-/* ─────────── PROGRESO ─────────── */
-.progreso {
-  display: flex;
-  gap: 6px;
-  padding: 12px 16px 4px;
-}
-.progreso-item {
-  flex: 1;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--g2);
-  transition: background .3s;
-}
-.progreso-item.activo { background: var(--verde); }
-.progreso-item.completado { background: var(--verde-osc); }
-
-/* ─────────── CONTENIDO ─────────── */
-.contenido {
-  padding: 16px;
-  display: flex; flex-direction: column; gap: 14px;
-}
-.paso { display: none; flex-direction: column; gap: 14px; }
-.paso.activo { display: flex; }
-
-.titulo {
-  font-size: 26px; font-weight: 800;
-  letter-spacing: -.02em;
-  color: var(--wordmark);
-}
-.subtitulo {
-  font-size: 14px; color: var(--g4);
-  margin-top: -8px;
-}
-
-/* ─────────── CAMPOS ─────────── */
-.campo { margin-bottom: 14px; }
-.campo:last-child { margin-bottom: 0; }
-.campo-label {
-  display: block; font-size: 12px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: .04em;
-  color: var(--g3); margin-bottom: 6px;
-}
-.campo-input {
-  width: 100%;
-  background: var(--g1);
-  border: 1.5px solid transparent;
-  border-radius: var(--r-md);
-  padding: 14px 16px;
-  font-size: 15px; color: var(--wordmark);
-  outline: none;
-  transition: border-color .15s, background .15s;
-}
-.campo-input:focus {
-  background: var(--blanco);
-  border-color: var(--verde);
-}
-.campo-input::placeholder { color: var(--g3); }
-.campo-input.error { border-color: var(--rojo); background: var(--rojo-claro); }
-
-.campo-fila { display: flex; gap: 8px; }
-.campo-prefijo {
-  background: var(--g1);
-  border-radius: var(--r-md);
-  padding: 14px 12px;
-  font-weight: 700;
-  color: var(--g4);
-  display: grid; place-items: center;
-  min-width: 60px;
-  font-size: 15px;
-}
-.campo-fila .campo-input { flex: 1; }
-
-/* ─────────── FECHA ─────────── */
-.fecha-fila {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr 1fr;
-  gap: 8px;
-}
-.fecha-select {
-  background: var(--g1);
-  border: 1.5px solid transparent;
-  border-radius: var(--r-md);
-  padding: 14px 10px;
-  font-size: 15px;
-  color: var(--wordmark);
-  outline: none;
-  appearance: none;
-  -webkit-appearance: none;
-  text-align: center;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239A9A94' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 8px center;
-  padding-right: 24px;
-}
-.fecha-select:focus { background-color: var(--blanco); border-color: var(--verde); }
-.fecha-select.error { border-color: var(--rojo); background-color: var(--rojo-claro); }
-
-/* ─────────── FOTO ─────────── */
-.foto-seccion { text-align: center; margin-bottom: 8px; }
-.foto-wrap {
-  position: relative;
-  width: 120px; height: 120px;
-  margin: 0 auto 14px;
-}
-.foto-img {
-  width: 120px; height: 120px;
-  border-radius: 50%; object-fit: cover;
-  background: var(--g1);
-  border: 3px solid var(--verde);
-  display: none;
-}
-.foto-placeholder {
-  width: 120px; height: 120px;
-  border-radius: 50%; background: var(--g1);
-  border: 3px solid var(--g2);
-  display: grid; place-items: center;
-  color: var(--g3);
-}
-.foto-placeholder svg { width: 48px; height: 48px; }
-.foto-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 12px 18px;
-  background: var(--verde); color: var(--wordmark);
-  border-radius: var(--r-full);
-  font-size: 14px; font-weight: 700;
-}
-.foto-btn svg { width: 18px; height: 18px; }
-
-/* ─────────── CARD ─────────── */
-.card {
-  background: var(--blanco);
-  border-radius: var(--r-lg);
-  box-shadow: var(--sombra-1);
-  padding: 18px 16px;
-}
-.card-label {
-  font-size: 12px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: .06em;
-  color: var(--g3); margin-bottom: 14px;
-}
-
-/* ─────────── BOTONES ─────────── */
-.btn-principal {
-  position: fixed;
-  left: 14px; right: 14px;
-  bottom: calc(14px + env(safe-area-inset-bottom));
-  height: 56px; border-radius: var(--r-full);
-  background: var(--verde); color: var(--wordmark);
-  font-size: 16px; font-weight: 700;
-  display: grid; place-items: center;
-  box-shadow: 0 8px 24px rgba(164,214,94,.4);
-  z-index: 90;
-  transition: transform .15s, background .15s;
-}
-.btn-principal:active { transform: scale(.97); }
-.btn-principal:disabled {
-  background: var(--g3); color: rgba(255,255,255,.7);
-  box-shadow: none;
-}
-
-/* ─────────── ERI FAB ─────────── */
-.eri-fab {
-  position: fixed; right: 16px; bottom: 86px;
-  width: 56px; height: 56px;
-  border-radius: var(--r-full); background: var(--verde);
-  display: grid; place-items: center;
-  box-shadow: 0 8px 24px rgba(164,214,94,.45);
-  z-index: 900;
-}
-.eri-fab svg { width: 28px; height: 34px; display: block; }
-
-/* ─────────── PANEL ERI ─────────── */
-.eri-panel {
-  position: fixed; inset: 0; height: 100dvh;
-  background: var(--fondo);
-  display: none; flex-direction: column;
-  z-index: 9999;
-}
-.eri-panel.abierto { display: flex; }
-.eri-header {
-  height: 60px; background: var(--blanco);
-  display: flex; align-items: center; gap: 12px;
-  padding: 0 16px; box-shadow: var(--sombra-1);
-  flex-shrink: 0;
-}
-.eri-avatar-h {
-  width: 38px; height: 38px;
-  border-radius: var(--r-full); background: var(--verde);
-  display: grid; place-items: center;
-  font-weight: 800; font-size: 16px;
-  color: var(--wordmark);
-}
-.eri-titulo { flex: 1; }
-.eri-titulo strong { font-size: 15px; font-weight: 700; display: block; }
-.eri-estado { font-size: 12px; color: var(--verde-osc); font-weight: 600; }
-.eri-close {
-  width: 36px; height: 36px;
-  display: grid; place-items: center;
-  border-radius: var(--r-full); background: var(--g1);
-}
-.eri-close svg { width: 18px; height: 18px; }
-.eri-mensajes {
-  flex: 1; overflow-y: auto; min-height: 0;
-  padding: 16px; display: flex;
-  flex-direction: column; gap: 10px;
-}
-.msg {
-  max-width: 85%; padding: 10px 14px;
-  border-radius: 16px; font-size: 14px;
-  line-height: 1.45; word-wrap: break-word;
-  white-space: pre-wrap;
-}
-.msg.eri {
-  background: var(--blanco); align-self: flex-start;
-  border-bottom-left-radius: 6px;
-  box-shadow: var(--sombra-1);
-}
-.msg.user {
-  background: var(--verde); color: var(--wordmark);
-  align-self: flex-end;
-  border-bottom-right-radius: 6px; font-weight: 500;
-}
-.msg.error {
-  background: var(--rojo-claro); color: var(--rojo);
-  font-size: 12px; align-self: flex-start;
-}
-.eri-input-row {
-  display: flex; align-items: center; gap: 8px;
-  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
-  background: var(--blanco);
-  border-top: 1px solid var(--g2);
-  flex-shrink: 0;
-}
-.eri-input {
-  flex: 1; min-width: 0;
-  background: var(--g1); border: none;
-  border-radius: var(--r-full);
-  padding: 12px 16px; font-size: 15px;
-  color: var(--wordmark); outline: none;
-}
-.eri-btn {
-  width: 44px; height: 44px;
-  border-radius: var(--r-full);
-  display: grid; place-items: center;
-  flex-shrink: 0;
-}
-.eri-btn.mic { background: var(--g1); }
-.eri-btn.mic svg { width: 20px; height: 20px; color: var(--wordmark); }
-.eri-btn.mic.grabando { background: var(--rojo); }
-.eri-btn.mic.grabando svg { color: var(--blanco); }
-.eri-btn.enviar { background: var(--wordmark); }
-.eri-btn.enviar svg { width: 20px; height: 20px; color: var(--blanco); }
-
-/* ─────────── TOAST ─────────── */
-.toast {
-  position: fixed; left: 50%; bottom: 130px;
-  transform: translateX(-50%) translateY(20px);
-  background: var(--wordmark); color: var(--blanco);
-  padding: 12px 20px; border-radius: var(--r-full);
-  font-size: 13px; font-weight: 500;
-  z-index: 10000; opacity: 0; pointer-events: none;
-  transition: opacity .2s, transform .2s;
-  max-width: 90%; text-align: center;
-  white-space: pre-line;
-}
-.toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-/* ─────────── OVERLAY ─────────── */
-.overlay {
-  position: fixed; inset: 0;
-  background: rgba(26,31,46,.7);
-  backdrop-filter: blur(4px);
-  z-index: 9998;
-  display: none; place-items: center;
-  color: var(--blanco);
-  font-size: 15px; font-weight: 600;
-}
-.overlay.visible { display: grid; }
-.spinner {
-  width: 44px; height: 44px;
-  border: 4px solid rgba(255,255,255,.3);
-  border-top-color: var(--verde);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 16px;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-</style>
-</head>
-<body><!-- ═══════════ HEADER ═══════════ -->
-<header class="header">
-  <button class="header-back" id="btnAtras" aria-label="Volver">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
-      <path d="M19 12H5M12 19l-7-7 7-7"/>
-    </svg>
-  </button>
-  <div class="header-paso" id="headerPaso">Paso 1 de 4</div>
-</header>
-
-<!-- ═══════════ PROGRESO ═══════════ -->
-<div class="progreso">
-  <div class="progreso-item activo" data-prog="1"></div>
-  <div class="progreso-item" data-prog="2"></div>
-  <div class="progreso-item" data-prog="3"></div>
-  <div class="progreso-item" data-prog="4"></div>
-</div>
-
-<!-- ═══════════ CONTENIDO ═══════════ -->
-<main class="contenido">
-
-  <!-- PASO 1: Datos personales -->
-  <section class="paso activo" data-paso="1">
-    <div>
-      <h1 class="titulo">Cuéntanos de ti</h1>
-      <p class="subtitulo">Estos datos nos ayudan a verificar tu identidad.</p>
-    </div>
-
-    <div class="campo">
-      <label class="campo-label" for="p1Nombre">Nombre completo *</label>
-      <input type="text" id="p1Nombre" class="campo-input" placeholder="Ej: Juan Pérez" autocomplete="name">
-    </div>
-
-    <div class="campo">
-      <label class="campo-label" for="p1CedulaNum">Cédula de identidad *</label>
-      <div class="campo-fila">
-        <select id="p1CedulaTipo" class="campo-prefijo" style="min-width:70px;">
-          <option value="V">V</option>
-          <option value="E">E</option>
-          <option value="J">J</option>
-        </select>
-        <input type="text" id="p1CedulaNum" class="campo-input" placeholder="12345678" inputmode="numeric">
-      </div>
-    </div>
-
-    <div class="campo">
-      <label class="campo-label" for="p1Telefono">Teléfono *</label>
-      <div class="campo-fila">
-        <div class="campo-prefijo">+58</div>
-        <input type="tel" id="p1Telefono" class="campo-input" placeholder="412 123 4567" autocomplete="tel" inputmode="numeric">
-      </div>
-    </div>
-
-    <div class="campo">
-      <label class="campo-label">Fecha de nacimiento *</label>
-      <div class="fecha-fila">
-        <select id="p1Dia" class="fecha-select">
-          <option value="">Día</option>
-        </select>
-        <select id="p1Mes" class="fecha-select">
-          <option value="">Mes</option>
-        </select>
-        <select id="p1Anio" class="fecha-select">
-          <option value="">Año</option>
-        </select>
-      </div>
-    </div>
-  </section>
-
-  <!-- PASO 2: Cuenta -->
-  <section class="paso" data-paso="2">
-    <div>
-      <h1 class="titulo">Tu cuenta</h1>
-      <p class="subtitulo">Cómo vas a iniciar sesión en Kraze.</p>
-    </div>
-
-    <div class="foto-seccion">
-      <div class="foto-wrap">
-        <img id="p2FotoImg" class="foto-img" src="" alt="Foto">
-        <div id="p2FotoPlaceholder" class="foto-placeholder">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
-          </svg>
-        </div>
-      </div>
-      <input type="file" id="p2FotoInput" accept="image/*" capture="user" style="display:none;">
-      <button class="foto-btn" id="p2FotoBtn" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-          <circle cx="12" cy="13" r="4"/>
-        </svg>
-        <span id="p2FotoTexto">Agregar foto (opcional)</span>
-      </button>
-    </div>
-
-    <div class="campo">
-      <label class="campo-label" for="p2Email">Correo electrónico *</label>
-      <input type="email" id="p2Email" class="campo-input" placeholder="tucorreo@ejemplo.com" autocomplete="email">
-    </div>
-
-    <div class="campo">
-      <label class="campo-label" for="p2Pass">Contraseña *</label>
-      <input type="password" id="p2Pass" class="campo-input" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
-    </div>
-
-    <div class="campo">
-      <label class="campo-label" for="p2Pass2">Confirmar contraseña *</label>
-      <input type="password" id="p2Pass2" class="campo-input" placeholder="Repite la contraseña" autocomplete="new-password">
-    </div>
-  </section>
-
-  <!-- PASO 3: Ubicación -->
-  <section class="paso" data-paso="3">
-    <div>
-      <h1 class="titulo">¿Dónde estás?</h1>
-      <p class="subtitulo">Para mostrarte viajes y servicios cerca de ti.</p>
-    </div>
-
-    <div class="campo">
-      <label class="campo-label" for="p3Estado">Estado *</label>
-      <select id="p3Estado" class="campo-input" style="appearance:none;-webkit-appearance:none;">
-        <option value="">Selecciona tu estado</option>
-      </select>
-    </div>
-
-    <div class="campo">
-      <label class="campo-label" for="p3Ciudad">Ciudad / Municipio *</label>
-      <input type="text" id="p3Ciudad" class="campo-input" placeholder="Ej: Socopó">
-    </div>
-
-    <div class="campo">
-      <label class="campo-label" for="p3Direccion">Dirección (opcional)</label>
-      <input type="text" id="p3Direccion" class="campo-input" placeholder="Calle, sector, punto de referencia">
-    </div>
-  </section>
-
-  <!-- PASO 4: Confirmación -->
-  <section class="paso" data-paso="4">
-    <div style="text-align:center;padding:20px 0;">
-      <div style="width:100px;height:100px;border-radius:50%;background:var(--verde-claro);display:grid;place-items:center;margin:0 auto 20px;">
-        <div style="width:70px;height:70px;border-radius:50%;background:var(--verde);display:grid;place-items:center;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#1A1F2E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="36" height="36">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
-        </div>
-      </div>
-      <h1 class="titulo" style="text-align:center;">¡Casi listo!</h1>
-      <p class="subtitulo" style="text-align:center;margin-top:8px;">Revisa tus datos y toca Finalizar para crear tu cuenta.</p>
-    </div>
-
-    <div class="card">
-      <div class="card-label">Resumen</div>
-      <div id="p4Resumen"></div>
-    </div>
-  </section>
-
-</main>
-
-<!-- ═══════════ BOTÓN PRINCIPAL ═══════════ -->
-<button class="btn-principal" id="btnContinuar" type="button">Continuar</button>
-
-<!-- ═══════════ ERI FAB ═══════════ -->
-<button class="eri-fab" id="btnEri" aria-label="Hablar con Eri">
-  <svg viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M16 1C8.27 1 2 7.27 2 15c0 10.5 12.5 23 13 23.5.28.28.72.28 1 0 .5-.5 13-13 13-23.5C29 7.27 22.73 1 16 1z" fill="#1A1F2E"/>
-    <path d="M16 24s-7-4.4-7-9.3c0-2.2 1.8-4 4-4 1.5 0 2.5.8 3 1.6.5-.8 1.5-1.6 3-1.6 2.2 0 4 1.8 4 4 0 4.9-7 9.3-7 9.3z" fill="#FFFFFF"/>
-  </svg>
-</button>
-
-<!-- ═══════════ PANEL ERI ═══════════ -->
-<div class="eri-panel" id="eriPanel">
-  <div class="eri-header">
-    <div class="eri-avatar-h">E</div>
-    <div class="eri-titulo">
-      <strong>Eri</strong>
-      <div class="eri-estado" id="eriEstado">En línea</div>
-    </div>
-    <button class="eri-close" id="btnEriClose" aria-label="Cerrar">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18"/>
-        <line x1="6" y1="6" x2="18" y2="18"/>
-      </svg>
-    </button>
-  </div>
-  <div class="eri-mensajes" id="eriMensajes"></div>
-  <div class="eri-input-row">
-    <button class="eri-btn mic" id="btnMic" aria-label="Hablar">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
-        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-        <line x1="12" y1="19" x2="12" y2="23"/>
-      </svg>
-    </button>
-    <input type="text" class="eri-input" id="eriInput" placeholder="Escríbele a Eri..." autocomplete="off">
-    <button class="eri-btn enviar" id="btnEnviar" aria-label="Enviar">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="22" y1="2" x2="11" y2="13"/>
-        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-      </svg>
-    </button>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<div class="overlay" id="overlay">
-  <div style="text-align:center;">
-    <div class="spinner"></div>
-    <div id="overlayTexto">Creando tu cuenta...</div>
-  </div>
-</div><script src="js/kraze-auth.js"></script>
-<script>
-/* ═══════════════════════════════════════════════════════════
-   KRAZE · Registro en 4 pasos
-   © Erian C.A.
-   ═══════════════════════════════════════════════════════════ */
-
-const API_BASE = 'https://moto-llave-backend.vercel.app';
-const $ = (id) => document.getElementById(id);
-
-let pasoActual = 1;
-let fotoBase64 = null;
-
-/* ─────────── TOAST ─────────── */
-let toastTimer;
-function toast(msg, ms = 3200) {
-  const t = $('toast');
-  t.textContent = msg;
-  t.classList.add('visible');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('visible'), ms);
-}
-
-/* ─────────── ROL ─────────── */
-function obtenerRolDeURL() {
-  const params = new URLSearchParams(location.search);
-  const rol = params.get('rol');
-  if (rol === 'transportista' || rol === 'pasajero') return rol;
-  return 'pasajero';
-}
-
-/* ─────────── LLENAR FECHAS ─────────── */
-function llenarFechas() {
-  // Días 1-31
-  const dia = $('p1Dia');
-  for (let i = 1; i <= 31; i++) {
-    const opt/* ======= BOTONES ======= */
-.k-acciones{
-  position:fixed;left:0;right:0;bottom:0;
-  background:var(--blanco);
-  border-top:1px solid var(--gris-cla);
-  padding:14px 18px calc(14px + env(safe-area-inset-bottom));
-  display:flex;gap:10px;
-  z-index:40;
-  box-shadow:0 -4px 16px rgba(26,31,46,.05);
-}
-.k-acciones-inner{
-  display:flex;gap:10px;
-  max-width:560px;margin:0 auto;width:100%;
-}
-.k-btn{
-  flex:1;padding:15px 18px;
-  border-radius:var(--radio);
-  font-size:15px;font-weight:700;
-  transition:transform .12s,opacity .12s;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
+*,*::before,*::after{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;forced-color-adjust:none}
+html{background:var(--fondo);-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--fondo);color:var(--tinta);min-height:100dvh;padding-bottom:110px;overflow-x:hidden}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select,textarea{font-family:inherit;font-size:16px}
+.k-header{position:sticky;top:0;z-index:50;background:var(--blanco);border-bottom:1px solid var(--gris-cla);padding:14px 18px 12px}
+.k-header-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.k-back{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--verde-cla);color:var(--tinta);font-size:20px;font-weight:700;flex:0 0 auto}
+.k-back:active{transform:scale(.94)}
+.k-titulo{font-size:17px;font-weight:700;color:var(--tinta);flex:1;line-height:1.15}
+.k-titulo span{display:block;font-size:12px;font-weight:500;color:var(--gris);margin-top:2px}
+.k-paso-num{font-size:12px;font-weight:700;color:var(--verde-osc);background:var(--verde-cla);padding:6px 10px;border-radius:999px;flex:0 0 auto}
+.k-progreso{height:6px;background:var(--gris-cla);border-radius:999px;overflow:hidden}
+.k-progreso-bar{height:100%;background:linear-gradient(90deg,var(--verde),var(--verde-osc));width:25%;border-radius:999px;transition:width .35s ease}
+.k-main{padding:22px 18px 0;max-width:560px;margin:0 auto}
+.k-paso{display:none;animation:k-fade .25s ease}
+.k-paso.activo{display:block}
+@keyframes k-fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.k-h2{font-size:22px;font-weight:800;color:var(--tinta);margin:0 0 6px;letter-spacing:-.3px}
+.k-sub{font-size:14px;color:var(--gris);margin:0 0 22px;line-height:1.45}
+.k-campo{margin-bottom:16px;position:relative}
+.k-label{display:block;font-size:13px;font-weight:600;color:var(--tinta-2);margin-bottom:7px}
+.k-label em{color:var(--rojo);font-style:normal}
+.k-input{width:100%;padding:14px;border:1.5px solid var(--gris-cla);border-radius:var(--radio);background:var(--blanco);color:var(--tinta);font-size:16px;outline:none;transition:border-color .18s,box-shadow .18s;appearance:auto}
+.k-input:focus{border-color:var(--verde);box-shadow:0 0 0 3px rgba(164,214,94,.22)}
+.k-input::placeholder{color:#A8AEBE}
+.k-select{width:100%;padding:14px 36px 14px 14px;border:1.5px solid var(--gris-cla);border-radius:var(--radio);background:var(--blanco);color:var(--tinta);font-size:16px;outline:none;transition:border-color .18s,box-shadow .18s}
+.k-select:focus{border-color:var(--verde);box-shadow:0 0 0 3px rgba(164,214,94,.22)}
+.k-fecha{display:grid;grid-template-columns:80px 1fr 96px;gap:8px}
+.k-fecha .k-select{padding-left:8px;padding-right:26px;text-align:center;text-align-last:center;font-weight:600}
+.k-prefijo-wrap{display:flex;gap:8px}
+.k-prefijo{flex:0 0 auto;min-width:72px;padding:14px 8px;border:1.5px solid var(--gris-cla);border-radius:var(--radio);background:var(--blanco);color:var(--tinta);font-size:16px;font-weight:600;text-align:center;text-align-last:center;outline:none}
+.k-prefijo:focus{border-color:var(--verde)}
+.k-prefijo-wrap .k-input{flex:1}
+.k-aviso{background:var(--verde-cla);padding:12px 14px;border-radius:10px;font-size:13px;color:var(--tinta-2);margin-bottom:16px;display:flex;gap:8px;align-items:flex-start;line-height:1.45}
+.k-check{display:flex;gap:10px;align-items:flex-start;padding:14px;background:var(--blanco);border:1.5px solid var(--gris-cla);border-radius:var(--radio);margin-bottom:12px}
+.k-check input{width:22px;height:22px;margin:1px 0 0;flex:0 0 auto;accent-color:var(--verde)}
+.k-check label{font-size:13px;line-height:1.5;color:var(--tinta-2)}
+.k-check label a{color:var(--verde-osc);font-weight:600;text-decoration:none}
+.k-resumen{background:var(--blanco);border:1.5px solid var(--gris-cla);border-radius:var(--radio);padding:6px 16px;margin-bottom:16px}
+.k-res-item{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--gris-cla);font-size:14px}
+.k-res-item:last-child{border-bottom:none}
+.k-res-key{color:var(--gris);font-weight:500}
+.k-res-val{color:var(--tinta);font-weight:600;text-align:right;word-break:break-word}
+.k-acciones{position:fixed;left:0;right:0;bottom:0;background:var(--blanco);border-top:1px solid var(--gris-cla);padding:14px 18px calc(14px + env(safe-area-inset-bottom));display:flex;gap:10px;z-index:40;box-shadow:0 -4px 16px rgba(26,31,46,.05)}
+.k-acciones-inner{display:flex;gap:10px;max-width:560px;margin:0 auto;width:100%}
+.k-btn{flex:1;padding:15px 18px;border-radius:var(--radio);font-size:15px;font-weight:700;transition:transform .12s,opacity .12s;display:flex;align-items:center;justify-content:center;gap:8px}
 .k-btn:active{transform:scale(.97)}
-.k-btn-primario{
-  background:var(--verde);color:var(--tinta);
-  box-shadow:0 4px 14px rgba(164,214,94,.4);
-}
-.k-btn-primario:disabled{
-  opacity:.5;cursor:not-allowed;box-shadow:none;
-}
-.k-btn-secundario{
-  background:var(--verde-cla);color:var(--tinta);
-  flex:0 0 auto;padding-left:22px;padding-right:22px;
-}
-.k-btn-ghost{
-  background:var(--blanco);color:var(--tinta-2);
-  border:1.5px solid var(--gris-cla);
-  flex:0 0 auto;padding-left:22px;padding-right:22px;
-}
-
-/* ======= MENSAJES / ERROR ======= */
-.k-error{
-  display:none;
-  background:#FFEFEF;color:var(--rojo);
-  padding:10px 14px;border-radius:10px;
-  font-size:13px;font-weight:500;
-  margin-bottom:14px;
-  border:1px solid #FFD5D6;
-}
+.k-btn-primario{background:var(--verde);color:var(--tinta);box-shadow:0 4px 14px rgba(164,214,94,.4)}
+.k-btn-primario:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+.k-btn-ghost{background:var(--blanco);color:var(--tinta-2);border:1.5px solid var(--gris-cla);flex:0 0 auto;padding-left:22px;padding-right:22px}
+.k-error{display:none;background:#FFEFEF;color:var(--rojo);padding:10px 14px;border-radius:10px;font-size:13px;font-weight:500;margin-bottom:14px;border:1px solid #FFD5D6}
 .k-error.visible{display:block}
-
-.k-aviso{
-  background:var(--verde-cla);
-  padding:12px 14px;border-radius:10px;
-  font-size:13px;color:var(--tinta-2);
-  margin-bottom:16px;
-  display:flex;gap:8px;align-items:flex-start;
-  line-height:1.45;
-}
-
-/* ======= ÉXITO ======= */
-.k-exito{
-  display:none;
-  text-align:center;
-  padding:40px 20px 20px;
-}
+.k-exito{display:none;text-align:center;padding:40px 20px 20px}
 .k-exito.activo{display:block}
-.k-exito-ico{
-  width:88px;height:88px;border-radius:50%;
-  background:var(--verde-cla);
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 18px;
-  font-size:44px;
-}
-.k-exito h2{
-  font-size:24px;font-weight:800;
-  margin:0 0 8px;color:var(--tinta);
-}
-.k-exito p{
-  font-size:14px;color:var(--gris);
-  margin:0 0 26px;line-height:1.5;
-}
-
-/* ======= ERI FAB ======= */
-.k-eri-fab{
-  position:fixed;
-  right:16px;bottom:calc(96px + env(safe-area-inset-bottom));
-  width:58px;height:58px;
-  border-radius:50%;
-  background:var(--tinta);
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 6px 20px rgba(26,31,46,.3);
-  z-index:60;
-  transition:transform .15s;
-}
+.k-exito-ico{width:88px;height:88px;border-radius:50%;background:var(--verde-cla);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:44px}
+.k-exito h2{font-size:24px;font-weight:800;margin:0 0 8px;color:var(--tinta)}
+.k-exito p{font-size:14px;color:var(--gris);margin:0 0 26px;line-height:1.5}
+.k-spin{width:18px;height:18px;border:2.5px solid rgba(26,31,46,.2);border-top-color:var(--tinta);border-radius:50%;animation:k-rot .7s linear infinite;display:inline-block}
+@keyframes k-rot{to{transform:rotate(360deg)}}
+.k-eri-fab{position:fixed;right:16px;bottom:calc(96px + env(safe-area-inset-bottom));width:58px;height:58px;border-radius:50%;background:var(--tinta);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(26,31,46,.3);z-index:60;transition:transform .15s}
 .k-eri-fab:active{transform:scale(.92)}
 .k-eri-fab svg{width:30px;height:30px}
-
-.k-eri-panel{
-  position:fixed;inset:0;z-index:200;
-  background:rgba(26,31,46,.5);
-  display:none;
-  align-items:flex-end;
-  backdrop-filter:blur(3px);
-}
+.k-eri-panel{position:fixed;inset:0;z-index:200;background:rgba(26,31,46,.5);display:none;align-items:flex-end;backdrop-filter:blur(3px)}
 .k-eri-panel.abierto{display:flex}
-.k-eri-caja{
-  width:100%;height:100dvh;
-  background:var(--fondo);
-  display:flex;flex-direction:column;
-  animation:k-slide-up .3s ease;
-}
-@keyframes k-slide-up{
-  from{transform:translateY(100%)}
-  to{transform:translateY(0)}
-}
-.k-eri-head{
-  display:flex;align-items:center;gap:12px;
-  padding:16px 18px;
-  background:var(--blanco);
-  border-bottom:1px solid var(--gris-cla);
-  flex:0 0 auto;
-}
-.k-eri-avatar{
-  width:42px;height:42px;border-radius:50%;
-  background:var(--tinta);
-  display:flex;align-items:center;justify-content:center;
-}
+.k-eri-caja{width:100%;height:100dvh;background:var(--fondo);display:flex;flex-direction:column;animation:k-slide-up .3s ease}
+@keyframes k-slide-up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.k-eri-head{display:flex;align-items:center;gap:12px;padding:16px 18px;background:var(--blanco);border-bottom:1px solid var(--gris-cla);flex:0 0 auto}
+.k-eri-avatar{width:42px;height:42px;border-radius:50%;background:var(--tinta);display:flex;align-items:center;justify-content:center}
 .k-eri-avatar svg{width:22px;height:22px}
 .k-eri-info{flex:1}
 .k-eri-nombre{font-size:15px;font-weight:700;color:var(--tinta)}
 .k-eri-estado{font-size:12px;color:var(--gris);display:flex;align-items:center;gap:5px}
-.k-eri-estado::before{
-  content:"";width:7px;height:7px;border-radius:50%;
-  background:var(--verde-osc);
-}
-.k-eri-cerrar{
-  width:36px;height:36px;border-radius:50%;
-  background:var(--gris-cla);color:var(--tinta);
-  font-size:20px;font-weight:600;
-  display:flex;align-items:center;justify-content:center;
-}
-.k-eri-mensajes{
-  flex:1;overflow-y:auto;
-  padding:18px;
-  display:flex;flex-direction:column;gap:12px;
-  -webkit-overflow-scrolling:touch;
-}
-.k-eri-msg{
-  max-width:82%;
-  padding:12px 14px;border-radius:16px;
-  font-size:14px;line-height:1.45;
-  word-wrap:break-word;
-}
-.k-eri-msg.eri{
-  background:var(--blanco);
-  color:var(--tinta);
-  align-self:flex-start;
-  border-bottom-left-radius:4px;
-  box-shadow:var(--sombra);
-}
-.k-eri-msg.yo{
-  background:var(--verde);
-  color:var(--tinta);
-  align-self:flex-end;
-  border-bottom-right-radius:4px;
-  font-weight:500;
-}
-.k-eri-input-wrap{
-  flex:0 0 auto;
-  padding:12px 14px calc(12px + env(safe-area-inset-bottom));
-  background:var(--blanco);
-  border-top:1px solid var(--gris-cla);
-  display:flex;gap:8px;align-items:center;
-}
-.k-eri-input{
-  flex:1;
-  padding:12px 16px;
-  border:1.5px solid var(--gris-cla);
-  border-radius:999px;
-  background:var(--fondo);
-  color:var(--tinta);font-size:15px;outline:none;
-}
+.k-eri-estado::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--verde-osc)}
+.k-eri-cerrar{width:36px;height:36px;border-radius:50%;background:var(--gris-cla);color:var(--tinta);font-size:20px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.k-eri-mensajes{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px}
+.k-eri-msg{max-width:82%;padding:12px 14px;border-radius:16px;font-size:14px;line-height:1.45;word-wrap:break-word}
+.k-eri-msg.eri{background:var(--blanco);color:var(--tinta);align-self:flex-start;border-bottom-left-radius:4px;box-shadow:var(--sombra)}
+.k-eri-msg.yo{background:var(--verde);color:var(--tinta);align-self:flex-end;border-bottom-right-radius:4px;font-weight:500}
+.k-eri-input-wrap{flex:0 0 auto;padding:12px 14px calc(12px + env(safe-area-inset-bottom));background:var(--blanco);border-top:1px solid var(--gris-cla);display:flex;gap:8px;align-items:center}
+.k-eri-input{flex:1;padding:12px 16px;border:1.5px solid var(--gris-cla);border-radius:999px;background:var(--fondo);color:var(--tinta);font-size:15px;outline:none}
 .k-eri-input:focus{border-color:var(--verde)}
-.k-eri-btn{
-  width:46px;height:46px;border-radius:50%;
-  background:var(--verde);color:var(--tinta);
-  display:flex;align-items:center;justify-content:center;
-  flex:0 0 auto;
-  transition:transform .12s;
-}
+.k-eri-btn{width:46px;height:46px;border-radius:50%;background:var(--verde);color:var(--tinta);display:flex;align-items:center;justify-content:center;flex:0 0 auto;transition:transform .12s}
 .k-eri-btn:active{transform:scale(.9)}
-.k-eri-btn.mic-on{
-  background:var(--rojo);color:#fff;
-  animation:k-pulso 1s infinite;
-}
-@keyframes k-pulso{
-  0%,100%{box-shadow:0 0 0 0 rgba(229,72,77,.6)}
-  50%{box-shadow:0 0 0 12px rgba(229,72,77,0)}
-}
+.k-eri-btn.mic-on{background:var(--rojo);color:#fff;animation:k-pulso 1s infinite}
+@keyframes k-pulso{0%,100%{box-shadow:0 0 0 0 rgba(229,72,77,.6)}50%{box-shadow:0 0 0 12px rgba(229,72,77,0)}}
 .k-eri-btn svg{width:22px;height:22px}
-
-/* ======= SPINNER ======= */
-.k-spin{
-  width:18px;height:18px;
-  border:2.5px solid rgba(26,31,46,.2);
-  border-top-color:var(--tinta);
-  border-radius:50%;
-  animation:k-rot .7s linear infinite;
-}
-@keyframes k-rot{to{transform:rotate(360deg)}}
-
-@media (max-width:380px){
-  .k-fecha{grid-template-columns:70px 1fr 84px}
-  .k-h2{font-size:20px}
-}
+@media (max-width:380px){.k-fecha{grid-template-columns:70px 1fr 84px}.k-h2{font-size:20px}}
 </style>
-</head>
-<body>
-
-<!-- ============ HEADER ============ -->
+</head><body>
 <header class="k-header">
   <div class="k-header-top">
     <button class="k-back" onclick="KrazeReg.volver()" aria-label="Atrás">←</button>
-    <div class="k-titulo">
-      Crear cuenta
-      <span id="kRolTexto">Pasajero</span>
-    </div>
+    <div class="k-titulo">Crear cuenta<span id="kRolTexto">Pasajero</span></div>
     <div class="k-paso-num" id="kPasoNum">Paso 1 / 4</div>
   </div>
   <div class="k-progreso"><div class="k-progreso-bar" id="kProgBar"></div></div>
 </header>
 
-<!-- ============ CONTENIDO ============ -->
 <main class="k-main">
-
   <div class="k-error" id="kError"></div>
 
-  <!-- ===== PASO 1: DATOS PERSONALES ===== -->
   <section class="k-paso activo" data-paso="1">
     <h1 class="k-h2">Cuéntanos de ti</h1>
     <p class="k-sub">Necesitamos tus datos reales para verificar tu identidad.</p>
-
     <div class="k-campo">
       <label class="k-label" for="fNombre">Nombre completo <em>*</em></label>
-      <input class="k-input" id="fNombre" type="text" placeholder="Ej: María González Pérez"
-             autocomplete="name" maxlength="80">
+      <input class="k-input" id="fNombre" type="text" placeholder="Ej: María González Pérez" autocomplete="name" maxlength="80">
     </div>
-
     <div class="k-campo">
       <label class="k-label" for="fCedulaNum">Cédula de identidad <em>*</em></label>
       <div class="k-prefijo-wrap">
         <select class="k-prefijo" id="fCedulaTipo">
-          <option value="V">V-</option>
-          <option value="E">E-</option>
-          <option value="J">J-</option>
-          <option value="P">P-</option>
+          <option value="V">V-</option><option value="E">E-</option><option value="J">J-</option><option value="P">P-</option>
         </select>
-        <input class="k-input" id="fCedulaNum" type="tel" inputmode="numeric"
-               placeholder="12345678" maxlength="10" autocomplete="off">
+        <input class="k-input" id="fCedulaNum" type="tel" inputmode="numeric" placeholder="12345678" maxlength="10">
       </div>
     </div>
-
     <div class="k-campo">
       <label class="k-label">Fecha de nacimiento <em>*</em></label>
       <div class="k-fecha">
-        <select class="k-select" id="fDia">
-          <option value="">Día</option>
-        </select>
-        <select class="k-select" id="fMes">
-          <option value="">Mes</option>
-        </select>
-        <select class="k-select" id="fAnio">
-          <option value="">Año</option>
-        </select>
+        <select class="k-select" id="fDia"><option value="">Día</option></select>
+        <select class="k-select" id="fMes"><option value="">Mes</option></select>
+        <select class="k-select" id="fAnio"><option value="">Año</option></select>
       </div>
     </div>
-
     <div class="k-campo">
       <label class="k-label" for="fEmail">Correo electrónico <em>*</em></label>
-      <input class="k-input" id="fEmail" type="email" placeholder="tu@correo.com"
-             autocomplete="email" inputmode="email" maxlength="120">
+      <input class="k-input" id="fEmail" type="email" placeholder="tu@correo.com" autocomplete="email" inputmode="email" maxlength="120">
     </div>
   </section>
 
-  <!-- ===== PASO 2: CUENTA ===== -->
   <section class="k-paso" data-paso="2">
     <h1 class="k-h2">Tu cuenta</h1>
     <p class="k-sub">Con estos datos entrarás y te contactaremos.</p>
-
     <div class="k-campo">
       <label class="k-label" for="fTelefono">Teléfono <em>*</em></label>
       <div class="k-prefijo-wrap">
         <select class="k-prefijo" id="fTelPrefijo">
-          <option value="+58">+58</option>
-          <option value="+57">+57</option>
-          <option value="+1">+1</option>
-          <option value="+34">+34</option>
+          <option value="+58">+58</option><option value="+57">+57</option><option value="+1">+1</option><option value="+34">+34</option>
         </select>
-        <input class="k-input" id="fTelefono" type="tel" inputmode="numeric"
-               placeholder="4121234567" maxlength="11" autocomplete="tel">
+        <input class="k-input" id="fTelefono" type="tel" inputmode="numeric" placeholder="4121234567" maxlength="11" autocomplete="tel">
       </div>
     </div>
-
     <div class="k-campo">
       <label class="k-label" for="fPass">Contraseña <em>*</em></label>
-      <input class="k-input" id="fPass" type="password" placeholder="Mínimo 6 caracteres"
-             autocomplete="new-password" maxlength="60">
+      <input class="k-input" id="fPass" type="password" placeholder="Mínimo 6 caracteres" maxlength="60">
     </div>
-
     <div class="k-campo">
       <label class="k-label" for="fPass2">Repetir contraseña <em>*</em></label>
-      <input class="k-input" id="fPass2" type="password" placeholder="Repite la contraseña"
-             autocomplete="new-password" maxlength="60">
+      <input class="k-input" id="fPass2" type="password" placeholder="Repite la contraseña" maxlength="60">
     </div>
-
-    <div class="k-aviso">
-      <span>🔒</span>
-      <span>Tu contraseña se guarda encriptada. Nunca la compartas con nadie.</span>
-    </div>
+    <div class="k-aviso"><span>🔒</span><span>Tu contraseña se guarda encriptada. Nunca la compartas con nadie.</span></div>
   </section>
 
-  <!-- ===== PASO 3: UBICACIÓN ===== -->
   <section class="k-paso" data-paso="3">
     <h1 class="k-h2">¿Dónde estás?</h1>
     <p class="k-sub">Así te mostramos servicios cerca de ti.</p>
-
     <div class="k-campo">
       <label class="k-label" for="fPais">País</label>
       <select class="k-select" id="fPais">
@@ -937,270 +184,153 @@ function llenarFechas() {
         <option value="República Dominicana">República Dominicana</option>
       </select>
     </div>
-
     <div class="k-campo">
       <label class="k-label" for="fEstado">Estado <em>*</em></label>
-      <select class="k-select" id="fEstado">
-        <option value="">Selecciona tu estado</option>
-      </select>
+      <select class="k-select" id="fEstado"><option value="">Selecciona tu estado</option></select>
     </div>
-
     <div class="k-campo">
       <label class="k-label" for="fCiudad">Ciudad <em>*</em></label>
-      <input class="k-input" id="fCiudad" type="text" placeholder="Ej: Socopó"
-             autocomplete="address-level2" maxlength="60">
+      <input class="k-input" id="fCiudad" type="text" placeholder="Ej: Socopó" autocomplete="address-level2" maxlength="60">
     </div>
-
     <div class="k-campo">
       <label class="k-label" for="fDireccion">Dirección (opcional)</label>
-      <input class="k-input" id="fDireccion" type="text"
-             placeholder="Calle, sector, casa" autocomplete="street-address" maxlength="120">
+      <input class="k-input" id="fDireccion" type="text" placeholder="Calle, sector, casa" autocomplete="street-address" maxlength="120">
     </div>
   </section>
 
-  <!-- ===== PASO 4: CONFIRMACIÓN ===== -->
   <section class="k-paso" data-paso="4">
     <h1 class="k-h2">Revisa y confirma</h1>
     <p class="k-sub">Verifica que todo esté correcto antes de continuar.</p>
-
     <div class="k-resumen" id="kResumen"></div>
-
     <div class="k-check">
       <input type="checkbox" id="fTerminos">
-      <label for="fTerminos">
-        Acepto los <a href="#">Términos y condiciones</a> y la
-        <a href="#">Política de privacidad</a> de Kraze.
-      </label>
+      <label for="fTerminos">Acepto los <a href="#">Términos y condiciones</a> y la <a href="#">Política de privacidad</a> de Kraze.</label>
     </div>
-
     <div class="k-check">
       <input type="checkbox" id="fDatos">
-      <label for="fDatos">
-        Confirmo que mis datos son reales y verdaderos.
-      </label>
+      <label for="fDatos">Confirmo que mis datos son reales y verdaderos.</label>
     </div>
   </section>
 
-  <!-- ===== PANTALLA DE ÉXITO ===== -->
   <section class="k-exito" id="kExito">
     <div class="k-exito-ico">🎉</div>
     <h2>¡Cuenta creada!</h2>
     <p>Tu registro fue exitoso. Bienvenido a Kraze.</p>
-    <button class="k-btn k-btn-primario" onclick="KrazeReg.irAlHome()"
-            style="max-width:280px;margin:0 auto">
-      Continuar →
-    </button>
+    <button class="k-btn k-btn-primario" onclick="KrazeReg.irAlHome()" style="max-width:280px;margin:0 auto">Continuar →</button>
   </section>
-
 </main>
 
-<!-- ============ BOTONES INFERIORES ============ -->
 <div class="k-acciones" id="kAcciones">
   <div class="k-acciones-inner">
     <button class="k-btn k-btn-ghost" id="kBtnAtras" onclick="KrazeReg.atras()">Atrás</button>
-    <button class="k-btn k-btn-primario" id="kBtnSig" onclick="KrazeReg.siguiente()">
-      Siguiente →
-    </button>
+    <button class="k-btn k-btn-primario" id="kBtnSig" onclick="KrazeReg.siguiente()">Siguiente →</button>
   </div>
-</div><!-- ============ ERI FAB ============ -->
+</div>
+
 <button class="k-eri-fab" onclick="KrazeEri.abrir()" aria-label="Hablar con Eri">
-  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M16 3C10.5 3 6 7.5 6 13c0 3.2 1.5 6 3.9 7.9V28l4.5-3.1c.5.1 1 .1 1.6.1 5.5 0 10-4.5 10-10S21.5 3 16 3z"
-          fill="#FFFFFF"/>
-    <path d="M16 11.5c-1.4 0-2.5 1.1-2.5 2.5s1.1 2.5 2.5 2.5 2.5-1.1 2.5-2.5-1.1-2.5-2.5-2.5z"
-          fill="#1A1F2E"/>
-  </svg>
+  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 3C10.5 3 6 7.5 6 13c0 3.2 1.5 6 3.9 7.9V28l4.5-3.1c.5.1 1 .1 1.6.1 5.5 0 10-4.5 10-10S21.5 3 16 3z" fill="#FFFFFF"/><circle cx="16" cy="14" r="2.5" fill="#1A1F2E"/></svg>
 </button>
 
-<!-- ============ ERI PANEL ============ -->
 <div class="k-eri-panel" id="kEriPanel">
   <div class="k-eri-caja">
     <div class="k-eri-head">
-      <div class="k-eri-avatar">
-        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 3C10.5 3 6 7.5 6 13c0 3.2 1.5 6 3.9 7.9V28l4.5-3.1c.5.1 1 .1 1.6.1 5.5 0 10-4.5 10-10S21.5 3 16 3z"
-                fill="#FFFFFF"/>
-          <path d="M16 11.5c-1.4 0-2.5 1.1-2.5 2.5s1.1 2.5 2.5 2.5 2.5-1.1 2.5-2.5-1.1-2.5-2.5-2.5z"
-                fill="#1A1F2E"/>
-        </svg>
-      </div>
+      <div class="k-eri-avatar"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 3C10.5 3 6 7.5 6 13c0 3.2 1.5 6 3.9 7.9V28l4.5-3.1c.5.1 1 .1 1.6.1 5.5 0 10-4.5 10-10S21.5 3 16 3z" fill="#FFFFFF"/><circle cx="16" cy="14" r="2.5" fill="#1A1F2E"/></svg></div>
       <div class="k-eri-info">
         <div class="k-eri-nombre">Eri</div>
         <div class="k-eri-estado" id="kEriEstado">Asistente Kraze</div>
       </div>
-      <button class="k-eri-cerrar" onclick="KrazeEri.cerrar()" aria-label="Cerrar">×</button>
+      <button class="k-eri-cerrar" onclick="KrazeEri.cerrar()">×</button>
     </div>
-
     <div class="k-eri-mensajes" id="kEriMsgs"></div>
-
     <div class="k-eri-input-wrap">
-      <input class="k-eri-input" id="kEriInput" type="text"
-             placeholder="Escribe o dicta tu mensaje…"
-             onkeydown="if(event.key==='Enter')KrazeEri.enviar()">
+      <input class="k-eri-input" id="kEriInput" type="text" placeholder="Escribe o dicta tu mensaje…" onkeydown="if(event.key==='Enter')KrazeEri.enviar()">
       <button class="k-eri-btn" id="kEriMic" onclick="KrazeEri.mic()" aria-label="Micrófono">
-        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3z"/>
-          <path d="M19 11a1 1 0 1 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.9V21H8a1 1 0 1 0 0 2h8a1 1 0 1 0 0-2h-3v-3.1A7 7 0 0 0 19 11z"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3z"/><path d="M19 11a1 1 0 1 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.9V21H8a1 1 0 1 0 0 2h8a1 1 0 1 0 0-2h-3v-3.1A7 7 0 0 0 19 11z"/></svg>
       </button>
       <button class="k-eri-btn" onclick="KrazeEri.enviar()" aria-label="Enviar">
-        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3.4 20.4 20.85 12.9c.8-.35.8-1.45 0-1.8L3.4 3.6c-.65-.3-1.4.2-1.4.9v4.7c0 .45.35.85.8.9l11.05 1.9-11.05 1.9c-.45.05-.8.45-.8.9v4.7c0 .7.75 1.2 1.4.9z"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.4 20.4 20.85 12.9c.8-.35.8-1.45 0-1.8L3.4 3.6c-.65-.3-1.4.2-1.4.9v4.7c0 .45.35.85.8.9l11.05 1.9-11.05 1.9c-.45.05-.8.45-.8.9v4.7c0 .7.75 1.2 1.4.9z"/></svg>
       </button>
     </div>
   </div>
-</div>
-
-<script>
-/* ═══════════════════════════════════════════════════════════════
-   KRAZE · 17a-Registro-Datos.html
-   Copyright Erian C.A. · Frank Cesin · 2026
-   ═══════════════════════════════════════════════════════════════ */
-
+</div><script>
 const KRAZE_SUPABASE_URL = "https://xetqvxuiroalddfzrfzc.supabase.co";
 const KRAZE_SUPABASE_KEY = "sb_publishable_SARKcARFpIESQRUDSxbpig_kdlHrZh3";
 const KRAZE_ERI_ENDPOINT = "https://moto-llave-backend.vercel.app/api/claude";
 
-const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio",
-               "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+const ESTADOS_VE = ["Amazonas","Anzoátegui","Apure","Aragua","Barinas","Bolívar","Carabobo","Cojedes","Delta Amacuro","Distrito Capital","Falcón","Guárico","Lara","Mérida","Miranda","Monagas","Nueva Esparta","Portuguesa","Sucre","Táchira","Trujillo","La Guaira","Yaracuy","Zulia"];
 
-const ESTADOS_VE = ["Amazonas","Anzoátegui","Apure","Aragua","Barinas","Bolívar",
-  "Carabobo","Cojedes","Delta Amacuro","Distrito Capital","Falcón","Guárico",
-  "Lara","Mérida","Miranda","Monagas","Nueva Esparta","Portuguesa","Sucre",
-  "Táchira","Trujillo","La Guaira","Yaracuy","Zulia"];
-
-/* ═══════════════════════════════════════════════════════════════
-   KrazeReg — controlador del formulario multi-paso
-   ═══════════════════════════════════════════════════════════════ */
 const KrazeReg = (() => {
   let pasoActual = 1;
   const TOTAL_PASOS = 4;
   let rol = "pasajero";
-
-  /* ---------- Utilidades ---------- */
   const $ = (id) => document.getElementById(id);
-  const mostrarError = (msg) => {
-    const el = $("kError");
-    el.textContent = "⚠ " + msg;
-    el.classList.add("visible");
-    el.scrollIntoView({behavior:"smooth", block:"center"});
-  };
+  const mostrarError = (msg) => { const el = $("kError"); el.textContent = "⚠ " + msg; el.classList.add("visible"); el.scrollIntoView({behavior:"smooth",block:"center"}); };
   const ocultarError = () => $("kError").classList.remove("visible");
   const limpiarTel = (s) => (s||"").replace(/\D/g,"");
 
-  /* ---------- Inicialización ---------- */
   function init() {
-    // Rol desde URL
     const params = new URLSearchParams(location.search);
     const r = (params.get("rol") || "pasajero").toLowerCase();
     rol = (r === "transportista" || r === "tienda") ? r : "pasajero";
-    $("kRolTexto").textContent =
-      rol === "pasajero" ? "Pasajero" :
-      rol === "transportista" ? "Transportista" : "Tienda / Negocio";
+    $("kRolTexto").textContent = rol === "pasajero" ? "Pasajero" : rol === "transportista" ? "Transportista" : "Tienda / Negocio";
 
-    // Poblar dropdowns de fecha
     const sDia = $("fDia"), sAnio = $("fAnio"), sMes = $("fMes");
-    for (let d = 1; d <= 31; d++) {
-      const o = document.createElement("option");
-      o.value = String(d).padStart(2,"0");
-      o.textContent = d;
-      sDia.appendChild(o);
-    }
-    MESES.forEach((m,i) => {
-      const o = document.createElement("option");
-      o.value = String(i+1).padStart(2,"0");
-      o.textContent = m;
-      sMes.appendChild(o);
-    });
+    for (let d = 1; d <= 31; d++) { const o = document.createElement("option"); o.value = String(d).padStart(2,"0"); o.textContent = d; sDia.appendChild(o); }
+    MESES.forEach((m,i) => { const o = document.createElement("option"); o.value = String(i+1).padStart(2,"0"); o.textContent = m; sMes.appendChild(o); });
     const anioActual = new Date().getFullYear();
-    for (let a = anioActual - 16; a >= 1940; a--) {
-      const o = document.createElement("option");
-      o.value = String(a);
-      o.textContent = a;
-      sAnio.appendChild(o);
-    }
+    for (let a = anioActual - 16; a >= 1940; a--) { const o = document.createElement("option"); o.value = String(a); o.textContent = a; sAnio.appendChild(o); }
 
-    // Poblar estados
     const sEstado = $("fEstado");
-    ESTADOS_VE.forEach(e => {
-      const o = document.createElement("option");
-      o.value = e; o.textContent = e;
-      sEstado.appendChild(o);
-    });
+    ESTADOS_VE.forEach(e => { const o = document.createElement("option"); o.value = e; o.textContent = e; sEstado.appendChild(o); });
 
-    // Cargar progreso guardado
     cargarProgreso();
-
-    // Guardar al escribir
     document.querySelectorAll(".k-input, .k-select").forEach(el => {
       el.addEventListener("input", guardarProgreso);
       el.addEventListener("change", guardarProgreso);
     });
-
-    // Auto-formatear cédula y teléfono (solo dígitos)
-    $("fCedulaNum").addEventListener("input", e => {
-      e.target.value = e.target.value.replace(/\D/g,"").slice(0,10);
-    });
-    $("fTelefono").addEventListener("input", e => {
-      e.target.value = e.target.value.replace(/\D/g,"").slice(0,11);
-    });
-
+    $("fCedulaNum").addEventListener("input", e => { e.target.value = e.target.value.replace(/\D/g,"").slice(0,10); });
+    $("fTelefono").addEventListener("input", e => { e.target.value = e.target.value.replace(/\D/g,"").slice(0,11); });
     actualizarUI();
   }
 
-  /* ---------- Guardar progreso en localStorage ---------- */
   function guardarProgreso() {
     const datos = {
-      nombre: $("fNombre").value,
-      cedulaTipo: $("fCedulaTipo").value,
-      cedulaNum: $("fCedulaNum").value,
-      dia: $("fDia").value,
-      mes: $("fMes").value,
-      anio: $("fAnio").value,
-      email: $("fEmail").value,
-      telPrefijo: $("fTelPrefijo").value,
-      telefono: $("fTelefono").value,
-      pais: $("fPais").value,
-      estado: $("fEstado").value,
-      ciudad: $("fCiudad").value,
-      direccion: $("fDireccion").value,
-      rol: rol
+      nombre: $("fNombre").value, cedulaTipo: $("fCedulaTipo").value, cedulaNum: $("fCedulaNum").value,
+      dia: $("fDia").value, mes: $("fMes").value, anio: $("fAnio").value,
+      email: $("fEmail").value, telPrefijo: $("fTelPrefijo").value, telefono: $("fTelefono").value,
+      pais: $("fPais").value, estado: $("fEstado").value, ciudad: $("fCiudad").value,
+      direccion: $("fDireccion").value, rol: rol
     };
     try { localStorage.setItem("kraze_registro_draft", JSON.stringify(datos)); } catch(_) {}
   }
 
   function cargarProgreso() {
     let datos;
-    try { datos = JSON.parse(localStorage.getItem("kraze_registro_draft") || "{}"); }
-    catch(_) { datos = {}; }
+    try { datos = JSON.parse(localStorage.getItem("kraze_registro_draft") || "{}"); } catch(_) { datos = {}; }
     if (!datos || !datos.nombre) return;
-    if (datos.nombre)      $("fNombre").value     = datos.nombre;
-    if (datos.cedulaTipo)  $("fCedulaTipo").value = datos.cedulaTipo;
-    if (datos.cedulaNum)   $("fCedulaNum").value  = datos.cedulaNum;
-    if (datos.dia)         $("fDia").value        = datos.dia;
-    if (datos.mes)         $("fMes").value        = datos.mes;
-    if (datos.anio)        $("fAnio").value       = datos.anio;
-    if (datos.email)       $("fEmail").value      = datos.email;
-    if (datos.telPrefijo)  $("fTelPrefijo").value = datos.telPrefijo;
-    if (datos.telefono)    $("fTelefono").value   = datos.telefono;
-    if (datos.pais)        $("fPais").value       = datos.pais;
-    if (datos.estado)      $("fEstado").value     = datos.estado;
-    if (datos.ciudad)      $("fCiudad").value     = datos.ciudad;
-    if (datos.direccion)   $("fDireccion").value  = datos.direccion;
+    if (datos.nombre) $("fNombre").value = datos.nombre;
+    if (datos.cedulaTipo) $("fCedulaTipo").value = datos.cedulaTipo;
+    if (datos.cedulaNum) $("fCedulaNum").value = datos.cedulaNum;
+    if (datos.dia) $("fDia").value = datos.dia;
+    if (datos.mes) $("fMes").value = datos.mes;
+    if (datos.anio) $("fAnio").value = datos.anio;
+    if (datos.email) $("fEmail").value = datos.email;
+    if (datos.telPrefijo) $("fTelPrefijo").value = datos.telPrefijo;
+    if (datos.telefono) $("fTelefono").value = datos.telefono;
+    if (datos.pais) $("fPais").value = datos.pais;
+    if (datos.estado) $("fEstado").value = datos.estado;
+    if (datos.ciudad) $("fCiudad").value = datos.ciudad;
+    if (datos.direccion) $("fDireccion").value = datos.direccion;
   }
 
-  /* ---------- Validación por paso ---------- */
   function validarPaso(n) {
     if (n === 1) {
       const nombre = $("fNombre").value.trim();
       const ced = $("fCedulaNum").value.trim();
       const dia = $("fDia").value, mes = $("fMes").value, anio = $("fAnio").value;
       const email = $("fEmail").value.trim();
-
       if (nombre.length < 3) return "Escribe tu nombre completo.";
-      if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'.-]+$/.test(nombre))
-        return "El nombre solo puede tener letras.";
       if (!ced || ced.length < 6) return "La cédula debe tener al menos 6 dígitos.";
       if (!dia || !mes || !anio) return "Selecciona tu fecha de nacimiento completa.";
       const fecha = new Date(parseInt(anio), parseInt(mes)-1, parseInt(dia));
@@ -1215,18 +345,15 @@ const KrazeReg = (() => {
     }
     if (n === 2) {
       const tel = limpiarTel($("fTelefono").value);
-      const p1 = $("fPass").value;
-      const p2 = $("fPass2").value;
+      const p1 = $("fPass").value, p2 = $("fPass2").value;
       if (tel.length < 10) return "El teléfono debe tener al menos 10 dígitos.";
       if (p1.length < 6) return "La contraseña debe tener mínimo 6 caracteres.";
       if (p1 !== p2) return "Las contraseñas no coinciden.";
       return null;
     }
     if (n === 3) {
-      const estado = $("fEstado").value;
-      const ciudad = $("fCiudad").value.trim();
-      if (!estado) return "Selecciona tu estado.";
-      if (ciudad.length < 2) return "Escribe tu ciudad.";
+      if (!$("fEstado").value) return "Selecciona tu estado.";
+      if ($("fCiudad").value.trim().length < 2) return "Escribe tu ciudad.";
       return null;
     }
     if (n === 4) {
@@ -1237,44 +364,26 @@ const KrazeReg = (() => {
     return null;
   }
 
-  /* ---------- Construir resumen del paso 4 ---------- */
   function construirResumen() {
     const ced = $("fCedulaTipo").value + "-" + $("fCedulaNum").value;
     const fecha = $("fDia").value + "/" + $("fMes").value + "/" + $("fAnio").value;
     const tel = $("fTelPrefijo").value + " " + $("fTelefono").value;
-    const rolTxt = rol === "pasajero" ? "Pasajero" :
-                   rol === "transportista" ? "Transportista" : "Tienda / Negocio";
+    const rolTxt = rol === "pasajero" ? "Pasajero" : rol === "transportista" ? "Transportista" : "Tienda / Negocio";
     const filas = [
-      ["Nombre", $("fNombre").value.trim()],
-      ["Cédula", ced],
-      ["Fecha nacimiento", fecha],
-      ["Correo", $("fEmail").value.trim()],
-      ["Teléfono", tel],
-      ["País", $("fPais").value],
-      ["Estado", $("fEstado").value],
-      ["Ciudad", $("fCiudad").value.trim()],
-      ["Dirección", $("fDireccion").value.trim() || "—"],
-      ["Tipo de cuenta", rolTxt]
+      ["Nombre", $("fNombre").value.trim()], ["Cédula", ced], ["Fecha nacimiento", fecha],
+      ["Correo", $("fEmail").value.trim()], ["Teléfono", tel], ["País", $("fPais").value],
+      ["Estado", $("fEstado").value], ["Ciudad", $("fCiudad").value.trim()],
+      ["Dirección", $("fDireccion").value.trim() || "—"], ["Tipo de cuenta", rolTxt]
     ];
-    $("kResumen").innerHTML = filas.map(([k,v]) =>
-      `<div class="k-res-item">
-        <span class="k-res-key">${k}</span>
-        <span class="k-res-val">${v || "—"}</span>
-      </div>`
-    ).join("");
+    $("kResumen").innerHTML = filas.map(([k,v]) => `<div class="k-res-item"><span class="k-res-key">${k}</span><span class="k-res-val">${v || "—"}</span></div>`).join("");
   }
 
-  /* ---------- Navegación ---------- */
   function actualizarUI() {
-    document.querySelectorAll(".k-paso").forEach(el => {
-      el.classList.toggle("activo", parseInt(el.dataset.paso) === pasoActual);
-    });
+    document.querySelectorAll(".k-paso").forEach(el => { el.classList.toggle("activo", parseInt(el.dataset.paso) === pasoActual); });
     $("kPasoNum").textContent = `Paso ${pasoActual} / ${TOTAL_PASOS}`;
     $("kProgBar").style.width = (pasoActual / TOTAL_PASOS * 100) + "%";
     $("kBtnAtras").style.display = pasoActual === 1 ? "none" : "flex";
-    $("kBtnSig").textContent = pasoActual === TOTAL_PASOS
-      ? "Crear cuenta ✓"
-      : "Siguiente →";
+    $("kBtnSig").textContent = pasoActual === TOTAL_PASOS ? "Crear cuenta ✓" : "Siguiente →";
     if (pasoActual === 4) construirResumen();
     window.scrollTo({top:0, behavior:"smooth"});
   }
@@ -1284,21 +393,11 @@ const KrazeReg = (() => {
     const err = validarPaso(pasoActual);
     if (err) { mostrarError(err); return; }
     guardarProgreso();
-    if (pasoActual < TOTAL_PASOS) {
-      pasoActual++;
-      actualizarUI();
-    } else {
-      guardarEnSupabase();
-    }
+    if (pasoActual < TOTAL_PASOS) { pasoActual++; actualizarUI(); }
+    else { guardarEnSupabase(); }
   }
 
-  function atras() {
-    ocultarError();
-    if (pasoActual > 1) {
-      pasoActual--;
-      actualizarUI();
-    }
-  }
+  function atras() { ocultarError(); if (pasoActual > 1) { pasoActual--; actualizarUI(); } }
 
   function volver() {
     if (pasoActual > 1) { atras(); return; }
@@ -1306,7 +405,6 @@ const KrazeReg = (() => {
     else location.href = "03-Seleccion-Rol.html";
   }
 
-  /* ---------- Guardar en Supabase ---------- */
   async function guardarEnSupabase() {
     const btn = $("kBtnSig");
     const textoOrig = btn.innerHTML;
@@ -1319,24 +417,14 @@ const KrazeReg = (() => {
     const telefonoLocal = limpiarTel($("fTelefono").value);
 
     const payload = {
-      // Columnas en español
-      nombre: $("fNombre").value.trim(),
-      telefono: telefonoFull,
-      email: $("fEmail").value.trim().toLowerCase(),
-      rol: rol,
-      cedula: cedula,
-      ciudad: $("fCiudad").value.trim(),
-      estado_ve: $("fEstado").value,
-      pais: $("fPais").value,
-      fecha_nacimiento: fechaNac,
+      nombre: $("fNombre").value.trim(), telefono: telefonoFull,
+      email: $("fEmail").value.trim().toLowerCase(), rol: rol, cedula: cedula,
+      ciudad: $("fCiudad").value.trim(), estado_ve: $("fEstado").value,
+      pais: $("fPais").value, fecha_nacimiento: fechaNac,
       direccion: $("fDireccion").value.trim() || null,
-      activo: true,
-      verificado: false,
-      // Columnas en inglés (compatibilidad)
-      full_name: $("fNombre").value.trim(),
-      phone: telefonoLocal,
-      role: rol,
-      city: $("fCiudad").value.trim()
+      activo: true, verificado: false,
+      full_name: $("fNombre").value.trim(), phone: telefonoLocal,
+      role: rol, city: $("fCiudad").value.trim()
     };
 
     try {
@@ -1350,30 +438,21 @@ const KrazeReg = (() => {
         },
         body: JSON.stringify(payload)
       });
-
       if (!res.ok) {
         const txt = await res.text();
         console.error("Supabase error:", res.status, txt);
-        // Detectar duplicado
-        if (res.status === 409 || /duplicate|unique/i.test(txt)) {
-          throw new Error("Ya existe una cuenta con esa cédula, teléfono o correo.");
-        }
+        if (res.status === 409 || /duplicate|unique/i.test(txt)) throw new Error("Ya existe una cuenta con esa cédula, teléfono o correo.");
         throw new Error("No pudimos guardar tu cuenta. Intenta de nuevo. (" + res.status + ")");
       }
-
       const data = await res.json();
       const perfil = Array.isArray(data) ? data[0] : data;
       console.log("Registro exitoso:", perfil);
-
-      // Guardar sesión local
       try {
         localStorage.setItem("kraze_perfil", JSON.stringify(perfil));
         localStorage.setItem("kraze_user_id", perfil.id);
         localStorage.removeItem("kraze_registro_draft");
       } catch(_) {}
-
       mostrarExito();
-
     } catch (e) {
       console.error(e);
       mostrarError(e.message || "Error de conexión. Revisa tu internet.");
@@ -1386,50 +465,29 @@ const KrazeReg = (() => {
     document.querySelectorAll(".k-paso").forEach(el => el.classList.remove("activo"));
     $("kExito").classList.add("activo");
     $("kAcciones").style.display = "none";
-    $("kEriFab") && ($("kEriFab").style.display = "flex");
     window.scrollTo({top:0, behavior:"smooth"});
   }
 
   function irAlHome() {
-    const destino = rol === "pasajero"
-      ? "04-Home-Pasajero.html"
-      : rol === "transportista"
-      ? "04-Home-Transportista.html"
-      : "19c-Panel-Admin-Tiendas.html";
+    const destino = rol === "pasajero" ? "04-Home-Pasajero.html" : rol === "transportista" ? "04-Home-Transportista.html" : "19c-Panel-Admin-Tiendas.html";
     location.href = destino;
   }
 
   return { init, siguiente, atras, volver, irAlHome };
 })();
 
-/* ═══════════════════════════════════════════════════════════════
-   KrazeEri — asistente con voz (Web Speech API + DeepSeek)
-   ═══════════════════════════════════════════════════════════════ */
 const KrazeEri = (() => {
   const $ = (id) => document.getElementById(id);
   let reconocimiento = null;
   let grabando = false;
-  let historial = [
-    { role: "system", content:
-      "Eres Eri, asistente de Kraze (app de transporte total + marketplace de Venezuela). " +
-      "Ayudas a los usuarios a completar su registro de datos. Eres breve, cálida y clara. " +
-      "Respondes en español neutro. Si el usuario pregunta algo del registro, explicas: " +
-      "necesitan nombre real, cédula, fecha nacimiento, email, teléfono y ubicación. " +
-      "Máximo 2-3 frases por respuesta." }
-  ];
+  let historial = [{ role: "system", content: "Eres Eri, asistente de Kraze (app de transporte total + marketplace de Venezuela). Ayudas a los usuarios a completar su registro de datos. Eres breve, cálida y clara. Respondes en español neutro. Máximo 2-3 frases por respuesta." }];
 
   function abrir() {
     $("kEriPanel").classList.add("abierto");
-    if (!$("kEriMsgs").children.length) {
-      agregarMsg("eri", "¡Hola! Soy Eri 👋 ¿Necesitas ayuda con tu registro?");
-    }
+    if (!$("kEriMsgs").children.length) agregarMsg("eri", "¡Hola! Soy Eri 👋 ¿Necesitas ayuda con tu registro?");
     setTimeout(() => $("kEriInput").focus(), 250);
   }
-  function cerrar() {
-    $("kEriPanel").classList.remove("abierto");
-    detenerMic();
-  }
-
+  function cerrar() { $("kEriPanel").classList.remove("abierto"); detenerMic(); }
   function agregarMsg(tipo, texto) {
     const div = document.createElement("div");
     div.className = "k-eri-msg " + tipo;
@@ -1437,7 +495,6 @@ const KrazeEri = (() => {
     $("kEriMsgs").appendChild(div);
     $("kEriMsgs").scrollTop = $("kEriMsgs").scrollHeight;
   }
-
   async function enviar() {
     const inp = $("kEriInput");
     const texto = inp.value.trim();
@@ -1446,7 +503,6 @@ const KrazeEri = (() => {
     agregarMsg("yo", texto);
     historial.push({ role: "user", content: texto });
     $("kEriEstado").textContent = "Pensando…";
-
     try {
       const res = await fetch(KRAZE_ERI_ENDPOINT, {
         method: "POST",
@@ -1455,9 +511,7 @@ const KrazeEri = (() => {
       });
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
-      const respuesta = data.reply || data.message ||
-                        (data.choices && data.choices[0]?.message?.content) ||
-                        "No entendí bien, ¿puedes repetir?";
+      const respuesta = data.reply || data.message || (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "No entendí bien, ¿puedes repetir?";
       historial.push({ role: "assistant", content: respuesta });
       agregarMsg("eri", respuesta);
       hablar(respuesta);
@@ -1467,74 +521,47 @@ const KrazeEri = (() => {
     }
     $("kEriEstado").textContent = "Asistente Kraze";
   }
-
   function hablar(texto) {
     if (!("speechSynthesis" in window)) return;
     try {
       speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(texto);
-      u.lang = "es-VE";
-      u.rate = 1.0;
-      u.pitch = 1.05;
+      u.lang = "es-VE"; u.rate = 1.0; u.pitch = 1.05;
       const voces = speechSynthesis.getVoices();
       const vEspanol = voces.find(v => v.lang.startsWith("es"));
       if (vEspanol) u.voice = vEspanol;
       speechSynthesis.speak(u);
     } catch(_) {}
   }
-
   function mic() {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) {
-      agregarMsg("eri", "Tu navegador no soporta dictado por voz. Escribe tu mensaje.");
-      return;
-    }
+    if (!SR) { agregarMsg("eri", "Tu navegador no soporta dictado por voz. Escribe tu mensaje."); return; }
     if (grabando) { detenerMic(); return; }
-
     reconocimiento = new SR();
     reconocimiento.lang = "es-VE";
     reconocimiento.continuous = false;
     reconocimiento.interimResults = false;
     reconocimiento.maxAlternatives = 1;
-
-    reconocimiento.onstart = () => {
-      grabando = true;
-      $("kEriMic").classList.add("mic-on");
-      $("kEriEstado").textContent = "Escuchando…";
-    };
-    reconocimiento.onresult = (ev) => {
-      const txt = ev.results[0][0].transcript;
-      $("kEriInput").value = txt;
-      setTimeout(() => enviar(), 250);
-    };
+    reconocimiento.onstart = () => { grabando = true; $("kEriMic").classList.add("mic-on"); $("kEriEstado").textContent = "Escuchando…"; };
+    reconocimiento.onresult = (ev) => { $("kEriInput").value = ev.results[0][0].transcript; setTimeout(() => enviar(), 250); };
     reconocimiento.onerror = () => detenerMic();
     reconocimiento.onend = () => detenerMic();
-
     try { reconocimiento.start(); } catch(_) { detenerMic(); }
   }
-
   function detenerMic() {
     grabando = false;
     $("kEriMic").classList.remove("mic-on");
     $("kEriEstado").textContent = "Asistente Kraze";
-    if (reconocimiento) {
-      try { reconocimiento.stop(); } catch(_) {}
-      reconocimiento = null;
-    }
+    if (reconocimiento) { try { reconocimiento.stop(); } catch(_) {} reconocimiento = null; }
   }
-
   return { abrir, cerrar, enviar, mic };
 })();
 
-/* ═══════════════════════════════════════════════════════════════
-   ARRANQUE
-   ═══════════════════════════════════════════════════════════════ */
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", KrazeReg.init);
 } else {
   KrazeReg.init();
 }
 </script>
-
 </body>
 </html>
