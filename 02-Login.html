@@ -33,17 +33,11 @@ body {
 }
 button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 input { font-family: inherit; font-size: 16px; }
-
-/* Header */
 .k-header { padding: 40px 24px 20px; text-align: center; }
 .k-logo { width: 80px; height: 80px; margin: 0 auto 16px; display: block; }
 .k-titulo { font-size: 26px; font-weight: 800; color: var(--tinta); margin: 0 0 6px; letter-spacing: -.4px; }
 .k-sub { font-size: 14px; color: var(--gris); margin: 0; }
-
-/* Main */
 .k-main { padding: 0 24px 40px; max-width: 440px; margin: 0 auto; }
-
-/* Botones */
 .k-btn {
   width: 100%;
   padding: 15px 18px;
@@ -62,37 +56,22 @@ input { font-family: inherit; font-size: 16px; }
 .k-btn-primario { background: var(--verde); color: var(--tinta); box-shadow: 0 4px 14px rgba(164,214,94,.4); }
 .k-btn-google { background: var(--blanco); color: var(--tinta); border: 1.5px solid var(--gris-cla); box-shadow: 0 2px 6px rgba(26,31,46,.04); }
 .k-btn-google svg { width: 20px; height: 20px; flex: 0 0 auto; }
-.k-btn-ghost { background: var(--blanco); color: var(--tinta-2); border: 1.5px solid var(--gris-cla); }
-
-/* Divider */
 .k-divider { display: flex; align-items: center; gap: 12px; margin: 22px 0; color: var(--gris); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
 .k-divider::before, .k-divider::after { content: ""; flex: 1; height: 1px; background: var(--gris-cla); }
-
-/* Campos */
 .k-campo { margin-bottom: 16px; }
 .k-label { display: block; font-size: 13px; font-weight: 700; color: var(--tinta-2); margin-bottom: 7px; }
 .k-input { width: 100%; padding: 14px; border: 1.5px solid var(--gris-cla); border-radius: var(--radio); background: var(--blanco); color: var(--tinta); font-size: 16px; outline: none; }
 .k-input:focus { border-color: var(--verde); box-shadow: 0 0 0 3px rgba(164,214,94,.22); }
-
-/* Tabs */
 .k-tabs { display: flex; gap: 6px; background: var(--gris-cla); padding: 4px; border-radius: var(--radio); margin-bottom: 20px; }
 .k-tab { flex: 1; padding: 10px; border-radius: 10px; font-size: 13px; font-weight: 700; color: var(--gris); transition: all .15s; }
 .k-tab.activo { background: var(--blanco); color: var(--tinta); box-shadow: 0 2px 6px rgba(26,31,46,.06); }
-
-/* Error */
 .k-error { display: none; background: #FFEFEF; color: var(--rojo); padding: 12px 14px; border-radius: 10px; font-size: 13px; font-weight: 500; margin-bottom: 16px; border: 1.5px solid rgba(229,72,77,.2); word-break: break-word; }
 .k-error.visible { display: block; }
-
-/* Spin */
 .k-spin { width: 16px; height: 16px; border: 2.5px solid rgba(26,31,46,.2); border-top-color: var(--tinta); border-radius: 50%; display: inline-block; animation: rot .7s linear infinite; }
 @keyframes rot { to { transform: rotate(360deg); } }
-
-/* Links */
 .k-links { text-align: center; margin-top: 22px; font-size: 14px; }
 .k-link { color: var(--verde-osc); font-weight: 600; text-decoration: none; display: inline-block; padding: 6px 4px; }
 .k-link-2 { color: var(--gris); font-weight: 500; text-decoration: none; display: block; margin-top: 12px; font-size: 13px; }
-
-/* Overlay */
 .k-overlay { position: fixed; inset: 0; background: rgba(26,31,46,.6); display: none; align-items: center; justify-content: center; z-index: 999; backdrop-filter: blur(3px); }
 .k-overlay.visible { display: flex; }
 .k-overlay-box { background: var(--blanco); padding: 28px 32px; border-radius: var(--radio); text-align: center; max-width: 280px; }
@@ -129,7 +108,6 @@ input { font-family: inherit; font-size: 16px; }
     <button type="button" class="k-tab" data-tab="telefono">Teléfono</button>
   </div>
 
-  <!-- Form Email -->
   <div id="kFormEmail">
     <div class="k-campo">
       <label class="k-label" for="kEmail">Correo electrónico</label>
@@ -142,7 +120,6 @@ input { font-family: inherit; font-size: 16px; }
     <button type="button" class="k-btn k-btn-primario" id="kBtnEmail">Iniciar sesión</button>
   </div>
 
-  <!-- Form Teléfono -->
   <div id="kFormTel" style="display:none;">
     <div class="k-campo">
       <label class="k-label" for="kTel">Teléfono</label>
@@ -169,9 +146,8 @@ input { font-family: inherit; font-size: 16px; }
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-/* KRAZE · Login · © 2026 Erian C.A. */
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+/* KRAZE · Login con Google + Email + Teléfono · © 2026 Erian C.A. */
 (function () {
   "use strict";
 
@@ -183,7 +159,6 @@ input { font-family: inherit; font-size: 16px; }
     ? window.supabase.createClient(KRAZE_SUPABASE_URL, KRAZE_SUPABASE_KEY)
     : null;
 
-  // ===== Estado =====
   let tabActiva = "email";
 
   // ===== Helpers =====
@@ -201,7 +176,19 @@ input { font-family: inherit; font-size: 16px; }
   function ocultarOverlay() { $("kOverlay").classList.remove("visible"); }
   function limpiarTel(s) { return String(s || "").replace(/\D/g, ""); }
 
-  // ===== Redirección por rol =====
+  // ===== Guardar sesión en localStorage =====
+  function guardarSesion(user, perfil) {
+    try {
+      if (!user || !user.id) return;
+      localStorage.setItem("kraze_usuario_id", user.id);
+      localStorage.setItem("kraze_user_id", user.id);
+      if (perfil) localStorage.setItem("kraze_usuario", JSON.stringify(perfil));
+      if (user.email) localStorage.setItem("kraze_email", user.email);
+      if (user.phone) localStorage.setItem("kraze_telefono", user.phone);
+    } catch (_) {}
+  }
+
+  // ===== Redirigir según rol =====
   function redirigirSegunRol(rol) {
     const r = (rol || "pasajero").toLowerCase();
     if (r === "transportista") location.href = "04-Home-Transportista.html";
@@ -213,12 +200,11 @@ input { font-family: inherit; font-size: 16px; }
   // ===== Obtener rol desde profiles =====
   async function obtenerRol(userId) {
     try {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from("profiles")
         .select("rol, role")
         .eq("id", userId)
         .maybeSingle();
-      if (error) return "pasajero";
       if (!data) return "pasajero";
       return data.rol || data.role || "pasajero";
     } catch (_) {
@@ -226,15 +212,160 @@ input { font-family: inherit; font-size: 16px; }
     }
   }
 
-  // ===== Guardar sesión en localStorage =====
-  function guardarSesion(user, perfil) {
+  // ===== Crear perfil si no existe (para Google) =====
+  async function asegurarPerfil(user) {
+    const meta = user.user_metadata || {};
+    const nombre = meta.full_name || meta.name || (user.email ? user.email.split("@")[0] : "Usuario Kraze");
+    const email = user.email || null;
+    const foto = meta.avatar_url || meta.picture || null;
+
+    const { data: existente } = await supabase
+      .from("profiles")
+      .select("id, rol, role")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    if (existente) {
+      return existente.rol || existente.role || "pasajero";
+    }
+
+    mostrarOverlay("Creando tu cuenta...");
+    const nuevoPerfil = {
+      id: user.id,
+      nombre: nombre,
+      email: email,
+      telefono: user.phone || null,
+      foto_url: foto,
+      rol: "pasajero",
+      role: "pasajero",
+      pais: "Venezuela",
+      activo: true,
+      verificado: true,
+      full_name: nombre
+    };
+
+    const { error: errIns } = await supabase.from("profiles").insert(nuevoPerfil);
+    if (errIns && !/duplicate|unique/i.test(errIns.message)) {
+      mostrarError("Error guardando tu cuenta: " + errIns.message);
+      ocultarOverlay();
+      return "pasajero";
+    }
+    return "pasajero";
+  }
+
+  // ===== PROCESAR CALLBACK DE OAUTH =====
+  // Esta es la función crítica que faltaba. Detecta el hash/token que Supabase
+  // devuelve después de Google y crea la sesión real.
+  async function procesarCallbackOAuth() {
+    if (!supabase) return false;
+
+    const url = window.location.href;
+
+    // Caso 1: hash con access_token (flujo implícito, típico de Supabase)
+    if (url.includes("access_token=") || url.includes("refresh_token=")) {
+      mostrarOverlay("Verificando sesión...");
+      try {
+        // Supabase detecta el hash automáticamente con getSession()
+        const { data, error } = await supabase.auth.getSession();
+        if (error || !data.session || !data.session.user) {
+          // Intentar esperar un instante (Supabase procesa el hash async)
+          await new Promise(r => setTimeout(r, 800));
+          const { data: d2 } = await supabase.auth.getSession();
+          if (!d2.session || !d2.session.user) {
+            ocultarOverlay();
+            mostrarError("No se pudo procesar la sesión de Google.");
+            // Limpiar el hash
+            window.history.replaceState({}, "", window.location.pathname);
+            return false;
+          }
+          return await finalizarLogin(d2.session.user);
+        }
+        return await finalizarLogin(data.session.user);
+      } catch (e) {
+        ocultarOverlay();
+        mostrarError("Error procesando sesión: " + e.message);
+        return false;
+      }
+    }
+
+    // Caso 2: parámetro ?code= (flujo PKCE)
+    if (url.includes("?code=") || url.includes("&code=")) {
+      mostrarOverlay("Verificando código...");
+      try {
+        const { data, error } = await supabase.auth.exchangeCodeForSession(url);
+        if (error || !data.session || !data.session.user) {
+          ocultarOverlay();
+          mostrarError("No se pudo intercambiar el código.");
+          return false;
+        }
+        return await finalizarLogin(data.session.user);
+      } catch (e) {
+        ocultarOverlay();
+        mostrarError("Error intercambiando código: " + e.message);
+        return false;
+      }
+    }
+
+    // Caso 3: hash con error
+    if (url.includes("error=")) {
+      const params = new URLSearchParams(url.split("#")[1] || url.split("?")[1] || "");
+      const err = params.get("error_description") || params.get("error") || "Error de autenticación";
+      mostrarError(err);
+      // Limpiar el hash
+      window.history.replaceState({}, "", window.location.pathname);
+      return false;
+    }
+
+    return false;
+  }
+
+  // ===== Finalizar login (guardar y redirigir) =====
+  async function finalizarLogin(user) {
     try {
-      localStorage.setItem("kraze_usuario_id", user.id);
-      localStorage.setItem("kraze_user_id", user.id);
-      if (perfil) localStorage.setItem("kraze_usuario", JSON.stringify(perfil));
-      if (user.email) localStorage.setItem("kraze_email", user.email);
-      if (user.phone) localStorage.setItem("kraze_telefono", user.phone);
-    } catch (_) {}
+      const rol = await asegurarPerfil(user);
+      guardarSesion(user, { rol: rol });
+      localStorage.setItem("kraze_rol", rol);
+      localStorage.removeItem("kraze_login_intent");
+
+      // Limpiar el hash de la URL
+      window.history.replaceState({}, "", window.location.pathname);
+
+      mostrarOverlay("¡Bienvenido!");
+      setTimeout(() => redirigirSegunRol(rol), 400);
+      return true;
+    } catch (e) {
+      ocultarOverlay();
+      mostrarError("Error finalizando login: " + e.message);
+      return false;
+    }
+  }
+
+  // ===== Login con Google =====
+  async function loginGoogle() {
+    ocultarError();
+    if (!supabase) { mostrarError("Sin conexión. Recarga la página."); return; }
+
+    try {
+      localStorage.setItem("kraze_login_intent", "google");
+
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: window.location.origin + "/02-Login.html",
+          skipBrowserRedirect: false
+        }
+      });
+
+      if (error) {
+        mostrarError("Error con Google: " + error.message);
+        return;
+      }
+      if (data && data.url) {
+        window.location.href = data.url;
+      }
+    } catch (e) {
+      mostrarError("Error con Google: " + e.message);
+    }
   }
 
   // ===== Login con Email =====
@@ -268,10 +399,7 @@ input { font-family: inherit; font-size: 16px; }
         btn.innerHTML = txt;
         return;
       }
-      const rol = await obtenerRol(data.user.id);
-      guardarSesion(data.user, { rol: rol });
-      localStorage.setItem("kraze_rol", rol);
-      redirigirSegunRol(rol);
+      await finalizarLogin(data.user);
     } catch (e) {
       mostrarError("Error: " + e.message);
       btn.disabled = false;
@@ -285,7 +413,6 @@ input { font-family: inherit; font-size: 16px; }
     let tel = $("kTel").value.trim();
     const pass = $("kPassTel").value;
 
-    // Normalizar teléfono: agregar +58 si empieza con 0 o 4 sin prefijo
     tel = tel.replace(/\s+/g, "");
     if (!tel.startsWith("+")) {
       const digits = limpiarTel(tel);
@@ -319,132 +446,12 @@ input { font-family: inherit; font-size: 16px; }
         btn.innerHTML = txt;
         return;
       }
-      const rol = await obtenerRol(data.user.id);
-      guardarSesion(data.user, { rol: rol });
-      localStorage.setItem("kraze_rol", rol);
-      redirigirSegunRol(rol);
+      await finalizarLogin(data.user);
     } catch (e) {
       mostrarError("Error: " + e.message);
       btn.disabled = false;
       btn.innerHTML = txt;
     }
-  }
-
-  // ===== Login con Google =====
-  async function loginGoogle() {
-    ocultarError();
-    if (!supabase) { mostrarError("Sin conexión. Recarga la página."); return; }
-
-    try {
-      // Guardamos intención para que cuando vuelva el callback sepamos que fue Google
-      localStorage.setItem("kraze_login_intent", "google");
-
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: window.location.origin + "/02-Login.html?oauth=google"
-        }
-      });
-
-      if (error) {
-        mostrarError("Error con Google: " + error.message);
-        return;
-      }
-
-      // En Chrome móvil / desktop, redirige automáticamente.
-      // En APK WebView, también debería abrir el navegador externo si WebIntoApp lo permite.
-      if (data && data.url) {
-        window.location.href = data.url;
-      }
-    } catch (e) {
-      mostrarError("Error con Google: " + e.message);
-    }
-  }
-
-  // ===== Procesar callback de Google =====
-  // Cuando Google redirige de vuelta a esta página con ?oauth=google,
-  // Supabase ya tiene la sesión activa. Verificamos y creamos perfil si no existe.
-  async function procesarCallbackGoogle() {
-    if (!supabase) return false;
-
-    try {
-      const { data: { session }, error } = await supabase.auth.getSession();
-      if (error || !session || !session.user) return false;
-
-      const user = session.user;
-      const meta = user.user_metadata || {};
-      const nombre = meta.full_name || meta.name || (user.email ? user.email.split("@")[0] : "Usuario Kraze");
-      const email = user.email || null;
-      const foto = meta.avatar_url || meta.picture || null;
-
-      // Verificar si ya existe en profiles
-      const { data: perfilExistente } = await supabase
-        .from("profiles")
-        .select("id, rol, role")
-        .eq("id", user.id)
-        .maybeSingle();
-
-      let rol = "pasajero";
-
-      if (!perfilExistente) {
-        // Primera vez con Google → crear perfil base
-        mostrarOverlay("Creando tu cuenta...");
-
-        const nuevoPerfil = {
-          id: user.id,
-          nombre: nombre,
-          email: email,
-          telefono: user.phone || null,
-          foto_url: foto,
-          rol: "pasajero",
-          role: "pasajero",
-          pais: "Venezuela",
-          activo: true,
-          verificado: true,
-          full_name: nombre,
-          city: null
-        };
-
-        const { error: errIns } = await supabase.from("profiles").insert(nuevoPerfil);
-        if (errIns && !/duplicate|unique/i.test(errIns.message)) {
-          mostrarError("Error guardando tu cuenta: " + errIns.message);
-          ocultarOverlay();
-          return false;
-        }
-
-        rol = "pasajero";
-      } else {
-        rol = perfilExistente.rol || perfilExistente.role || "pasajero";
-      }
-
-      guardarSesion(user, { rol: rol, nombre: nombre, email: email, foto_url: foto });
-      localStorage.setItem("kraze_rol", rol);
-      localStorage.removeItem("kraze_login_intent");
-
-      mostrarOverlay("¡Bienvenido!");
-      setTimeout(() => redirigirSegunRol(rol), 600);
-      return true;
-    } catch (e) {
-      mostrarError("Error procesando Google: " + e.message);
-      ocultarOverlay();
-      return false;
-    }
-  }
-
-  // ===== Verificar sesión existente al cargar =====
-  async function verificarSesionExistente() {
-    if (!supabase) return;
-
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session && session.user) {
-        // Ya hay sesión activa → redirigir directo
-        const rol = await obtenerRol(session.user.id);
-        guardarSesion(session.user, { rol: rol });
-        localStorage.setItem("kraze_rol", rol);
-        redirigirSegunRol(rol);
-      }
-    } catch (_) {}
   }
 
   // ===== Tabs =====
@@ -459,38 +466,37 @@ input { font-family: inherit; font-size: 16px; }
   }
 
   // ===== Init =====
-  function init() {
-    // Detectar callback de Google
-    const params = new URLSearchParams(location.search);
-    if (params.get("oauth") === "google" || window.location.hash.includes("access_token")) {
-      mostrarOverlay("Verificando Google...");
-      setTimeout(async () => {
-        const ok = await procesarCallbackGoogle();
-        if (!ok) {
-          ocultarOverlay();
-          // Si no hay sesión aún, esperamos un poco más (Supabase procesa el hash)
-          setTimeout(async () => {
-            await procesarCallbackGoogle();
-          }, 800);
-        }
-      }, 400);
+  async function init() {
+    if (!supabase) {
+      mostrarError("No se pudo conectar con el servidor.");
       return;
     }
 
-    // Verificar sesión activa
-    verificarSesionExistente();
+    // PASO 1: Procesar callback de OAuth PRIMERO (antes de cualquier otra cosa)
+    const procesado = await procesarCallbackOAuth();
+    if (procesado) return; // Si procesó, ya redirige; no seguir
 
-    // Botones
+    // PASO 2: Verificar si ya hay sesión activa (usuario vuelve a la página)
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session && session.user) {
+        const rol = await obtenerRol(session.user.id);
+        guardarSesion(session.user, { rol: rol });
+        localStorage.setItem("kraze_rol", rol);
+        redirigirSegunRol(rol);
+        return;
+      }
+    } catch (_) {}
+
+    // PASO 3: Si no hay sesión ni callback, mostrar login normal
     $("kBtnGoogle").addEventListener("click", loginGoogle);
     $("kBtnEmail").addEventListener("click", loginEmail);
     $("kBtnTel").addEventListener("click", loginTelefono);
 
-    // Tabs
     document.querySelectorAll(".k-tab").forEach(t => {
       t.addEventListener("click", () => cambiarTab(t.dataset.tab));
     });
 
-    // Enter para enviar
     $("kPassEmail").addEventListener("keydown", e => { if (e.key === "Enter") loginEmail(); });
     $("kPassTel").addEventListener("keydown", e => { if (e.key === "Enter") loginTelefono(); });
   }
