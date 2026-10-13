@@ -9,7 +9,6 @@
 <meta name="author" content="Erian C.A.">
 <title>Kraze · Registro</title>
 <style>
-/* KRAZE · Registro de Datos · © 2026 Erian C.A. */
 :root {
   color-scheme: only light;
   --verde: #A4D65E;
@@ -105,7 +104,6 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
 }
 .k-input::placeholder { color: #A8AEBE; }
 
-/* SELECT NATIVO sin appearance: none — abre rueda nativa */
 .k-select {
   width: 100%;
   padding: 14px 12px;
@@ -126,12 +124,7 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
   box-shadow: 0 0 0 3px rgba(164,214,94,.22);
 }
 
-/* Fecha 3 selects */
-.k-fecha {
-  display: grid;
-  grid-template-columns: 1fr 1.6fr 1.2fr;
-  gap: 8px;
-}
+.k-fecha { display: grid; grid-template-columns: 1fr 1.6fr 1.2fr; gap: 8px; }
 
 .k-prefijo-wrap { display: flex; gap: 10px; align-items: stretch; }
 .k-prefijo {
@@ -151,17 +144,6 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
 }
 .k-prefijo:focus { border-color: var(--verde); box-shadow: 0 0 0 3px rgba(164,214,94,.22); }
 .k-prefijo-wrap .k-input { flex: 1; }
-
-.k-aviso {
-  background: var(--verde-cla);
-  padding: 12px 14px;
-  border-radius: 10px;
-  font-size: 13px;
-  color: var(--tinta-2);
-  margin-top: 6px;
-  line-height: 1.5;
-}
-.k-aviso strong { color: var(--verde-osc); }
 
 .k-check {
   display: flex; gap: 12px;
@@ -252,12 +234,18 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
 }
 .k-btn-otp-reenviar:disabled { color: var(--gris); cursor: not-allowed; }
 
+/* ERROR — ahora siempre visible arriba Y con borde rojo */
 .k-error {
   display: none;
-  background: #FFEFEF; color: var(--rojo);
-  padding: 12px 14px; border-radius: 10px;
-  font-size: 13.5px; font-weight: 500;
-  margin-bottom: 14px; line-height: 1.4;
+  background: #FFEFEF;
+  color: var(--rojo);
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  line-height: 1.4;
+  border-left: 4px solid var(--rojo);
 }
 .k-error.visible { display: block; }
 
@@ -373,7 +361,7 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
 </head>
 <body><header class="k-header">
   <div class="k-header-top">
-    <button class="k-back" id="kBtnVolver" onclick="KrazeReg.volver()" aria-label="Atrás">
+    <button type="button" class="k-back" id="kBtnVolver" onclick="KrazeReg.volver()" aria-label="Atrás">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M19 12H5M12 19l-7-7 7-7"/>
       </svg>
@@ -469,6 +457,20 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
         </select>
         <select class="k-select" id="fAnio">
           <option value="">Año</option>
+          <option value="2024">2024</option>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+          <option value="2021">2021</option>
+          <option value="2020">2020</option>
+          <option value="2019">2019</option>
+          <option value="2018">2018</option>
+          <option value="2017">2017</option>
+          <option value="2016">2016</option>
+          <option value="2015">2015</option>
+          <option value="2014">2014</option>
+          <option value="2013">2013</option>
+          <option value="2012">2012</option>
+          <option value="2011">2011</option>
           <option value="2010">2010</option>
           <option value="2009">2009</option>
           <option value="2008">2008</option>
@@ -542,7 +544,6 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
           <option value="1940">1940</option>
         </select>
       </div>
-      <div class="k-aviso"><strong>Debes tener al menos 16 años</strong> para usar Kraze.</div>
     </div>
 
     <div class="k-campo">
@@ -587,7 +588,9 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
       <input class="k-input" id="fPass2" type="password" placeholder="Repite la contraseña" maxlength="60" autocomplete="new-password">
     </div>
 
-    <div class="k-aviso"><strong>Importante:</strong> Te enviaremos un SMS para verificar tu teléfono.</div>
+    <div class="k-aviso" style="background:var(--verde-cla);padding:12px 14px;border-radius:10px;font-size:13px;color:var(--tinta-2);line-height:1.5;">
+      <strong style="color:var(--verde-osc);">Importante:</strong> Te enviaremos un SMS para verificar tu teléfono.
+    </div>
   </section>
 
   <!-- PASO 3 -->
@@ -681,7 +684,7 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
       <input class="k-otp-input" id="fOtp" type="tel" inputmode="numeric" placeholder="------" maxlength="6" autocomplete="one-time-code">
     </div>
 
-    <button class="k-btn-otp-reenviar" id="kBtnReenviar" onclick="KrazeReg.reenviarOtp()">Reenviar código</button>
+    <button type="button" class="k-btn-otp-reenviar" id="kBtnReenviar" onclick="KrazeReg.reenviarOtp()">Reenviar código</button>
   </section>
 
   <!-- ÉXITO -->
@@ -693,20 +696,18 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
     </div>
     <h2>¡Cuenta creada!</h2>
     <p>Tu teléfono fue verificado.<br>Bienvenido a Kraze.</p>
-    <button class="k-btn primario" onclick="KrazeReg.irAlHome()" style="max-width:280px;margin:0 auto;">
-      Continuar
-    </button>
+    <button type="button" class="k-btn primario" onclick="KrazeReg.irAlHome()" style="max-width:280px;margin:0 auto;">Continuar</button>
   </section>
 </main>
 
 <div class="k-acciones" id="kAcciones">
   <div class="k-acciones-inner">
-    <button class="k-btn ghost" id="kBtnAtras" onclick="KrazeReg.atras()">Atrás</button>
-    <button class="k-btn primario" id="kBtnSig" onclick="KrazeReg.siguiente()">Siguiente →</button>
+    <button type="button" class="k-btn ghost" id="kBtnAtras" onclick="KrazeReg.atras()">Atrás</button>
+    <button type="button" class="k-btn primario" id="kBtnSig" onclick="KrazeReg.siguiente()">Siguiente →</button>
   </div>
 </div>
 
-<button class="k-eri-fab" onclick="KrazeEri.abrir()" aria-label="Hablar con Eri">
+<button type="button" class="k-eri-fab" onclick="KrazeEri.abrir()" aria-label="Hablar con Eri">
   <svg viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M16 1C8.27 1 2 7.27 2 15c0 10.5 12.5 23 13 23.5.28.28.72.28 1 0 .5-.5 13-13 13-23.5C29 7.27 22.73 1 16 1z" fill="#1A1F2E"/>
     <path d="M16 24s-7-4.4-7-9.3c0-2.2 1.8-4 4-4 1.5 0 2.5.8 3 1.6.5-.8 1.5-1.6 3-1.6 2.2 0 4 1.8 4 4 0 4.9-7 9.3-7 9.3z" fill="#FFFFFF"/>
@@ -726,19 +727,19 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
         <div class="k-eri-nombre">Eri</div>
         <div class="k-eri-estado" id="kEriEstado">Asistente Kraze</div>
       </div>
-      <button class="k-eri-cerrar" onclick="KrazeEri.cerrar()">×</button>
+      <button type="button" class="k-eri-cerrar" onclick="KrazeEri.cerrar()">×</button>
     </div>
     <div class="k-eri-mensajes" id="kEriMsgs"></div>
     <div class="k-eri-input-wrap">
       <input class="k-eri-input" id="kEriInput" type="text" placeholder="Escribe o dicta tu mensaje..." autocomplete="off">
-      <button class="k-eri-btn" id="kEriMic" onclick="KrazeEri.mic()" aria-label="Micrófono">
+      <button type="button" class="k-eri-btn" id="kEriMic" onclick="KrazeEri.mic()" aria-label="Micrófono">
         <svg viewBox="0 0 24 24" fill="none" stroke="#1A1F2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
           <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
           <line x1="12" y1="19" x2="12" y2="23"/>
         </svg>
       </button>
-      <button class="k-eri-btn" onclick="KrazeEri.enviar()" aria-label="Enviar">
+      <button type="button" class="k-eri-btn" onclick="KrazeEri.enviar()" aria-label="Enviar">
         <svg viewBox="0 0 24 24" fill="none" stroke="#1A1F2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="22" y1="2" x2="11" y2="13"/>
           <polygon points="22 2 15 22 11 13 2 9 22 2"/>
@@ -746,7 +747,7 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
       </button>
     </div>
   </div>
-        </div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* KRAZE · Registro · © 2026 Erian C.A. */
 
@@ -767,7 +768,9 @@ const KrazeReg = (() => {
   let intervalReenviar = null;
 
   const $ = (id) => document.getElementById(id);
+
   const mostrarError = (msg) => {
+    console.log("[KRAZE] Error:", msg);
     const el = $("kError");
     el.textContent = "△ " + msg;
     el.classList.add("visible");
@@ -777,6 +780,7 @@ const KrazeReg = (() => {
   const limpiarTel = (s) => String(s || "").replace(/\D/g, "");
 
   function init() {
+    console.log("[KRAZE] Registro iniciado");
     const params = new URLSearchParams(location.search);
     const r = (params.get("rol") || "pasajero").toLowerCase();
     rol = (r === "transportista" || r === "tienda") ? r : "pasajero";
@@ -849,6 +853,7 @@ const KrazeReg = (() => {
   }
 
   function validarPaso(n) {
+    console.log("[KRAZE] Validando paso:", n);
     if (n === 1) {
       const nombre = $("fNombre").value.trim();
       const ced = $("fCedulaNum").value.trim();
@@ -859,13 +864,7 @@ const KrazeReg = (() => {
       if (!dia) return "Selecciona tu día.";
       if (!mes) return "Selecciona tu mes.";
       if (!anio) return "Selecciona tu año.";
-      const fecha = new Date(parseInt(anio), parseInt(mes) - 1, parseInt(dia));
-      const hoy = new Date();
-      let edad = hoy.getFullYear() - fecha.getFullYear();
-      const m = hoy.getMonth() - fecha.getMonth();
-      if (m < 0 || (m === 0 && hoy.getDate() < fecha.getDate())) edad--;
-      if (edad < 16) return "Debes tener al menos 16 años.";
-      if (edad > 100) return "Revisa tu año de nacimiento.";
+      // SIN validación de edad
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return "Correo inválido.";
       return null;
     }
@@ -930,6 +929,7 @@ const KrazeReg = (() => {
   }
 
   function siguiente() {
+    console.log("[KRAZE] Siguiente tocado. Paso actual:", pasoActual);
     ocultarError();
     const err = validarPaso(pasoActual);
     if (err) { mostrarError(err); return; }
@@ -937,6 +937,7 @@ const KrazeReg = (() => {
     if (pasoActual === 4) { enviarOtp(); return; }
     if (pasoActual === 5) { verificarOtp(); return; }
     pasoActual++;
+    console.log("[KRAZE] Avanzando a paso:", pasoActual);
     actualizarUI();
   }
 
@@ -1096,11 +1097,11 @@ const KrazeEri = (() => {
   const $ = (id) => document.getElementById(id);
   let reconocimiento = null;
   let grabando = false;
-  let historial = [{ role: "system", content: "Eres Eri, asistente de Kraze. Ayudas a los usuarios a completar su registro de forma amable y breve." }];
+  let historial = [{ role: "system", content: "Eres Eri, asistente de Kraze." }];
 
   function abrir() {
     $("kEriPanel").classList.add("abierto");
-    if (!$("kEriMsgs").children.length) agregarMsg("eri", "¡Hola! Soy Eri 💚 ¿Necesitas ayuda con tu registro?");
+    if (!$("kEriMsgs").children.length) agregarMsg("eri", "¡Hola! Soy Eri 💚 ¿Necesitas ayuda?");
     setTimeout(() => $("kEriInput").focus(), 250);
   }
   function cerrar() { $("kEriPanel").classList.remove("abierto"); detenerMic(); }
@@ -1177,8 +1178,9 @@ const KrazeEri = (() => {
   return { abrir, cerrar, enviar, mic };
 })();
 
+// Arrancar cuando DOM esté listo
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", KrazeReg.init);
+  document.addEventListener("DOMContentLoaded", () => KrazeReg.init());
 } else {
   KrazeReg.init();
 }
