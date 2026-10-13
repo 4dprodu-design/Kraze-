@@ -46,9 +46,7 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
   border-bottom: 1px solid var(--gris-cla);
   padding: 14px 18px 12px;
 }
-.k-header-top {
-  display: flex; align-items: center; gap: 12px;
-}
+.k-header-top { display: flex; align-items: center; gap: 12px; }
 .k-back {
   width: 38px; height: 38px;
   border-radius: 50%;
@@ -83,11 +81,7 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
 }
 
 /* MAIN */
-.k-main {
-  padding: 22px 18px 20px;
-  max-width: 560px;
-  margin: 0 auto;
-}
+.k-main { padding: 22px 18px 20px; max-width: 560px; margin: 0 auto; }
 .k-paso { display: none; animation: k-fade .25s ease; }
 .k-paso.activo { display: block; }
 @keyframes k-fade {
@@ -121,36 +115,39 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
 }
 .k-input::placeholder { color: #A8AEBE; }
 
+/* ═══════════════════════════════════════════════════════
+   SELECT NATIVO — Sin appearance: none.
+   Chrome Android abre la rueda nativa rápida de scroll.
+   ═══════════════════════════════════════════════════════ */
 .k-select {
   width: 100%;
-  padding: 14px 36px 14px 14px;
+  padding: 14px 12px;
   border: 1.5px solid var(--gris-cla);
   border-radius: var(--radio);
   background: var(--blanco);
   color: var(--tinta);
   outline: none;
-  -webkit-appearance: none;
-  appearance: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237A8194' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 14px center;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  text-align-last: center;
 }
 .k-select:focus {
   border-color: var(--verde);
   box-shadow: 0 0 0 3px rgba(164,214,94,.22);
 }
 
-.k-input[type="date"] {
-  padding: 13px 14px;
-  font-size: 16px;
-  -webkit-appearance: none;
-  appearance: none;
+/* Fecha: 3 selects en fila */
+.k-fecha {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr 1.2fr;
+  gap: 8px;
 }
 
 .k-prefijo-wrap { display: flex; gap: 10px; align-items: stretch; }
 .k-prefijo {
   flex: 0 0 auto;
-  min-width: 80px;
+  min-width: 90px;
   padding: 14px 12px;
   border: 1.5px solid var(--gris-cla);
   border-radius: var(--radio);
@@ -158,13 +155,8 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
   color: var(--tinta);
   font-weight: 700;
   text-align: center;
-  outline: none;
-  -webkit-appearance: none;
-  appearance: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237A8194' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  padding-right: 28px;
+  text-align-last: center;
+  font-size: 15px;
 }
 .k-prefijo:focus { border-color: var(--verde); box-shadow: 0 0 0 3px rgba(164,214,94,.22); }
 .k-prefijo-wrap .k-input { flex: 1; }
@@ -191,12 +183,7 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
   border-radius: var(--radio);
   margin-bottom: 10px;
 }
-.k-check input {
-  width: 22px; height: 22px;
-  margin: 0; flex: 0 0 auto;
-  accent-color: var(--verde);
-  cursor: pointer;
-}
+.k-check input { width: 22px; height: 22px; margin: 0; flex: 0 0 auto; accent-color: var(--verde); cursor: pointer; }
 .k-check label { font-size: 13.5px; line-height: 1.5; color: var(--tinta-2); cursor: pointer; }
 .k-check a { color: var(--verde-osc); font-weight: 600; text-decoration: none; }
 
@@ -219,12 +206,7 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
 .k-res-val { color: var(--tinta); font-weight: 600; text-align: right; word-break: break-word; }
 
 /* OTP */
-.k-otp-info {
-  text-align: center;
-  font-size: 14px;
-  color: var(--gris);
-  margin-bottom: 18px;
-}
+.k-otp-info { text-align: center; font-size: 14px; color: var(--gris); margin-bottom: 18px; }
 .k-otp-info b { color: var(--tinta); }
 .k-otp-input {
   width: 100%;
@@ -266,12 +248,7 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
   display: flex; gap: 10px;
   z-index: 40;
 }
-.k-acciones-inner {
-  display: flex; gap: 10px;
-  max-width: 560px;
-  margin: 0 auto;
-  width: 100%;
-}
+.k-acciones-inner { display: flex; gap: 10px; max-width: 560px; margin: 0 auto; width: 100%; }
 .k-btn {
   flex: 1;
   padding: 15px 18px;
@@ -283,41 +260,28 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
   gap: 6px;
 }
 .k-btn:active { transform: scale(.97); }
-.k-btn.primario {
-  background: var(--verde); color: var(--tinta);
-  box-shadow: 0 4px 14px rgba(164,214,94,.4);
-}
+.k-btn.primario { background: var(--verde); color: var(--tinta); box-shadow: 0 4px 14px rgba(164,214,94,.4); }
 .k-btn.primario:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; }
 .k-btn.ghost {
-  background: var(--blanco);
-  color: var(--tinta-2);
+  background: var(--blanco); color: var(--tinta-2);
   border: 1.5px solid var(--gris-cla);
   flex: 0 0 auto;
   padding-left: 22px; padding-right: 22px;
 }
 .k-btn-otp-reenviar {
-  display: block;
-  width: 100%;
-  text-align: center;
-  font-size: 13px;
-  color: var(--verde-osc);
-  font-weight: 600;
-  padding: 8px;
-  margin-top: 8px;
+  display: block; width: 100%; text-align: center;
+  font-size: 13px; color: var(--verde-osc); font-weight: 600;
+  padding: 8px; margin-top: 8px;
 }
 .k-btn-otp-reenviar:disabled { color: var(--gris); cursor: not-allowed; }
 
 /* ERROR */
 .k-error {
   display: none;
-  background: #FFEFEF;
-  color: var(--rojo);
-  padding: 12px 14px;
-  border-radius: 10px;
-  font-size: 13.5px;
-  font-weight: 500;
-  margin-bottom: 14px;
-  line-height: 1.4;
+  background: #FFEFEF; color: var(--rojo);
+  padding: 12px 14px; border-radius: 10px;
+  font-size: 13.5px; font-weight: 500;
+  margin-bottom: 14px; line-height: 1.4;
 }
 .k-error.visible { display: block; }
 
@@ -349,20 +313,13 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
 .k-eri-fab svg { width: 30px; height: 30px; }
 
 .k-eri-panel {
-  position: fixed;
-  inset: 0;
-  height: 100dvh;
+  position: fixed; inset: 0; height: 100dvh;
   background: var(--fondo);
-  display: none;
-  flex-direction: column;
+  display: none; flex-direction: column;
   z-index: 100;
 }
 .k-eri-panel.abierto { display: flex; }
-.k-eri-caja {
-  width: 100%; height: 100%;
-  display: flex; flex-direction: column;
-  background: var(--fondo);
-}
+.k-eri-caja { width: 100%; height: 100%; display: flex; flex-direction: column; background: var(--fondo); }
 .k-eri-head {
   display: flex; align-items: center; gap: 12px;
   padding: 16px;
@@ -372,8 +329,7 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
 }
 .k-eri-avatar {
   width: 42px; height: 42px;
-  border-radius: 50%;
-  background: var(--verde);
+  border-radius: 50%; background: var(--verde);
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
@@ -381,48 +337,32 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
 .k-eri-info { flex: 1; }
 .k-eri-nombre { font-size: 15px; font-weight: 700; color: var(--tinta); }
 .k-eri-estado { font-size: 12px; color: var(--gris); display: flex; align-items: center; gap: 5px; }
-.k-eri-estado::before {
-  content: ''; width: 7px; height: 7px;
-  border-radius: 50%; background: var(--verde-osc);
-}
+.k-eri-estado::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--verde-osc); }
 .k-eri-cerrar {
   width: 36px; height: 36px;
-  border-radius: 50%;
-  background: var(--fondo);
+  border-radius: 50%; background: var(--fondo);
   display: flex; align-items: center; justify-content: center;
-  font-size: 20px;
-  color: var(--tinta-2);
-  flex-shrink: 0;
+  font-size: 20px; color: var(--tinta-2); flex-shrink: 0;
 }
 .k-eri-mensajes {
-  flex: 1;
-  overflow-y: auto;
-  padding: 18px;
-  display: flex; flex-direction: column;
-  gap: 12px;
+  flex: 1; overflow-y: auto; padding: 18px;
+  display: flex; flex-direction: column; gap: 12px;
   min-height: 0;
 }
 .k-eri-msg {
-  max-width: 82%;
-  padding: 12px 15px;
-  border-radius: 16px;
-  font-size: 14px;
-  line-height: 1.45;
-  word-wrap: break-word;
+  max-width: 82%; padding: 12px 15px;
+  border-radius: 16px; font-size: 14px;
+  line-height: 1.45; word-wrap: break-word;
   white-space: pre-wrap;
 }
 .k-eri-msg.eri {
-  background: var(--blanco);
-  color: var(--tinta);
-  align-self: flex-start;
-  border-bottom-left-radius: 4px;
+  background: var(--blanco); color: var(--tinta);
+  align-self: flex-start; border-bottom-left-radius: 4px;
   box-shadow: var(--sombra);
 }
 .k-eri-msg.yo {
-  background: var(--verde);
-  color: var(--tinta);
-  align-self: flex-end;
-  border-bottom-right-radius: 4px;
+  background: var(--verde); color: var(--tinta);
+  align-self: flex-end; border-bottom-right-radius: 4px;
   font-weight: 500;
 }
 .k-eri-input-wrap {
@@ -433,22 +373,16 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
   flex-shrink: 0;
 }
 .k-eri-input {
-  flex: 1;
-  min-width: 0;
-  padding: 12px 16px;
-  border: none;
-  border-radius: 999px;
-  background: var(--fondo);
-  color: var(--tinta);
-  outline: none;
-  font-size: 15px;
+  flex: 1; min-width: 0;
+  padding: 12px 16px; border: none;
+  border-radius: 999px; background: var(--fondo);
+  color: var(--tinta); outline: none; font-size: 15px;
 }
 .k-eri-btn {
   width: 44px; height: 44px;
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  background: var(--fondo);
+  flex-shrink: 0; background: var(--fondo);
   transition: transform .12s, background .15s;
 }
 .k-eri-btn:active { transform: scale(.92); }
@@ -463,11 +397,11 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
 @media (max-width: 380px) {
   .k-h2 { font-size: 20px; }
   .k-otp-input { font-size: 26px; letter-spacing: 8px; }
+  .k-fecha { grid-template-columns: 70px 1fr 90px; }
 }
 </style>
 </head>
-<body><!-- HEADER -->
-<header class="k-header">
+<body><header class="k-header">
   <div class="k-header-top">
     <button class="k-back" id="kBtnVolver" onclick="KrazeReg.volver()" aria-label="Atrás">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -488,7 +422,7 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
 <main class="k-main">
   <div class="k-error" id="kError"></div>
 
-  <!-- PASO 1: Datos personales -->
+  <!-- PASO 1 -->
   <section class="k-paso activo" data-paso="1">
     <h2 class="k-h2">Cuéntanos de ti</h2>
     <p class="k-sub">Necesitamos tus datos reales para verificar tu identidad.</p>
@@ -512,8 +446,18 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
     </div>
 
     <div class="k-campo">
-      <label class="k-label" for="fFechaNac">Fecha de nacimiento <em>*</em></label>
-      <input class="k-input" id="fFechaNac" type="date" min="1940-01-01" max="2010-12-31">
+      <label class="k-label" for="fDia">Fecha de nacimiento <em>*</em></label>
+      <div class="k-fecha">
+        <select class="k-select" id="fDia">
+          <option value="">Día</option>
+        </select>
+        <select class="k-select" id="fMes">
+          <option value="">Mes</option>
+        </select>
+        <select class="k-select" id="fAnio">
+          <option value="">Año</option>
+        </select>
+      </div>
       <div class="k-aviso"><strong>Debes tener al menos 16 años</strong> para usar Kraze.</div>
     </div>
 
@@ -523,7 +467,7 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
     </div>
   </section>
 
-  <!-- PASO 2: Cuenta -->
+  <!-- PASO 2 -->
   <section class="k-paso" data-paso="2">
     <h2 class="k-h2">Tu cuenta</h2>
     <p class="k-sub">Con estos datos entrarás y te contactaremos.</p>
@@ -559,12 +503,10 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
       <input class="k-input" id="fPass2" type="password" placeholder="Repite la contraseña" maxlength="60" autocomplete="new-password">
     </div>
 
-    <div class="k-aviso">
-      <strong>Importante:</strong> Te enviaremos un SMS para verificar tu teléfono.
-    </div>
+    <div class="k-aviso"><strong>Importante:</strong> Te enviaremos un SMS para verificar tu teléfono.</div>
   </section>
 
-  <!-- PASO 3: Ubicación -->
+  <!-- PASO 3 -->
   <section class="k-paso" data-paso="3">
     <h2 class="k-h2">¿Dónde estás?</h2>
     <p class="k-sub">Así te mostramos servicios cerca de ti.</p>
@@ -599,7 +541,7 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
     </div>
   </section>
 
-  <!-- PASO 4: Confirmación -->
+  <!-- PASO 4 -->
   <section class="k-paso" data-paso="4">
     <h2 class="k-h2">Revisa y confirma</h2>
     <p class="k-sub">Verifica que todo esté correcto antes de continuar.</p>
@@ -617,7 +559,7 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
     </div>
   </section>
 
-  <!-- PASO 5: OTP -->
+  <!-- PASO 5 -->
   <section class="k-paso" data-paso="5">
     <h2 class="k-h2">Verifica tu teléfono</h2>
     <p class="k-sub">Enviamos un código de 6 dígitos a tu SMS.</p>
@@ -631,9 +573,7 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
       <input class="k-otp-input" id="fOtp" type="tel" inputmode="numeric" placeholder="------" maxlength="6" autocomplete="one-time-code">
     </div>
 
-    <button class="k-btn-otp-reenviar" id="kBtnReenviar" onclick="KrazeReg.reenviarOtp()">
-      Reenviar código
-    </button>
+    <button class="k-btn-otp-reenviar" id="kBtnReenviar" onclick="KrazeReg.reenviarOtp()">Reenviar código</button>
   </section>
 
   <!-- ÉXITO -->
@@ -651,7 +591,6 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
   </section>
 </main>
 
-<!-- ACCIONES -->
 <div class="k-acciones" id="kAcciones">
   <div class="k-acciones-inner">
     <button class="k-btn ghost" id="kBtnAtras" onclick="KrazeReg.atras()">Atrás</button>
@@ -659,7 +598,6 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
   </div>
 </div>
 
-<!-- ERI FAB -->
 <button class="k-eri-fab" onclick="KrazeEri.abrir()" aria-label="Hablar con Eri">
   <svg viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M16 1C8.27 1 2 7.27 2 15c0 10.5 12.5 23 13 23.5.28.28.72.28 1 0 .5-.5 13-13 13-23.5C29 7.27 22.73 1 16 1z" fill="#1A1F2E"/>
@@ -667,7 +605,6 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
   </svg>
 </button>
 
-<!-- ERI PANEL -->
 <div class="k-eri-panel" id="kEriPanel">
   <div class="k-eri-caja">
     <div class="k-eri-head">
@@ -744,15 +681,11 @@ const KrazeReg = (() => {
     rol = (r === "transportista" || r === "tienda") ? r : "pasajero";
     $("kRolTexto").textContent = rol === "pasajero" ? "Pasajero" : rol === "transportista" ? "Transportista" : "Tienda / Negocio";
 
-    // Estados Venezuela
-    const sEstado = $("fEstado");
-    ESTADOS_VE.forEach(e => {
-      const o = document.createElement("option");
-      o.value = e; o.textContent = e;
-      sEstado.appendChild(o);
-    });
+    llenarFechas();
+    llenarEstados();
+    cargarProgreso();
 
-    // Inputs con formato
+    // Formato números
     $("fCedulaNum").addEventListener("input", e => {
       e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
     });
@@ -763,13 +696,13 @@ const KrazeReg = (() => {
       e.target.value = e.target.value.replace(/\D/g, "").slice(0, 6);
     });
 
-    // Guardar progreso al escribir
+    // Guardar progreso
     document.querySelectorAll(".k-input, .k-select").forEach(el => {
       el.addEventListener("input", guardarProgreso);
       el.addEventListener("change", guardarProgreso);
     });
 
-    // Enter en OTP verifica
+    // Enter en OTP
     $("fOtp").addEventListener("keydown", e => {
       if (e.key === "Enter") verificarOtp();
     });
@@ -777,9 +710,43 @@ const KrazeReg = (() => {
       if (e.key === "Enter") KrazeEri.enviar();
     });
 
-    cargarProgreso();
-    cargarProgreso();
     actualizarUI();
+  }
+
+  function llenarFechas() {
+    // Días 1-31
+    const dia = $("fDia");
+    for (let i = 1; i <= 31; i++) {
+      const o = document.createElement("option");
+      o.value = String(i).padStart(2, "0");
+      o.textContent = String(i).padStart(2, "0");
+      dia.appendChild(o);
+    }
+    // Meses
+    const mes = $("fMes");
+    MESES.forEach((nombre, idx) => {
+      const o = document.createElement("option");
+      o.value = String(idx + 1).padStart(2, "0");
+      o.textContent = nombre;
+      mes.appendChild(o);
+    });
+    // Años: 2010 hasta 1940
+    const anio = $("fAnio");
+    for (let a = 2010; a >= 1940; a--) {
+      const o = document.createElement("option");
+      o.value = String(a);
+      o.textContent = String(a);
+      anio.appendChild(o);
+    }
+  }
+
+  function llenarEstados() {
+    const sel = $("fEstado");
+    ESTADOS_VE.forEach(e => {
+      const o = document.createElement("option");
+      o.value = e; o.textContent = e;
+      sel.appendChild(o);
+    });
   }
 
   function guardarProgreso() {
@@ -787,7 +754,9 @@ const KrazeReg = (() => {
       nombre: $("fNombre").value,
       cedulaTipo: $("fCedulaTipo").value,
       cedulaNum: $("fCedulaNum").value,
-      fechaNac: $("fFechaNac").value,
+      dia: $("fDia").value,
+      mes: $("fMes").value,
+      anio: $("fAnio").value,
       email: $("fEmail").value,
       telPrefijo: $("fTelPrefijo").value,
       telefono: $("fTelefono").value,
@@ -807,7 +776,9 @@ const KrazeReg = (() => {
     if (datos.nombre) $("fNombre").value = datos.nombre;
     if (datos.cedulaTipo) $("fCedulaTipo").value = datos.cedulaTipo;
     if (datos.cedulaNum) $("fCedulaNum").value = datos.cedulaNum;
-    if (datos.fechaNac) $("fFechaNac").value = datos.fechaNac;
+    if (datos.dia) $("fDia").value = datos.dia;
+    if (datos.mes) $("fMes").value = datos.mes;
+    if (datos.anio) $("fAnio").value = datos.anio;
     if (datos.email) $("fEmail").value = datos.email;
     if (datos.telPrefijo) $("fTelPrefijo").value = datos.telPrefijo;
     if (datos.telefono) $("fTelefono").value = datos.telefono;
@@ -821,20 +792,24 @@ const KrazeReg = (() => {
     if (n === 1) {
       const nombre = $("fNombre").value.trim();
       const ced = $("fCedulaNum").value.trim();
-      const fechaStr = $("fFechaNac").value;
+      const dia = $("fDia").value;
+      const mes = $("fMes").value;
+      const anio = $("fAnio").value;
       const email = $("fEmail").value.trim();
 
       if (nombre.length < 3) return "Escribe tu nombre completo.";
       if (ced.length < 6) return "La cédula debe tener al menos 6 dígitos.";
-      if (!fechaStr) return "Selecciona tu fecha de nacimiento.";
+      if (!dia) return "Selecciona tu día de nacimiento.";
+      if (!mes) return "Selecciona tu mes de nacimiento.";
+      if (!anio) return "Selecciona tu año de nacimiento.";
 
-      const fecha = new Date(fechaStr);
+      const fecha = new Date(parseInt(anio), parseInt(mes) - 1, parseInt(dia));
       const hoy = new Date();
       let edad = hoy.getFullYear() - fecha.getFullYear();
       const m = hoy.getMonth() - fecha.getMonth();
       if (m < 0 || (m === 0 && hoy.getDate() < fecha.getDate())) edad--;
       if (edad < 16) return "Debes tener al menos 16 años.";
-      if (edad > 100) return "Revisa tu fecha de nacimiento.";
+      if (edad > 100) return "Revisa tu año de nacimiento.";
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return "Correo electrónico inválido.";
       return null;
     }
@@ -867,7 +842,7 @@ const KrazeReg = (() => {
 
   function construirResumen() {
     const ced = $("fCedulaTipo").value + "-" + $("fCedulaNum").value;
-    const fecha = $("fFechaNac").value.split("-").reverse().join("/");
+    const fecha = `${$("fDia").value}/${$("fMes").value}/${$("fAnio").value}`;
     const tel = $("fTelPrefijo").value + " " + $("fTelefono").value;
     const rolTxt = rol === "pasajero" ? "Pasajero" : rol === "transportista" ? "Transportista" : "Tienda / Negocio";
 
@@ -898,7 +873,6 @@ const KrazeReg = (() => {
     $("kBtnAtras").style.display = (pasoActual === 1 || pasoActual === 5) ? "none" : "flex";
     $("kBtnSig").textContent = pasoActual === 4 ? "Enviar código →" : pasoActual === 5 ? "Verificar ✓" : "Siguiente →";
     $("kAcciones").style.display = pasoActual === 5 ? "none" : "flex";
-
     if (pasoActual === 4) construirResumen();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -908,10 +882,8 @@ const KrazeReg = (() => {
     const err = validarPaso(pasoActual);
     if (err) { mostrarError(err); return; }
     guardarProgreso();
-
     if (pasoActual === 4) { enviarOtp(); return; }
     if (pasoActual === 5) { verificarOtp(); return; }
-
     pasoActual++;
     actualizarUI();
   }
@@ -1017,7 +989,6 @@ const KrazeReg = (() => {
       btn.innerHTML = textoOrig;
       return;
     }
-
     if (!data.user) {
       mostrarError("No se pudo verificar. Intenta de nuevo.");
       btn.disabled = false;
@@ -1027,7 +998,7 @@ const KrazeReg = (() => {
 
     const userId = data.user.id;
     const cedula = $("fCedulaTipo").value + "-" + $("fCedulaNum").value;
-    const fechaNac = $("fFechaNac").value;
+    const fechaNac = `${$("fAnio").value}-${$("fMes").value}-${$("fDia").value}`;
 
     const perfil = {
       id: userId,
@@ -1050,7 +1021,6 @@ const KrazeReg = (() => {
     };
 
     const { error: errPerfil } = await supabase.from("profiles").insert(perfil);
-
     if (errPerfil) {
       console.error("Insert profile error:", errPerfil);
       if (!/duplicate|unique/i.test(errPerfil.message)) {
@@ -1079,8 +1049,6 @@ const KrazeReg = (() => {
   function irAlHome() {
     const dest = rol === "pasajero"
       ? "04-Home-Pasajero.html"
-      : rol === "transportista"
-      ? "04-Home-Transportista.html"
       : "04-Home-Transportista.html";
     location.href = dest;
   }
