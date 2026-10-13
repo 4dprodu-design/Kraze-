@@ -1,342 +1,506 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#FAFAF7">
-  <meta name="author" content="Erian C.A.">
-  <title>Kraze · Iniciar sesión</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="color-scheme" content="only light">
+<meta name="supported-color-schemes" content="only light">
+<meta name="theme-color" content="#A4D65E">
+<title>Kraze · Iniciar sesión</title>
+<style>
+:root {
+  color-scheme: only light;
+  --verde: #A4D65E;
+  --verde-osc: #8BC34A;
+  --verde-cla: #EEF7DC;
+  --tinta: #1A1F2E;
+  --tinta-2: #3A4256;
+  --gris: #7A8194;
+  --gris-cla: #E8EAEE;
+  --fondo: #FAFAF7;
+  --blanco: #FFFFFF;
+  --rojo: #E5484D;
+  --radio: 14px;
+}
+*, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; forced-color-adjust: none; }
+html { background: var(--fondo); -webkit-text-size-adjust: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--fondo); color: var(--tinta);
+  min-height: 100dvh; line-height: 1.4;
+  overflow-x: hidden;
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input { font-family: inherit; font-size: 16px; }
 
-    html, body {
-      min-height: 100vh;
-      background-color: #FAFAF7;
-      -webkit-tap-highlight-color: transparent;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      color: #1A1F2E;
-    }
+/* Header */
+.k-header { padding: 40px 24px 20px; text-align: center; }
+.k-logo { width: 80px; height: 80px; margin: 0 auto 16px; display: block; }
+.k-titulo { font-size: 26px; font-weight: 800; color: var(--tinta); margin: 0 0 6px; letter-spacing: -.4px; }
+.k-sub { font-size: 14px; color: var(--gris); margin: 0; }
 
-    body {
-      padding: 24px 24px 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
+/* Main */
+.k-main { padding: 0 24px 40px; max-width: 440px; margin: 0 auto; }
 
-    .back-btn {
-      align-self: flex-start;
-      width: 44px;
-      height: 44px;
-      border: none;
-      background: transparent;
-      color: #1A1F2E;
-      font-size: 22px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      margin-left: -8px;
-      margin-bottom: 8px;
-      text-decoration: none;
-    }
-    .back-btn:active { background-color: rgba(0,0,0,0.05); }
+/* Botones */
+.k-btn {
+  width: 100%;
+  padding: 15px 18px;
+  border-radius: var(--radio);
+  font-size: 15px;
+  font-weight: 700;
+  transition: transform .12s, opacity .12s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+}
+.k-btn:active { transform: scale(.97); }
+.k-btn:disabled { opacity: .55; cursor: not-allowed; }
+.k-btn-primario { background: var(--verde); color: var(--tinta); box-shadow: 0 4px 14px rgba(164,214,94,.4); }
+.k-btn-google { background: var(--blanco); color: var(--tinta); border: 1.5px solid var(--gris-cla); box-shadow: 0 2px 6px rgba(26,31,46,.04); }
+.k-btn-google svg { width: 20px; height: 20px; flex: 0 0 auto; }
+.k-btn-ghost { background: var(--blanco); color: var(--tinta-2); border: 1.5px solid var(--gris-cla); }
 
-    .login-logo {
-      height: 56px;
-      margin: 40px 0 40px;
-      display: flex;
-      align-items: center;
-    }
-    .login-logo svg { display: block; height: 100%; width: auto; }
+/* Divider */
+.k-divider { display: flex; align-items: center; gap: 12px; margin: 22px 0; color: var(--gris); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+.k-divider::before, .k-divider::after { content: ""; flex: 1; height: 1px; background: var(--gris-cla); }
 
-    .login-form {
-      width: 100%;
-      max-width: 400px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
+/* Campos */
+.k-campo { margin-bottom: 16px; }
+.k-label { display: block; font-size: 13px; font-weight: 700; color: var(--tinta-2); margin-bottom: 7px; }
+.k-input { width: 100%; padding: 14px; border: 1.5px solid var(--gris-cla); border-radius: var(--radio); background: var(--blanco); color: var(--tinta); font-size: 16px; outline: none; }
+.k-input:focus { border-color: var(--verde); box-shadow: 0 0 0 3px rgba(164,214,94,.22); }
 
-    .login-title {
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: -0.6px;
-      color: #1A1F2E;
-      margin: 0 0 6px;
-      text-align: left;
-    }
+/* Tabs */
+.k-tabs { display: flex; gap: 6px; background: var(--gris-cla); padding: 4px; border-radius: var(--radio); margin-bottom: 20px; }
+.k-tab { flex: 1; padding: 10px; border-radius: 10px; font-size: 13px; font-weight: 700; color: var(--gris); transition: all .15s; }
+.k-tab.activo { background: var(--blanco); color: var(--tinta); box-shadow: 0 2px 6px rgba(26,31,46,.06); }
 
-    .login-sub {
-      font-size: 14px;
-      color: #8A8F80;
-      margin: 0 0 16px;
-      text-align: left;
-    }
+/* Error */
+.k-error { display: none; background: #FFEFEF; color: var(--rojo); padding: 12px 14px; border-radius: 10px; font-size: 13px; font-weight: 500; margin-bottom: 16px; border: 1.5px solid rgba(229,72,77,.2); word-break: break-word; }
+.k-error.visible { display: block; }
 
-    .login-form input {
-      background-color: #FFFFFF;
-      border: 1.5px solid #E5E5DE;
-      border-radius: 12px;
-      padding: 16px;
-      font-size: 15px;
-      font-family: inherit;
-      color: #1A1F2E;
-      outline: none;
-      min-height: 52px;
-    }
+/* Spin */
+.k-spin { width: 16px; height: 16px; border: 2.5px solid rgba(26,31,46,.2); border-top-color: var(--tinta); border-radius: 50%; display: inline-block; animation: rot .7s linear infinite; }
+@keyframes rot { to { transform: rotate(360deg); } }
 
-    .login-form input:focus {
-      border-color: #A4D65E;
-      box-shadow: 0 0 0 3px rgba(164, 214, 94, 0.18);
-    }
+/* Links */
+.k-links { text-align: center; margin-top: 22px; font-size: 14px; }
+.k-link { color: var(--verde-osc); font-weight: 600; text-decoration: none; display: inline-block; padding: 6px 4px; }
+.k-link-2 { color: var(--gris); font-weight: 500; text-decoration: none; display: block; margin-top: 12px; font-size: 13px; }
 
-    .btn-login {
-      background-color: #A4D65E;
-      color: #1A1F2E;
-      border: none;
-      border-radius: 12px;
-      padding: 16px;
-      font-size: 16px;
-      font-weight: 700;
-      font-family: inherit;
-      cursor: pointer;
-      min-height: 54px;
-      margin-top: 8px;
-    }
-    .btn-login:active { transform: scale(0.98); }
-    .btn-login:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    .login-forgot {
-      text-align: center;
-      font-size: 13px;
-      color: #8A8F80;
-      margin: 4px 0 8px;
-    }
-    .login-forgot a {
-      color: #1A1F2E;
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    .login-sep {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 16px 0;
-      font-size: 13px;
-      color: #B0B5A8;
-      font-weight: 500;
-    }
-    .login-sep::before,
-    .login-sep::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background-color: #E5E5DE;
-    }
-
-    .btn-social {
-      background-color: #FFFFFF;
-      border: 1.5px solid #E5E5DE;
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 15px;
-      font-weight: 600;
-      color: #1A1F2E;
-      cursor: pointer;
-      min-height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-family: inherit;
-    }
-    .btn-social svg { width: 20px; height: 20px; }
-
-    .login-bottom {
-      margin-top: auto;
-      padding-top: 40px;
-      text-align: center;
-      font-size: 14px;
-      color: #8A8F80;
-      max-width: 400px;
-      width: 100%;
-    }
-    .login-bottom a {
-      color: #1A1F2E;
-      font-weight: 700;
-      text-decoration: none;
-      margin-left: 4px;
-    }
-
-    .login-error {
-      background-color: #FEE2E2;
-      color: #B91C1C;
-      padding: 12px 14px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 500;
-      display: none;
-    }
-    .login-error.show { display: block; }
-  </style>
+/* Overlay */
+.k-overlay { position: fixed; inset: 0; background: rgba(26,31,46,.6); display: none; align-items: center; justify-content: center; z-index: 999; backdrop-filter: blur(3px); }
+.k-overlay.visible { display: flex; }
+.k-overlay-box { background: var(--blanco); padding: 28px 32px; border-radius: var(--radio); text-align: center; max-width: 280px; }
+.k-overlay-box .k-spin { width: 32px; height: 32px; border-width: 3px; margin-bottom: 14px; }
+.k-overlay-box p { margin: 0; font-size: 14px; color: var(--tinta-2); font-weight: 500; }
+</style>
 </head>
 <body>
 
-  <a href="01-Splash.html" class="back-btn" aria-label="Volver">&#8592;</a>
+<header class="k-header">
+  <img class="k-logo" src="Img/logo.png" alt="Kraze" onerror="this.style.display='none'">
+  <h1 class="k-titulo">Bienvenido a Kraze</h1>
+  <p class="k-sub">Transporte total, tu ciudad en movimiento</p>
+</header>
 
-  <div class="login-logo">
-    <svg viewBox="0 0 360 96" xmlns="http://www.w3.org/2000/svg" aria-label="Kraze">
-      <g transform="translate(0, 4)">
-        <path d="M 36 0 C 16 0 0 16 0 36 C 0 52 10 64 24 76 L 36 88 L 48 76 C 62 64 72 52 72 36 C 72 16 56 0 36 0 Z" fill="#A4D65E"/>
-        <path d="M 36 22 C 36 22 30 15 23 15 C 16 15 11 20 11 27 C 11 33 15 38 21 44 L 36 60 L 51 44 C 57 38 61 33 61 27 C 61 20 56 15 49 15 C 42 15 36 22 36 22 Z" fill="#1A1F2E"/>
-      </g>
-      <text x="94" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="62" font-weight="900" letter-spacing="-2.5" fill="#1A1F2E">Kraze</text>
+<main class="k-main">
+
+  <button type="button" class="k-btn k-btn-google" id="kBtnGoogle">
+    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.4 29.3 35.5 24 35.5c-6.4 0-11.5-5.1-11.5-11.5S17.6 12.5 24 12.5c2.9 0 5.6 1.1 7.6 2.9l5.7-5.7C33.7 6.4 29.1 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.3-.4-3.5z"/>
+      <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.5 19 12.5 24 12.5c2.9 0 5.6 1.1 7.6 2.9l5.7-5.7C33.7 6.4 29.1 4.5 24 4.5 16.3 4.5 9.7 8.9 6.3 14.7z"/>
+      <path fill="#4CAF50" d="M24 43.5c5 0 9.6-1.9 13-5l-6-5.1c-2 1.5-4.5 2.4-7 2.4-5.2 0-9.6-3.4-11.3-8.1l-6.5 5C9.6 39 16.3 43.5 24 43.5z"/>
+      <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.2-4.3 5.5l6 5.1c-.4.4 6.5-4.7 6.5-14.6 0-1.2-.1-2.3-.4-3.5z"/>
     </svg>
+    Continuar con Google
+  </button>
+
+  <div class="k-divider">o con tu cuenta Kraze</div>
+
+  <div class="k-error" id="kError"></div>
+
+  <div class="k-tabs">
+    <button type="button" class="k-tab activo" data-tab="email">Correo</button>
+    <button type="button" class="k-tab" data-tab="telefono">Teléfono</button>
   </div>
 
-  <form class="login-form" id="login-form" autocomplete="on">
-
-    <h1 class="login-title">Bienvenido</h1>
-    <p class="login-sub">Ingresa para continuar</p>
-
-    <div class="login-error" id="login-error"></div>
-
-    <input type="email" id="email" name="email" placeholder="Correo electrónico" autocomplete="email" inputmode="email" required>
-
-    <input type="password" id="password" name="password" placeholder="Contraseña" autocomplete="current-password" required>
-
-    <button type="submit" class="btn-login" id="btn-login">Iniciar sesión</button>
-
-    <div class="login-forgot">
-      <a href="#" id="forgot-link">¿Olvidaste tu contraseña?</a>
+  <!-- Form Email -->
+  <div id="kFormEmail">
+    <div class="k-campo">
+      <label class="k-label" for="kEmail">Correo electrónico</label>
+      <input class="k-input" id="kEmail" type="email" placeholder="tu@correo.com" inputmode="email" maxlength="120" autocomplete="email">
     </div>
-
-    <div class="login-sep">o</div>
-
-    <button type="button" class="btn-social" id="btn-google">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-      </svg>
-      Continuar con Google
-    </button>
-
-  </form>
-
-  <div class="login-bottom">
-    ¿No tienes cuenta?
-    <a href="03-Seleccion-Rol.html">Regístrate</a>
+    <div class="k-campo">
+      <label class="k-label" for="kPassEmail">Contraseña</label>
+      <input class="k-input" id="kPassEmail" type="password" placeholder="Tu contraseña" maxlength="60" autocomplete="current-password">
+    </div>
+    <button type="button" class="k-btn k-btn-primario" id="kBtnEmail">Iniciar sesión</button>
   </div>
-  <!-- ============================================================
-       Scripts base
-       ============================================================ -->
-  <script src="js/kraze-config.js"></script>
-  <script src="js/nav.js"></script>
-  <script src="js/kraze-db.js"></script>
-  <script src="js/kraze-ia.js"></script>
 
-  <!-- ============================================================
-       Lógica del Login
-       © 2026 Erian C.A. — Todos los derechos reservados
-       ============================================================ -->
-  <script>
-  (function () {
-    'use strict';
+  <!-- Form Teléfono -->
+  <div id="kFormTel" style="display:none;">
+    <div class="k-campo">
+      <label class="k-label" for="kTel">Teléfono</label>
+      <input class="k-input" id="kTel" type="tel" placeholder="+58 4121234567" inputmode="tel" maxlength="20" autocomplete="tel">
+    </div>
+    <div class="k-campo">
+      <label class="k-label" for="kPassTel">Contraseña</label>
+      <input class="k-input" id="kPassTel" type="password" placeholder="Tu contraseña" maxlength="60" autocomplete="current-password">
+    </div>
+    <button type="button" class="k-btn k-btn-primario" id="kBtnTel">Iniciar sesión</button>
+  </div>
 
-    var form       = document.getElementById('login-form');
-    var btnLogin   = document.getElementById('btn-login');
-    var btnGoogle  = document.getElementById('btn-google');
-    var forgotLink = document.getElementById('forgot-link');
-    var errBox     = document.getElementById('login-error');
+  <div class="k-links">
+    <a href="02a-Recuperar-Password.html" class="k-link">¿Olvidaste tu contraseña?</a>
+    <a href="03-Seleccion-Rol.html" class="k-link-2">¿No tienes cuenta? <b style="color:var(--verde-osc)">Crear cuenta</b></a>
+  </div>
 
-    /* --- Mensajes desde la configuración central --- */
-    function mensaje(clave, porDefecto) {
-      if (window.Kraze && Kraze.config && Kraze.config.mensaje) {
-        var m = Kraze.config.mensaje(clave);
-        return m || porDefecto;
+</main>
+
+<div class="k-overlay" id="kOverlay">
+  <div class="k-overlay-box">
+    <div class="k-spin"></div>
+    <p id="kOverlayTxt">Iniciando sesión...</p>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* KRAZE · Login · © 2026 Erian C.A. */
+(function () {
+  "use strict";
+
+  const KRAZE_SUPABASE_URL = "https://xetqvxuiroalddfzrfzc.supabase.co";
+  const KRAZE_SUPABASE_KEY = "sb_publishable_SARKcARFpIESQRUDSxbpig_kdlHrZh3";
+
+  const $ = (id) => document.getElementById(id);
+  const supabase = (window.supabase && window.supabase.createClient)
+    ? window.supabase.createClient(KRAZE_SUPABASE_URL, KRAZE_SUPABASE_KEY)
+    : null;
+
+  // ===== Estado =====
+  let tabActiva = "email";
+
+  // ===== Helpers =====
+  function mostrarError(msg) {
+    const el = $("kError");
+    el.textContent = "⚠ " + msg;
+    el.classList.add("visible");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  function ocultarError() { $("kError").classList.remove("visible"); }
+  function mostrarOverlay(txt) {
+    $("kOverlayTxt").textContent = txt || "Cargando...";
+    $("kOverlay").classList.add("visible");
+  }
+  function ocultarOverlay() { $("kOverlay").classList.remove("visible"); }
+  function limpiarTel(s) { return String(s || "").replace(/\D/g, ""); }
+
+  // ===== Redirección por rol =====
+  function redirigirSegunRol(rol) {
+    const r = (rol || "pasajero").toLowerCase();
+    if (r === "transportista") location.href = "04-Home-Transportista.html";
+    else if (r === "tienda") location.href = "19c-Panel-Admin-Tiendas.html";
+    else if (r === "admin") location.href = "19c-Panel-Admin-Tiendas.html";
+    else location.href = "04-Home-Pasajero.html";
+  }
+
+  // ===== Obtener rol desde profiles =====
+  async function obtenerRol(userId) {
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("rol, role")
+        .eq("id", userId)
+        .maybeSingle();
+      if (error) return "pasajero";
+      if (!data) return "pasajero";
+      return data.rol || data.role || "pasajero";
+    } catch (_) {
+      return "pasajero";
+    }
+  }
+
+  // ===== Guardar sesión en localStorage =====
+  function guardarSesion(user, perfil) {
+    try {
+      localStorage.setItem("kraze_usuario_id", user.id);
+      localStorage.setItem("kraze_user_id", user.id);
+      if (perfil) localStorage.setItem("kraze_usuario", JSON.stringify(perfil));
+      if (user.email) localStorage.setItem("kraze_email", user.email);
+      if (user.phone) localStorage.setItem("kraze_telefono", user.phone);
+    } catch (_) {}
+  }
+
+  // ===== Login con Email =====
+  async function loginEmail() {
+    ocultarError();
+    const email = $("kEmail").value.trim().toLowerCase();
+    const pass = $("kPassEmail").value;
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { mostrarError("Correo inválido."); return; }
+    if (pass.length < 6) { mostrarError("Contraseña: mínimo 6 caracteres."); return; }
+    if (!supabase) { mostrarError("Sin conexión. Recarga la página."); return; }
+
+    const btn = $("kBtnEmail");
+    btn.disabled = true;
+    const txt = btn.innerHTML;
+    btn.innerHTML = '<span class="k-spin"></span> Entrando...';
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ email: email, password: pass });
+      if (error) {
+        mostrarError(error.message === "Invalid login credentials"
+          ? "Correo o contraseña incorrectos."
+          : error.message);
+        btn.disabled = false;
+        btn.innerHTML = txt;
+        return;
       }
-      return porDefecto;
+      if (!data.user) {
+        mostrarError("No se pudo iniciar sesión.");
+        btn.disabled = false;
+        btn.innerHTML = txt;
+        return;
+      }
+      const rol = await obtenerRol(data.user.id);
+      guardarSesion(data.user, { rol: rol });
+      localStorage.setItem("kraze_rol", rol);
+      redirigirSegunRol(rol);
+    } catch (e) {
+      mostrarError("Error: " + e.message);
+      btn.disabled = false;
+      btn.innerHTML = txt;
+    }
+  }
+
+  // ===== Login con Teléfono =====
+  async function loginTelefono() {
+    ocultarError();
+    let tel = $("kTel").value.trim();
+    const pass = $("kPassTel").value;
+
+    // Normalizar teléfono: agregar +58 si empieza con 0 o 4 sin prefijo
+    tel = tel.replace(/\s+/g, "");
+    if (!tel.startsWith("+")) {
+      const digits = limpiarTel(tel);
+      if (digits.startsWith("0")) tel = "+58" + digits.substring(1);
+      else if (digits.startsWith("58")) tel = "+" + digits;
+      else tel = "+58" + digits;
     }
 
-    /* --- Mostrar error --- */
-    function mostrarError(msg) {
-      errBox.textContent = msg;
-      errBox.classList.add('show');
-      setTimeout(function () {
-        errBox.classList.remove('show');
-      }, 5000);
+    if (limpiarTel(tel).length < 10) { mostrarError("Teléfono inválido."); return; }
+    if (pass.length < 6) { mostrarError("Contraseña: mínimo 6 caracteres."); return; }
+    if (!supabase) { mostrarError("Sin conexión. Recarga la página."); return; }
+
+    const btn = $("kBtnTel");
+    btn.disabled = true;
+    const txt = btn.innerHTML;
+    btn.innerHTML = '<span class="k-spin"></span> Entrando...';
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ phone: tel, password: pass });
+      if (error) {
+        mostrarError(error.message === "Invalid login credentials"
+          ? "Teléfono o contraseña incorrectos."
+          : error.message);
+        btn.disabled = false;
+        btn.innerHTML = txt;
+        return;
+      }
+      if (!data.user) {
+        mostrarError("No se pudo iniciar sesión.");
+        btn.disabled = false;
+        btn.innerHTML = txt;
+        return;
+      }
+      const rol = await obtenerRol(data.user.id);
+      guardarSesion(data.user, { rol: rol });
+      localStorage.setItem("kraze_rol", rol);
+      redirigirSegunRol(rol);
+    } catch (e) {
+      mostrarError("Error: " + e.message);
+      btn.disabled = false;
+      btn.innerHTML = txt;
     }
+  }
 
-    /* --- Estado de carga --- */
-    function setLoading(on) {
-      btnLogin.disabled = on;
-      btnLogin.textContent = on ? 'Ingresando...' : 'Iniciar sesión';
+  // ===== Login con Google =====
+  async function loginGoogle() {
+    ocultarError();
+    if (!supabase) { mostrarError("Sin conexión. Recarga la página."); return; }
+
+    try {
+      // Guardamos intención para que cuando vuelva el callback sepamos que fue Google
+      localStorage.setItem("kraze_login_intent", "google");
+
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: window.location.origin + "/02-Login.html?oauth=google"
+        }
+      });
+
+      if (error) {
+        mostrarError("Error con Google: " + error.message);
+        return;
+      }
+
+      // En Chrome móvil / desktop, redirige automáticamente.
+      // En APK WebView, también debería abrir el navegador externo si WebIntoApp lo permite.
+      if (data && data.url) {
+        window.location.href = data.url;
+      }
+    } catch (e) {
+      mostrarError("Error con Google: " + e.message);
     }
+  }
 
-    /* --- Envío --- */
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
+  // ===== Procesar callback de Google =====
+  // Cuando Google redirige de vuelta a esta página con ?oauth=google,
+  // Supabase ya tiene la sesión activa. Verificamos y creamos perfil si no existe.
+  async function procesarCallbackGoogle() {
+    if (!supabase) return false;
 
-      var email    = document.getElementById('email').value.trim();
-      var password = document.getElementById('password').value;
+    try {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      if (error || !session || !session.user) return false;
 
-      if (!email || !password) {
-        return mostrarError('Completa todos los campos.');
-      }
-      if (email.indexOf('@') === -1) {
-        return mostrarError('El correo no es valido.');
-      }
-      if (password.length < 6) {
-        return mostrarError('La contrasena debe tener al menos 6 caracteres.');
-      }
+      const user = session.user;
+      const meta = user.user_metadata || {};
+      const nombre = meta.full_name || meta.name || (user.email ? user.email.split("@")[0] : "Usuario Kraze");
+      const email = user.email || null;
+      const foto = meta.avatar_url || meta.picture || null;
 
-      setLoading(true);
+      // Verificar si ya existe en profiles
+      const { data: perfilExistente } = await supabase
+        .from("profiles")
+        .select("id, rol, role")
+        .eq("id", user.id)
+        .maybeSingle();
 
-      setTimeout(function () {
-        setLoading(false);
+      let rol = "pasajero";
 
-        if (window.Kraze && window.Kraze.nav) {
-          Kraze.nav.setRol('pasajero');
-          Kraze.nav.store.set(Kraze.nav.keys.user, {
-            email: email,
-            rol: 'pasajero',
-            nuevo: false
-          });
-          Kraze.nav.irInicio();
-        } else {
-          console.warn('[login] Kraze.nav no disponible');
+      if (!perfilExistente) {
+        // Primera vez con Google → crear perfil base
+        mostrarOverlay("Creando tu cuenta...");
+
+        const nuevoPerfil = {
+          id: user.id,
+          nombre: nombre,
+          email: email,
+          telefono: user.phone || null,
+          foto_url: foto,
+          rol: "pasajero",
+          role: "pasajero",
+          pais: "Venezuela",
+          activo: true,
+          verificado: true,
+          full_name: nombre,
+          city: null
+        };
+
+        const { error: errIns } = await supabase.from("profiles").insert(nuevoPerfil);
+        if (errIns && !/duplicate|unique/i.test(errIns.message)) {
+          mostrarError("Error guardando tu cuenta: " + errIns.message);
+          ocultarOverlay();
+          return false;
         }
 
-      }, 800);
-    });
-
-    /* --- Google --- */
-    btnGoogle.addEventListener('click', function () {
-      mostrarError('Google login estara disponible pronto.');
-    });
-
-    /* --- Olvide contraseña --- */
-    forgotLink.addEventListener('click', function (e) {
-      e.preventDefault();
-      mostrarError('La recuperacion estara disponible pronto.');
-    });
-
-    /* --- Test rápido de configuración --- */
-    setTimeout(function () {
-      if (window.Kraze && Kraze.config && Kraze.config.ready()) {
-        console.log('Config activa · Empresa:', Kraze.config.get('empresa'));
+        rol = "pasajero";
+      } else {
+        rol = perfilExistente.rol || perfilExistente.role || "pasajero";
       }
-    }, 500);
 
-  })();
-  </script>
+      guardarSesion(user, { rol: rol, nombre: nombre, email: email, foto_url: foto });
+      localStorage.setItem("kraze_rol", rol);
+      localStorage.removeItem("kraze_login_intent");
 
+      mostrarOverlay("¡Bienvenido!");
+      setTimeout(() => redirigirSegunRol(rol), 600);
+      return true;
+    } catch (e) {
+      mostrarError("Error procesando Google: " + e.message);
+      ocultarOverlay();
+      return false;
+    }
+  }
+
+  // ===== Verificar sesión existente al cargar =====
+  async function verificarSesionExistente() {
+    if (!supabase) return;
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session && session.user) {
+        // Ya hay sesión activa → redirigir directo
+        const rol = await obtenerRol(session.user.id);
+        guardarSesion(session.user, { rol: rol });
+        localStorage.setItem("kraze_rol", rol);
+        redirigirSegunRol(rol);
+      }
+    } catch (_) {}
+  }
+
+  // ===== Tabs =====
+  function cambiarTab(tab) {
+    tabActiva = tab;
+    document.querySelectorAll(".k-tab").forEach(t => {
+      t.classList.toggle("activo", t.dataset.tab === tab);
+    });
+    $("kFormEmail").style.display = tab === "email" ? "block" : "none";
+    $("kFormTel").style.display = tab === "telefono" ? "block" : "none";
+    ocultarError();
+  }
+
+  // ===== Init =====
+  function init() {
+    // Detectar callback de Google
+    const params = new URLSearchParams(location.search);
+    if (params.get("oauth") === "google" || window.location.hash.includes("access_token")) {
+      mostrarOverlay("Verificando Google...");
+      setTimeout(async () => {
+        const ok = await procesarCallbackGoogle();
+        if (!ok) {
+          ocultarOverlay();
+          // Si no hay sesión aún, esperamos un poco más (Supabase procesa el hash)
+          setTimeout(async () => {
+            await procesarCallbackGoogle();
+          }, 800);
+        }
+      }, 400);
+      return;
+    }
+
+    // Verificar sesión activa
+    verificarSesionExistente();
+
+    // Botones
+    $("kBtnGoogle").addEventListener("click", loginGoogle);
+    $("kBtnEmail").addEventListener("click", loginEmail);
+    $("kBtnTel").addEventListener("click", loginTelefono);
+
+    // Tabs
+    document.querySelectorAll(".k-tab").forEach(t => {
+      t.addEventListener("click", () => cambiarTab(t.dataset.tab));
+    });
+
+    // Enter para enviar
+    $("kPassEmail").addEventListener("keydown", e => { if (e.key === "Enter") loginEmail(); });
+    $("kPassTel").addEventListener("keydown", e => { if (e.key === "Enter") loginTelefono(); });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
 </body>
 </html>
