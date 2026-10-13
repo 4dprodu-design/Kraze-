@@ -6,7 +6,6 @@
 <meta name="color-scheme" content="only light">
 <meta name="supported-color-schemes" content="only light">
 <meta name="theme-color" content="#A4D65E">
-<meta name="author" content="Erian C.A.">
 <title>Kraze · Registro</title>
 <style>
 :root {
@@ -22,346 +21,96 @@
   --blanco: #FFFFFF;
   --rojo: #E54B4D;
   --radio: 14px;
-  --sombra: 0 2px 10px rgba(26,31,46,.06);
 }
 *, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; padding: 0; forced-color-adjust: none; }
 html { background: var(--fondo); -webkit-text-size-adjust: 100%; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-  background: var(--fondo);
-  color: var(--tinta);
-  min-height: 100dvh;
-  padding-bottom: 140px;
-  line-height: 1.4;
+  background: var(--fondo); color: var(--tinta);
+  min-height: 100dvh; padding-bottom: 140px; line-height: 1.4;
 }
 button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
-input, select, textarea { font-family: inherit; font-size: 16px; }
+input, select { font-family: inherit; font-size: 16px; }
 
-.k-header {
-  position: sticky; top: 0; z-index: 50;
-  background: var(--blanco);
-  border-bottom: 1px solid var(--gris-cla);
-  padding: 14px 18px 12px;
-}
+.k-header { position: sticky; top: 0; z-index: 50; background: var(--blanco); border-bottom: 1px solid var(--gris-cla); padding: 14px 18px 12px; }
 .k-header-top { display: flex; align-items: center; gap: 12px; }
-.k-back {
-  width: 38px; height: 38px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  background: var(--fondo); color: var(--tinta); flex-shrink: 0;
-}
+.k-back { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--fondo); color: var(--tinta); flex-shrink: 0; }
 .k-back svg { width: 18px; height: 18px; }
 .k-titulo { flex: 1; }
-.k-titulo h1 { font-size: 17px; font-weight: 700; color: var(--tinta); margin: 0; line-height: 1.2; }
-.k-titulo span { display: block; font-size: 12px; font-weight: 500; color: var(--gris); margin-top: 2px; }
-.k-paso-num {
-  font-size: 12px; font-weight: 700;
-  color: var(--verde-osc); background: var(--verde-cla);
-  padding: 6px 12px; border-radius: 999px;
-}
-.k-progreso {
-  height: 6px; background: var(--gris-cla);
-  border-radius: 999px; overflow: hidden; margin-top: 12px;
-}
-.k-progreso-bar {
-  height: 100%;
-  background: linear-gradient(90deg, var(--verde), var(--verde-osc));
-  width: 20%; border-radius: 999px;
-  transition: width .4s ease;
-}
+.k-titulo h1 { font-size: 17px; font-weight: 700; color: var(--tinta); margin: 0; }
+.k-titulo span { display: block; font-size: 12px; color: var(--gris); margin-top: 2px; }
+.k-paso-num { font-size: 12px; font-weight: 700; color: var(--verde-osc); background: var(--verde-cla); padding: 6px 12px; border-radius: 999px; }
+.k-progreso { height: 6px; background: var(--gris-cla); border-radius: 999px; overflow: hidden; margin-top: 12px; }
+.k-progreso-bar { height: 100%; background: linear-gradient(90deg, var(--verde), var(--verde-osc)); width: 20%; border-radius: 999px; transition: width .4s ease; }
 
 .k-main { padding: 22px 18px 20px; max-width: 560px; margin: 0 auto; }
-.k-paso { display: none; animation: k-fade .25s ease; }
+.k-paso { display: none; }
 .k-paso.activo { display: block; }
-@keyframes k-fade {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+.k-h2 { font-size: 22px; font-weight: 800; color: var(--tinta); margin: 0 0 6px; }
+.k-sub { font-size: 14px; color: var(--gris); margin: 0 0 22px; }
 
-.k-h2 { font-size: 22px; font-weight: 800; color: var(--tinta); margin: 0 0 6px; letter-spacing: -.3px; }
-.k-sub { font-size: 14px; color: var(--gris); margin: 0 0 22px; line-height: 1.45; }
-
-.k-campo { margin-bottom: 16px; position: relative; }
-.k-label {
-  display: block; font-size: 13px; font-weight: 700;
-  color: var(--tinta-2); margin-bottom: 7px;
-}
+.k-campo { margin-bottom: 16px; }
+.k-label { display: block; font-size: 13px; font-weight: 700; color: var(--tinta-2); margin-bottom: 7px; }
 .k-label em { color: var(--rojo); font-style: normal; }
-.k-input {
-  width: 100%;
-  padding: 14px;
-  border: 1.5px solid var(--gris-cla);
-  border-radius: var(--radio);
-  background: var(--blanco);
-  color: var(--tinta);
-  outline: none;
-  transition: border-color .15s;
-}
-.k-input:focus {
-  border-color: var(--verde);
-  box-shadow: 0 0 0 3px rgba(164,214,94,.22);
-}
-.k-input::placeholder { color: #A8AEBE; }
+.k-input { width: 100%; padding: 14px; border: 1.5px solid var(--gris-cla); border-radius: var(--radio); background: var(--blanco); color: var(--tinta); outline: none; }
+.k-input:focus { border-color: var(--verde); box-shadow: 0 0 0 3px rgba(164,214,94,.22); }
 
-.k-select {
-  width: 100%;
-  padding: 14px 12px;
-  border: 1.5px solid var(--gris-cla);
-  border-radius: var(--radio);
-  background: var(--blanco);
-  color: var(--tinta);
-  outline: none;
-  font-size: 15px;
-  font-weight: 600;
-  text-align: center;
-  text-align-last: center;
-  -webkit-appearance: auto;
-  appearance: auto;
-}
-.k-select:focus {
-  border-color: var(--verde);
-  box-shadow: 0 0 0 3px rgba(164,214,94,.22);
-}
+.k-select { width: 100%; padding: 14px 12px; border: 1.5px solid var(--gris-cla); border-radius: var(--radio); background: var(--blanco); color: var(--tinta); outline: none; font-size: 15px; font-weight: 600; text-align: center; text-align-last: center; -webkit-appearance: auto; appearance: auto; }
+.k-select:focus { border-color: var(--verde); box-shadow: 0 0 0 3px rgba(164,214,94,.22); }
 
 .k-fecha { display: grid; grid-template-columns: 1fr 1.6fr 1.2fr; gap: 8px; }
-
 .k-prefijo-wrap { display: flex; gap: 10px; align-items: stretch; }
-.k-prefijo {
-  flex: 0 0 auto;
-  min-width: 90px;
-  padding: 14px 12px;
-  border: 1.5px solid var(--gris-cla);
-  border-radius: var(--radio);
-  background: var(--blanco);
-  color: var(--tinta);
-  font-weight: 700;
-  text-align: center;
-  text-align-last: center;
-  font-size: 15px;
-  -webkit-appearance: auto;
-  appearance: auto;
-}
-.k-prefijo:focus { border-color: var(--verde); box-shadow: 0 0 0 3px rgba(164,214,94,.22); }
+.k-prefijo { flex: 0 0 auto; min-width: 90px; padding: 14px 12px; border: 1.5px solid var(--gris-cla); border-radius: var(--radio); background: var(--blanco); color: var(--tinta); font-weight: 700; text-align: center; text-align-last: center; font-size: 15px; -webkit-appearance: auto; appearance: auto; }
 .k-prefijo-wrap .k-input { flex: 1; }
 
-.k-check {
-  display: flex; gap: 12px;
-  align-items: flex-start;
-  padding: 14px;
-  background: var(--blanco);
-  border: 1.5px solid var(--gris-cla);
-  border-radius: var(--radio);
-  margin-bottom: 10px;
-}
-.k-check input { width: 22px; height: 22px; margin: 0; flex: 0 0 auto; accent-color: var(--verde); cursor: pointer; }
-.k-check label { font-size: 13.5px; line-height: 1.5; color: var(--tinta-2); cursor: pointer; }
-.k-check a { color: var(--verde-osc); font-weight: 600; text-decoration: none; }
+.k-check { display: flex; gap: 12px; align-items: flex-start; padding: 14px; background: var(--blanco); border: 1.5px solid var(--gris-cla); border-radius: var(--radio); margin-bottom: 10px; }
+.k-check input { width: 22px; height: 22px; margin: 0; flex: 0 0 auto; accent-color: var(--verde); }
+.k-check label { font-size: 13.5px; line-height: 1.5; color: var(--tinta-2); }
 
-.k-resumen {
-  background: var(--blanco);
-  border: 1.5px solid var(--gris-cla);
-  border-radius: var(--radio);
-  padding: 4px 16px; margin-bottom: 14px;
-}
-.k-res-item {
-  display: flex; justify-content: space-between;
-  gap: 12px; padding: 12px 0;
-  border-bottom: 1px solid var(--gris-cla);
-  font-size: 14px;
-}
+.k-resumen { background: var(--blanco); border: 1.5px solid var(--gris-cla); border-radius: var(--radio); padding: 4px 16px; margin-bottom: 14px; }
+.k-res-item { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--gris-cla); font-size: 14px; }
 .k-res-item:last-child { border-bottom: none; }
 .k-res-key { color: var(--gris); font-weight: 500; }
 .k-res-val { color: var(--tinta); font-weight: 600; text-align: right; word-break: break-word; }
 
 .k-otp-info { text-align: center; font-size: 14px; color: var(--gris); margin-bottom: 18px; }
 .k-otp-info b { color: var(--tinta); }
-.k-otp-input {
-  width: 100%; padding: 18px;
-  border: 2px solid var(--gris-cla);
-  border-radius: var(--radio);
-  background: var(--blanco);
-  color: var(--tinta);
-  font-size: 32px; font-weight: 800;
-  letter-spacing: 12px; text-align: center;
-  outline: none; font-family: monospace;
-  margin-bottom: 16px;
-}
-.k-otp-input:focus { border-color: var(--verde); box-shadow: 0 0 0 3px rgba(164,214,94,.22); }
+.k-otp-input { width: 100%; padding: 18px; border: 2px solid var(--gris-cla); border-radius: var(--radio); background: var(--blanco); color: var(--tinta); font-size: 32px; font-weight: 800; letter-spacing: 12px; text-align: center; outline: none; font-family: monospace; margin-bottom: 16px; }
+.k-otp-input:focus { border-color: var(--verde); }
 
 .k-exito { display: none; text-align: center; padding: 40px 20px; }
 .k-exito.activo { display: block; }
-.k-exito-ico {
-  width: 88px; height: 88px;
-  border-radius: 50%;
-  background: var(--verde-cla);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 20px;
-}
+.k-exito-ico { width: 88px; height: 88px; border-radius: 50%; background: var(--verde-cla); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
 .k-exito-ico svg { width: 48px; height: 48px; color: var(--verde-osc); }
-.k-exito h2 { font-size: 24px; font-weight: 800; margin: 0 0 8px; color: var(--tinta); }
-.k-exito p { font-size: 14px; color: var(--gris); margin: 0 0 22px; line-height: 1.5; }
+.k-exito h2 { font-size: 24px; font-weight: 800; margin: 0 0 8px; }
+.k-exito p { font-size: 14px; color: var(--gris); margin: 0 0 22px; }
 
-.k-acciones {
-  position: fixed; left: 0; right: 0; bottom: 0;
-  background: var(--blanco);
-  border-top: 1px solid var(--gris-cla);
-  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-  display: flex; gap: 10px;
-  z-index: 40;
-}
+.k-acciones { position: fixed; left: 0; right: 0; bottom: 0; background: var(--blanco); border-top: 1px solid var(--gris-cla); padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); display: flex; gap: 10px; z-index: 40; }
 .k-acciones-inner { display: flex; gap: 10px; max-width: 560px; margin: 0 auto; width: 100%; }
-.k-btn {
-  flex: 1;
-  padding: 15px 18px;
-  border-radius: var(--radio);
-  font-size: 15px; font-weight: 700;
-  transition: transform .12s, opacity .15s;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-}
+.k-btn { flex: 1; padding: 15px 18px; border-radius: var(--radio); font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; transition: transform .12s, opacity .15s; }
 .k-btn:active { transform: scale(.97); }
 .k-btn.primario { background: var(--verde); color: var(--tinta); box-shadow: 0 4px 14px rgba(164,214,94,.4); }
-.k-btn.primario:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; }
-.k-btn.ghost {
-  background: var(--blanco); color: var(--tinta-2);
-  border: 1.5px solid var(--gris-cla);
-  flex: 0 0 auto; padding-left: 22px; padding-right: 22px;
-}
-.k-btn-otp-reenviar {
-  display: block; width: 100%; text-align: center;
-  font-size: 13px; color: var(--verde-osc); font-weight: 600;
-  padding: 8px; margin-top: 8px;
-}
-.k-btn-otp-reenviar:disabled { color: var(--gris); cursor: not-allowed; }
+.k-btn.primario:disabled { opacity: .5; }
+.k-btn.ghost { background: var(--blanco); color: var(--tinta-2); border: 1.5px solid var(--gris-cla); flex: 0 0 auto; padding-left: 22px; padding-right: 22px; }
+.k-btn-otp-reenviar { display: block; width: 100%; text-align: center; font-size: 13px; color: var(--verde-osc); font-weight: 600; padding: 8px; margin-top: 8px; }
+.k-btn-otp-reenviar:disabled { color: var(--gris); }
 
-/* ERROR — ahora siempre visible arriba Y con borde rojo */
-.k-error {
-  display: none;
-  background: #FFEFEF;
-  color: var(--rojo);
-  padding: 14px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 14px;
-  line-height: 1.4;
-  border-left: 4px solid var(--rojo);
-}
+.k-error { display: none; background: #FFEFEF; color: var(--rojo); padding: 14px; border-radius: 10px; font-size: 14px; font-weight: 600; margin-bottom: 14px; line-height: 1.4; border-left: 4px solid var(--rojo); }
 .k-error.visible { display: block; }
 
-.k-spin {
-  width: 18px; height: 18px;
-  border: 2.5px solid rgba(26,31,46,.2);
-  border-top-color: var(--tinta);
-  border-radius: 50%;
-  animation: k-rot 1s linear infinite;
-  display: inline-block;
-}
+.k-spin { width: 18px; height: 18px; border: 2.5px solid rgba(26,31,46,.2); border-top-color: var(--tinta); border-radius: 50%; animation: k-rot 1s linear infinite; display: inline-block; }
 @keyframes k-rot { to { transform: rotate(360deg); } }
 
-.k-eri-fab {
-  position: fixed; right: 16px;
-  bottom: calc(90px + env(safe-area-inset-bottom));
-  width: 58px; height: 58px;
-  border-radius: 50%; background: var(--verde);
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 6px 20px rgba(164,214,94,.45);
-  z-index: 60; transition: transform .15s;
-}
-.k-eri-fab:active { transform: scale(.92); }
-.k-eri-fab svg { width: 30px; height: 30px; }
-
-.k-eri-panel {
-  position: fixed; inset: 0; height: 100dvh;
-  background: var(--fondo);
-  display: none; flex-direction: column;
-  z-index: 100;
-}
-.k-eri-panel.abierto { display: flex; }
-.k-eri-caja { width: 100%; height: 100%; display: flex; flex-direction: column; background: var(--fondo); }
-.k-eri-head {
-  display: flex; align-items: center; gap: 12px;
-  padding: 16px; background: var(--blanco);
-  border-bottom: 1px solid var(--gris-cla);
-  flex-shrink: 0;
-}
-.k-eri-avatar {
-  width: 42px; height: 42px;
-  border-radius: 50%; background: var(--verde);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.k-eri-avatar svg { width: 22px; height: 22px; }
-.k-eri-info { flex: 1; }
-.k-eri-nombre { font-size: 15px; font-weight: 700; color: var(--tinta); }
-.k-eri-estado { font-size: 12px; color: var(--gris); display: flex; align-items: center; gap: 5px; }
-.k-eri-estado::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--verde-osc); }
-.k-eri-cerrar {
-  width: 36px; height: 36px;
-  border-radius: 50%; background: var(--fondo);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px; color: var(--tinta-2); flex-shrink: 0;
-}
-.k-eri-mensajes {
-  flex: 1; overflow-y: auto; padding: 18px;
-  display: flex; flex-direction: column; gap: 12px;
-  min-height: 0;
-}
-.k-eri-msg {
-  max-width: 82%; padding: 12px 15px;
-  border-radius: 16px; font-size: 14px;
-  line-height: 1.45; word-wrap: break-word;
-  white-space: pre-wrap;
-}
-.k-eri-msg.eri {
-  background: var(--blanco); color: var(--tinta);
-  align-self: flex-start; border-bottom-left-radius: 4px;
-  box-shadow: var(--sombra);
-}
-.k-eri-msg.yo {
-  background: var(--verde); color: var(--tinta);
-  align-self: flex-end; border-bottom-right-radius: 4px;
-  font-weight: 500;
-}
-.k-eri-input-wrap {
-  display: flex; align-items: center; gap: 8px;
-  padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
-  background: var(--blanco);
-  border-top: 1px solid var(--gris-cla);
-  flex-shrink: 0;
-}
-.k-eri-input {
-  flex: 1; min-width: 0;
-  padding: 12px 16px; border: none;
-  border-radius: 999px; background: var(--fondo);
-  color: var(--tinta); outline: none; font-size: 15px;
-}
-.k-eri-btn {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; background: var(--fondo);
-  transition: transform .12s, background .15s;
-}
-.k-eri-btn:active { transform: scale(.92); }
-.k-eri-btn svg { width: 20px; height: 22px; }
-.k-eri-btn.mic-on { background: var(--rojo); animation: k-pulso 1s infinite; }
-.k-eri-btn.mic-on svg { color: var(--blanco); }
-@keyframes k-pulso {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(229,75,77,.6); }
-  50% { box-shadow: 0 0 0 10px rgba(229,75,77,0); }
-}
-
-@media (max-width: 380px) {
-  .k-h2 { font-size: 20px; }
-  .k-otp-input { font-size: 26px; letter-spacing: 8px; }
-  .k-fecha { grid-template-columns: 70px 1fr 90px; }
-}
+.k-debug { display: none; background: #1A1F2E; color: #A4D65E; padding: 12px; border-radius: 10px; font-size: 11px; font-family: monospace; margin-bottom: 14px; white-space: pre-wrap; word-break: break-all; max-height: 200px; overflow-y: auto; }
+.k-debug.visible { display: block; }
 </style>
 </head>
-<body><header class="k-header">
+<body>
+
+<header class="k-header">
   <div class="k-header-top">
-    <button type="button" class="k-back" id="kBtnVolver" onclick="KrazeReg.volver()" aria-label="Atrás">
+    <button type="button" class="k-back" id="kBtnVolver" aria-label="Atrás">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M19 12H5M12 19l-7-7 7-7"/>
       </svg>
@@ -378,26 +127,23 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
 </header>
 
 <main class="k-main">
+  <div class="k-debug" id="kDebug"></div>
   <div class="k-error" id="kError"></div>
 
-  <!-- PASO 1 -->
   <section class="k-paso activo" data-paso="1">
     <h2 class="k-h2">Cuéntanos de ti</h2>
     <p class="k-sub">Necesitamos tus datos reales para verificar tu identidad.</p>
 
     <div class="k-campo">
       <label class="k-label" for="fNombre">Nombre completo <em>*</em></label>
-      <input class="k-input" id="fNombre" type="text" placeholder="Ej: María González Pérez" autocomplete="name" maxlength="80">
+      <input class="k-input" id="fNombre" type="text" placeholder="Ej: María González" maxlength="80">
     </div>
 
     <div class="k-campo">
-      <label class="k-label" for="fCedulaNum">Cédula de identidad <em>*</em></label>
+      <label class="k-label" for="fCedulaNum">Cédula <em>*</em></label>
       <div class="k-prefijo-wrap">
         <select class="k-prefijo" id="fCedulaTipo">
-          <option value="V">V</option>
-          <option value="E">E</option>
-          <option value="J">J</option>
-          <option value="P">P</option>
+          <option value="V">V</option><option value="E">E</option><option value="J">J</option><option value="P">P</option>
         </select>
         <input class="k-input" id="fCedulaNum" type="tel" inputmode="numeric" placeholder="12345678" maxlength="10">
       </div>
@@ -406,197 +152,47 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
     <div class="k-campo">
       <label class="k-label" for="fDia">Fecha de nacimiento <em>*</em></label>
       <div class="k-fecha">
-        <select class="k-select" id="fDia">
-          <option value="">Día</option>
-          <option value="01">01</option>
-          <option value="02">02</option>
-          <option value="03">03</option>
-          <option value="04">04</option>
-          <option value="05">05</option>
-          <option value="06">06</option>
-          <option value="07">07</option>
-          <option value="08">08</option>
-          <option value="09">09</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-          <option value="13">13</option>
-          <option value="14">14</option>
-          <option value="15">15</option>
-          <option value="16">16</option>
-          <option value="17">17</option>
-          <option value="18">18</option>
-          <option value="19">19</option>
-          <option value="20">20</option>
-          <option value="21">21</option>
-          <option value="22">22</option>
-          <option value="23">23</option>
-          <option value="24">24</option>
-          <option value="25">25</option>
-          <option value="26">26</option>
-          <option value="27">27</option>
-          <option value="28">28</option>
-          <option value="29">29</option>
-          <option value="30">30</option>
-          <option value="31">31</option>
-        </select>
-        <select class="k-select" id="fMes">
-          <option value="">Mes</option>
-          <option value="01">Enero</option>
-          <option value="02">Febrero</option>
-          <option value="03">Marzo</option>
-          <option value="04">Abril</option>
-          <option value="05">Mayo</option>
-          <option value="06">Junio</option>
-          <option value="07">Julio</option>
-          <option value="08">Agosto</option>
-          <option value="09">Septiembre</option>
-          <option value="10">Octubre</option>
-          <option value="11">Noviembre</option>
-          <option value="12">Diciembre</option>
-        </select>
-        <select class="k-select" id="fAnio">
-          <option value="">Año</option>
-          <option value="2024">2024</option>
-          <option value="2023">2023</option>
-          <option value="2022">2022</option>
-          <option value="2021">2021</option>
-          <option value="2020">2020</option>
-          <option value="2019">2019</option>
-          <option value="2018">2018</option>
-          <option value="2017">2017</option>
-          <option value="2016">2016</option>
-          <option value="2015">2015</option>
-          <option value="2014">2014</option>
-          <option value="2013">2013</option>
-          <option value="2012">2012</option>
-          <option value="2011">2011</option>
-          <option value="2010">2010</option>
-          <option value="2009">2009</option>
-          <option value="2008">2008</option>
-          <option value="2007">2007</option>
-          <option value="2006">2006</option>
-          <option value="2005">2005</option>
-          <option value="2004">2004</option>
-          <option value="2003">2003</option>
-          <option value="2002">2002</option>
-          <option value="2001">2001</option>
-          <option value="2000">2000</option>
-          <option value="1999">1999</option>
-          <option value="1998">1998</option>
-          <option value="1997">1997</option>
-          <option value="1996">1996</option>
-          <option value="1995">1995</option>
-          <option value="1994">1994</option>
-          <option value="1993">1993</option>
-          <option value="1992">1992</option>
-          <option value="1991">1991</option>
-          <option value="1990">1990</option>
-          <option value="1989">1989</option>
-          <option value="1988">1988</option>
-          <option value="1987">1987</option>
-          <option value="1986">1986</option>
-          <option value="1985">1985</option>
-          <option value="1984">1984</option>
-          <option value="1983">1983</option>
-          <option value="1982">1982</option>
-          <option value="1981">1981</option>
-          <option value="1980">1980</option>
-          <option value="1979">1979</option>
-          <option value="1978">1978</option>
-          <option value="1977">1977</option>
-          <option value="1976">1976</option>
-          <option value="1975">1975</option>
-          <option value="1974">1974</option>
-          <option value="1973">1973</option>
-          <option value="1972">1972</option>
-          <option value="1971">1971</option>
-          <option value="1970">1970</option>
-          <option value="1969">1969</option>
-          <option value="1968">1968</option>
-          <option value="1967">1967</option>
-          <option value="1966">1966</option>
-          <option value="1965">1965</option>
-          <option value="1964">1964</option>
-          <option value="1963">1963</option>
-          <option value="1962">1962</option>
-          <option value="1961">1961</option>
-          <option value="1960">1960</option>
-          <option value="1959">1959</option>
-          <option value="1958">1958</option>
-          <option value="1957">1957</option>
-          <option value="1956">1956</option>
-          <option value="1955">1955</option>
-          <option value="1954">1954</option>
-          <option value="1953">1953</option>
-          <option value="1952">1952</option>
-          <option value="1951">1951</option>
-          <option value="1950">1950</option>
-          <option value="1949">1949</option>
-          <option value="1948">1948</option>
-          <option value="1947">1947</option>
-          <option value="1946">1946</option>
-          <option value="1945">1945</option>
-          <option value="1944">1944</option>
-          <option value="1943">1943</option>
-          <option value="1942">1942</option>
-          <option value="1941">1941</option>
-          <option value="1940">1940</option>
-        </select>
+        <select class="k-select" id="fDia"><option value="">Día</option></select>
+        <select class="k-select" id="fMes"><option value="">Mes</option></select>
+        <select class="k-select" id="fAnio"><option value="">Año</option></select>
       </div>
     </div>
 
     <div class="k-campo">
-      <label class="k-label" for="fEmail">Correo electrónico <em>*</em></label>
-      <input class="k-input" id="fEmail" type="email" placeholder="tu@correo.com" autocomplete="email" inputmode="email" maxlength="80">
+      <label class="k-label" for="fEmail">Correo <em>*</em></label>
+      <input class="k-input" id="fEmail" type="email" placeholder="tu@correo.com" inputmode="email" maxlength="80">
     </div>
   </section>
 
-  <!-- PASO 2 -->
   <section class="k-paso" data-paso="2">
     <h2 class="k-h2">Tu cuenta</h2>
-    <p class="k-sub">Con estos datos entrarás y te contactaremos.</p>
+    <p class="k-sub">Cómo entrarás a Kraze.</p>
 
     <div class="k-campo">
       <label class="k-label" for="fTelefono">Teléfono <em>*</em></label>
       <div class="k-prefijo-wrap">
         <select class="k-prefijo" id="fTelPrefijo">
-          <option value="+58">+58</option>
-          <option value="+57">+57</option>
-          <option value="+1">+1</option>
-          <option value="+34">+34</option>
-          <option value="+507">+507</option>
-          <option value="+593">+593</option>
-          <option value="+51">+51</option>
-          <option value="+54">+54</option>
-          <option value="+56">+56</option>
-          <option value="+52">+52</option>
-          <option value="+506">+506</option>
-          <option value="+53">+53</option>
+          <option value="+58">+58</option><option value="+57">+57</option><option value="+1">+1</option>
+          <option value="+34">+34</option><option value="+507">+507</option><option value="+593">+593</option>
         </select>
-        <input class="k-input" id="fTelefono" type="tel" inputmode="numeric" placeholder="4121234567" maxlength="11" autocomplete="tel-national">
+        <input class="k-input" id="fTelefono" type="tel" inputmode="numeric" placeholder="4121234567" maxlength="11">
       </div>
     </div>
 
     <div class="k-campo">
       <label class="k-label" for="fPass">Contraseña <em>*</em></label>
-      <input class="k-input" id="fPass" type="password" placeholder="Mínimo 6 caracteres" maxlength="60" autocomplete="new-password">
+      <input class="k-input" id="fPass" type="password" placeholder="Mínimo 6 caracteres" maxlength="60">
     </div>
 
     <div class="k-campo">
       <label class="k-label" for="fPass2">Repetir contraseña <em>*</em></label>
-      <input class="k-input" id="fPass2" type="password" placeholder="Repite la contraseña" maxlength="60" autocomplete="new-password">
-    </div>
-
-    <div class="k-aviso" style="background:var(--verde-cla);padding:12px 14px;border-radius:10px;font-size:13px;color:var(--tinta-2);line-height:1.5;">
-      <strong style="color:var(--verde-osc);">Importante:</strong> Te enviaremos un SMS para verificar tu teléfono.
+      <input class="k-input" id="fPass2" type="password" placeholder="Repite la contraseña" maxlength="60">
     </div>
   </section>
 
-  <!-- PASO 3 -->
   <section class="k-paso" data-paso="3">
     <h2 class="k-h2">¿Dónde estás?</h2>
-    <p class="k-sub">Así te mostramos servicios cerca de ti.</p>
+    <p class="k-sub">Para mostrarte servicios cerca.</p>
 
     <div class="k-campo">
       <label class="k-label" for="fPais">País</label>
@@ -606,62 +202,34 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
         <option value="Ecuador">Ecuador</option>
         <option value="Perú">Perú</option>
         <option value="Panamá">Panamá</option>
-        <option value="República Dominicana">República Dominicana</option>
       </select>
     </div>
 
     <div class="k-campo">
       <label class="k-label" for="fEstado">Estado <em>*</em></label>
-      <select class="k-select" id="fEstado">
-        <option value="">Selecciona tu estado</option>
-        <option value="Amazonas">Amazonas</option>
-        <option value="Anzoátegui">Anzoátegui</option>
-        <option value="Apure">Apure</option>
-        <option value="Aragua">Aragua</option>
-        <option value="Barinas">Barinas</option>
-        <option value="Bolívar">Bolívar</option>
-        <option value="Carabobo">Carabobo</option>
-        <option value="Cojedes">Cojedes</option>
-        <option value="Delta Amacuro">Delta Amacuro</option>
-        <option value="Distrito Capital">Distrito Capital</option>
-        <option value="Falcón">Falcón</option>
-        <option value="Guárico">Guárico</option>
-        <option value="Lara">Lara</option>
-        <option value="Mérida">Mérida</option>
-        <option value="Miranda">Miranda</option>
-        <option value="Monagas">Monagas</option>
-        <option value="Nueva Esparta">Nueva Esparta</option>
-        <option value="Portuguesa">Portuguesa</option>
-        <option value="Sucre">Sucre</option>
-        <option value="Táchira">Táchira</option>
-        <option value="Trujillo">Trujillo</option>
-        <option value="Vargas">Vargas</option>
-        <option value="Yaracuy">Yaracuy</option>
-        <option value="Zulia">Zulia</option>
-      </select>
+      <select class="k-select" id="fEstado"><option value="">Selecciona tu estado</option></select>
     </div>
 
     <div class="k-campo">
       <label class="k-label" for="fCiudad">Ciudad <em>*</em></label>
-      <input class="k-input" id="fCiudad" type="text" placeholder="Ej: Socopó" autocomplete="address-level2" maxlength="60">
+      <input class="k-input" id="fCiudad" type="text" placeholder="Ej: Socopó" maxlength="60">
     </div>
 
     <div class="k-campo">
       <label class="k-label" for="fDireccion">Dirección (opcional)</label>
-      <input class="k-input" id="fDireccion" type="text" placeholder="Calle, sector, casa" autocomplete="street-address" maxlength="120">
+      <input class="k-input" id="fDireccion" type="text" placeholder="Calle, sector, casa" maxlength="120">
     </div>
   </section>
 
-  <!-- PASO 4 -->
   <section class="k-paso" data-paso="4">
     <h2 class="k-h2">Revisa y confirma</h2>
-    <p class="k-sub">Verifica que todo esté correcto antes de continuar.</p>
+    <p class="k-sub">Verifica que todo esté correcto.</p>
 
     <div class="k-resumen" id="kResumen"></div>
 
     <div class="k-check">
       <input type="checkbox" id="fTerminos">
-      <label for="fTerminos">Acepto los <a href="#">Términos y condiciones</a> y la <a href="#">Política de privacidad</a>.</label>
+      <label for="fTerminos">Acepto los términos y condiciones y la política de privacidad.</label>
     </div>
 
     <div class="k-check">
@@ -670,7 +238,6 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
     </div>
   </section>
 
-  <!-- PASO 5 -->
   <section class="k-paso" data-paso="5">
     <h2 class="k-h2">Verifica tu teléfono</h2>
     <p class="k-sub">Enviamos un código de 6 dígitos a tu SMS.</p>
@@ -681,13 +248,12 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
     </div>
 
     <div class="k-campo">
-      <input class="k-otp-input" id="fOtp" type="tel" inputmode="numeric" placeholder="------" maxlength="6" autocomplete="one-time-code">
+      <input class="k-otp-input" id="fOtp" type="tel" inputmode="numeric" placeholder="------" maxlength="6">
     </div>
 
-    <button type="button" class="k-btn-otp-reenviar" id="kBtnReenviar" onclick="KrazeReg.reenviarOtp()">Reenviar código</button>
+    <button type="button" class="k-btn-otp-reenviar" id="kBtnReenviar">Reenviar código</button>
   </section>
 
-  <!-- ÉXITO -->
   <section class="k-exito" id="kExito">
     <div class="k-exito-ico">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -696,175 +262,114 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
     </div>
     <h2>¡Cuenta creada!</h2>
     <p>Tu teléfono fue verificado.<br>Bienvenido a Kraze.</p>
-    <button type="button" class="k-btn primario" onclick="KrazeReg.irAlHome()" style="max-width:280px;margin:0 auto;">Continuar</button>
+    <button type="button" class="k-btn primario" id="kBtnIrHome" style="max-width:280px;margin:0 auto;">Continuar</button>
   </section>
 </main>
 
 <div class="k-acciones" id="kAcciones">
   <div class="k-acciones-inner">
-    <button type="button" class="k-btn ghost" id="kBtnAtras" onclick="KrazeReg.atras()">Atrás</button>
-    <button type="button" class="k-btn primario" id="kBtnSig" onclick="KrazeReg.siguiente()">Siguiente →</button>
-  </div>
-</div>
-
-<button type="button" class="k-eri-fab" onclick="KrazeEri.abrir()" aria-label="Hablar con Eri">
-  <svg viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M16 1C8.27 1 2 7.27 2 15c0 10.5 12.5 23 13 23.5.28.28.72.28 1 0 .5-.5 13-13 13-23.5C29 7.27 22.73 1 16 1z" fill="#1A1F2E"/>
-    <path d="M16 24s-7-4.4-7-9.3c0-2.2 1.8-4 4-4 1.5 0 2.5.8 3 1.6.5-.8 1.5-1.6 3-1.6 2.2 0 4 1.8 4 4 0 4.9-7 9.3-7 9.3z" fill="#FFFFFF"/>
-  </svg>
-</button>
-
-<div class="k-eri-panel" id="kEriPanel">
-  <div class="k-eri-caja">
-    <div class="k-eri-head">
-      <div class="k-eri-avatar">
-        <svg viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 1C8.27 1 2 7.27 2 15c0 10.5 12.5 23 13 23.5.28.28.72.28 1 0 .5-.5 13-13 13-23.5C29 7.27 22.73 1 16 1z" fill="#1A1F2E"/>
-          <path d="M16 24s-7-4.4-7-9.3c0-2.2 1.8-4 4-4 1.5 0 2.5.8 3 1.6.5-.8 1.5-1.6 3-1.6 2.2 0 4 1.8 4 4 0 4.9-7 9.3-7 9.3z" fill="#FFFFFF"/>
-        </svg>
-      </div>
-      <div class="k-eri-info">
-        <div class="k-eri-nombre">Eri</div>
-        <div class="k-eri-estado" id="kEriEstado">Asistente Kraze</div>
-      </div>
-      <button type="button" class="k-eri-cerrar" onclick="KrazeEri.cerrar()">×</button>
-    </div>
-    <div class="k-eri-mensajes" id="kEriMsgs"></div>
-    <div class="k-eri-input-wrap">
-      <input class="k-eri-input" id="kEriInput" type="text" placeholder="Escribe o dicta tu mensaje..." autocomplete="off">
-      <button type="button" class="k-eri-btn" id="kEriMic" onclick="KrazeEri.mic()" aria-label="Micrófono">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#1A1F2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
-          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-          <line x1="12" y1="19" x2="12" y2="23"/>
-        </svg>
-      </button>
-      <button type="button" class="k-eri-btn" onclick="KrazeEri.enviar()" aria-label="Enviar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#1A1F2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="22" y1="2" x2="11" y2="13"/>
-          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-        </svg>
-      </button>
-    </div>
+    <button type="button" class="k-btn ghost" id="kBtnAtras">Atrás</button>
+    <button type="button" class="k-btn primario" id="kBtnSig">Siguiente →</button>
   </div>
 </div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* KRAZE · Registro · © 2026 Erian C.A. */
+(function() {
+  "use strict";
 
-const KRAZE_SUPABASE_URL = "https://xetqvxuiroalddfzrfzc.supabase.co";
-const KRAZE_SUPABASE_KEY = "sb_publishable_SARKcARFpIESQRUDSxbpig_kdlHrZh3";
-const KRAZE_ERI_ENDPOINT = "https://moto-llave-backend.vercel.app/api/claude";
-
-const supabase = (window.supabase && window.supabase.createClient)
-  ? window.supabase.createClient(KRAZE_SUPABASE_URL, KRAZE_SUPABASE_KEY)
-  : null;
-
-const KrazeReg = (() => {
-  let pasoActual = 1;
-  const TOTAL_PASOS = 5;
-  let rol = "pasajero";
-  let telefonoCompleto = "";
-  let cooldownReenviar = 0;
-  let intervalReenviar = null;
+  const KRAZE_SUPABASE_URL = "https://xetqvxuiroalddfzrfzc.supabase.co";
+  const KRAZE_SUPABASE_KEY = "sb_publishable_SARKcARFpIESQRUDSxbpig_kdlHrZh3";
 
   const $ = (id) => document.getElementById(id);
 
-  const mostrarError = (msg) => {
-    console.log("[KRAZE] Error:", msg);
+  // Debug visible
+  function debug(msg) {
+    console.log("[KRAZE]", msg);
+    const el = $("kDebug");
+    if (el) {
+      el.textContent += msg + "\n";
+      el.classList.add("visible");
+    }
+  }
+
+  // ─── Verificar que Supabase cargó ───
+  const supabase = (window.supabase && window.supabase.createClient)
+    ? window.supabase.createClient(KRAZE_SUPABASE_URL, KRAZE_SUPABASE_KEY)
+    : null;
+
+  if (!supabase) {
+    debug("⚠️ CDN de Supabase NO cargó");
+  } else {
+    debug("✅ Supabase listo");
+  }
+
+  // ─── Estado ───
+  const state = {
+    paso: 1,
+    TOTAL: 5,
+    rol: "pasajero",
+    telefonoCompleto: "",
+    cooldown: 0,
+    cooldownInterval: null
+  };
+
+  // ─── Helpers ───
+  function mostrarError(msg) {
+    debug("❌ " + msg);
     const el = $("kError");
     el.textContent = "△ " + msg;
     el.classList.add("visible");
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-  const ocultarError = () => $("kError").classList.remove("visible");
-  const limpiarTel = (s) => String(s || "").replace(/\D/g, "");
+  }
+  function ocultarError() { $("kError").classList.remove("visible"); }
+  function limpiarTel(s) { return String(s || "").replace(/\D/g, ""); }
 
-  function init() {
-    console.log("[KRAZE] Registro iniciado");
-    const params = new URLSearchParams(location.search);
-    const r = (params.get("rol") || "pasajero").toLowerCase();
-    rol = (r === "transportista" || r === "tienda") ? r : "pasajero";
-    $("kRolTexto").textContent = rol === "pasajero" ? "Pasajero" : rol === "transportista" ? "Transportista" : "Tienda / Negocio";
-
-    cargarProgreso();
-
-    $("fCedulaNum").addEventListener("input", e => {
-      e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
+  // ─── Inicializar selects (llenado dinámico, funciona en Chrome) ───
+  function llenarFechas() {
+    const dia = $("fDia");
+    for (let i = 1; i <= 31; i++) {
+      const o = document.createElement("option");
+      o.value = String(i).padStart(2, "0");
+      o.textContent = String(i).padStart(2, "0");
+      dia.appendChild(o);
+    }
+    const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+    const mes = $("fMes");
+    meses.forEach((n, i) => {
+      const o = document.createElement("option");
+      o.value = String(i + 1).padStart(2, "0");
+      o.textContent = n;
+      mes.appendChild(o);
     });
-    $("fTelefono").addEventListener("input", e => {
-      e.target.value = e.target.value.replace(/\D/g, "").slice(0, 11);
-    });
-    $("fOtp").addEventListener("input", e => {
-      e.target.value = e.target.value.replace(/\D/g, "").slice(0, 6);
-    });
-
-    document.querySelectorAll(".k-input, .k-select").forEach(el => {
-      el.addEventListener("input", guardarProgreso);
-      el.addEventListener("change", guardarProgreso);
-    });
-
-    $("fOtp").addEventListener("keydown", e => {
-      if (e.key === "Enter") verificarOtp();
-    });
-    $("kEriInput").addEventListener("keydown", e => {
-      if (e.key === "Enter") KrazeEri.enviar();
-    });
-
-    actualizarUI();
+    const anio = $("fAnio");
+    for (let a = 2010; a >= 1950; a--) {
+      const o = document.createElement("option");
+      o.value = String(a);
+      o.textContent = String(a);
+      anio.appendChild(o);
+    }
   }
 
-  function guardarProgreso() {
-    const datos = {
-      nombre: $("fNombre").value,
-      cedulaTipo: $("fCedulaTipo").value,
-      cedulaNum: $("fCedulaNum").value,
-      dia: $("fDia").value,
-      mes: $("fMes").value,
-      anio: $("fAnio").value,
-      email: $("fEmail").value,
-      telPrefijo: $("fTelPrefijo").value,
-      telefono: $("fTelefono").value,
-      pais: $("fPais").value,
-      estado: $("fEstado").value,
-      ciudad: $("fCiudad").value,
-      direccion: $("fDireccion").value,
-      rol: rol
-    };
-    try { localStorage.setItem("kraze_registro_draft", JSON.stringify(datos)); } catch (_) {}
+  function llenarEstados() {
+    const estados = ["Amazonas","Anzoátegui","Apure","Aragua","Barinas","Bolívar","Carabobo","Cojedes","Delta Amacuro","Distrito Capital","Falcón","Guárico","Lara","Mérida","Miranda","Monagas","Nueva Esparta","Portuguesa","Sucre","Táchira","Trujillo","Vargas","Yaracuy","Zulia"];
+    const sel = $("fEstado");
+    estados.forEach(e => {
+      const o = document.createElement("option");
+      o.value = e; o.textContent = e;
+      sel.appendChild(o);
+    });
   }
 
-  function cargarProgreso() {
-    let datos = {};
-    try { datos = JSON.parse(localStorage.getItem("kraze_registro_draft") || "{}"); } catch (_) {}
-    if (!datos || !datos.nombre) return;
-    if (datos.nombre) $("fNombre").value = datos.nombre;
-    if (datos.cedulaTipo) $("fCedulaTipo").value = datos.cedulaTipo;
-    if (datos.cedulaNum) $("fCedulaNum").value = datos.cedulaNum;
-    if (datos.dia) $("fDia").value = datos.dia;
-    if (datos.mes) $("fMes").value = datos.mes;
-    if (datos.anio) $("fAnio").value = datos.anio;
-    if (datos.email) $("fEmail").value = datos.email;
-    if (datos.telPrefijo) $("fTelPrefijo").value = datos.telPrefijo;
-    if (datos.telefono) $("fTelefono").value = datos.telefono;
-    if (datos.pais) $("fPais").value = datos.pais;
-    if (datos.estado) $("fEstado").value = datos.estado;
-    if (datos.ciudad) $("fCiudad").value = datos.ciudad;
-    if (datos.direccion) $("fDireccion").value = datos.direccion;
-  }
-
-  function validarPaso(n) {
-    console.log("[KRAZE] Validando paso:", n);
+  // ─── Validaciones ───
+  function validar(n) {
     if (n === 1) {
       const nombre = $("fNombre").value.trim();
       const ced = $("fCedulaNum").value.trim();
-      const dia = $("fDia").value, mes = $("fMes").value, anio = $("fAnio").value;
+      const d = $("fDia").value, m = $("fMes").value, a = $("fAnio").value;
       const email = $("fEmail").value.trim();
       if (nombre.length < 3) return "Escribe tu nombre completo.";
-      if (ced.length < 6) return "La cédula debe tener al menos 6 dígitos.";
-      if (!dia) return "Selecciona tu día.";
-      if (!mes) return "Selecciona tu mes.";
-      if (!anio) return "Selecciona tu año.";
-      // SIN validación de edad
+      if (ced.length < 6) return "Cédula: al menos 6 dígitos.";
+      if (!d || !m || !a) return "Selecciona tu fecha de nacimiento completa.";
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return "Correo inválido.";
       return null;
     }
@@ -893,119 +398,134 @@ const KrazeReg = (() => {
     return null;
   }
 
-  function construirResumen() {
-    const ced = $("fCedulaTipo").value + "-" + $("fCedulaNum").value;
-    const fecha = `${$("fDia").value}/${$("fMes").value}/${$("fAnio").value}`;
-    const tel = $("fTelPrefijo").value + " " + $("fTelefono").value;
-    const rolTxt = rol === "pasajero" ? "Pasajero" : rol === "transportista" ? "Transportista" : "Tienda / Negocio";
-    const filas = [
-      ["Nombre", $("fNombre").value.trim()],
-      ["Cédula", ced],
-      ["Fecha nacimiento", fecha],
-      ["Correo", $("fEmail").value.trim()],
-      ["Teléfono", tel],
-      ["País", $("fPais").value],
-      ["Estado", $("fEstado").value],
-      ["Ciudad", $("fCiudad").value.trim()],
-      ["Dirección", $("fDireccion").value.trim() || "—"],
-      ["Tipo de cuenta", rolTxt]
-    ];
-    $("kResumen").innerHTML = filas.map(([k, v]) =>
-      `<div class="k-res-item"><span class="k-res-key">${k}</span><span class="k-res-val">${v}</span></div>`
-    ).join("");
-  }
-
+  // ─── UI ───
   function actualizarUI() {
     document.querySelectorAll(".k-paso").forEach(el => {
-      el.classList.toggle("activo", parseInt(el.dataset.paso) === pasoActual);
+      el.classList.toggle("activo", parseInt(el.dataset.paso) === state.paso);
     });
-    $("kPasoNum").textContent = `Paso ${pasoActual} / ${TOTAL_PASOS}`;
-    $("kProgBar").style.width = (pasoActual / TOTAL_PASOS * 100) + "%";
-    $("kBtnAtras").style.display = (pasoActual === 1 || pasoActual === 5) ? "none" : "flex";
-    $("kBtnSig").textContent = pasoActual === 4 ? "Enviar código →" : pasoActual === 5 ? "Verificar ✓" : "Siguiente →";
-    $("kAcciones").style.display = pasoActual === 5 ? "none" : "flex";
-    if (pasoActual === 4) construirResumen();
+    $("kPasoNum").textContent = "Paso " + state.paso + " / " + state.TOTAL;
+    $("kProgBar").style.width = (state.paso / state.TOTAL * 100) + "%";
+    $("kBtnAtras").style.display = (state.paso === 1 || state.paso === 5) ? "none" : "flex";
+    $("kBtnSig").textContent = state.paso === 4 ? "Enviar código →" : state.paso === 5 ? "Verificar ✓" : "Siguiente →";
+    $("kAcciones").style.display = state.paso === 5 ? "none" : "flex";
+    if (state.paso === 4) construirResumen();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function construirResumen() {
+    const ced = $("fCedulaTipo").value + "-" + $("fCedulaNum").value;
+    const fecha = $("fDia").value + "/" + $("fMes").value + "/" + $("fAnio").value;
+    const tel = $("fTelPrefijo").value + " " + $("fTelefono").value;
+    const rolTxt = state.rol === "pasajero" ? "Pasajero" : state.rol === "transportista" ? "Transportista" : "Tienda";
+    const filas = [
+      ["Nombre", $("fNombre").value.trim()],
+      ["Cédula", ced],
+      ["Nacimiento", fecha],
+      ["Correo", $("fEmail").value.trim()],
+      ["Teléfono", tel],
+      ["Ubicación", $("fCiudad").value.trim() + ", " + $("fEstado").value],
+      ["Tipo de cuenta", rolTxt]
+    ];
+    $("kResumen").innerHTML = filas.map(f =>
+      '<div class="k-res-item"><span class="k-res-key">' + f[0] + '</span><span class="k-res-val">' + f[1] + '</span></div>'
+    ).join("");
+  }
+
+  // ─── Navegación ───
   function siguiente() {
-    console.log("[KRAZE] Siguiente tocado. Paso actual:", pasoActual);
+    debug("▶ Siguiente. Paso: " + state.paso);
     ocultarError();
-    const err = validarPaso(pasoActual);
+    const err = validar(state.paso);
     if (err) { mostrarError(err); return; }
-    guardarProgreso();
-    if (pasoActual === 4) { enviarOtp(); return; }
-    if (pasoActual === 5) { verificarOtp(); return; }
-    pasoActual++;
-    console.log("[KRAZE] Avanzando a paso:", pasoActual);
+
+    if (state.paso === 4) { enviarOtp(); return; }
+    if (state.paso === 5) { verificarOtp(); return; }
+
+    state.paso++;
+    debug("▶ Avanzó a: " + state.paso);
     actualizarUI();
   }
 
   function atras() {
     ocultarError();
-    if (pasoActual > 1 && pasoActual !== 5) {
-      pasoActual--;
+    if (state.paso > 1 && state.paso !== 5) {
+      state.paso--;
       actualizarUI();
     }
   }
 
   function volver() {
-    if (pasoActual > 1) { atras(); return; }
+    if (state.paso > 1) { atras(); return; }
     if (history.length > 1) history.back();
     else location.href = "03-Seleccion-Rol.html";
   }
 
+  // ─── OTP ───
   async function enviarOtp() {
-    if (!supabase) { mostrarError("Error de configuración."); return; }
+    debug("▶ Enviando OTP...");
+    if (!supabase) { mostrarError("Supabase no cargó. Verifica conexión."); return; }
     const btn = $("kBtnSig");
-    const textoOrig = btn.innerHTML;
+    const txt = btn.innerHTML;
     btn.disabled = true;
-    btn.innerHTML = '<span class="k-spin"></span> Enviando SMS...';
+    btn.innerHTML = '<span class="k-spin"></span> Enviando...';
+
     const prefijo = $("fTelPrefijo").value;
     const tel = limpiarTel($("fTelefono").value);
-    telefonoCompleto = prefijo + tel;
-    const { data, error } = await supabase.auth.signUp({
-      phone: telefonoCompleto,
-      password: $("fPass").value,
-      options: { data: { nombre: $("fNombre").value.trim() } }
-    });
-    if (error) {
-      console.error(error);
-      mostrarError(error.message === "User already registered"
-        ? "Ese teléfono ya está registrado. Inicia sesión."
-        : "Error al enviar SMS: " + error.message);
+    state.telefonoCompleto = prefijo + tel;
+    const password = $("fPass").value;
+
+    debug("▶ Phone: " + state.telefonoCompleto);
+
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        phone: state.telefonoCompleto,
+        password: password,
+        options: { data: { nombre: $("fNombre").value.trim() } }
+      });
+
+      if (error) {
+        debug("❌ signUp error: " + error.message);
+        mostrarError(error.message === "User already registered"
+          ? "Ese teléfono ya está registrado."
+          : "Error al enviar SMS: " + error.message);
+        btn.disabled = false;
+        btn.innerHTML = txt;
+        return;
+      }
+
+      debug("✅ OTP enviado");
+      $("kOtpTel").textContent = state.telefonoCompleto;
+      state.paso = 5;
+      actualizarUI();
       btn.disabled = false;
-      btn.innerHTML = textoOrig;
-      return;
+      btn.innerHTML = txt;
+      setTimeout(() => $("fOtp").focus(), 300);
+    } catch (e) {
+      debug("❌ Error: " + e.message);
+      mostrarError("Error: " + e.message);
+      btn.disabled = false;
+      btn.innerHTML = txt;
     }
-    $("kOtpTel").textContent = telefonoCompleto;
-    pasoActual = 5;
-    actualizarUI();
-    btn.disabled = false;
-    btn.innerHTML = textoOrig;
-    setTimeout(() => $("fOtp").focus(), 300);
   }
 
   async function reenviarOtp() {
-    if (cooldownReenviar > 0) return;
-    ocultarError();
-    if (!supabase) return;
-    const { error } = await supabase.auth.resend({ type: "sms", phone: telefonoCompleto });
-    if (error) { mostrarError("No se pudo reenviar. Espera un momento."); return; }
-    cooldownReenviar = 60;
+    if (state.cooldown > 0 || !supabase) return;
+    const { error } = await supabase.auth.resend({ type: "sms", phone: state.telefonoCompleto });
+    if (error) { mostrarError("No se pudo reenviar."); return; }
+    state.cooldown = 60;
     actualizarCooldown();
-    if (intervalReenviar) clearInterval(intervalReenviar);
-    intervalReenviar = setInterval(() => {
-      cooldownReenviar--;
+    if (state.cooldownInterval) clearInterval(state.cooldownInterval);
+    state.cooldownInterval = setInterval(() => {
+      state.cooldown--;
       actualizarCooldown();
-      if (cooldownReenviar <= 0) { clearInterval(intervalReenviar); intervalReenviar = null; }
+      if (state.cooldown <= 0) { clearInterval(state.cooldownInterval); state.cooldownInterval = null; }
     }, 1000);
   }
 
   function actualizarCooldown() {
     const btn = $("kBtnReenviar");
-    if (cooldownReenviar > 0) {
-      btn.textContent = `Reenviar en ${cooldownReenviar}s`;
+    if (state.cooldown > 0) {
+      btn.textContent = "Reenviar en " + state.cooldown + "s";
       btn.disabled = true;
     } else {
       btn.textContent = "Reenviar código";
@@ -1014,176 +534,137 @@ const KrazeReg = (() => {
   }
 
   async function verificarOtp() {
-    ocultarError();
+    debug("▶ Verificando OTP...");
     const codigo = $("fOtp").value.trim();
     if (codigo.length !== 6) { mostrarError("Código de 6 dígitos."); return; }
-    if (!supabase) { mostrarError("Error de configuración."); return; }
+    if (!supabase) { mostrarError("Supabase no cargó."); return; }
+
     const btn = $("kBtnSig");
-    const textoOrig = btn.innerHTML;
+    const txt = btn.innerHTML;
     btn.disabled = true;
     btn.innerHTML = '<span class="k-spin"></span> Verificando...';
-    const { data, error } = await supabase.auth.verifyOtp({
-      phone: telefonoCompleto,
-      token: codigo,
-      type: "sms"
-    });
-    if (error) {
-      console.error(error);
-      mostrarError("Código incorrecto. Revisa el SMS.");
-      btn.disabled = false;
-      btn.innerHTML = textoOrig;
-      return;
-    }
-    if (!data.user) {
-      mostrarError("No se pudo verificar.");
-      btn.disabled = false;
-      btn.innerHTML = textoOrig;
-      return;
-    }
-    const userId = data.user.id;
-    const cedula = $("fCedulaTipo").value + "-" + $("fCedulaNum").value;
-    const fechaNac = `${$("fAnio").value}-${$("fMes").value}-${$("fDia").value}`;
-    const perfil = {
-      id: userId,
-      nombre: $("fNombre").value.trim(),
-      telefono: telefonoCompleto,
-      email: $("fEmail").value.trim().toLowerCase(),
-      rol: rol,
-      cedula: cedula,
-      ciudad: $("fCiudad").value.trim(),
-      estado_ve: $("fEstado").value,
-      pais: $("fPais").value,
-      fecha_nacimiento: fechaNac,
-      direccion: $("fDireccion").value.trim() || null,
-      activo: true,
-      verificado: true,
-      full_name: $("fNombre").value.trim(),
-      phone: limpiarTel($("fTelefono").value),
-      role: rol,
-      city: $("fCiudad").value.trim()
-    };
-    const { error: errPerfil } = await supabase.from("profiles").insert(perfil);
-    if (errPerfil) {
-      console.error("Insert error:", errPerfil);
-      if (!/duplicate|unique/i.test(errPerfil.message)) {
-        mostrarError("Error guardando perfil: " + errPerfil.message);
-      }
-    }
-    try {
-      localStorage.setItem("kraze_perfil", JSON.stringify(perfil));
-      localStorage.setItem("kraze_usuario", JSON.stringify(perfil));
-      localStorage.setItem("kraze_usuario_id", userId);
-      localStorage.setItem("kraze_rol", rol);
-      localStorage.removeItem("kraze_registro_draft");
-    } catch (_) {}
-    mostrarExito();
-  }
 
-  function mostrarExito() {
-    document.querySelectorAll(".k-paso").forEach(el => el.classList.remove("activo"));
-    $("kExito").classList.add("activo");
-    $("kAcciones").style.display = "none";
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    try {
+      const { data, error } = await supabase.auth.verifyOtp({
+        phone: state.telefonoCompleto,
+        token: codigo,
+        type: "sms"
+      });
+
+      if (error) {
+        debug("❌ verify error: " + error.message);
+        mostrarError("Código incorrecto.");
+        btn.disabled = false;
+        btn.innerHTML = txt;
+        return;
+      }
+      if (!data.user) {
+        mostrarError("No se pudo verificar.");
+        btn.disabled = false;
+        btn.innerHTML = txt;
+        return;
+      }
+
+      debug("✅ OTP verificado. Guardando perfil...");
+      const userId = data.user.id;
+      const cedula = $("fCedulaTipo").value + "-" + $("fCedulaNum").value;
+      const fechaNac = $("fAnio").value + "-" + $("fMes").value + "-" + $("fDia").value;
+
+      const perfil = {
+        id: userId,
+        nombre: $("fNombre").value.trim(),
+        telefono: state.telefonoCompleto,
+        email: $("fEmail").value.trim().toLowerCase(),
+        rol: state.rol,
+        cedula: cedula,
+        ciudad: $("fCiudad").value.trim(),
+        estado_ve: $("fEstado").value,
+        pais: $("fPais").value,
+        fecha_nacimiento: fechaNac,
+        direccion: $("fDireccion").value.trim() || null,
+        activo: true,
+        verificado: true,
+        full_name: $("fNombre").value.trim(),
+        phone: limpiarTel($("fTelefono").value),
+        role: state.rol,
+        city: $("fCiudad").value.trim()
+      };
+
+      const { error: errIns } = await supabase.from("profiles").insert(perfil);
+      if (errIns && !/duplicate|unique/i.test(errIns.message)) {
+        debug("⚠️ Insert: " + errIns.message);
+      } else {
+        debug("✅ Perfil guardado");
+      }
+
+      try {
+        localStorage.setItem("kraze_usuario", JSON.stringify(perfil));
+        localStorage.setItem("kraze_usuario_id", userId);
+        localStorage.setItem("kraze_rol", state.rol);
+      } catch (_) {}
+
+      // Éxito
+      document.querySelectorAll(".k-paso").forEach(el => el.classList.remove("activo"));
+      $("kExito").classList.add("activo");
+      $("kAcciones").style.display = "none";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (e) {
+      debug("❌ Error: " + e.message);
+      mostrarError("Error: " + e.message);
+      btn.disabled = false;
+      btn.innerHTML = txt;
+    }
   }
 
   function irAlHome() {
-    location.href = rol === "pasajero" ? "04-Home-Pasajero.html" : "04-Home-Transportista.html";
+    location.href = state.rol === "pasajero" ? "04-Home-Pasajero.html" : "04-Home-Transportista.html";
   }
 
-  return { init, siguiente, atras, volver, irAlHome, reenviarOtp };
+  // ─── Inicializar ───
+  function init() {
+    debug("🚀 Iniciando registro...");
+    const params = new URLSearchParams(location.search);
+    const r = (params.get("rol") || "pasajero").toLowerCase();
+    state.rol = (r === "transportista" || r === "tienda") ? r : "pasajero";
+    $("kRolTexto").textContent = state.rol === "pasajero" ? "Pasajero" : state.rol === "transportista" ? "Transportista" : "Tienda";
+
+    llenarFechas();
+    llenarEstados();
+
+    // Inputs numéricos
+    $("fCedulaNum").addEventListener("input", e => {
+      e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
+    });
+    $("fTelefono").addEventListener("input", e => {
+      e.target.value = e.target.value.replace(/\D/g, "").slice(0, 11);
+    });
+    $("fOtp").addEventListener("input", e => {
+      e.target.value = e.target.value.replace(/\D/g, "").slice(0, 6);
+    });
+
+    // Botones con addEventListener (no onclick)
+    $("kBtnSig").addEventListener("click", siguiente);
+    $("kBtnAtras").addEventListener("click", atras);
+    $("kBtnVolver").addEventListener("click", volver);
+    $("kBtnReenviar").addEventListener("click", reenviarOtp);
+    $("kBtnIrHome").addEventListener("click", irAlHome);
+
+    // Enter en OTP
+    $("fOtp").addEventListener("keydown", e => {
+      if (e.key === "Enter") verificarOtp();
+    });
+
+    actualizarUI();
+    debug("✅ Listo. Esperando toque en Siguiente...");
+  }
+
+  // Arrancar
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 })();
-
-const KrazeEri = (() => {
-  const $ = (id) => document.getElementById(id);
-  let reconocimiento = null;
-  let grabando = false;
-  let historial = [{ role: "system", content: "Eres Eri, asistente de Kraze." }];
-
-  function abrir() {
-    $("kEriPanel").classList.add("abierto");
-    if (!$("kEriMsgs").children.length) agregarMsg("eri", "¡Hola! Soy Eri 💚 ¿Necesitas ayuda?");
-    setTimeout(() => $("kEriInput").focus(), 250);
-  }
-  function cerrar() { $("kEriPanel").classList.remove("abierto"); detenerMic(); }
-  function agregarMsg(tipo, texto) {
-    const div = document.createElement("div");
-    div.className = "k-eri-msg " + tipo;
-    div.textContent = texto;
-    $("kEriMsgs").appendChild(div);
-    $("kEriMsgs").scrollTop = $("kEriMsgs").scrollHeight;
-  }
-  async function enviar() {
-    const inp = $("kEriInput");
-    const texto = inp.value.trim();
-    if (!texto) return;
-    inp.value = "";
-    agregarMsg("yo", texto);
-    historial.push({ role: "user", content: texto });
-    $("kEriEstado").textContent = "Pensando...";
-    try {
-      const res = await fetch(KRAZE_ERI_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: historial, model: "deepseek-chat" })
-      });
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      const data = await res.json();
-      const respuesta = data.reply || data.message || (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "No pude responder.";
-      historial.push({ role: "assistant", content: respuesta });
-      agregarMsg("eri", respuesta);
-      hablar(respuesta);
-    } catch (e) {
-      agregarMsg("eri", "Tuve un problema de conexión.");
-    }
-    $("kEriEstado").textContent = "Asistente Kraze";
-  }
-  function hablar(texto) {
-    if (!("speechSynthesis" in window)) return;
-    try {
-      speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(texto);
-      u.lang = "es-VE";
-      const v = speechSynthesis.getVoices().find(x => x.lang.startsWith("es"));
-      if (v) u.voice = v;
-      speechSynthesis.speak(u);
-    } catch (_) {}
-  }
-  function mic() {
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) { agregarMsg("eri", "Tu navegador no soporta voz."); return; }
-    if (grabando) { detenerMic(); return; }
-    reconocimiento = new SR();
-    reconocimiento.lang = "es-VE";
-    reconocimiento.continuous = false;
-    reconocimiento.interimResults = false;
-    reconocimiento.onstart = () => {
-      grabando = true;
-      $("kEriMic").classList.add("mic-on");
-      $("kEriEstado").textContent = "Escuchando...";
-    };
-    reconocimiento.onresult = (ev) => {
-      $("kEriInput").value = ev.results[0][0].transcript;
-      setTimeout(() => enviar(), 100);
-    };
-    reconocimiento.onerror = () => detenerMic();
-    reconocimiento.onend = () => detenerMic();
-    try { reconocimiento.start(); } catch (_) { detenerMic(); }
-  }
-  function detenerMic() {
-    grabando = false;
-    $("kEriMic").classList.remove("mic-on");
-    $("kEriEstado").textContent = "Asistente Kraze";
-    if (reconocimiento) { try { reconocimiento.stop(); } catch (_) {} reconocimiento = null; }
-  }
-  return { abrir, cerrar, enviar, mic };
-})();
-
-// Arrancar cuando DOM esté listo
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => KrazeReg.init());
-} else {
-  KrazeReg.init();
-}
 </script>
 </body>
 </html>
