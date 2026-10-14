@@ -5,16 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#FAFAF7">
   <meta name="author" content="Erian C.A.">
+  <meta name="color-scheme" content="only light">
   <title>Kraze</title>
 
   <!-- ============================================================
        KRAZE · Splash
        © 2026 Erian C.A. — Todos los derechos reservados
        Archivo: 01-Splash.html
-       Sin animaciones, sin transiciones, sin parpadeo.
+       Sin animaciones. Con timeout de seguridad.
        ============================================================ -->
   <style>
-    /* --- Reset total --- */
+    :root { color-scheme: only light; }
+
     * {
       margin: 0;
       padding: 0;
@@ -28,6 +30,7 @@
       -webkit-tap-highlight-color: transparent;
       animation: none !important;
       transition: none !important;
+      forced-color-adjust: none;
     }
 
     body {
@@ -38,7 +41,6 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
-    /* --- Logo centrado, sin animación --- */
     .splash-logo {
       height: 80px;
       display: flex;
@@ -52,7 +54,6 @@
       width: auto;
     }
 
-    /* --- Copyright --- */
     .splash-copy {
       position: fixed;
       bottom: calc(28px + env(safe-area-inset-bottom, 0px));
@@ -102,33 +103,86 @@
 
   <!-- ============================================================
        Lógica del Splash
-       NO carga theme.js (evita que cambie colores y parpadee)
+       CON TIMEOUT DE SEGURIDAD:
+       Si nav.js no carga o falla, este código igual redirige.
        ============================================================ -->
   <script>
   (function () {
     'use strict';
 
-    const DURACION_MS = 1500;
+    var DURACION_MS = 1500;
+    var RUTA_LOGIN  = '02-Login.html';
+    var RUTA_HOME_P = '04-Home-Pasajero.html';
+    var RUTA_HOME_T = '04-Home-Transportista.html';
 
     /* --- Bloquear botón atrás --- */
-    window.history.pushState(null, '', window.location.href);
-    window.addEventListener('popstate', function () {
+    try {
       window.history.pushState(null, '', window.location.href);
-    });
+      window.addEventListener('popstate', function () {
+        window.history.pushState(null, '', window.location.href);
+      });
+    } catch (e) { /* ignorar */ }
 
-    /* --- Decidir destino --- */
-    function decidirDestino() {
-      const rol = Kraze.nav.getRol();
-      if (rol === 'pasajero')      return Kraze.nav.config.homePasajero;
-      if (rol === 'transportista') return Kraze.nav.config.homeTransportista;
-      return Kraze.nav.config.login;
+    /* --- Leer rol desde localStorage con protección --- */
+    function leerRol() {
+      try {
+        return localStorage.getItem('kraze_rol') || null;
+      } catch (e) {
+        return null;
+      }
     }
 
-    /* --- Redirigir sin transición --- */
+    /* --- Decidir destino con protección total --- */
+    function decidirDestino() {
+      try {
+        // Si Kraze.nav existe y tiene config, usarlo
+        if (window.Kraze && window.Kraze.nav && window.Kraze.nav.config) {
+          var rol = window.Kraze.nav.getRol();
+          if (rol === 'pasajero')      return window.Kraze.nav.config.homePasajero;
+          if (rol === 'transportista') return window.Kraze.nav.config.homeTransportista;
+          return window.Kraze.nav.config.login;
+        }
+      } catch (e) { /* ignorar y caer al fallback */ }
+
+      // FALLBACK: si nav.js no cargó, decidir manualmente
+      var rol = leerRol();
+      if (rol === 'pasajero')      return RUTA_HOME_P;
+      if (rol === 'transportista') return RUTA_HOME_T;
+      return RUTA_LOGIN;
+    }
+
+    /* --- Redirigir con protección total --- */
+    function redirigir() {
+      var destino;
+      try {
+        destino = decidirDestino();
+      } catch (e) {
+        destino = RUTA_LOGIN;
+      }
+
+      try {
+        window.location.replace(destino);
+      } catch (e) {
+        // Último recurso
+        window.location.href = RUTA_LOGIN;
+      }
+    }
+
+    /* --- Timeout principal --- */
+    setTimeout(redirigir, DURACION_MS);
+
+    /* --- Timeout de seguridad: si a los 4s aún estamos aquí, forzar login --- */
     setTimeout(function () {
-      const destino = decidirDestino();
-      window.location.replace(destino);
-    }, DURACION_MS);
+      try {
+        // Si la URL no ha cambiado, todavía estamos en el splash
+        if (window.location.pathname.indexOf('01-Splash') !== -1 ||
+            window.location.pathname.indexOf('Splash') !== -1) {
+          window.location.replace(RUTA_LOGIN);
+        }
+      } catch (e) {
+        window.location.href = RUTA_LOGIN;
+      }
+    }, 4000);
 
   })();
   </script>
