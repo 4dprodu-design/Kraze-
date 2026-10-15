@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="only light">
+<title>Plan de Negocio Kraze · Sociedad Socopó</title>
+<style>
+:root { color-scheme: only light; }
+html { forced-color-adjust: none; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #FAFAF7;
+  color: #1A1F2E;
+  line-height: 1.5;
+  padding-bottom: 100px;
+}
+.header {
+  background: #1A1F2E;
+  color: #FFFFFF;
+  padding: 28px 20px 32px;
+  text-align: center;
+  border-radius: 0 0 28px 28px;
+  box-shadow: 0 4px 20px rgba(26,31,46,0.15);
+}
+.header-logo {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #FFFFFF;
+  margin-bottom: 4px;
+}
+.header-logo span { color: #A4D65E; }
+.header-slogan {
+  font-size: 12px;
+  color: #A4D65E;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.header-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 4px;
+}
+.header-subtitle {
+  font-size: 13px;
+  color: #B8BFC9;
+}
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 16px;
+}
+.section {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 12px rgba(26,31,46,0.05);
+}
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1A1F2E;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  background: #A4D65E;
+  border-radius: 2px;
+}
+.hero-box {
+  background: linear-gradient(135deg, #A4D65E 0%, #8BC34A 100%);
+  color: #1A1F2E;
+  border-radius: 20px;
+  padding: 24px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 20px rgba(164,214,94,0.3);
+}
+.hero-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+.hero-value {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 4px;
+}
+.hero-desc {
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.card {
+  background: #F7F9F4;
+  border-radius: 14px;
+  padding: 14px 12px;
+  text-align: center;
+  border: 1px solid #EEF0E8;
+}
+.card-label {
+  font-size: 10px;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.card-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1A1F2E;
+  line-height: 1.1;
+}
+.card-value.green { color: #6DA838; }
+.card-value.blue { color: #2563EB; }
+.card-value.orange { color: #EA580C; }
+.card-desc {
+  font-size: 11px;
+  color: #8890A0;
+  margin-top: 4px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  margin-top: 8px;
+}
+th {
+  background: #1A1F2E;
+  color: #FFFFFF;
+  padding: 9px 5px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+th:first-child { border-radius: 10px 0 0 0; }
+th:last-child { border-radius: 0 10px 0 0; }
+td {
+  padding: 8px 5px;
+  border-bottom: 1px solid #EEF0F4;
+  color: #1A1F2E;
+}
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: #FAFAF7; }
+.td-highlight { font-weight: 700; color: #6DA838; }
+.list-check { list-style: none; padding: 0; }
+.list-check li {
+  padding: 10px 0 10px 28px;
+  position: relative;
+  font-size: 13.5px;
+  color: #1A1F2E;
+  border-bottom: 1px solid #F0F2F5;
+  line-height: 1.5;
+}
+.list-check li:last-child { border-bottom: none; }
+.list-check li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 20px;
+  height: 20px;
+  background: #A4D65E;
+  color: #1A1F2E;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+}
+.legal-box {
+  background: #EEF7DC;
+  border-left: 4px solid #A4D65E;
+  padding: 14px 16px;
+  border-radius: 10px;
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #2B3A18;
+}
+.legal-box strong { color: #1A1F2E; }
+.footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 11px;
+  color: #8890A0;
+  line-height: 1.6;
+}
+.footer strong { color: #1A1F2E; }
+.callout {
+  background: #FFF7E6;
+  border-left: 4px solid #F59E0B;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #78350F;
+  margin-top: 12px;
+}
+.callout strong { color: #92400E; }
+.btn-cta {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: #A4D65E;
+  color: #1A1F2E;
+  border: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 16px;
+  box-shadow: 0 4px 14px rgba(164,214,94,0.35);
+  transition: transform 0.15s ease;
+}
+.btn-cta:active { transform: scale(0.98); }
+.slider-row { margin-bottom: 16px; }
+.slider-row label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1A1F2E;
+  margin-bottom: 8px;
+}
+.slider-row label .val {
+  color: #6DA838;
+  font-weight: 800;
+  font-size: 15px;
+}
+input[type="range"] {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: #EEF0F4;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #A4D65E;
+  cursor: pointer;
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 2px 6px rgba(26,31,46,0.2);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #A4D65E;
+  cursor: pointer;
+  border: 3px solid #FFFFFF;
+}
+.result-box {
+  background: #1A1F2E;
+  color: #FFFFFF;
+  border-radius: 14px;
+  padding: 18px 16px;
+  margin-top: 16px;
+}
+.result-box .title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #A4D65E;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.result-item {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.result-item:last-child, .result-item:nth-last-child(2) { border-bottom: none; }
+.result-item .label {
+  font-size: 10px;
+  color: #B8BFC9;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.result-item .value {
+  font-size: 20px;
+  font-weight: 800;
+  color: #A4D65E;
+  line-height: 1;
+}
+.result-item .value.white { color: #FFFFFF; }
+.result-item .value.warn { color: #F59E0B; }
+.result-item .value.bad { color: #EF4444; }
+.eri-fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #1A1F2E;
+  color: #A4D65E;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 6px 20px rgba(26,31,46,0.3);
+  z-index: 999;
+}
+.eri-fab:active { transform: scale(0.92); }
+.eri-window {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: calc(100% - 40px);
+  max-width: 340px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(26,31,46,0.25);
+  display: none;
+  z-index: 998;
+  overflow: hidden;
+  border: 1px solid #EEF0E8;
+}
+.eri-window.visible { display: block; }
+.eri-header {
+  background: #1A1F2E;
+  color: #FFFFFF;
+  padding: 12px 16px;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.eri-header span { color: #A4D65E; }
+.eri-close {
+  background: none;
+  border: none;
+  color: #FFFFFF;
+  font-size: 18px;
+  cursor: pointer;
+}
+.eri-body {
+  padding: 14px;
+  max-height: 320px;
+  overflow-y: auto;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.eri-msg {
+  padding: 10px 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  background: #F7F9F4;
+  color: #1A1F2E;
+}
+.eri-msg.user {
+  background: #A4D65E;
+  color: #1A1F2E;
+  margin-left: 20px;
+}
+.eri-input-row {
+  display: flex;
+  gap: 6px;
+  padding: 10px;
+  border-top: 1px solid #EEF0E8;
+}
+.eri-input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #DDE2D5;
+  border-radius: 10px;
+  font-size: 13px;
+  outline: none;
+  font-family: inherit;
+  background: #FAFAF7;
+}
+.eri-input:focus { border-color: #A4D65E; }
+.eri-send {
+  background: #A4D65E;
+  border: none;
+  color: #1A1F2E;
+  padding: 0 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 16px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo"><span>K</span>raze</div>
+  <div class="header-slogan">Transporte total</div>
+  <div class="header-title">Plan de Negocio · Socopó 2026</div>
+  <div class="header-subtitle">Propuesta de sociedad · Frank Cesin + Nelson Barón</div>
+</div>
+
+<div class="container">
+
+  <div class="hero-box">
+    <div class="hero-label">Inversión inicial</div>
+    <div class="hero-value">$60,000</div>
+    <div class="hero-desc">40 motos · 80 choferes · Sociedad 50/50</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Resumen ejecutivo</div>
+    <p style="font-size:13.5px; color:#4A4F5E; line-height:1.6; margin-bottom:12px;">
+      Arrancamos en Socopó (100,000 habitantes) con <strong>40 motos</strong> operando en 2 turnos cada una.
+      Modelo ético: cada chofer gana entre <strong>$20 y $25/día</strong>, con jornadas de 8h.
+      Crecimiento escalonado: del 15% al 30% de adopción en 12 meses.
+    </p>
+    <ul class="list-check">
+      <li>40 motos × $1,500 = <strong>$60,000</strong> (financiadas, pagaderas en 12 meses)</li>
+      <li>Cada moto trabaja <strong>2 turnos de 8h</strong> con 2 choferes</li>
+      <li>Cada chofer gana entre <strong>$20 y $25/día</strong> (techo ético)</li>
+      <li>La sociedad recibe <strong>40%</strong> de cada viaje</li>
+      <li>Pago instantáneo vía <strong>Binance Pay</strong> (Split automático)</li>
+      <li><strong>80 empleos dignos</strong> al final del año 1</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">El mercado Socopó</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-label">Población</div>
+        <div class="card-value">100K</div>
+        <div class="card-desc">habitantes</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Motos totales</div>
+        <div class="card-value">500</div>
+        <div class="card-desc">en la ciudad</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-label">Nuestra flota</div>
+        <div class="card-value green">40</div>
+        <div class="card-desc">motos (8%)</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Nuestros choferes</div>
+        <div class="card-value blue">80</div>
+        <div class="card-desc">al año 1</div>
+      </div>
+    </div>
+    <div class="legal-box">
+      <strong>Adopción inicial:</strong> 15% de la población usa mototaxi.<br>
+      <strong>Meta 12 meses:</strong> 30% (transporte + marketplace + delivery).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Modelo ético: 2 turnos por moto</div>
+    <p style="font-size:13px; color:#4A4F5E; margin-bottom:12px;">
+      Una moto, dos choferes. Cada uno con jornada de 8h y ganancia digna. 
+      La escalabilidad viene de sumar choferes, no de comprar más motos.
+    </p>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-label">Turno mañana</div>
+        <div class="card-value green">6am-2pm</div>
+        <div class="card-desc">Chofer A</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Turno tarde</div>
+        <div class="card-value blue">2pm-10pm</div>
+        <div class="card-desc">Chofer B</div>
+      </div>
+    </div>
+    <div class="callout">
+      <strong>Filosofía Kraze:</strong> No explotamos al chofer. Le damos jornada digna, 
+      pago justo y tiempo para su vida personal. Así se construye un servicio sostenible.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Reparto por viaje ($3.00)</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-label">Chofer (60%)</div>
+        <div class="card-value green">$1.31</div>
+        <div class="card-desc">Wallet Binance</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sociedad (40%)</div>
+        <div class="card-value">$0.87</div>
+        <div class="card-desc">Cubre motos y seguros</div>
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-label">Plataforma</div>
+        <div class="card-value blue">$0.33</div>
+      </div>
+      <div class="card">
+        <div class="card-label">IVA</div>
+        <div class="card-value">$0.40</div>
+      </div>
+      <div class="card">
+        <div class="card-label">IGTF</div>
+        <div class="card-value">$0.09</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Proyección escalonada · Año 1</div>
+    <p style="font-size:13px; color:#4A4F5E; margin-bottom:12px;">
+      Cada mes se suman choferes y motos según la demanda. Al final del año: 80 choferes 
+      operando en 40 motos con 2 turnos cada una.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Mes</th>
+          <th>Adop.</th>
+          <th>Capt.</th>
+          <th>Viajes</th>
+          <th>Chof.</th>
+          <th>Motos</th>
+          <th>Chof/día</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>1</strong></td><td>15%</td><td>15%</td><td>338</td><td>20</td><td>10</td><td>$18.98</td></tr>
+        <tr><td><strong>2</strong></td><td>18%</td><td>25%</td><td>675</td><td>30</td><td>15</td><td class="td-highlight">$25.00</td></tr>
+        <tr><td><strong>3</strong></td><td>20%</td><td>28%</td><td>840</td><td>38</td><td>19</td><td>$24.60</td></tr>
+        <tr><td><strong>4</strong></td><td>22%</td><td>30%</td><td>990</td><td>44</td><td>22</td><td>$25.00</td></tr>
+        <tr><td><strong>5</strong></td><td>24%</td><td>32%</td><td>1152</td><td>52</td><td>26</td><td>$24.65</td></tr>
+        <tr><td><strong>6</strong></td><td>26%</td><td>34%</td><td>1326</td><td>60</td><td>30</td><td>$24.55</td></tr>
+        <tr><td><strong>7</strong></td><td>27%</td><td>35%</td><td>1417</td><td>64</td><td>32</td><td>$24.60</td></tr>
+        <tr><td><strong>8</strong></td><td>28%</td><td>36%</td><td>1512</td><td>68</td><td>34</td><td>$24.70</td></tr>
+        <tr><td><strong>9</strong></td><td>29%</td><td>37%</td><td>1610</td><td>72</td><td>36</td><td>$24.85</td></tr>
+        <tr><td><strong>10</strong></td><td>30%</td><td>38%</td><td>1710</td><td>76</td><td>38</td><td>$25.00</td></tr>
+        <tr><td><strong>11</strong></td><td>30%</td><td>39%</td><td>1755</td><td>78</td><td>39</td><td>$25.00</td></tr>
+        <tr><td><strong>12</strong></td><td>30%</td><td>40%</td><td>1800</td><td>80</td><td>40</td><td class="td-highlight">$25.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ganancias al final del año 1</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-label">Chofer/mes (cada uno)</div>
+        <div class="card-value green">$750</div>
+        <div class="card-desc">mes 12</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sociedad/mes (mes 12)</div>
+        <div class="card-value blue">$61,800</div>
+        <div class="card-desc">ingreso mensual</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-label">Sociedad año 1</div>
+        <div class="card-value orange">$519K</div>
+        <div class="card-desc">ingreso acumulado</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tu parte 50%</div>
+        <div class="card-value green">$259K</div>
+        <div class="card-desc">año 1</div>
+      </div>
+    </div>
+    <div class="callout">
+      <strong>Punto de equilibrio:</strong> Mes 3. <strong>ROI:</strong> 433% año 1.
+      <strong>Empleos generados:</strong> 80 choferes con salario digno.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Lo que cada socio aporta</div>
+    <div class="card" style="text-align:left; padding:16px; margin-bottom:10px;">
+      <div style="font-size:14px; font-weight:700; color:#2563EB; margin-bottom:8px;">
+        🇻🇪 Nelson Barón
+      </div>
+      <ul class="list-check">
+        <li>Inversión: $60,000 en 40 motos</li>
+        <li>Administración diaria de la flota</li>
+        <li>Relación directa con choferes</li>
+        <li>Cubre seguros, mantenimiento, permisología</li>
+      </ul>
+    </div>
+    <div class="card" style="text-align:left; padding:16px;">
+      <div style="font-size:14px; font-weight:700; color:#6DA838; margin-bottom:8px;">
+        🇻🇪 Frank Cesin
+      </div>
+      <ul class="list-check">
+        <li>Plataforma Kraze (app + sistema)</li>
+        <li>Sistema Binance Pay integrado</li>
+        <li>Contratos con aliados comerciales</li>
+        <li>Certificación y capacitación de choferes</li>
+        <li>Estrategia de crecimiento y expansión</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Calculadora interactiva</div>
+    <p style="font-size:13px; color:#4A4F5E; margin-bottom:16px;">
+      Mueve las variables y mira los resultados en tiempo real.
+    </p>
+
+    <div class="slider-row">
+      <label>Motos en operación <span class="val" id="valMotos">40</span></label>
+      <input type="range" id="sliderMotos" min="10" max="150" step="5" value="40">
+    </div>
+
+    <div class="slider-row">
+      <label>Adopción de la población <span class="val" id="valAdopcion">30%</span></label>
+      <input type="range" id="sliderAdopcion" min="5" max="50" step="1" value="30">
+    </div>
+
+    <div class="slider-row">
+      <label>Captación de la sociedad <span class="val" id="valCaptacion">40%</span></label>
+      <input type="range" id="sliderCaptacion" min="5" max="60" step="1" value="40">
+    </div>
+
+    <div class="slider-row">
+      <label>Tarifa promedio (USD) <span class="val" id="valTarifa">$3.00</span></label>
+      <input type="range" id="sliderTarifa" min="2" max="15" step="0.5" value="3">
+    </div>
+
+    <div class="result-box">
+      <div class="title">Resultados en vivo</div>
+      <div class="result-grid">
+        <div class="result-item">
+          <div class="label">Viajes/día</div>
+          <div class="value white" id="resViajes">—</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Choferes necesarios</div>
+          <div class="value white" id="resChoferes">—</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Chofer gana/día</div>
+          <div class="value" id="resChofer">—</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Sociedad gana/día</div>
+          <div class="value" id="resFilial">—</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Tu parte/día (50%)</div>
+          <div class="value" id="resKraze">—</div>
+        </div>
+        <div class="result-item">
+          <div class="label">Chofer/mes</div>
+          <div class="value" id="resMes">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-cta" onclick="alert('¡Propuesta aceptada! Nos pondremos en contacto contigo, Nelson.')">
+    Acepto la propuesta
+  </button>
+
+  <div class="footer">
+    <strong>Kraze</strong> · Transporte total<br>
+    Sociedad Socopó · Frank Cesin + Nelson Barón<br>
+    © 2026 Erian C.A. · Todos los derechos reservados
+  </div>
+
+</div>
+
+<button clas
