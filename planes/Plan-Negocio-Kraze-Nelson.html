@@ -3,713 +3,510 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="only light">
-<title>Plan de Negocio Kraze · Sociedad Socopó</title>
+<title>Ecosistema Digital del Agro · Venezuela 2026</title>
 <style>
-:root { color-scheme: only light; }
-html { forced-color-adjust: none; }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #FAFAF7;
-  color: #1A1F2E;
-  line-height: 1.5;
-  padding-bottom: 100px;
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0d1220;
+  --bg-soft:#131a2c;
+  --surface:#182136;
+  --surface2:#1f2940;
+  --border:#2a3654;
+  --border-soft:#334263;
+  --text:#f1f4fa;
+  --text2:#9aa8c4;
+  --text3:#6b7899;
+  --emerald:#2dd4a8;
+  --emerald-deep:#14b88a;
+  --gold:#e8c268;
+  --gold-deep:#c9a544;
+  --blue:#7aa8ff;
+  --lavender:#b8a8e8;
+  --red:#ef6b6b;
+  --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --serif:'Playfair Display',Georgia,serif;
+  --mono:'JetBrains Mono','SF Mono',monospace;
 }
-.header {
-  background: #1A1F2E;
-  color: #FFFFFF;
-  padding: 28px 20px 32px;
-  text-align: center;
-  border-radius: 0 0 28px 28px;
-  box-shadow: 0 4px 20px rgba(26,31,46,0.15);
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.75;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 15% 0%, rgba(45,212,168,0.10), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 85% 20%, rgba(122,168,255,0.08), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(232,194,104,0.06), transparent 65%);
+  background-attachment:fixed;
 }
-.header-logo {
-  font-size: 32px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  color: #FFFFFF;
-  margin-bottom: 4px;
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(13,18,32,0.82);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border-bottom:1px solid var(--border);
+  padding:0 2.5rem;height:72px;
+  display:flex;align-items:center;justify-content:space-between;
 }
-.header-logo span { color: #A4D65E; }
-.header-slogan {
-  font-size: 12px;
-  color: #A4D65E;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 600;
-  margin-bottom: 16px;
+.nav-brand{
+  font-weight:700;font-size:1rem;letter-spacing:3px;
+  color:var(--emerald);
+  display:flex;align-items:center;gap:.75rem;
 }
-.header-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #FFFFFF;
-  margin-bottom: 4px;
+.nav-brand .dot{
+  width:9px;height:9px;border-radius:50%;
+  background:var(--emerald);
+  box-shadow:0 0 14px var(--emerald);
+  animation:pd 2.5s ease-in-out infinite;
 }
-.header-subtitle {
-  font-size: 13px;
-  color: #B8BFC9;
+@keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(1.15)}}
+.nav-links{display:flex;gap:1.75rem;list-style:none}
+.nav-links a{
+  color:var(--text2);text-decoration:none;
+  font-size:.72rem;letter-spacing:1.5px;
+  text-transform:uppercase;font-weight:500;
+  transition:color .3s;
 }
-.container {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 20px 16px;
+.nav-links a:hover{color:var(--emerald)}
+.nav-cta{
+  background:linear-gradient(135deg,var(--emerald),var(--emerald-deep));
+  color:#0a1320;padding:.65rem 1.4rem;
+  border-radius:10px;font-size:.72rem;
+  font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;text-decoration:none;
+  transition:all .3s;
+  box-shadow:0 6px 24px rgba(45,212,168,0.28);
 }
-.section {
-  background: #FFFFFF;
-  border-radius: 20px;
-  padding: 20px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 12px rgba(26,31,46,0.05);
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(45,212,168,0.45)}
+
+/* HERO */
+.hero{
+  min-height:100vh;padding:11rem 2.5rem 6rem;
+  position:relative;display:flex;align-items:center;
+  overflow:hidden;
 }
-.section-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1A1F2E;
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(42,54,84,0.28) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(42,54,84,0.28) 1px, transparent 1px);
+  background-size:70px 70px;
+  mask-image:radial-gradient(ellipse at center, black 25%, transparent 72%);
+  -webkit-mask-image:radial-gradient(ellipse at center, black 25%, transparent 72%);
+  opacity:.55;
 }
-.section-title::before {
-  content: '';
-  width: 4px;
-  height: 20px;
-  background: #A4D65E;
-  border-radius: 2px;
+.hero-inner{
+  max-width:1320px;margin:0 auto;width:100%;
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:1.35fr 1fr;
+  gap:5rem;align-items:center;
 }
-.hero-box {
-  background: linear-gradient(135deg, #A4D65E 0%, #8BC34A 100%);
-  color: #1A1F2E;
-  border-radius: 20px;
-  padding: 24px 20px;
-  margin-bottom: 16px;
-  box-shadow: 0 4px 20px rgba(164,214,94,0.3);
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.65rem;
+  padding:.55rem 1.2rem;
+  border:1px solid rgba(45,212,168,0.4);
+  background:rgba(45,212,168,0.08);
+  border-radius:100px;
+  font-size:.68rem;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--emerald);
+  font-weight:600;margin-bottom:2rem;
 }
-.hero-label {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  opacity: 0.7;
-  margin-bottom: 6px;
+.hero-badge::before{
+  content:'';width:7px;height:7px;
+  background:var(--emerald);border-radius:50%;
+  box-shadow:0 0 10px var(--emerald);
 }
-.hero-value {
-  font-size: 36px;
-  font-weight: 800;
-  letter-spacing: -1px;
-  margin-bottom: 4px;
+h1{
+  font-family:var(--serif);
+  font-size:clamp(2.4rem,5.4vw,4.4rem);
+  font-weight:700;line-height:1.08;
+  letter-spacing:-1.5px;
+  margin-bottom:2rem;
 }
-.hero-desc {
-  font-size: 13px;
-  font-weight: 600;
-  opacity: 0.85;
+h1 .emerald{
+  background:linear-gradient(135deg,var(--emerald),var(--emerald-deep));
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:var(--emerald);
 }
-.grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 12px;
+h1 .gold{
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:var(--gold);
 }
-.grid-3 {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 12px;
+h1 .italic{font-style:italic;font-weight:400;color:var(--text2)}
+.hero-lead{
+  font-size:1.1rem;color:var(--text2);
+  line-height:1.9;max-width:640px;margin-bottom:3rem;
 }
-.card {
-  background: #F7F9F4;
-  border-radius: 14px;
-  padding: 14px 12px;
-  text-align: center;
-  border: 1px solid #EEF0E8;
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:.75rem;
+  background:linear-gradient(135deg,var(--emerald),var(--emerald-deep));
+  color:#0a1320;padding:1.15rem 2.1rem;
+  border-radius:12px;font-weight:700;
+  font-size:.82rem;letter-spacing:1.5px;
+  text-transform:uppercase;text-decoration:none;
+  transition:all .3s;
+  box-shadow:0 10px 36px rgba(45,212,168,0.32);
 }
-.card-label {
-  font-size: 10px;
-  color: #6B7280;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 600;
-  margin-bottom: 6px;
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(45,212,168,0.48)}
+.btn-secondary{
+  display:inline-flex;align-items:center;
+  color:var(--text);padding:1.15rem 2.1rem;
+  border:1px solid var(--border-soft);
+  background:rgba(24,33,54,0.5);
+  border-radius:12px;font-weight:600;
+  font-size:.82rem;letter-spacing:1.5px;
+  text-transform:uppercase;text-decoration:none;
+  transition:all .3s;
+  backdrop-filter:blur(12px);
 }
-.card-value {
-  font-size: 20px;
-  font-weight: 800;
-  color: #1A1F2E;
-  line-height: 1.1;
+.btn-secondary:hover{border-color:var(--emerald);color:var(--emerald);background:rgba(45,212,168,0.08)}
+
+/* HERO CARD */
+.hero-card{
+  background:linear-gradient(155deg, rgba(31,41,64,0.95), rgba(19,26,44,0.98));
+  border:1px solid var(--border-soft);
+  border-radius:22px;padding:2.5rem;
+  backdrop-filter:blur(24px);
+  box-shadow:0 40px 90px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.04);
+  position:relative;overflow:hidden;
 }
-.card-value.green { color: #6DA838; }
-.card-value.blue { color: #2563EB; }
-.card-value.orange { color: #EA580C; }
-.card-desc {
-  font-size: 11px;
-  color: #8890A0;
-  margin-top: 4px;
+.hero-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--emerald),var(--gold),var(--blue));
 }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 11px;
-  margin-top: 8px;
+.hero-card-header{
+  display:flex;justify-content:space-between;
+  align-items:center;margin-bottom:2rem;
+  padding-bottom:1.5rem;border-bottom:1px solid var(--border);
 }
-th {
-  background: #1A1F2E;
-  color: #FFFFFF;
-  padding: 9px 5px;
-  text-align: left;
-  font-weight: 600;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
+.hero-card-header h3{
+  font-size:.72rem;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--text2);
+  font-weight:700;
 }
-th:first-child { border-radius: 10px 0 0 0; }
-th:last-child { border-radius: 0 10px 0 0; }
-td {
-  padding: 8px 5px;
-  border-bottom: 1px solid #EEF0F4;
-  color: #1A1F2E;
+.hero-card-header .tag{
+  background:rgba(45,212,168,0.14);
+  color:var(--emerald);
+  padding:.35rem .85rem;border-radius:100px;
+  font-size:.6rem;font-weight:700;
+  letter-spacing:1.8px;
+  border:1px solid rgba(45,212,168,0.3);
 }
-tr:last-child td { border-bottom: none; }
-tr:nth-child(even) td { background: #FAFAF7; }
-.td-highlight { font-weight: 700; color: #6DA838; }
-.list-check { list-style: none; padding: 0; }
-.list-check li {
-  padding: 10px 0 10px 28px;
-  position: relative;
-  font-size: 13.5px;
-  color: #1A1F2E;
-  border-bottom: 1px solid #F0F2F5;
-  line-height: 1.5;
+.stat-row{
+  display:flex;justify-content:space-between;
+  padding:1rem 0;border-bottom:1px solid rgba(42,54,84,0.55);
 }
-.list-check li:last-child { border-bottom: none; }
-.list-check li::before {
-  content: '✓';
-  position: absolute;
-  left: 0;
-  top: 10px;
-  width: 20px;
-  height: 20px;
-  background: #A4D65E;
-  color: #1A1F2E;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 800;
+.stat-row:last-child{border-bottom:none}
+.stat-row .label{color:var(--text2);font-size:.85rem}
+.stat-row .value{
+  font-weight:700;color:var(--text);
+  font-family:var(--mono);font-size:.9rem;
 }
-.legal-box {
-  background: #EEF7DC;
-  border-left: 4px solid #A4D65E;
-  padding: 14px 16px;
-  border-radius: 10px;
-  margin-top: 12px;
-  font-size: 13px;
-  line-height: 1.6;
-  color: #2B3A18;
+.stat-row .value.emerald{color:var(--emerald)}
+.stat-row .value.gold{color:var(--gold)}
+.stat-row .value.blue{color:var(--blue)}
+
+/* QUICK FACTS */
+.quick-facts{
+  max-width:1320px;margin:-3rem auto 0;
+  padding:0 2.5rem;position:relative;z-index:3;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1.5rem;
 }
-.legal-box strong { color: #1A1F2E; }
-.footer {
-  text-align: center;
-  padding: 20px;
-  font-size: 11px;
-  color: #8890A0;
-  line-height: 1.6;
+.fact{
+  background:linear-gradient(155deg, rgba(31,41,64,0.85), rgba(24,33,54,0.9));
+  border:1px solid var(--border-soft);
+  border-radius:16px;padding:1.9rem;
+  transition:all .35s;
+  backdrop-filter:blur(16px);
+  box-shadow:0 8px 24px rgba(0,0,0,0.25);
 }
-.footer strong { color: #1A1F2E; }
-.callout {
-  background: #FFF7E6;
-  border-left: 4px solid #F59E0B;
-  padding: 12px 14px;
-  border-radius: 8px;
-  font-size: 12.5px;
-  line-height: 1.5;
-  color: #78350F;
-  margin-top: 12px;
+.fact:hover{
+  border-color:var(--emerald);
+  transform:translateY(-5px);
+  box-shadow:0 20px 48px rgba(45,212,168,0.12);
 }
-.callout strong { color: #92400E; }
-.btn-cta {
-  display: block;
-  width: 100%;
-  padding: 16px;
-  background: #A4D65E;
-  color: #1A1F2E;
-  border: none;
-  border-radius: 14px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 16px;
-  box-shadow: 0 4px 14px rgba(164,214,94,0.35);
-  transition: transform 0.15s ease;
+.fact .num{
+  font-family:var(--serif);font-size:2.3rem;
+  font-weight:700;color:var(--emerald);
+  line-height:1;margin-bottom:.6rem;
 }
-.btn-cta:active { transform: scale(0.98); }
-.slider-row { margin-bottom: 16px; }
-.slider-row label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-  font-weight: 600;
-  color: #1A1F2E;
-  margin-bottom: 8px;
+.fact .num.gold{color:var(--gold)}
+.fact .num.blue{color:var(--blue)}
+.fact .lbl{
+  font-size:.7rem;letter-spacing:1.8px;
+  text-transform:uppercase;color:var(--text2);
+  font-weight:600;
 }
-.slider-row label .val {
-  color: #6DA838;
-  font-weight: 800;
-  font-size: 15px;
+
+/* SECTION BASE */
+section{
+  padding:6rem 2.5rem;max-width:1320px;margin:0 auto;
+  position:relative;
 }
-input[type="range"] {
-  width: 100%;
-  height: 8px;
-  border-radius: 4px;
-  background: #EEF0F4;
-  outline: none;
-  -webkit-appearance: none;
-  appearance: none;
+.section-label{
+  display:inline-block;
+  font-size:.68rem;letter-spacing:4px;
+  text-transform:uppercase;color:var(--emerald);
+  font-weight:700;margin-bottom:1rem;
+  padding:.35rem .9rem;
+  background:rgba(45,212,168,0.08);
+  border:1px solid rgba(45,212,168,0.22);
+  border-radius:100px;
 }
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #A4D65E;
-  cursor: pointer;
-  border: 3px solid #FFFFFF;
-  box-shadow: 0 2px 6px rgba(26,31,46,0.2);
+.section-title{
+  font-family:var(--serif);
+  font-size:clamp(1.7rem,3.4vw,2.6rem);
+  font-weight:700;line-height:1.2;
+  letter-spacing:-.5px;margin-bottom:1.25rem;
+  margin-top:.5rem;
 }
-input[type="range"]::-moz-range-thumb {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #A4D65E;
-  cursor: pointer;
-  border: 3px solid #FFFFFF;
+.section-desc{
+  color:var(--text2);font-size:1.02rem;
+  max-width:840px;line-height:1.9;
+  margin-bottom:3.5rem;
 }
-.result-box {
-  background: #1A1F2E;
-  color: #FFFFFF;
-  border-radius: 14px;
-  padding: 18px 16px;
-  margin-top: 16px;
+
+/* GRIDS */
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.5rem}
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem}
+
+/* CARD GENERAL */
+.card{
+  background:linear-gradient(155deg, rgba(31,41,64,0.7), rgba(24,33,54,0.85));
+  border:1px solid var(--border-soft);
+  border-radius:18px;padding:2rem;
+  transition:all .35s;
+  position:relative;overflow:hidden;
 }
-.result-box .title {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: #A4D65E;
-  font-weight: 700;
-  margin-bottom: 12px;
+.card::before{
+  content:'';position:absolute;top:0;left:0;
+  width:100%;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(45,212,168,0.4),transparent);
+  opacity:0;transition:opacity .35s;
 }
-.result-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+.card:hover{
+  border-color:rgba(45,212,168,0.4);
+  transform:translateY(-5px);
+  box-shadow:0 20px 52px rgba(45,212,168,0.10);
 }
-.result-item {
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+.card:hover::before{opacity:1}
+.card .icon{
+  width:52px;height:52px;border-radius:14px;
+  background:linear-gradient(135deg,rgba(45,212,168,0.14),rgba(122,168,255,0.10));
+  border:1px solid rgba(45,212,168,0.22);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;margin-bottom:1.25rem;
 }
-.result-item:last-child, .result-item:nth-last-child(2) { border-bottom: none; }
-.result-item .label {
-  font-size: 10px;
-  color: #B8BFC9;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 600;
-  margin-bottom: 4px;
+.card h3{
+  font-size:1.05rem;font-weight:700;
+  margin-bottom:.7rem;letter-spacing:-.15px;
 }
-.result-item .value {
-  font-size: 20px;
-  font-weight: 800;
-  color: #A4D65E;
-  line-height: 1;
+.card p{
+  color:var(--text2);font-size:.88rem;line-height:1.75;
 }
-.result-item .value.white { color: #FFFFFF; }
-.result-item .value.warn { color: #F59E0B; }
-.result-item .value.bad { color: #EF4444; }
-.eri-fab {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: #1A1F2E;
-  color: #A4D65E;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  box-shadow: 0 6px 20px rgba(26,31,46,0.3);
-  z-index: 999;
+
+/* ECOSYSTEM INTRO */
+.ecosystem-intro{
+  background:linear-gradient(155deg, rgba(45,212,168,0.08), rgba(122,168,255,0.05), rgba(232,194,104,0.04));
+  border:1px solid rgba(45,212,168,0.22);
+  border-radius:24px;padding:3.5rem;
+  margin-top:2rem;position:relative;overflow:hidden;
+  box-shadow:0 24px 60px rgba(0,0,0,0.35);
 }
-.eri-fab:active { transform: scale(0.92); }
-.eri-window {
-  position: fixed;
-  bottom: 90px;
-  right: 20px;
-  width: calc(100% - 40px);
-  max-width: 340px;
-  background: #FFFFFF;
-  border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(26,31,46,0.25);
-  display: none;
-  z-index: 998;
-  overflow: hidden;
-  border: 1px solid #EEF0E8;
+.ecosystem-intro::before{
+  content:'';position:absolute;top:0;left:0;width:100%;height:4px;
+  background:linear-gradient(90deg,var(--emerald),var(--blue),var(--gold),var(--emerald));
 }
-.eri-window.visible { display: block; }
-.eri-header {
-  background: #1A1F2E;
-  color: #FFFFFF;
-  padding: 12px 16px;
-  font-weight: 700;
-  font-size: 14px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.ecosystem-intro h3{
+  font-family:var(--serif);font-size:1.7rem;
+  font-weight:700;margin-bottom:1.25rem;
+  letter-spacing:-.3px;
 }
-.eri-header span { color: #A4D65E; }
-.eri-close {
-  background: none;
-  border: none;
-  color: #FFFFFF;
-  font-size: 18px;
-  cursor: pointer;
+.ecosystem-intro p{
+  color:var(--text2);font-size:1rem;
+  line-height:1.9;margin-bottom:1.5rem;max-width:920px;
 }
-.eri-body {
-  padding: 14px;
-  max-height: 320px;
-  overflow-y: auto;
-  font-size: 13px;
-  line-height: 1.5;
+.ecosystem-tags{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.75rem}
+.etag{
+  padding:.55rem 1.1rem;
+  background:rgba(45,212,168,0.10);
+  border:1px solid rgba(45,212,168,0.28);
+  border-radius:100px;
+  font-size:.78rem;color:var(--emerald);
+  font-weight:600;letter-spacing:.5px;
 }
-.eri-msg {
-  padding: 10px 12px;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  background: #F7F9F4;
-  color: #1A1F2E;
+.etag.gold{
+  background:rgba(232,194,104,0.10);
+  border-color:rgba(232,194,104,0.3);
+  color:var(--gold);
 }
-.eri-msg.user {
-  background: #A4D65E;
-  color: #1A1F2E;
-  margin-left: 20px;
+.etag.blue{
+  background:rgba(122,168,255,0.10);
+  border-color:rgba(122,168,255,0.3);
+  color:var(--blue);
 }
-.eri-input-row {
-  display: flex;
-  gap: 6px;
-  padding: 10px;
-  border-top: 1px solid #EEF0E8;
+.etag.lav{
+  background:rgba(184,168,232,0.10);
+  border-color:rgba(184,168,232,0.3);
+  color:var(--lavender);
 }
-.eri-input {
-  flex: 1;
-  padding: 10px 12px;
-  border: 1px solid #DDE2D5;
-  border-radius: 10px;
-  font-size: 13px;
-  outline: none;
-  font-family: inherit;
-  background: #FAFAF7;
+
+@media(max-width:960px){
+  .hero-inner{grid-template-columns:1fr;gap:3rem}
+  .hero{padding:9rem 1.5rem 5rem}
+  nav{padding:0 1.5rem;height:64px}
+  .nav-links{display:none}
+  .quick-facts{padding:0 1.5rem;margin-top:-2rem}
+  section{padding:4.5rem 1.5rem}
+  .ecosystem-intro{padding:2rem}
 }
-.eri-input:focus { border-color: #A4D65E; }
-.eri-send {
-  background: #A4D65E;
-  border: none;
-  color: #1A1F2E;
-  padding: 0 14px;
-  border-radius: 10px;
-  font-weight: 700;
-  cursor: pointer;
-  font-size: 16px;
+@media(max-width:600px){
+  h1{letter-spacing:-1px}
+  .hero-actions{flex-direction:column}
+  .btn-primary,.btn-secondary{justify-content:center;text-align:center}
+  .hero-card{padding:1.75rem}
 }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-logo"><span>K</span>raze</div>
-  <div class="header-slogan">Transporte total</div>
-  <div class="header-title">Plan de Negocio · Socopó 2026</div>
-  <div class="header-subtitle">Propuesta de sociedad · Frank Cesin + Nelson Barón</div>
-</div>
+<nav>
+  <div class="nav-brand"><div class="dot"></div>ECOSISTEMA DIGITAL</div>
+  <ul class="nav-links">
+    <li><a href="#ecosistema">Ecosistema</a></li>
+    <li><a href="#kraze">KRAZE</a></li>
+    <li><a href="#algoritmo">Algoritmo</a></li>
+    <li><a href="#balance">Balance</a></li>
+    <li><a href="#retorno">Retorno</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="#contacto" class="nav-cta">Solicitar Reunión</a>
+</nav>
 
-<div class="container">
-
-  <div class="hero-box">
-    <div class="hero-label">Inversión inicial</div>
-    <div class="hero-value">$60,000</div>
-    <div class="hero-desc">40 motos · 80 choferes · Sociedad 50/50</div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Resumen ejecutivo</div>
-    <p style="font-size:13.5px; color:#4A4F5E; line-height:1.6; margin-bottom:12px;">
-      Arrancamos en Socopó (100,000 habitantes) con <strong>40 motos</strong> operando en 2 turnos cada una.
-      Modelo ético: cada chofer gana entre <strong>$20 y $25/día</strong>, con jornadas de 8h.
-      Crecimiento escalonado: del 15% al 30% de adopción en 12 meses.
-    </p>
-    <ul class="list-check">
-      <li>40 motos × $1,500 = <strong>$60,000</strong> (financiadas, pagaderas en 12 meses)</li>
-      <li>Cada moto trabaja <strong>2 turnos de 8h</strong> con 2 choferes</li>
-      <li>Cada chofer gana entre <strong>$20 y $25/día</strong> (techo ético)</li>
-      <li>La sociedad recibe <strong>40%</strong> de cada viaje</li>
-      <li>Pago instantáneo vía <strong>Binance Pay</strong> (Split automático)</li>
-      <li><strong>80 empleos dignos</strong> al final del año 1</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <div class="section-title">El mercado Socopó</div>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-label">Población</div>
-        <div class="card-value">100K</div>
-        <div class="card-desc">habitantes</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Motos totales</div>
-        <div class="card-value">500</div>
-        <div class="card-desc">en la ciudad</div>
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">Infraestructura Digital + Transporte Masivo · Venezuela 2026</div>
+      <h1>
+        Construyendo la <span class="emerald">infraestructura digital</span> y la <span class="gold">plataforma de transporte</span> que transformarán el agro venezolano.
+      </h1>
+      <p class="hero-lead">
+        Dos plataformas, un solo ecosistema. Erian digitaliza la producción, la logística y los pagos del campo. KRAZE conecta el transporte masivo regional con una red de filiales, alianzas e infraestructuras agroalimentarias enfocadas en la nutrición regenerativa y el bienestar integral. Juntos forman el sistema operativo del futuro productivo de Venezuela.
+      </p>
+      <div class="hero-actions">
+        <a href="#kraze" class="btn-primary">Conocer KRAZE</a>
+        <a href="#contacto" class="btn-secondary">Hablar con el Fundador</a>
       </div>
     </div>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-label">Nuestra flota</div>
-        <div class="card-value green">40</div>
-        <div class="card-desc">motos (8%)</div>
+    <div class="hero-card">
+      <div class="hero-card-header">
+        <h3>Resumen Ejecutivo</h3>
+        <span class="tag">DOCUMENTO PRIVADO</span>
       </div>
-      <div class="card">
-        <div class="card-label">Nuestros choferes</div>
-        <div class="card-value blue">80</div>
-        <div class="card-desc">al año 1</div>
-      </div>
-    </div>
-    <div class="legal-box">
-      <strong>Adopción inicial:</strong> 15% de la población usa mototaxi.<br>
-      <strong>Meta 12 meses:</strong> 30% (transporte + marketplace + delivery).
+      <div class="stat-row"><span class="label">Inversión solicitada</span><span class="value emerald">$2,000,000 USD</span></div>
+      <div class="stat-row"><span class="label">Retorno proyectado</span><span class="value gold">70% del capital</span></div>
+      <div class="stat-row"><span class="label">Plazo de retorno</span><span class="value">4 años escalonados</span></div>
+      <div class="stat-row"><span class="label">Forma de entrega</span><span class="value">Propiedades · USDT</span></div>
+      <div class="stat-row"><span class="label">Control operativo</span><span class="value emerald">100% Fundador</span></div>
+      <div class="stat-row"><span class="label">Inversión propia ya realizada</span><span class="value gold">$5,000+ USD</span></div>
     </div>
   </div>
+</header>
 
-  <div class="section">
-    <div class="section-title">Modelo ético: 2 turnos por moto</div>
-    <p style="font-size:13px; color:#4A4F5E; margin-bottom:12px;">
-      Una moto, dos choferes. Cada uno con jornada de 8h y ganancia digna. 
-      La escalabilidad viene de sumar choferes, no de comprar más motos.
-    </p>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-label">Turno mañana</div>
-        <div class="card-value green">6am-2pm</div>
-        <div class="card-desc">Chofer A</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Turno tarde</div>
-        <div class="card-value blue">2pm-10pm</div>
-        <div class="card-desc">Chofer B</div>
-      </div>
-    </div>
-    <div class="callout">
-      <strong>Filosofía Kraze:</strong> No explotamos al chofer. Le damos jornada digna, 
-      pago justo y tiempo para su vida personal. Así se construye un servicio sostenible.
+<div class="quick-facts">
+  <div class="fact"><div class="num">2</div><div class="lbl">Plataformas integradas</div></div>
+  <div class="fact"><div class="num gold">$16.5M</div><div class="lbl">Ingreso proyectado 2032</div></div>
+  <div class="fact"><div class="num blue">97%</div><div class="lbl">Margen tecnológico</div></div>
+  <div class="fact"><div class="num">Regional</div><div class="lbl">Expansión proyectada</div></div>
+</div><section id="ecosistema">
+  <div class="section-label">El Ecosistema</div>
+  <h2 class="section-title">Dos plataformas complementarias, un solo propósito</h2>
+  <p class="section-desc">No construimos herramientas aisladas. Construimos un ecosistema donde cada plataforma potencia a la otra. Una digitaliza el agro desde la producción hasta el pago. La otra lo conecta con el transporte masivo, la distribución regional y la infraestructura agroalimentaria.</p>
+
+  <div class="ecosystem-intro">
+    <h3>🎯 El propósito que une ambas plataformas</h3>
+    <p>Digitalizar la realidad económica del agro venezolano y conectarla con una red de transporte y distribución capaz de escalar a nivel regional. Nutrición regenerativa, bienestar integral y logística masiva en un solo sistema operativo.</p>
+    <div class="ecosystem-tags">
+      <span class="etag">Infraestructura Digital</span>
+      <span class="etag blue">Transporte Masivo</span>
+      <span class="etag">Nutrición Regenerativa</span>
+      <span class="etag gold">Bienestar Integral</span>
+      <span class="etag gold">Expansión Regional</span>
+      <span class="etag lav">Filiales y Alianzas</span>
+      <span class="etag">Agroalimentario</span>
     </div>
   </div>
+</section>
 
-  <div class="section">
-    <div class="section-title">Reparto por viaje ($3.00)</div>
-    <div class="grid-2">
+<section id="kraze">
+  <div class="section-label">Plataforma de Transporte Masivo</div>
+  <h2 class="section-title">KRAZE · Conectando el agro con la región</h2>
+  <p class="section-desc">KRAZE es la plataforma de transporte masivo que conecta la producción del campo venezolano con la distribución regional. No es solo una app de transporte: es una red de filiales, alianzas e infraestructuras agroalimentarias diseñadas para escalar a nivel regional.</p>
+
+  <div class="ecosystem-intro" style="background:linear-gradient(155deg, rgba(122,168,255,0.10), rgba(45,212,168,0.06), rgba(232,194,104,0.04));border-color:rgba(122,168,255,0.3)">
+    <div style="display:inline-block;padding:.5rem 1.15rem;background:rgba(122,168,255,0.12);border:1px solid rgba(122,168,255,0.32);border-radius:100px;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--blue);font-weight:700;margin-bottom:1.5rem">Plataforma de Transporte Masivo Regional</div>
+    <h3 style="font-family:var(--serif);font-size:clamp(2rem,4.5vw,3.4rem);letter-spacing:3px;margin-bottom:1.5rem">
+      <span style="background:linear-gradient(135deg,var(--blue),#4a7dd4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--blue)">KRAZE</span> <span style="background:linear-gradient(135deg,var(--emerald),var(--emerald-deep));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--emerald)">3</span>
+    </h3>
+    <p>Un sistema de transporte y distribución que integra productores, ruteros, comercios y consumidores en una red masiva. Con proyección regional, filiales propias, alianzas estratégicas e infraestructuras agroalimentarias enfocadas en nutrición regenerativa, psicología del bienestar y sostenibilidad.</p>
+
+    <div class="grid-3" style="margin-top:2.5rem">
       <div class="card">
-        <div class="card-label">Chofer (60%)</div>
-        <div class="card-value green">$1.31</div>
-        <div class="card-desc">Wallet Binance</div>
+        <div class="icon">🚛</div>
+        <h3>Transporte Masivo</h3>
+        <p>Red de distribución que conecta campo, ciudad y región en un solo sistema logístico integrado.</p>
       </div>
       <div class="card">
-        <div class="card-label">Sociedad (40%)</div>
-        <div class="card-value">$0.87</div>
-        <div class="card-desc">Cubre motos y seguros</div>
-      </div>
-    </div>
-    <div class="grid-3">
-      <div class="card">
-        <div class="card-label">Plataforma</div>
-        <div class="card-value blue">$0.33</div>
+        <div class="icon">🌎</div>
+        <h3>Expansión Regional</h3>
+        <p>Proyección de crecimiento a nivel regional con modelo replicable en otros estados y países.</p>
       </div>
       <div class="card">
-        <div class="card-label">IVA</div>
-        <div class="card-value">$0.40</div>
+        <div class="icon">🏢</div>
+        <h3>Filiales y Alianzas</h3>
+        <p>Creación de filiales operativas y alianzas estratégicas con actores clave del sector.</p>
       </div>
       <div class="card">
-        <div class="card-label">IGTF</div>
-        <div class="card-value">$0.09</div>
+        <div class="icon">🥗</div>
+        <h3>Nutrición Regenerativa</h3>
+        <p>Infraestructuras agroalimentarias enfocadas en alimentos funcionales, fermentados y probióticos.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🧠</div>
+        <h3>Bienestar Integral</h3>
+        <p>Integración de psicología del bienestar como eje transversal del ecosistema productivo.</p>
+      </div>
+      <div class="card">
+        <div class="icon">💰</div>
+        <h3>Modelo Escalable</h3>
+        <p>Estructura financiera diseñada para crecer sin perder el control operativo del fundador.</p>
       </div>
     </div>
   </div>
+</section><section>
+  <div class="section-label">El Problema</div>
+  <h2 class="section-title">Un ecosistema productivo operando a ciegas</h2>
+  <p class="section-desc">En los llanos venezolanos, miles de productores, ruteros, moto-rutas y tiendas operan sin datos, sin trazabilidad, sin acceso al sistema financiero formal y sin logística integrada. El campo pierde millones al año por ineficiencia estructural.</p>
 
-  <div class="section">
-    <div class="section-title">Proyección escalonada · Año 1</div>
-    <p style="font-size:13px; color:#4A4F5E; margin-bottom:12px;">
-      Cada mes se suman choferes y motos según la demanda. Al final del año: 80 choferes 
-      operando en 40 motos con 2 turnos cada una.
-    </p>
-    <table>
-      <thead>
-        <tr>
-          <th>Mes</th>
-          <th>Adop.</th>
-          <th>Capt.</th>
-          <th>Viajes</th>
-          <th>Chof.</th>
-          <th>Motos</th>
-          <th>Chof/día</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td><strong>1</strong></td><td>15%</td><td>15%</td><td>338</td><td>20</td><td>10</td><td>$18.98</td></tr>
-        <tr><td><strong>2</strong></td><td>18%</td><td>25%</td><td>675</td><td>30</td><td>15</td><td class="td-highlight">$25.00</td></tr>
-        <tr><td><strong>3</strong></td><td>20%</td><td>28%</td><td>840</td><td>38</td><td>19</td><td>$24.60</td></tr>
-        <tr><td><strong>4</strong></td><td>22%</td><td>30%</td><td>990</td><td>44</td><td>22</td><td>$25.00</td></tr>
-        <tr><td><strong>5</strong></td><td>24%</td><td>32%</td><td>1152</td><td>52</td><td>26</td><td>$24.65</td></tr>
-        <tr><td><strong>6</strong></td><td>26%</td><td>34%</td><td>1326</td><td>60</td><td>30</td><td>$24.55</td></tr>
-        <tr><td><strong>7</strong></td><td>27%</td><td>35%</td><td>1417</td><td>64</td><td>32</td><td>$24.60</td></tr>
-        <tr><td><strong>8</strong></td><td>28%</td><td>36%</td><td>1512</td><td>68</td><td>34</td><td>$24.70</td></tr>
-        <tr><td><strong>9</strong></td><td>29%</td><td>37%</td><td>1610</td><td>72</td><td>36</td><td>$24.85</td></tr>
-        <tr><td><strong>10</strong></td><td>30%</td><td>38%</td><td>1710</td><td>76</td><td>38</td><td>$25.00</td></tr>
-        <tr><td><strong>11</strong></td><td>30%</td><td>39%</td><td>1755</td><td>78</td><td>39</td><td>$25.00</td></tr>
-        <tr><td><strong>12</strong></td><td>30%</td><td>40%</td><td>1800</td><td>80</td><td>40</td><td class="td-highlight">$25.00</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Ganancias al final del año 1</div>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-label">Chofer/mes (cada uno)</div>
-        <div class="card-value green">$750</div>
-        <div class="card-desc">mes 12</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Sociedad/mes (mes 12)</div>
-        <div class="card-value blue">$61,800</div>
-        <div class="card-desc">ingreso mensual</div>
-      </div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="icon">🚛</div>
+      <h3>Rutero Transportista</h3>
+      <p>Trabaja 14 horas al día, no sabe cuánto gana realmente, pierde producto por mala dosificación y no tiene respaldo ante emergencias.</p>
     </div>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-label">Sociedad año 1</div>
-        <div class="card-value orange">$519K</div>
-        <div class="card-desc">ingreso acumulado</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Tu parte 50%</div>
-        <div class="card-value green">$259K</div>
-        <div class="card-desc">año 1</div>
-      </div>
+    <div class="card">
+      <div class="icon">🌾</div>
+      <h3>Productor</h3>
+      <p>Depende del intermediario, no accede a proveedores, no tiene crédito formal y no cuenta con trazabilidad de su producción.</p>
     </div>
-    <div class="callout">
-      <strong>Punto de equilibrio:</strong> Mes 3. <strong>ROI:</strong> 433% año 1.
-      <strong>Empleos generados:</strong> 80 choferes con salario digno.
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Lo que cada socio aporta</div>
-    <div class="card" style="text-align:left; padding:16px; margin-bottom:10px;">
-      <div style="font-size:14px; font-weight:700; color:#2563EB; margin-bottom:8px;">
-        🇻🇪 Nelson Barón
-      </div>
-      <ul class="list-check">
-        <li>Inversión: $60,000 en 40 motos</li>
-        <li>Administración diaria de la flota</li>
-        <li>Relación directa con choferes</li>
-        <li>Cubre seguros, mantenimiento, permisología</li>
-      </ul>
-    </div>
-    <div class="card" style="text-align:left; padding:16px;">
-      <div style="font-size:14px; font-weight:700; color:#6DA838; margin-bottom:8px;">
-        🇻🇪 Frank Cesin
-      </div>
-      <ul class="list-check">
-        <li>Plataforma Kraze (app + sistema)</li>
-        <li>Sistema Binance Pay integrado</li>
-        <li>Contratos con aliados comerciales</li>
-        <li>Certificación y capacitación de choferes</li>
-        <li>Estrategia de crecimiento y expansión</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Calculadora interactiva</div>
-    <p style="font-size:13px; color:#4A4F5E; margin-bottom:16px;">
-      Mueve las variables y mira los resultados en tiempo real.
-    </p>
-
-    <div class="slider-row">
-      <label>Motos en operación <span class="val" id="valMotos">40</span></label>
-      <input type="range" id="sliderMotos" min="10" max="150" step="5" value="40">
-    </div>
-
-    <div class="slider-row">
-      <label>Adopción de la población <span class="val" id="valAdopcion">30%</span></label>
-      <input type="range" id="sliderAdopcion" min="5" max="50" step="1" value="30">
-    </div>
-
-    <div class="slider-row">
-      <label>Captación de la sociedad <span class="val" id="valCaptacion">40%</span></label>
-      <input type="range" id="sliderCaptacion" min="5" max="60" step="1" value="40">
-    </div>
-
-    <div class="slider-row">
-      <label>Tarifa promedio (USD) <span class="val" id="valTarifa">$3.00</span></label>
-      <input type="range" id="sliderTarifa" min="2" max="15" step="0.5" value="3">
-    </div>
-
-    <div class="result-box">
-      <div class="title">Resultados en vivo</div>
-      <div class="result-grid">
-        <div class="result-item">
-          <div class="label">Viajes/día</div>
-          <div class="value white" id="resViajes">—</div>
-        </div>
-        <div class="result-item">
-          <div class="label">Choferes necesarios</div>
-          <div class="value white" id="resChoferes">—</div>
-        </div>
-        <div class="result-item">
-          <div class="label">Chofer gana/día</div>
-          <div class="value" id="resChofer">—</div>
-        </div>
-        <div class="result-item">
-          <div class="label">Sociedad gana/día</div>
-          <div class="value" id="resFilial">—</div>
-        </div>
-        <div class="result-item">
-          <div class="label">Tu parte/día (50%)</div>
-          <div class="value" id="resKraze">—</div>
-        </div>
-        <div class="result-item">
-          <div class="label">Chofer/mes</div>
-          <div class="value" id="resMes">—</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <button class="btn-cta" onclick="alert('¡Propuesta aceptada! Nos pondremos en contacto contigo, Nelson.')">
-    Acepto la propuesta
-  </button>
-
-  <div class="footer">
-    <strong>Kraze</strong> · Transporte total<br>
-    Sociedad Socopó · Frank Cesin + Nelson Barón<br>
-    © 2026 Erian C.A. · Todos los derechos reservados
-  </div>
-
-</div>
-
-<button clas
+    <div class="card">
+      <div class="icon">🏪</div>
+      <h3>Tienda y Comercio</h3>
+      <p>No lleg
