@@ -84,7 +84,8 @@
     border-radius: 20px;
     margin-bottom: 12px;
   }
-  .section-title { font-size: 32px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; }  /* ===== GRID ===== */
+  .section-title { font-size: 32px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; }
+  .section-desc { font-size: 16px; color: var(--tinta-suave); max-width: 720px; margin-bottom: 40px;p }  /* ===== GRID ===== */
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
   .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
@@ -114,29 +115,143 @@
   .card .card-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
   .card .card-text { font-size: 14px; color: var(--tinta-suave); }
 
-  /* ===== PROPUESTA 50/50 ===== */
-  .propuesta {
+  /* ===== BLOQUE ERIAN (destacado, ancho completo) ===== */
+  .bloque-erian {
+    background: linear-gradient(135deg, var(--tinta) 0%, #2A3145 100%);
+    color: #fff;
+    border-radius: 20px;
+    padding: 36px;
+    margin-bottom: 24px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 32px;
+    align-items: center;
+    border: 2px solid var(--verde);
+  }
+  .bloque-erian .porcentaje {
+    background: var(--verde);
+    color: var(--tinta);
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .bloque-erian .porcentaje .num {
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .bloque-erian .porcentaje .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .bloque-erian .info h3 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+  .bloque-erian .info .subtitulo {
+    font-size: 13px;
+    color: var(--verde);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .bloque-erian .info ul {
+    list-style: none;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border: 2px solid var(--verde);
-    border-radius: 20px;
-    overflow: hidden;
+    gap: 6px 20px;
+  }
+  .bloque-erian .info ul li {
+    font-size: 13px;
+    color: #D8DEE8;
+    padding-left: 20px;
+    position: relative;
+  }
+  .bloque-erian .info ul li::before {
+    content: "◆";
+    position: absolute;
+    left: 0;
+    color: var(--verde);
+    font-size: 10px;
+    top: 3px;
+  }
+  @media (max-width: 768px) {
+    .bloque-erian { grid-template-columns: 1fr; text-align: center; padding: 28px; }
+    .bloque-erian .porcentaje { margin: 0 auto; }
+    .bloque-erian .info ul { grid-template-columns: 1fr; text-align: left; }
+  }
+
+  /* ===== 3 SOCIOS ===== */
+  .tres-socios {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
     margin-bottom: 32px;
   }
-  .propuesta > div { padding: 32px; }
-  .propuesta .lado-a { background: var(--verde-cla); }
-  .propuesta .lado-b { background: var(--tinta); color: #fff; }
-  .propuesta h3 { font-size: 20px; font-weight: 800; margin-bottom: 12px; }
-  .propuesta .lado-b h3 { color: var(--verde); }
-  .propuesta .monto { font-size: 40px; font-weight: 800; line-height: 1; margin: 12px 0; }
-  .propuesta .lado-a .monto { color: var(--verde-osc); }
-  .propuesta .lado-b .monto { color: var(--verde); }
-  .propuesta ul { list-style: none; margin-top: 16px; }
-  .propuesta ul li { padding: 6px 0; padding-left: 24px; position: relative; font-size: 14px; }
-  .propuesta .lado-a ul li::before { content: "✓"; position: absolute; left: 0; color: var(--verde-osc); font-weight: 800; }
-  .propuesta .lado-b ul li::before { content: "→"; position: absolute; left: 0; color: var(--verde); font-weight: 800; }
-  @media (max-width: 768px) { .propuesta { grid-template-columns: 1fr; } }
+  @media (max-width: 768px) { .tres-socios { grid-template-columns: 1fr; } }
+  .socio-card {
+    background: var(--blanco);
+    border: 2px solid var(--verde);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .socio-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(164,214,94,0.25); }
+  .socio-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 6px;
+    background: var(--verde);
+  }
+  .socio-card .socio-num {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--verde-osc);
+    margin-bottom: 8px;
+    margin-top: 6px;
+  }
+  .socio-card .socio-pct {
+    font-size: 44px;
+    font-weight: 800;
+    color: var(--tinta);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .socio-card .socio-pct-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--tinta-suave);
+    margin-bottom: 16px;
+  }
+  .socio-card .socio-monto {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--verde-osc);
+    padding: 12px;
+    background: var(--verde-cla);
+    border-radius: 12px;
+    margin-bottom: 12px;
+  }
+  .socio-card .socio-rol {
+    font-size: 12.5px;
+    color: var(--tinta-suave);
+    line-height: 1.5;
+  }
 
   /* ===== TRAMOS ===== */
   .tramos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
@@ -363,48 +478,79 @@
   </div>
 </section>
 
-<!-- ==================== SOCIO INVERSIONISTA ==================== -->
+<!-- ==================== SOCIOS INVERSIONISTAS ==================== -->
 <section id="socio">
   <div class="container">
-    <span class="section-tag">Búsqueda de socio</span>
-    <h2 class="section-title">Buscamos un socio inversionista para la operadora de transporte</h2>
-    <p class="section-desc">La operadora de transporte será la empresa encargada de gestionar la flota, los choferes y las operaciones. Buscamos un socio con visión estratégica para crecer juntos con una alianza 50/50.</p>
+    <span class="section-tag">Búsqueda de socios</span>
+    <h2 class="section-title">Buscamos 3 socios inversionistas</h2>
+    <p class="section-desc">Buscamos tres socios estratégicos para consolidar la operadora de transporte. Cada socio obtiene el <strong>15% de la empresa</strong> con una inversión de <strong>$25,000 USD</strong>. Erian C.A. mantiene el <strong>55%</strong>, la gerencia general y todos los contratos asociados.</p>
 
-    <div class="propuesta">
-      <div class="lado-a">
-        <h3>Kraze (Erian C.A.) aporta</h3>
-        <div class="monto">$70,000</div>
-        <div style="font-size: 13px; font-weight: 600;">Valor de la plataforma tecnológica</div>
+    <!-- BLOQUE ERIAN C.A. 55% -->
+    <div class="bloque-erian">
+      <div class="porcentaje">
+        <div class="num">55%</div>
+        <div class="label">Erian C.A.</div>
+      </div>
+      <div class="info">
+        <h3>Erian C.A. · Socio desarrollador</h3>
+        <div class="subtitulo">Aporte tecnológico + control gerencial + DAO</div>
         <ul>
-          <li>App Kraze completa (Android + Web)</li>
-          <li>Backend, Supabase, servidores</li>
-          <li>Integración Binance Pay</li>
+          <li>Plataforma tecnológica Kraze valorada en $91,666</li>
+          <li>App Android + Web responsive</li>
+          <li>Backend + Supabase + Binance Pay</li>
           <li>Asistente IA "Eri" con voz</li>
           <li>Marca Kraze y propiedad intelectual</li>
-          <li>Know-how y desarrollo continuo</li>
-        </ul>
-      </div>
-      <div class="lado-b">
-        <h3>El socio inversionista aporta</h3>
-        <div class="monto">$70,000</div>
-        <div style="font-size: 13px; font-weight: 600;">Capital en efectivo</div>
-        <ul>
-          <li>Capital líquido escalonado en 3 tramos</li>
-          <li>Sirve como respaldo y garantía</li>
-          <li>Permite abrir crédito para 40 motos iniciales</li>
-          <li>Financia operación del primer año</li>
-          <li>Respaldo ante proveedores y aliados</li>
+          <li>Gerencia general y dirección estratégica</li>
+          <li>Todos los contratos asociados a Erian C.A.</li>
+          <li>Entidad descentralizadora (DAO)</li>
         </ul>
       </div>
     </div>
 
+    <!-- 3 SOCIOS INVERSIONISTAS -->
+    <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 16px;">Los 3 socios inversionistas</h3>
+    <div class="tres-socios">
+      <div class="socio-card">
+        <div class="socio-num">Socio 1</div>
+        <div class="socio-pct">15%</div>
+        <div class="socio-pct-label">de la empresa</div>
+        <div class="socio-monto">$25,000</div>
+        <div class="socio-rol">Socio inversionista. Participa en utilidades y toma de decisiones estratégicas.</div>
+      </div>
+      <div class="socio-card">
+        <div class="socio-num">Socio 2</div>
+        <div class="socio-pct">15%</div>
+        <div class="socio-pct-label">de la empresa</div>
+        <div class="socio-monto">$25,000</div>
+        <div class="socio-rol">Socio inversionista. Participa en utilidades y toma de decisiones estratégicas.</div>
+      </div>
+      <div class="socio-card">
+        <div class="socio-num">Socio 3</div>
+        <div class="socio-pct">15%</div>
+        <div class="socio-pct-label">de la empresa</div>
+        <div class="socio-monto">$25,000</div>
+        <div class="socio-rol">Socio inversionista. Participa en utilidades y toma de decisiones estratégicas.</div>
+      </div>
+    </div>
+
+    <!-- DISTRIBUCIÓN -->
     <div style="background: var(--verde-cla); padding: 24px; border-radius: 16px; margin-bottom: 40px;">
-      <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">Distribución 50 / 50</h3>
-      <p style="font-size: 14px; color: var(--tinta);">Ambos socios quedan con participación igualitaria en la operadora de transporte. La marca, la tecnología y los pagos siguen siendo controlados por Erian C.A., que firma un contrato de licencia con la operadora.</p>
+      <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 12px;">Distribución accionaria</h3>
+      <table style="background: transparent;">
+        <tbody>
+          <tr><td style="font-weight: 700;">Erian C.A. (desarrollador)</td><td style="text-align: right; font-weight: 800; color: var(--verde-osc);">55%</td></tr>
+          <tr><td>Socio 1</td><td style="text-align: right;">15%</td></tr>
+          <tr><td>Socio 2</td><td style="text-align: right;">15%</td></tr>
+          <tr><td>Socio 3</td><td style="text-align: right;">15%</td></tr>
+          <tr class="highlight-row"><td style="font-weight: 800;">Total</td><td style="text-align: right; font-weight: 800;">100%</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size: 13px; color: var(--tinta); margin-top: 16px;">La gerencia general, la dirección estratégica y todos los contratos comerciales quedan bajo control de Erian C.A. como entidad descentralizadora (DAO). Los socios inversionistas participan en las utilidades y en la toma de decisiones estratégicas mayores, pero no en la operación diaria.</p>
     </div>
 
+    <!-- TRAMOS -->
     <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 16px;">Inversión escalonada en 3 tramos</h3>
-    <p style="font-size: 14px; color: var(--tinta-suave); margin-bottom: 24px;">El capital de $70,000 se entrega de forma escalonada para reducir el riesgo y acompañar el crecimiento operativo de la plataforma.</p>
+    <p style="font-size: 14px; color: var(--tinta-suave); margin-bottom: 24px;">El capital total de <strong>$75,000 USD</strong> se entrega de forma escalonada para reducir el riesgo y acompañar el crecimiento operativo de la plataforma.</p>
 
     <div class="tramos">
       <div class="tramo">
@@ -412,21 +558,21 @@
         <h4>Arranque</h4>
         <div class="tramo-pct">30-40%</div>
         <div class="tramo-detalle">Aporte inicial al firmar el acuerdo</div>
-        <div class="tramo-monto">≈ $21,000 – $28,000</div>
+        <div class="tramo-monto">≈ $22,500 – $30,000</div>
       </div>
       <div class="tramo">
         <div class="tramo-num">2</div>
         <h4>Mes 3</h4>
         <div class="tramo-pct">30-40%</div>
         <div class="tramo-detalle">Segundo empuje operativo</div>
-        <div class="tramo-monto">≈ $21,000 – $28,000</div>
+        <div class="tramo-monto">≈ $22,500 – $30,000</div>
       </div>
       <div class="tramo">
         <div class="tramo-num">3</div>
         <h4>Mes 5-6</h4>
         <div class="tramo-pct">30-40%</div>
         <div class="tramo-detalle">Consolidación total de la plataforma</div>
-        <div class="tramo-monto">≈ $21,000 – $28,000</div>
+        <div class="tramo-monto">≈ $22,500 – $30,000</div>
       </div>
     </div>
   </div>
@@ -436,7 +582,7 @@
 <section id="destino">
   <div class="container">
     <span class="section-tag">Destino del capital</span>
-    <h2 class="section-title">¿En qué se invertirán los $70,000?</h2>
+    <h2 class="section-title">¿En qué se invertirán los $75,000?</h2>
     <p class="section-desc">Cada dólar tiene un destino claro. El capital se orienta a construir una operación sólida, certificada y con posicionamiento de marca desde el primer día.</p>
 
     <div class="cita-destacada">
@@ -510,10 +656,10 @@
     </div>
 
     <div style="background: var(--verde-cla); padding: 24px; border-radius: 16px; text-align: center;">
-      <p style="font-size: 15px; color: var(--tinta); font-weight: 600;">Cada tramo de inversión se ejecuta con transparencia total. Reportes periódicos de avance y destino del capital al socio inversionista.</p>
+      <p style="font-size: 15px; color: var(--tinta); font-weight: 600;">Cada tramo de inversión se ejecuta con transparencia total. Reportes periódicos de avance y destino del capital a los socios inversionistas.</p>
     </div>
   </div>
-</section><!-- ==================== PROYECCIONES ==================== -->
+        </section><!-- ==================== PROYECCIONES ==================== -->
 <section id="proyecciones">
   <div class="container">
     <span class="section-tag">Proyecciones</span>
@@ -683,8 +829,8 @@
     </div>
 
     <div style="background: var(--verde-cla); padding: 32px; border-radius: 16px; text-align: center;">
-      <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 8px;">Únete a la revolución del transporte</h3>
-      <p style="color: var(--tinta-suave); margin-bottom: 20px;">Inversión inicial escalonada: $70,000 USD · Alianza 50/50 · Punto de equilibrio: Mes 3</p>
+      <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 8px;">Únete como socio inversionista</h3>
+      <p style="color: var(--tinta-suave); margin-bottom: 20px;">15% de la empresa · Inversión: $25,000 USD escalonado en 3 tramos · Punto de equilibrio: Mes 3</p>
       <a href="tel:+584121499545" style="display: inline-block; background: var(--tinta); color: #fff; padding: 16px 40px; border-radius: 50px; font-weight: 800; text-decoration: none;">Conversar con Frank Cesin</a>
     </div>
   </div>
@@ -868,4 +1014,3 @@
 <!-- Eri · Asistente Kraze · Erian C.A. -->
 </body>
 </html>
-  .section-desc { font-size: 16px; color: var(--tinta-suave); max-width: 720px; margin-bottom: 40px; }
