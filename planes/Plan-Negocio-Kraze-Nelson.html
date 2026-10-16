@@ -7,506 +7,340 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0d1220;
-  --bg-soft:#131a2c;
-  --surface:#182136;
-  --surface2:#1f2940;
-  --border:#2a3654;
-  --border-soft:#334263;
-  --text:#f1f4fa;
-  --text2:#9aa8c4;
-  --text3:#6b7899;
-  --emerald:#2dd4a8;
-  --emerald-deep:#14b88a;
-  --gold:#e8c268;
-  --gold-deep:#c9a544;
-  --blue:#7aa8ff;
-  --lavender:#b8a8e8;
-  --red:#ef6b6b;
-  --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  --serif:'Playfair Display',Georgia,serif;
-  --mono:'JetBrains Mono','SF Mono',monospace;
+--bg:#0d1220;--surface:#182136;--surface2:#1f2940;
+--border:#2a3654;--border-soft:#334263;
+--text:#f1f4fa;--text2:#9aa8c4;--text3:#6b7899;
+--emerald:#2dd4a8;--emerald-deep:#14b88a;
+--gold:#e8c268;--gold-deep:#c9a544;
+--blue:#7aa8ff;--lav:#b8a8e8;--red:#ef6b6b;
+--serif:'Playfair Display',Georgia,serif;
+--mono:'JetBrains Mono','SF Mono',monospace;
+--font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
 html{scroll-behavior:smooth}
-body{
-  font-family:var(--font);
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.75;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-  background-image:
-    radial-gradient(ellipse 80% 50% at 15% 0%, rgba(45,212,168,0.10), transparent 55%),
-    radial-gradient(ellipse 70% 50% at 85% 20%, rgba(122,168,255,0.08), transparent 60%),
-    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(232,194,104,0.06), transparent 65%);
-  background-attachment:fixed;
-}
-
-/* NAV */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:1000;
-  background:rgba(13,18,32,0.82);
-  backdrop-filter:blur(24px) saturate(180%);
-  -webkit-backdrop-filter:blur(24px) saturate(180%);
-  border-bottom:1px solid var(--border);
-  padding:0 2.5rem;height:72px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.nav-brand{
-  font-weight:700;font-size:1rem;letter-spacing:3px;
-  color:var(--emerald);
-  display:flex;align-items:center;gap:.75rem;
-}
-.nav-brand .dot{
-  width:9px;height:9px;border-radius:50%;
-  background:var(--emerald);
-  box-shadow:0 0 14px var(--emerald);
-  animation:pd 2.5s ease-in-out infinite;
-}
-@keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(1.15)}}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.75;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+background-image:radial-gradient(ellipse 80% 50% at 15% 0%,rgba(45,212,168,0.10),transparent 55%),radial-gradient(ellipse 70% 50% at 85% 20%,rgba(122,168,255,0.08),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(232,194,104,0.06),transparent 65%);
+background-attachment:fixed}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(13,18,32,0.82);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--border);padding:0 2.5rem;height:72px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-weight:700;font-size:1rem;letter-spacing:3px;color:var(--emerald);display:flex;align-items:center;gap:.75rem}
+.nav-brand .dot{width:9px;height:9px;border-radius:50%;background:var(--emerald);box-shadow:0 0 14px var(--emerald)}
 .nav-links{display:flex;gap:1.75rem;list-style:none}
-.nav-links a{
-  color:var(--text2);text-decoration:none;
-  font-size:.72rem;letter-spacing:1.5px;
-  text-transform:uppercase;font-weight:500;
-  transition:color .3s;
-}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;transition:color .3s}
 .nav-links a:hover{color:var(--emerald)}
-.nav-cta{
-  background:linear-gradient(135deg,var(--emerald),var(--emerald-deep));
-  color:#0a1320;padding:.65rem 1.4rem;
-  border-radius:10px;font-size:.72rem;
-  font-weight:700;letter-spacing:1.5px;
-  text-transform:uppercase;text-decoration:none;
-  transition:all .3s;
-  box-shadow:0 6px 24px rgba(45,212,168,0.28);
-}
-.nav-cta:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(45,212,168,0.45)}
-
-/* HERO */
-.hero{
-  min-height:100vh;padding:11rem 2.5rem 6rem;
-  position:relative;display:flex;align-items:center;
-  overflow:hidden;
-}
-.hero::before{
-  content:'';position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(42,54,84,0.28) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(42,54,84,0.28) 1px, transparent 1px);
-  background-size:70px 70px;
-  mask-image:radial-gradient(ellipse at center, black 25%, transparent 72%);
-  -webkit-mask-image:radial-gradient(ellipse at center, black 25%, transparent 72%);
-  opacity:.55;
-}
-.hero-inner{
-  max-width:1320px;margin:0 auto;width:100%;
-  position:relative;z-index:2;
-  display:grid;grid-template-columns:1.35fr 1fr;
-  gap:5rem;align-items:center;
-}
-.hero-badge{
-  display:inline-flex;align-items:center;gap:.65rem;
-  padding:.55rem 1.2rem;
-  border:1px solid rgba(45,212,168,0.4);
-  background:rgba(45,212,168,0.08);
-  border-radius:100px;
-  font-size:.68rem;letter-spacing:2.5px;
-  text-transform:uppercase;color:var(--emerald);
-  font-weight:600;margin-bottom:2rem;
-}
-.hero-badge::before{
-  content:'';width:7px;height:7px;
-  background:var(--emerald);border-radius:50%;
-  box-shadow:0 0 10px var(--emerald);
-}
-h1{
-  font-family:var(--serif);
-  font-size:clamp(2.4rem,5.4vw,4.4rem);
-  font-weight:700;line-height:1.08;
-  letter-spacing:-1.5px;
-  margin-bottom:2rem;
-}
-h1 .emerald{
-  background:linear-gradient(135deg,var(--emerald),var(--emerald-deep));
-  -webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;color:var(--emerald);
-}
-h1 .gold{
-  background:linear-gradient(135deg,var(--gold),var(--gold-deep));
-  -webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;color:var(--gold);
-}
+.nav-cta{background:linear-gradient(135deg,var(--emerald),var(--emerald-deep));color:#0a1320;padding:.65rem 1.4rem;border-radius:10px;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;box-shadow:0 6px 24px rgba(45,212,168,0.28)}
+.hero{min-height:100vh;padding:11rem 2.5rem 6rem;position:relative;display:flex;align-items:center;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(42,54,84,0.28) 1px,transparent 1px),linear-gradient(90deg,rgba(42,54,84,0.28) 1px,transparent 1px);background-size:70px 70px;mask-image:radial-gradient(ellipse at center,black 25%,transparent 72%);-webkit-mask-image:radial-gradient(ellipse at center,black 25%,transparent 72%);opacity:.55}
+.hero-inner{max-width:1320px;margin:0 auto;width:100%;position:relative;z-index:2;display:grid;grid-template-columns:1.35fr 1fr;gap:5rem;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:.65rem;padding:.55rem 1.2rem;border:1px solid rgba(45,212,168,0.4);background:rgba(45,212,168,0.08);border-radius:100px;font-size:.68rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--emerald);font-weight:600;margin-bottom:2rem}
+.hero-badge::before{content:'';width:7px;height:7px;background:var(--emerald);border-radius:50%;box-shadow:0 0 10px var(--emerald)}
+h1{font-family:var(--serif);font-size:clamp(2.4rem,5.4vw,4.4rem);font-weight:700;line-height:1.08;letter-spacing:-1.5px;margin-bottom:2rem}
+h1 .emerald{background:linear-gradient(135deg,var(--emerald),var(--emerald-deep));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--emerald)}
+h1 .gold{background:linear-gradient(135deg,var(--gold),var(--gold-deep));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--gold)}
 h1 .italic{font-style:italic;font-weight:400;color:var(--text2)}
-.hero-lead{
-  font-size:1.1rem;color:var(--text2);
-  line-height:1.9;max-width:640px;margin-bottom:3rem;
-}
+.hero-lead{font-size:1.1rem;color:var(--text2);line-height:1.9;max-width:640px;margin-bottom:3rem}
 .hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
-.btn-primary{
-  display:inline-flex;align-items:center;gap:.75rem;
-  background:linear-gradient(135deg,var(--emerald),var(--emerald-deep));
-  color:#0a1320;padding:1.15rem 2.1rem;
-  border-radius:12px;font-weight:700;
-  font-size:.82rem;letter-spacing:1.5px;
-  text-transform:uppercase;text-decoration:none;
-  transition:all .3s;
-  box-shadow:0 10px 36px rgba(45,212,168,0.32);
-}
-.btn-primary:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(45,212,168,0.48)}
-.btn-secondary{
-  display:inline-flex;align-items:center;
-  color:var(--text);padding:1.15rem 2.1rem;
-  border:1px solid var(--border-soft);
-  background:rgba(24,33,54,0.5);
-  border-radius:12px;font-weight:600;
-  font-size:.82rem;letter-spacing:1.5px;
-  text-transform:uppercase;text-decoration:none;
-  transition:all .3s;
-  backdrop-filter:blur(12px);
-}
-.btn-secondary:hover{border-color:var(--emerald);color:var(--emerald);background:rgba(45,212,168,0.08)}
-
-/* HERO CARD */
-.hero-card{
-  background:linear-gradient(155deg, rgba(31,41,64,0.95), rgba(19,26,44,0.98));
-  border:1px solid var(--border-soft);
-  border-radius:22px;padding:2.5rem;
-  backdrop-filter:blur(24px);
-  box-shadow:0 40px 90px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.04);
-  position:relative;overflow:hidden;
-}
-.hero-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,var(--emerald),var(--gold),var(--blue));
-}
-.hero-card-header{
-  display:flex;justify-content:space-between;
-  align-items:center;margin-bottom:2rem;
-  padding-bottom:1.5rem;border-bottom:1px solid var(--border);
-}
-.hero-card-header h3{
-  font-size:.72rem;letter-spacing:2.5px;
-  text-transform:uppercase;color:var(--text2);
-  font-weight:700;
-}
-.hero-card-header .tag{
-  background:rgba(45,212,168,0.14);
-  color:var(--emerald);
-  padding:.35rem .85rem;border-radius:100px;
-  font-size:.6rem;font-weight:700;
-  letter-spacing:1.8px;
-  border:1px solid rgba(45,212,168,0.3);
-}
-.stat-row{
-  display:flex;justify-content:space-between;
-  padding:1rem 0;border-bottom:1px solid rgba(42,54,84,0.55);
-}
+.btn-primary{display:inline-flex;align-items:center;gap:.75rem;background:linear-gradient(135deg,var(--emerald),var(--emerald-deep));color:#0a1320;padding:1.15rem 2.1rem;border-radius:12px;font-weight:700;font-size:.82rem;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;box-shadow:0 10px 36px rgba(45,212,168,0.32)}
+.btn-secondary{display:inline-flex;align-items:center;color:var(--text);padding:1.15rem 2.1rem;border:1px solid var(--border-soft);background:rgba(24,33,54,0.5);border-radius:12px;font-weight:600;font-size:.82rem;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none}
+.hero-card{background:linear-gradient(155deg,rgba(31,41,64,0.95),rgba(19,26,44,0.98));border:1px solid var(--border-soft);border-radius:22px;padding:2.5rem;backdrop-filter:blur(24px);box-shadow:0 40px 90px rgba(0,0,0,0.55);position:relative;overflow:hidden}
+.hero-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--emerald),var(--gold),var(--blue))}
+.hero-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.hero-card-header h3{font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--text2);font-weight:700}
+.hero-card-header .tag{background:rgba(45,212,168,0.14);color:var(--emerald);padding:.35rem .85rem;border-radius:100px;font-size:.6rem;font-weight:700;letter-spacing:1.8px;border:1px solid rgba(45,212,168,0.3)}
+.stat-row{display:flex;justify-content:space-between;padding:1rem 0;border-bottom:1px solid rgba(42,54,84,0.55)}
 .stat-row:last-child{border-bottom:none}
 .stat-row .label{color:var(--text2);font-size:.85rem}
-.stat-row .value{
-  font-weight:700;color:var(--text);
-  font-family:var(--mono);font-size:.9rem;
-}
+.stat-row .value{font-weight:700;color:var(--text);font-family:var(--mono);font-size:.9rem}
 .stat-row .value.emerald{color:var(--emerald)}
 .stat-row .value.gold{color:var(--gold)}
-.stat-row .value.blue{color:var(--blue)}
-
-/* QUICK FACTS */
-.quick-facts{
-  max-width:1320px;margin:-3rem auto 0;
-  padding:0 2.5rem;position:relative;z-index:3;
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:1.5rem;
-}
-.fact{
-  background:linear-gradient(155deg, rgba(31,41,64,0.85), rgba(24,33,54,0.9));
-  border:1px solid var(--border-soft);
-  border-radius:16px;padding:1.9rem;
-  transition:all .35s;
-  backdrop-filter:blur(16px);
-  box-shadow:0 8px 24px rgba(0,0,0,0.25);
-}
-.fact:hover{
-  border-color:var(--emerald);
-  transform:translateY(-5px);
-  box-shadow:0 20px 48px rgba(45,212,168,0.12);
-}
-.fact .num{
-  font-family:var(--serif);font-size:2.3rem;
-  font-weight:700;color:var(--emerald);
-  line-height:1;margin-bottom:.6rem;
-}
+.quick-facts{max-width:1320px;margin:-3rem auto 0;padding:0 2.5rem;position:relative;z-index:3;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
+.fact{background:linear-gradient(155deg,rgba(31,41,64,0.85),rgba(24,33,54,0.9));border:1px solid var(--border-soft);border-radius:16px;padding:1.9rem;box-shadow:0 8px 24px rgba(0,0,0,0.25)}
+.fact .num{font-family:var(--serif);font-size:2.3rem;font-weight:700;color:var(--emerald);line-height:1;margin-bottom:.6rem}
 .fact .num.gold{color:var(--gold)}
 .fact .num.blue{color:var(--blue)}
-.fact .lbl{
-  font-size:.7rem;letter-spacing:1.8px;
-  text-transform:uppercase;color:var(--text2);
-  font-weight:600;
-}
-
-/* SECTION BASE */
-section{
-  padding:6rem 2.5rem;max-width:1320px;margin:0 auto;
-  position:relative;
-}
-.section-label{
-  display:inline-block;
-  font-size:.68rem;letter-spacing:4px;
-  text-transform:uppercase;color:var(--emerald);
-  font-weight:700;margin-bottom:1rem;
-  padding:.35rem .9rem;
-  background:rgba(45,212,168,0.08);
-  border:1px solid rgba(45,212,168,0.22);
-  border-radius:100px;
-}
-.section-title{
-  font-family:var(--serif);
-  font-size:clamp(1.7rem,3.4vw,2.6rem);
-  font-weight:700;line-height:1.2;
-  letter-spacing:-.5px;margin-bottom:1.25rem;
-  margin-top:.5rem;
-}
-.section-desc{
-  color:var(--text2);font-size:1.02rem;
-  max-width:840px;line-height:1.9;
-  margin-bottom:3.5rem;
-}
-
-/* GRIDS */
+.fact .lbl{font-size:.7rem;letter-spacing:1.8px;text-transform:uppercase;color:var(--text2);font-weight:600}
+section{padding:6rem 2.5rem;max-width:1320px;margin:0 auto}
+.section-label{display:inline-block;font-size:.68rem;letter-spacing:4px;text-transform:uppercase;color:var(--emerald);font-weight:700;margin-bottom:1rem;padding:.35rem .9rem;background:rgba(45,212,168,0.08);border:1px solid rgba(45,212,168,0.22);border-radius:100px}
+.section-title{font-family:var(--serif);font-size:clamp(1.7rem,3.4vw,2.6rem);font-weight:700;line-height:1.2;letter-spacing:-.5px;margin-bottom:1.25rem;margin-top:.5rem}
+.section-desc{color:var(--text2);font-size:1.02rem;max-width:840px;line-height:1.9;margin-bottom:3.5rem}
 .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.5rem}
 .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem}
-
-/* CARD GENERAL */
-.card{
-  background:linear-gradient(155deg, rgba(31,41,64,0.7), rgba(24,33,54,0.85));
-  border:1px solid var(--border-soft);
-  border-radius:18px;padding:2rem;
-  transition:all .35s;
-  position:relative;overflow:hidden;
-}
-.card::before{
-  content:'';position:absolute;top:0;left:0;
-  width:100%;height:2px;
-  background:linear-gradient(90deg,transparent,rgba(45,212,168,0.4),transparent);
-  opacity:0;transition:opacity .35s;
-}
-.card:hover{
-  border-color:rgba(45,212,168,0.4);
-  transform:translateY(-5px);
-  box-shadow:0 20px 52px rgba(45,212,168,0.10);
-}
-.card:hover::before{opacity:1}
-.card .icon{
-  width:52px;height:52px;border-radius:14px;
-  background:linear-gradient(135deg,rgba(45,212,168,0.14),rgba(122,168,255,0.10));
-  border:1px solid rgba(45,212,168,0.22);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.5rem;margin-bottom:1.25rem;
-}
-.card h3{
-  font-size:1.05rem;font-weight:700;
-  margin-bottom:.7rem;letter-spacing:-.15px;
-}
-.card p{
-  color:var(--text2);font-size:.88rem;line-height:1.75;
-}
-
-/* ECOSYSTEM INTRO */
-.ecosystem-intro{
-  background:linear-gradient(155deg, rgba(45,212,168,0.08), rgba(122,168,255,0.05), rgba(232,194,104,0.04));
-  border:1px solid rgba(45,212,168,0.22);
-  border-radius:24px;padding:3.5rem;
-  margin-top:2rem;position:relative;overflow:hidden;
-  box-shadow:0 24px 60px rgba(0,0,0,0.35);
-}
-.ecosystem-intro::before{
-  content:'';position:absolute;top:0;left:0;width:100%;height:4px;
-  background:linear-gradient(90deg,var(--emerald),var(--blue),var(--gold),var(--emerald));
-}
-.ecosystem-intro h3{
-  font-family:var(--serif);font-size:1.7rem;
-  font-weight:700;margin-bottom:1.25rem;
-  letter-spacing:-.3px;
-}
-.ecosystem-intro p{
-  color:var(--text2);font-size:1rem;
-  line-height:1.9;margin-bottom:1.5rem;max-width:920px;
-}
+.card{background:linear-gradient(155deg,rgba(31,41,64,0.7),rgba(24,33,54,0.85));border:1px solid var(--border-soft);border-radius:18px;padding:2rem;position:relative}
+.card .icon{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,rgba(45,212,168,0.14),rgba(122,168,255,0.10));border:1px solid rgba(45,212,168,0.22);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1.25rem}
+.card h3{font-size:1.05rem;font-weight:700;margin-bottom:.7rem}
+.card p{color:var(--text2);font-size:.88rem;line-height:1.75}
+.ecosystem-intro{background:linear-gradient(155deg,rgba(45,212,168,0.08),rgba(122,168,255,0.05),rgba(232,194,104,0.04));border:1px solid rgba(45,212,168,0.22);border-radius:24px;padding:3.5rem;margin-top:2rem;position:relative;overflow:hidden}
+.ecosystem-intro::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:linear-gradient(90deg,var(--emerald),var(--blue),var(--gold),var(--emerald))}
+.ecosystem-intro h3{font-family:var(--serif);font-size:1.7rem;font-weight:700;margin-bottom:1.25rem}
+.ecosystem-intro p{color:var(--text2);font-size:1rem;line-height:1.9;margin-bottom:1.5rem;max-width:920px}
 .ecosystem-tags{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.75rem}
-.etag{
-  padding:.55rem 1.1rem;
-  background:rgba(45,212,168,0.10);
-  border:1px solid rgba(45,212,168,0.28);
-  border-radius:100px;
-  font-size:.78rem;color:var(--emerald);
-  font-weight:600;letter-spacing:.5px;
-}
-.etag.gold{
-  background:rgba(232,194,104,0.10);
-  border-color:rgba(232,194,104,0.3);
-  color:var(--gold);
-}
-.etag.blue{
-  background:rgba(122,168,255,0.10);
-  border-color:rgba(122,168,255,0.3);
-  color:var(--blue);
-}
-.etag.lav{
-  background:rgba(184,168,232,0.10);
-  border-color:rgba(184,168,232,0.3);
-  color:var(--lavender);
-}
-
-@media(max-width:960px){
-  .hero-inner{grid-template-columns:1fr;gap:3rem}
-  .hero{padding:9rem 1.5rem 5rem}
-  nav{padding:0 1.5rem;height:64px}
-  .nav-links{display:none}
-  .quick-facts{padding:0 1.5rem;margin-top:-2rem}
-  section{padding:4.5rem 1.5rem}
-  .ecosystem-intro{padding:2rem}
-}
-@media(max-width:600px){
-  h1{letter-spacing:-1px}
-  .hero-actions{flex-direction:column}
-  .btn-primary,.btn-secondary{justify-content:center;text-align:center}
-  .hero-card{padding:1.75rem}
-}
+.etag{padding:.55rem 1.1rem;background:rgba(45,212,168,0.10);border:1px solid rgba(45,212,168,0.28);border-radius:100px;font-size:.78rem;color:var(--emerald);font-weight:600}
+.etag.gold{background:rgba(232,194,104,0.10);border-color:rgba(232,194,104,0.3);color:var(--gold)}
+.etag.blue{background:rgba(122,168,255,0.10);border-color:rgba(122,168,255,0.3);color:var(--blue)}
+.etag.lav{background:rgba(184,168,232,0.10);border-color:rgba(184,168,232,0.3);color:var(--lav)}
+@media(max-width:960px){.hero-inner{grid-template-columns:1fr;gap:3rem}.hero{padding:9rem 1.5rem 5rem}nav{padding:0 1.5rem;height:64px}.nav-links{display:none}.quick-facts{padding:0 1.5rem;margin-top:-2rem}section{padding:4.5rem 1.5rem}.ecosystem-intro{padding:2rem}}
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-brand"><div class="dot"></div>ECOSISTEMA DIGITAL</div>
-  <ul class="nav-links">
-    <li><a href="#ecosistema">Ecosistema</a></li>
-    <li><a href="#kraze">KRAZE</a></li>
-    <li><a href="#algoritmo">Algoritmo</a></li>
-    <li><a href="#balance">Balance</a></li>
-    <li><a href="#retorno">Retorno</a></li>
-    <li><a href="#contacto">Contacto</a></li>
-  </ul>
-  <a href="#contacto" class="nav-cta">Solicitar Reunión</a>
+<div class="nav-brand"><div class="dot"></div>ECOSISTEMA DIGITAL</div>
+<ul class="nav-links">
+<li><a href="#ecosistema">Ecosistema</a></li>
+<li><a href="#kraze">KRAZE</a></li>
+<li><a href="#algoritmo">Algoritmo</a></li>
+<li><a href="#balance">Balance</a></li>
+<li><a href="#retorno">Retorno</a></li>
+<li><a href="#contacto">Contacto</a></li>
+</ul>
+<a href="#contacto" class="nav-cta">Solicitar Reunión</a>
 </nav>
 
 <header class="hero">
-  <div class="hero-inner">
-    <div>
-      <div class="hero-badge">Infraestructura Digital + Transporte Masivo · Venezuela 2026</div>
-      <h1>
-        Construyendo la <span class="emerald">infraestructura digital</span> y la <span class="gold">plataforma de transporte</span> que transformarán el agro venezolano.
-      </h1>
-      <p class="hero-lead">
-        Dos plataformas, un solo ecosistema. Erian digitaliza la producción, la logística y los pagos del campo. KRAZE conecta el transporte masivo regional con una red de filiales, alianzas e infraestructuras agroalimentarias enfocadas en la nutrición regenerativa y el bienestar integral. Juntos forman el sistema operativo del futuro productivo de Venezuela.
-      </p>
-      <div class="hero-actions">
-        <a href="#kraze" class="btn-primary">Conocer KRAZE</a>
-        <a href="#contacto" class="btn-secondary">Hablar con el Fundador</a>
-      </div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-card-header">
-        <h3>Resumen Ejecutivo</h3>
-        <span class="tag">DOCUMENTO PRIVADO</span>
-      </div>
-      <div class="stat-row"><span class="label">Inversión solicitada</span><span class="value emerald">$2,000,000 USD</span></div>
-      <div class="stat-row"><span class="label">Retorno proyectado</span><span class="value gold">70% del capital</span></div>
-      <div class="stat-row"><span class="label">Plazo de retorno</span><span class="value">4 años escalonados</span></div>
-      <div class="stat-row"><span class="label">Forma de entrega</span><span class="value">Propiedades · USDT</span></div>
-      <div class="stat-row"><span class="label">Control operativo</span><span class="value emerald">100% Fundador</span></div>
-      <div class="stat-row"><span class="label">Inversión propia ya realizada</span><span class="value gold">$5,000+ USD</span></div>
-    </div>
-  </div>
+<div class="hero-inner">
+<div>
+<div class="hero-badge">Infraestructura Digital + Transporte Masivo · Venezuela 2026</div>
+<h1>Construyendo la <span class="emerald">infraestructura digital</span> y la <span class="gold">plataforma de transporte</span> que transformarán el agro venezolano.</h1>
+<p class="hero-lead">Dos plataformas, un solo ecosistema. Erian digitaliza la producción, la logística y los pagos del campo. KRAZE conecta el transporte masivo regional con una red de filiales, alianzas e infraestructuras agroalimentarias enfocadas en la nutrición regenerativa y el bienestar integral. Juntos forman el sistema operativo del futuro productivo de Venezuela.</p>
+<div class="hero-actions">
+<a href="#kraze" class="btn-primary">Conocer KRAZE</a>
+<a href="#contacto" class="btn-secondary">Hablar con el Fundador</a>
+</div>
+</div>
+<div class="hero-card">
+<div class="hero-card-header">
+<h3>Resumen Ejecutivo</h3>
+<span class="tag">DOCUMENTO PRIVADO</span>
+</div>
+<div class="stat-row"><span class="label">Inversión solicitada</span><span class="value emerald">$2,000,000 USD</span></div>
+<div class="stat-row"><span class="label">Retorno proyectado</span><span class="value gold">70% del capital</span></div>
+<div class="stat-row"><span class="label">Plazo de retorno</span><span class="value">4 años escalonados</span></div>
+<div class="stat-row"><span class="label">Forma de entrega</span><span class="value">Propiedades · USDT</span></div>
+<div class="stat-row"><span class="label">Control operativo</span><span class="value emerald">100% Fundador</span></div>
+<div class="stat-row"><span class="label">Inversión propia ya realizada</span><span class="value gold">$5,000+ USD</span></div>
+</div>
+</div>
 </header>
 
 <div class="quick-facts">
-  <div class="fact"><div class="num">2</div><div class="lbl">Plataformas integradas</div></div>
-  <div class="fact"><div class="num gold">$16.5M</div><div class="lbl">Ingreso proyectado 2032</div></div>
-  <div class="fact"><div class="num blue">97%</div><div class="lbl">Margen tecnológico</div></div>
-  <div class="fact"><div class="num">Regional</div><div class="lbl">Expansión proyectada</div></div>
-</div><section id="ecosistema">
-  <div class="section-label">El Ecosistema</div>
-  <h2 class="section-title">Dos plataformas complementarias, un solo propósito</h2>
-  <p class="section-desc">No construimos herramientas aisladas. Construimos un ecosistema donde cada plataforma potencia a la otra. Una digitaliza el agro desde la producción hasta el pago. La otra lo conecta con el transporte masivo, la distribución regional y la infraestructura agroalimentaria.</p>
+<div class="fact"><div class="num">2</div><div class="lbl">Plataformas integradas</div></div>
+<div class="fact"><div class="num gold">$16.5M</div><div class="lbl">Ingreso proyectado 2032</div></div>
+<div class="fact"><div class="num blue">97%</div><div class="lbl">Margen tecnológico</div></div>
+<div class="fact"><div class="num">Regional</div><div class="lbl">Expansión proyectada</div></div>
+</div>
 
-  <div class="ecosystem-intro">
-    <h3>🎯 El propósito que une ambas plataformas</h3>
-    <p>Digitalizar la realidad económica del agro venezolano y conectarla con una red de transporte y distribución capaz de escalar a nivel regional. Nutrición regenerativa, bienestar integral y logística masiva en un solo sistema operativo.</p>
-    <div class="ecosystem-tags">
-      <span class="etag">Infraestructura Digital</span>
-      <span class="etag blue">Transporte Masivo</span>
-      <span class="etag">Nutrición Regenerativa</span>
-      <span class="etag gold">Bienestar Integral</span>
-      <span class="etag gold">Expansión Regional</span>
-      <span class="etag lav">Filiales y Alianzas</span>
-      <span class="etag">Agroalimentario</span>
-    </div>
-  </div>
+<section id="ecosistema">
+<div class="section-label">El Ecosistema</div>
+<h2 class="section-title">Dos plataformas complementarias, un solo propósito</h2>
+<p class="section-desc">No construimos herramientas aisladas. Construimos un ecosistema donde cada plataforma potencia a la otra. Una digitaliza el agro desde la producción hasta el pago. La otra lo conecta con el transporte masivo, la distribución regional y la infraestructura agroalimentaria.</p>
+<div class="ecosystem-intro">
+<h3>🎯 El propósito que une ambas plataformas</h3>
+<p>Digitalizar la realidad económica del agro venezolano y conectarla con una red de transporte y distribución capaz de escalar a nivel regional. Nutrición regenerativa, bienestar integral y logística masiva en un solo sistema operativo.</p>
+<div class="ecosystem-tags">
+<span class="etag">Infraestructura Digital</span>
+<span class="etag blue">Transporte Masivo</span>
+<span class="etag">Nutrición Regenerativa</span>
+<span class="etag gold">Bienestar Integral</span>
+<span class="etag gold">Expansión Regional</span>
+<span class="etag lav">Filiales y Alianzas</span>
+<span class="etag">Agroalimentario</span>
+</div>
+</div>
+</section><section id="kraze">
+<div class="section-label">Plataforma de Transporte Masivo</div>
+<h2 class="section-title">KRAZE · Conectando el agro con la región</h2>
+<p class="section-desc">KRAZE es la plataforma de transporte masivo que conecta la producción del campo venezolano con la distribución regional. No es solo una app de transporte: es una red de filiales, alianzas e infraestructuras agroalimentarias diseñadas para escalar a nivel regional.</p>
+<div class="ecosystem-intro" style="background:linear-gradient(155deg,rgba(122,168,255,0.10),rgba(45,212,168,0.06),rgba(232,194,104,0.04));border-color:rgba(122,168,255,0.3)">
+<div style="display:inline-block;padding:.5rem 1.15rem;background:rgba(122,168,255,0.12);border:1px solid rgba(122,168,255,0.32);border-radius:100px;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--blue);font-weight:700;margin-bottom:1.5rem">Plataforma de Transporte Masivo Regional</div>
+<h3 style="font-family:var(--serif);font-size:clamp(2rem,4.5vw,3.4rem);letter-spacing:3px;margin-bottom:1.5rem"><span style="background:linear-gradient(135deg,var(--blue),#4a7dd4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--blue)">KRAZE</span> <span style="background:linear-gradient(135deg,var(--emerald),var(--emerald-deep));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--emerald)">3</span></h3>
+<p>Un sistema de transporte y distribución que integra productores, ruteros, comercios y consumidores en una red masiva. Con proyección regional, filiales propias, alianzas estratégicas e infraestructuras agroalimentarias enfocadas en nutrición regenerativa, psicología del bienestar y sostenibilidad.</p>
+<div class="grid-3" style="margin-top:2.5rem">
+<div class="card"><div class="icon">🚛</div><h3>Transporte Masivo</h3><p>Red de distribución que conecta campo, ciudad y región en un solo sistema logístico integrado.</p></div>
+<div class="card"><div class="icon">🌎</div><h3>Expansión Regional</h3><p>Proyección de crecimiento a nivel regional con modelo replicable en otros estados y países.</p></div>
+<div class="card"><div class="icon">🏢</div><h3>Filiales y Alianzas</h3><p>Creación de filiales operativas y alianzas estratégicas con actores clave del sector.</p></div>
+<div class="card"><div class="icon">🥗</div><h3>Nutrición Regenerativa</h3><p>Infraestructuras agroalimentarias enfocadas en alimentos funcionales, fermentados y probióticos.</p></div>
+<div class="card"><div class="icon">🧠</div><h3>Bienestar Integral</h3><p>Integración de psicología del bienestar como eje transversal del ecosistema productivo.</p></div>
+<div class="card"><div class="icon">💰</div><h3>Modelo Escalable</h3><p>Estructura financiera diseñada para crecer sin perder el control operativo del fundador.</p></div>
+</div>
+</div>
 </section>
 
-<section id="kraze">
-  <div class="section-label">Plataforma de Transporte Masivo</div>
-  <h2 class="section-title">KRAZE · Conectando el agro con la región</h2>
-  <p class="section-desc">KRAZE es la plataforma de transporte masivo que conecta la producción del campo venezolano con la distribución regional. No es solo una app de transporte: es una red de filiales, alianzas e infraestructuras agroalimentarias diseñadas para escalar a nivel regional.</p>
+<section>
+<div class="section-label">El Problema</div>
+<h2 class="section-title">Un ecosistema productivo operando a ciegas</h2>
+<p class="section-desc">En los llanos venezolanos, miles de productores, ruteros, moto-rutas y tiendas operan sin datos, sin trazabilidad, sin acceso al sistema financiero formal y sin logística integrada. El campo pierde millones al año por ineficiencia estructural.</p>
+<div class="grid-3">
+<div class="card"><div class="icon">🚛</div><h3>Rutero Transportista</h3><p>Trabaja 14 horas al día, no sabe cuánto gana realmente, pierde producto por mala dosificación y no tiene respaldo ante emergencias.</p></div>
+<div class="card"><div class="icon">🌾</div><h3>Productor</h3><p>Depende del intermediario, no accede a proveedores, no tiene crédito formal y no cuenta con trazabilidad de su producción.</p></div>
+<div class="card"><div class="icon">🏪</div><h3>Tienda y Comercio</h3><p>No llega al campo, pierde ventas por falta de logística y no tiene canal digital para ofrecer productos a la comunidad.</p></div>
+<div class="card"><div class="icon">🛒</div><h3>Consumidor Final</h3><p>No encuentra productos locales, no conoce el origen ni la trazabilidad y no participa del ecosistema productivo regional.</p></div>
+<div class="card"><div class="icon">📉</div><h3>Logística Desintegrada</h3><p>Sin plataforma de transporte masivo, cada actor resuelve su logística por separado, multiplicando costos y tiempos.</p></div>
+<div class="card"><div class="icon">🚫</div><h3>Sin Acceso Financiero</h3><p>El campo no accede a crédito, seguros, pagos digitales ni a herramientas de gestión financiera modernas.</p></div>
+</div>
+</section>
 
-  <div class="ecosystem-intro" style="background:linear-gradient(155deg, rgba(122,168,255,0.10), rgba(45,212,168,0.06), rgba(232,194,104,0.04));border-color:rgba(122,168,255,0.3)">
-    <div style="display:inline-block;padding:.5rem 1.15rem;background:rgba(122,168,255,0.12);border:1px solid rgba(122,168,255,0.32);border-radius:100px;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--blue);font-weight:700;margin-bottom:1.5rem">Plataforma de Transporte Masivo Regional</div>
-    <h3 style="font-family:var(--serif);font-size:clamp(2rem,4.5vw,3.4rem);letter-spacing:3px;margin-bottom:1.5rem">
-      <span style="background:linear-gradient(135deg,var(--blue),#4a7dd4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--blue)">KRAZE</span> <span style="background:linear-gradient(135deg,var(--emerald),var(--emerald-deep));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--emerald)">3</span>
-    </h3>
-    <p>Un sistema de transporte y distribución que integra productores, ruteros, comercios y consumidores en una red masiva. Con proyección regional, filiales propias, alianzas estratégicas e infraestructuras agroalimentarias enfocadas en nutrición regenerativa, psicología del bienestar y sostenibilidad.</p>
+<section>
+<div class="section-label">La Solución</div>
+<h2 class="section-title">Un ecosistema integrado: digitalización + transporte masivo</h2>
+<p class="section-desc">La solución no es una sola app. Es un ecosistema completo que integra infraestructura digital, plataforma de transporte masivo, red de filiales y alianzas estratégicas, todo enfocado en sostenibilidad, nutrición regenerativa y bienestar.</p>
+<div class="ecosystem-intro">
+<h3>🎯 Cinco componentes que forman el ecosistema</h3>
+<p>Cada componente resuelve una parte específica del problema. Juntos forman un sistema operativo completo para el agro venezolano y su proyección regional.</p>
+<div class="ecosystem-tags">
+<span class="etag">Infraestructura digital del agro</span>
+<span class="etag blue">Plataforma de transporte masivo KRAZE</span>
+<span class="etag">Billetera digital y pagos</span>
+<span class="etag gold">Red de filiales y alianzas</span>
+<span class="etag gold">Infraestructuras agroalimentarias</span>
+<span class="etag lav">Nutrición regenerativa</span>
+<span class="etag lav">Bienestar integral</span>
+</div>
+</div>
+</section>
 
-    <div class="grid-3" style="margin-top:2.5rem">
-      <div class="card">
-        <div class="icon">🚛</div>
-        <h3>Transporte Masivo</h3>
-        <p>Red de distribución que conecta campo, ciudad y región en un solo sistema logístico integrado.</p>
-      </div>
-      <div class="card">
-        <div class="icon">🌎</div>
-        <h3>Expansión Regional</h3>
-        <p>Proyección de crecimiento a nivel regional con modelo replicable en otros estados y países.</p>
-      </div>
-      <div class="card">
-        <div class="icon">🏢</div>
-        <h3>Filiales y Alianzas</h3>
-        <p>Creación de filiales operativas y alianzas estratégicas con actores clave del sector.</p>
-      </div>
-      <div class="card">
-        <div class="icon">🥗</div>
-        <h3>Nutrición Regenerativa</h3>
-        <p>Infraestructuras agroalimentarias enfocadas en alimentos funcionales, fermentados y probióticos.</p>
-      </div>
-      <div class="card">
-        <div class="icon">🧠</div>
-        <h3>Bienestar Integral</h3>
-        <p>Integración de psicología del bienestar como eje transversal del ecosistema productivo.</p>
-      </div>
-      <div class="card">
-        <div class="icon">💰</div>
-        <h3>Modelo Escalable</h3>
-        <p>Estructura financiera diseñada para crecer sin perder el control operativo del fundador.</p>
-      </div>
-    </div>
-  </div>
-</section><section>
-  <div class="section-label">El Problema</div>
-  <h2 class="section-title">Un ecosistema productivo operando a ciegas</h2>
-  <p class="section-desc">En los llanos venezolanos, miles de productores, ruteros, moto-rutas y tiendas operan sin datos, sin trazabilidad, sin acceso al sistema financiero formal y sin logística integrada. El campo pierde millones al año por ineficiencia estructural.</p>
+<section id="mercado">
+<div class="section-label">Mercado Objetivo</div>
+<h2 class="section-title">Un mercado interno enorme, listo para ser digitalizado</h2>
+<p class="section-desc">La base de actores del ecosistema está lista para ser integrada. No creamos el mercado: lo conectamos, lo digitalizamos y lo potenciamos con infraestructura de transporte masivo.</p>
+<div class="grid-3">
+<div class="card"><div class="icon">👨‍🌾</div><h3>10.000 Productores</h3><p>Base de producción primaria lista para digitalizar su operación completa.</p></div>
+<div class="card"><div class="icon">🚛</div><h3>200 Ruteros</h3><p>Transportistas de leche que gestionan la cadena logística del campo.</p></div>
+<div class="card"><div class="icon">🏍️</div><h3>500 Moto-rutas</h3><p>Recolectores en veredas y zonas rurales de difícil acceso.</p></div>
+<div class="card"><div class="icon">🏪</div><h3>2.000 Tiendas</h3><p>Comercios locales listos para vender digitalmente al campo.</p></div>
+<div class="card"><div class="icon">🛒</div><h3>80.000+ Consumidores</h3><p>Demanda local y trazabilidad para el ecosistema completo.</p></div>
+<div class="card"><div class="icon">🌎</div><h3>Expansión Regional</h3><p>Proyección a otros estados y países con modelo replicable.</p></div>
+</div>
+</section>
 
-  <div class="grid-3">
-    <div class="card">
-      <div class="icon">🚛</div>
-      <h3>Rutero Transportista</h3>
-      <p>Trabaja 14 horas al día, no sabe cuánto gana realmente, pierde producto por mala dosificación y no tiene respaldo ante emergencias.</p>
-    </div>
-    <div class="card">
-      <div class="icon">🌾</div>
-      <h3>Productor</h3>
-      <p>Depende del intermediario, no accede a proveedores, no tiene crédito formal y no cuenta con trazabilidad de su producción.</p>
-    </div>
-    <div class="card">
-      <div class="icon">🏪</div>
-      <h3>Tienda y Comercio</h3>
-      <p>No lleg
+<section id="algoritmo">
+<div class="section-label">Capacidad Algorítmica</div>
+<h2 class="section-title">No solo entendemos el algoritmo. Somos el algoritmo.</h2>
+<p class="section-desc">El algoritmo no es un ente externo que nos controla. Es un reflejo de la conducta social. Nosotros lo leemos, lo interpretamos y lo modificamos según el comportamiento del mercado. Cada corrección financiera es una respuesta calibrada a una señal del ecosistema.</p>
+<div class="grid-3">
+<div class="card"><div class="icon">📡</div><h3>Capa 1 · Captura</h3><p>Recopilamos datos de comportamiento financiero de todos los actores del ecosistema en tiempo real.</p></div>
+<div class="card"><div class="icon">🧠</div><h3>Capa 2 · Análisis</h3><p>Procesamos esos datos para identificar patrones de conducta y anticipar los movimientos del mercado.</p></div>
+<div class="card"><div class="icon">🔄</div><h3>Capa 3 · Corrección</h3><p>Ajustamos los parámetros según la conducta detectada, corrigiendo antes de que el mercado se corrija solo.</p></div>
+<div class="card"><div class="icon">⚙️</div><h3>Capa 4 · Ejecución</h3><p>Aplicamos los movimientos financieros calibrados para maximizar el retorno y minimizar el riesgo.</p></div>
+<div class="card"><div class="icon">🎯</div><h3>Adaptación Continua</h3><p>El algoritmo cambia cuando la sociedad cambia. Nosotros cambiamos con él, siempre un paso adelante.</p></div>
+<div class="card"><div class="icon">🛡️</div><h3>Seguridad Garantizada</h3><p>Desde el principio hasta el fin, cada movimiento está diseñado para proteger el capital y garantizar el retorno pactado.</p></div>
+</div>
+</section><section id="balance">
+<div class="section-label">Balance Financiero</div>
+<h2 class="section-title">El balance que respalda la operación</h2>
+<p class="section-desc">Cada movimiento financiero queda registrado en un balance claro, auditable y transparente. La capacidad de manejar este balance con precisión es la prueba de nuestro control absoluto sobre la operación y sobre el dinero.</p>
+<div class="grid-2">
+<div class="card" style="border-top:3px solid var(--emerald)">
+<h3 style="font-size:.78rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:1.5rem">Ingresos · Año 2</h3>
+<div class="stat-row"><span class="label">Capital inicial gestionado</span><span class="value emerald">$2,000,000</span></div>
+<div class="stat-row"><span class="label">Licencias operadores</span><span class="value emerald">$86,388</span></div>
+<div class="stat-row"><span class="label">Membresías comercios</span><span class="value emerald">$256,680</span></div>
+<div class="stat-row"><span class="label">Publicidad y clasificados</span><span class="value emerald">$154,200</span></div>
+<div class="stat-row"><span class="label">Asistente IA (97% margen)</span><span class="value gold">$1,782,000</span></div>
+<div class="stat-row"><span class="label"><strong>Total ingresos</strong></span><span class="value gold"><strong>$2,279,268</strong></span></div>
+</div>
+<div class="card" style="border-top:3px solid var(--red)">
+<h3 style="font-size:.78rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:1.5rem">Egresos · Año 1-2</h3>
+<div class="stat-row"><span class="label">Desarrollo de plataforma</span><span class="value" style="color:var(--red)">–$80,000</span></div>
+<div class="stat-row"><span class="label">Equipo de desarrollo</span><span class="value" style="color:var(--red)">–$60,000</span></div>
+<div class="stat-row"><span class="label">Legal y permisos</span><span class="value" style="color:var(--red)">–$15,000</span></div>
+<div class="stat-row"><span class="label">Ciberseguridad</span><span class="value" style="color:var(--red)">–$10,000</span></div>
+<div class="stat-row"><span class="label">Infraestructura en nube</span><span class="value" style="color:var(--red)">–$15,000</span></div>
+<div class="stat-row"><span class="label">Marketing y campo</span><span class="value" style="color:var(--red)">–$20,000</span></div>
+<div class="stat-row"><span class="label">Sueldos fundadores (18 meses)</span><span class="value" style="color:var(--red)">–$36,000</span></div>
+<div class="stat-row"><span class="label">Reserva operativa</span><span class="value" style="color:var(--red)">–$14,000</span></div>
+<div class="stat-row"><span class="label"><strong>Total egresos</strong></span><span class="value" style="color:var(--red)"><strong>–$250,000</strong></span></div>
+</div>
+</div>
+<div class="card" style="border-top:3px solid var(--gold);margin-top:1.5rem">
+<h3 style="font-size:.78rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:1.5rem">Balance Neto Proyectado · Año 2</h3>
+<div class="stat-row"><span class="label">Ingresos totales</span><span class="value emerald">$2,279,268</span></div>
+<div class="stat-row"><span class="label">Egresos operativos</span><span class="value" style="color:var(--red)">–$250,000</span></div>
+<div class="stat-row"><span class="label"><strong>Balance neto del ejercicio</strong></span><span class="value gold"><strong>$2,029,268</strong></span></div>
+<div class="stat-row"><span class="label">Retorno al inversionista (70%)</span><span class="value emerald">$1,400,000</span></div>
+<div class="stat-row"><span class="label">Margen operativo neto</span><span class="value gold">$629,268</span></div>
+</div>
+</section>
+
+<section id="proyeccion">
+<div class="section-label">Proyección Estadística</div>
+<h2 class="section-title">Crecimiento proyectado 2027 – 2032</h2>
+<p class="section-desc">El algoritmo nos permite proyectar el crecimiento con precisión. Cada año está calculado en función de la conducta financiera esperada, las correcciones aplicadas y la adopción del ecosistema.</p>
+<div class="card" style="padding:0;overflow:hidden">
+<table style="width:100%;border-collapse:separate;border-spacing:0">
+<thead>
+<tr style="background:var(--surface2)">
+<th style="padding:1.15rem 1.5rem;text-align:left;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);font-weight:700">Año</th>
+<th style="padding:1.15rem 1.5rem;text-align:left;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);font-weight:700">Usuarios</th>
+<th style="padding:1.15rem 1.5rem;text-align:left;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);font-weight:700">Ingreso</th>
+<th style="padding:1.15rem 1.5rem;text-align:left;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);font-weight:700">Utilidad Neta</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>2027</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)">10.000</td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)">$27.000</td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border);color:var(--emerald);font-family:var(--mono);font-weight:700">$25.000</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>2028</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)">80.000</td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)">$840.000</td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border);color:var(--emerald);font-family:var(--mono);font-weight:700">$800.000</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>2029</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)">300.000</td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)">$3.120.000</td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border);color:var(--emerald);font-family:var(--mono);font-weight:700">$2.950.000</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>2030</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)">800.000</td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)">$8.460.000</td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border);color:var(--emerald);font-family:var(--mono);font-weight:700">$8.000.000</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>2032</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)">1.500.000</td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)">$16.500.000</td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border);color:var(--gold);font-family:var(--mono);font-weight:700">$15.675.000</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="retorno">
+<div class="section-label">Plan de Retorno Escalonado</div>
+<h2 class="section-title">2 años de maduración. 4 años de retorno escalonado.</h2>
+<p class="section-desc">El inversionista deposita $2.000.000 USD. En los primeros 2 años no se exige retorno porque el capital trabaja íntegramente en la construcción de la infraestructura. A partir del año 3, comienza la entrega escalonada del 70% del capital en propiedades tangibles o billeteras USDT.</p>
+<div style="position:relative;padding-left:3rem;margin-top:2rem">
+<div style="position:absolute;left:12px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,var(--text3),var(--emerald),var(--gold))"></div>
+<div style="position:relative;padding-bottom:3rem"><div style="position:absolute;left:-3rem;top:4px;width:26px;height:26px;border-radius:50%;background:var(--bg);border:3px solid var(--text3)"></div><div style="font-family:var(--mono);font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:.4rem;font-weight:600">Año 1 · Maduración</div><h4 style="font-size:1.15rem;font-weight:700;margin-bottom:.5rem">Construcción de la infraestructura</h4><p style="color:var(--text2);font-size:.92rem;max-width:680px">Desarrollo completo de la plataforma, contratación del equipo, constitución legal, validación con usuarios reales. Sin retorno exigido.</p></div>
+<div style="position:relative;padding-bottom:3rem"><div style="position:absolute;left:-3rem;top:4px;width:26px;height:26px;border-radius:50%;background:var(--bg);border:3px solid var(--text3)"></div><div style="font-family:var(--mono);font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:.4rem;font-weight:600">Año 2 · Maduración</div><h4 style="font-size:1.15rem;font-weight:700;margin-bottom:.5rem">Tracción y consolidación</h4><p style="color:var(--text2);font-size:.92rem;max-width:680px">Escalado a 80.000 usuarios, primeras operaciones con ruteros, transportistas y tiendas. Alianzas estratégicas con actores regionales. Sin retorno exigido.</p></div>
+<div style="position:relative;padding-bottom:3rem"><div style="position:absolute;left:-3rem;top:4px;width:26px;height:26px;border-radius:50%;background:var(--bg);border:3px solid var(--gold)"></div><div style="font-family:var(--mono);font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;font-weight:600">Año 3 · Retorno I</div><h4 style="font-size:1.15rem;font-weight:700;margin-bottom:.5rem">Entrega del 15% del capital</h4><p style="color:var(--text2);font-size:.92rem;max-width:680px">Se entregan $300.000 USD en propiedades o USDT. La operación ya es rentable. 300.000 usuarios activos.</p><div style="display:inline-block;margin-top:.85rem;padding:.55rem 1.1rem;background:rgba(232,194,104,0.12);border:1px solid rgba(232,194,104,0.32);border-radius:8px;font-family:var(--mono);font-size:.82rem;color:var(--gold);font-weight:700">15% · $300.000 USD</div></div>
+<div style="position:relative;padding-bottom:3rem"><div style="position:absolute;left:-3rem;top:4px;width:26px;height:26px;border-radius:50%;background:var(--bg);border:3px solid var(--gold)"></div><div style="font-family:var(--mono);font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;font-weight:600">Año 4 · Retorno II</div><h4 style="font-size:1.15rem;font-weight:700;margin-bottom:.5rem">Entrega del 15% del capital</h4><p style="color:var(--text2);font-size:.92rem;max-width:680px">Se entregan $300.000 USD en propiedades o USDT. El modelo está consolidado a nivel nacional.</p><div style="display:inline-block;margin-top:.85rem;padding:.55rem 1.1rem;background:rgba(232,194,104,0.12);border:1px solid rgba(232,194,104,0.32);border-radius:8px;font-family:var(--mono);font-size:.82rem;color:var(--gold);font-weight:700">15% · $300.000 USD</div></div>
+<div style="position:relative;padding-bottom:3rem"><div style="position:absolute;left:-3rem;top:4px;width:26px;height:26px;border-radius:50%;background:var(--bg);border:3px solid var(--gold)"></div><div style="font-family:var(--mono);font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;font-weight:600">Año 5 · Retorno III</div><h4 style="font-size:1.15rem;font-weight:700;margin-bottom:.5rem">Entrega del 20% del capital</h4><p style="color:var(--text2);font-size:.92rem;max-width:680px">Se entregan $400.000 USD en propiedades o USDT. Expansión regional en marcha. Alianzas con bancos y aseguradoras.</p><div style="display:inline-block;margin-top:.85rem;padding:.55rem 1.1rem;background:rgba(232,194,104,0.12);border:1px solid rgba(232,194,104,0.32);border-radius:8px;font-family:var(--mono);font-size:.82rem;color:var(--gold);font-weight:700">20% · $400.000 USD</div></div>
+<div style="position:relative"><div style="position:absolute;left:-3rem;top:4px;width:26px;height:26px;border-radius:50%;background:var(--bg);border:3px solid var(--emerald)"></div><div style="font-family:var(--mono);font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--emerald);margin-bottom:.4rem;font-weight:600">Año 6 · Retorno IV</div><h4 style="font-size:1.15rem;font-weight:700;margin-bottom:.5rem">Entrega del 20% restante</h4><p style="color:var(--text2);font-size:.92rem;max-width:680px">Se entregan $400.000 USD hasta completar el 70% del capital. El ecosistema está consolidado y expandido a nivel regional.</p><div style="display:inline-block;margin-top:.85rem;padding:.55rem 1.1rem;background:rgba(45,212,168,0.12);border:1px solid rgba(45,212,168,0.32);border-radius:8px;font-family:var(--mono);font-size:.82rem;color:var(--emerald);font-weight:700">70% · $1.400.000 USD</div></div>
+</div>
+</section>
+
+<section id="acuerdos">
+<div class="section-label">Acuerdos de Retorno</div>
+<h2 class="section-title">Los términos del acuerdo, sin ambigüedades</h2>
+<p class="section-desc">Este es el acuerdo completo. No hay letras pequeñas. No hay condiciones ocultas. Es un contrato claro y transparente: usted invierte, nosotros ejecutamos, usted recibe el 70% de su capital en 4 años de retorno escalonado.</p>
+<div class="card" style="padding:0;overflow:hidden">
+<table style="width:100%;border-collapse:separate;border-spacing:0">
+<thead><tr style="background:var(--surface2)">
+<th style="padding:1.15rem 1.5rem;text-align:left;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);font-weight:700">Término</th>
+<th style="padding:1.15rem 1.5rem;text-align:left;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);font-weight:700">Condición</th>
+</tr></thead>
+<tbody>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>Monto solicitado</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border);color:var(--emerald);font-weight:700;font-family:var(--mono)">$2,000,000 USD</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>Uso del capital</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)">Desarrollo, equipo, legal, ciberseguridad, infraestructura, marketing, sueldos y reserva operativa</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>Años 1 y 2</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border);color:var(--text3)">Periodo de maduración. Sin retorno exigido.</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>Año 3</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border);color:var(--gold);font-weight:700;font-family:var(--mono)">15% · $300.000 USD</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>Año 4</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border);color:var(--gold);font-weight:700;font-family:var(--mono)">15% · $300.000 USD</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>Año 5</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border);color:var(--gold);font-weight:700;font-family:var(--mono)">20% · $400.000 USD</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>Año 6</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border);color:var(--gold);font-weight:700;font-family:var(--mono)">20% · $400.000 USD</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>Total retornado</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border);color:var(--emerald);font-weight:700;font-family:var(--mono)">70% · $1.400.000 USD</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>Forma de entrega</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)">Propiedades tangibles o billeteras USDT</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>Pólizas de seguros</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border);color:var(--red);font-weight:600">Corren por cuenta del inversionista</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>Requisitos de transporte</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border);color:var(--red);font-weight:600">Corren por cuenta del inversionista</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>Trámites externos</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border);color:var(--red);font-weight:600">Corren por cuenta del inversionista</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>Inversión propia realizada</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border);color:var(--emerald);font-weight:700;font-family:var(--mono)">$5,000+ USD en equipos</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>Control de la operación</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)">100% del equipo fundador</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>Reportes</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)">Trimestrales, auditados</td></tr>
+<tr><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)"><strong>Instrumento legal</strong></td><td style="padding:1.15rem 1.5rem;border-top:1px solid var(--border)">SAFE con Valuation Cap o contrato con garantía</td></tr>
+</tbody>
+</table>
+</div>
+<div style="background:rgba(239,107,107,0.08);border:1px solid rgba(239,107,107,0.32);border-radius:16px;padding:2.25rem;margin-top:2rem">
+<h3 style="color:var(--red);font-size:1.1rem;font-weight:700;margin-bottom:.85rem">Condiciones de Inversión Clara</h3>
+<p style="color:var(--text2);font-size:.93rem;line-height:1.85">Ya invertimos más de <strong style="color:var(--text)">$5.000 USD</strong> de nuestro propio capital en dispositivos electrónicos de comunicación y programación. <strong style="color:var(--text)">Cualquier gasto después de este punto corre por cuenta del inversionista.</strong> No pagamos pólizas de seguros. No asumimos requisitos de transporte. No cubrimos trámites externos. Esos costos son responsabilidad de quien invierte. Nuestra inversión ya está hecha. Ahora es su turno.</p>
+</div>
+</section>
+
+<section id="contacto">
+<div class="section-label">Aprobación Final</div>
+<h2 class="section-title">Si están de acuerdo, pueden llamarnos ahora mismo</h2>
+<p class="section-desc">No hay condiciones ocultas. No hay letras pequeñas. Nuestra negociación es clara: ya invertimos $5.000+ en equipos, ejecutamos el plan con control total, y ustedes reciben el 70% del capital en 4 años de retorno escalonado. Los requisitos de seguros y transporte corren por cuenta de ustedes.</p>
+<div style="background:linear-gradient(155deg,rgba(24,33,54,0.9),rgba(45,212,168,0.08));border:2px solid var(--emerald);border-radius:26px;padding:4rem 3rem;text-align:center;margin-top:3rem;position:relative;overflow:hidden">
+<div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(45,212,168,0.2),transparent 60%);pointer-events:none"></div>
+<h2 style="font-family:var(--serif);font-size:clamp(1.6rem,3.2vw,2.2rem);font-weight:700;line-height:1.2;margin-bottom:1.25rem;position:relative">Este es el momento. Esta es la oportunidad. El ecosistema está listo.</h2>
+<p style="color:var(--text2);font-size:1.02rem;max-width:780px;margin:0 auto 2rem;line-height:1.9;position:relative">Somos los únicos que podemos garantizar dinero en el próximo ecosistema digital porque somos quienes están digitalizando la real
